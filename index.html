@@ -1,0 +1,679 @@
+<meta charset="UTF-8">
+<title>Command Hub</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --bg-elevated: #ffffff;
+    --border: #e2e2e6;
+    --text: #1c1c1f;
+    --text-dim: #6b6b74;
+    --accent: #6d5efc;
+    --accent-text: #ffffff;
+    --code-bg: #f0eefe;
+    --code-text: #4a3fc9;
+    --chip-bg: #ececf1;
+    --chip-active-bg: #6d5efc;
+    --chip-active-text: #ffffff;
+    --danger: #d64545;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 10px rgba(0,0,0,.03);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17171b;
+      --bg-elevated: #201f26;
+      --border: #302f38;
+      --text: #eceaf5;
+      --text-dim: #94919f;
+      --accent: #8f7dff;
+      --accent-text: #17171b;
+      --code-bg: #262233;
+      --code-text: #b9adff;
+      --chip-bg: #2a2932;
+      --chip-active-bg: #8f7dff;
+      --chip-active-text: #17171b;
+      --danger: #ff8080;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+  header h1 {
+    font-size: 22px;
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  header p {
+    color: var(--text-dim);
+    margin: 0 0 22px;
+    font-size: 14px;
+  }
+  .search-bar {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 8px 0 14px;
+    z-index: 10;
+  }
+  #search {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
+    outline: none;
+    box-shadow: var(--shadow);
+  }
+  #search:focus { border-color: var(--accent); }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .subchips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+  }
+  .chip {
+    padding: 6px 13px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .subchips .chip {
+    padding: 4px 11px;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+  }
+  .chip.active {
+    background: var(--chip-active-bg);
+    color: var(--chip-active-text);
+    font-weight: 600;
+  }
+  .subchips .chip.active {
+    border-color: var(--accent);
+  }
+  .count-badge {
+    opacity: .65;
+    font-weight: 400;
+    margin-left: 3px;
+  }
+  .group-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-dim);
+    margin: 28px 0 10px;
+    font-weight: 600;
+  }
+  .group-title:first-of-type { margin-top: 18px; }
+  .subgroup-title {
+    font-size: 12px;
+    color: var(--accent);
+    margin: 18px 0 8px 2px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .subgroup-title::before {
+    content: "";
+    width: 10px;
+    height: 1px;
+    background: var(--accent);
+    opacity: .5;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .card-title {
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .copy-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 12.5px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+  }
+  pre.cmd {
+    margin: 8px 0;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 9px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 6px 0 0;
+    line-height: 1.4;
+  }
+  .tags {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tag {
+    font-size: 11px;
+    color: var(--text-dim);
+    background: var(--chip-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 60px 0;
+    font-size: 14px;
+  }
+  kbd {
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-size: 11.5px;
+    font-family: inherit;
+  }
+  .mode-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    background: var(--chip-bg);
+    padding: 4px;
+    border-radius: 12px;
+    width: fit-content;
+  }
+  .mode-tab {
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .mode-tab.active {
+    background: var(--bg-elevated);
+    color: var(--text);
+    box-shadow: var(--shadow);
+  }
+  .guide-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 4px 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .guide-card summary {
+    cursor: pointer;
+    padding: 12px 0;
+    list-style: none;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .guide-card summary::-webkit-details-marker { display: none; }
+  .guide-card summary::before {
+    content: "▸";
+    color: var(--text-dim);
+    font-size: 11px;
+    transition: transform .15s;
+    flex-shrink: 0;
+  }
+  .guide-card[open] summary::before { transform: rotate(90deg); }
+  .guide-level {
+    font-size: 11.5px;
+    flex-shrink: 0;
+  }
+  .guide-title {
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .guide-summary {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: -6px 0 12px 19px;
+    line-height: 1.4;
+  }
+  .guide-content {
+    padding: 2px 0 16px 19px;
+    border-top: 1px solid var(--border);
+  }
+  .guide-section {
+    margin-top: 14px;
+  }
+  .guide-section h4 {
+    font-size: 13px;
+    margin: 0 0 6px;
+    color: var(--accent);
+  }
+  .guide-section p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 8px;
+    white-space: pre-line;
+  }
+  .guide-section p:last-child { margin-bottom: 0; }
+  .level-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-dim);
+    margin: 28px 0 10px;
+    font-weight: 600;
+    padding-left: 10px;
+    border-left: 3px solid var(--border);
+  }
+  .level-title:first-of-type { margin-top: 18px; }
+  .level-title.lvl-green { border-left-color: #3aa76d; }
+  .level-title.lvl-yellow { border-left-color: #d6a326; }
+  .level-title.lvl-red { border-left-color: var(--danger); }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>🧰 Command Hub</h1>
+    <p>Toutes tes commandes Expo, Kotlin/Android, Linux Mint &amp; Git au même endroit. Tape pour chercher, clique pour copier.</p>
+  </header>
+
+  <div class="mode-tabs" id="modeTabs">
+    <button class="mode-tab active" data-mode="commands">🧰 Commandes</button>
+    <button class="mode-tab" data-mode="formation">📘 Formation</button>
+  </div>
+
+  <div class="search-bar">
+    <input id="search" type="text" placeholder="Rechercher une commande, un tag, une description… (touche /)" autocomplete="off">
+    <div class="chips" id="chips"></div>
+    <div class="subchips" id="subchips" style="display:none;"></div>
+  </div>
+
+  <div id="results"></div>
+</div>
+
+<script src="commands.js"></script>
+<script src="guides.js"></script>
+<script>
+  const searchInput = document.getElementById("search");
+  const chipsEl = document.getElementById("chips");
+  const subchipsEl = document.getElementById("subchips");
+  const resultsEl = document.getElementById("results");
+  const modeTabsEl = document.getElementById("modeTabs");
+
+  const LEVEL_ORDER = ["🟢 Débutant", "🟡 Intermédiaire", "🔴 Avancé"];
+
+  let mode = "commands"; // "commands" | "formation"
+  let activeCategory = "Toutes";
+  let activeSubcategory = "Toutes";
+  let activeLevel = "Toutes";
+  let query = "";
+
+  function levelClass(level) {
+    if (!level) return "";
+    if (level.includes("🟢")) return "lvl-green";
+    if (level.includes("🟡")) return "lvl-yellow";
+    if (level.includes("🔴")) return "lvl-red";
+    return "";
+  }
+
+  function dataset() {
+    return mode === "formation" ? GUIDES : COMMANDS;
+  }
+
+  function categoriesFor(list) {
+    return ["Toutes", ...Array.from(new Set(list.map(c => c.category)))];
+  }
+
+  function subcategoriesFor(cat) {
+    if (mode === "formation" || cat === "Toutes") return [];
+    return Array.from(new Set(
+      COMMANDS.filter(c => c.category === cat && c.subcategory).map(c => c.subcategory)
+    ));
+  }
+
+  function renderModeTabs() {
+    modeTabsEl.querySelectorAll(".mode-tab").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.mode === mode);
+    });
+    searchInput.placeholder = mode === "formation"
+      ? "Rechercher une notion, un thème… (touche /)"
+      : "Rechercher une commande, un tag, une description… (touche /)";
+  }
+
+  function renderChips() {
+    const categories = categoriesFor(dataset());
+    chipsEl.innerHTML = categories.map(cat => {
+      const n = cat === "Toutes" ? dataset().length : dataset().filter(c => c.category === cat).length;
+      const active = cat === activeCategory ? "active" : "";
+      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(cat)}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    chipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        activeCategory = el.dataset.cat;
+        activeSubcategory = "Toutes";
+        activeLevel = "Toutes";
+        renderChips();
+        renderSubchips();
+        renderResults();
+      });
+    });
+  }
+
+  function renderSubchips() {
+    if (mode === "formation") {
+      renderLevelChips();
+      return;
+    }
+    const subs = subcategoriesFor(activeCategory);
+    if (subs.length < 2) {
+      subchipsEl.style.display = "none";
+      subchipsEl.innerHTML = "";
+      return;
+    }
+    subchipsEl.style.display = "flex";
+    const options = ["Toutes", ...subs];
+    subchipsEl.innerHTML = options.map(sub => {
+      const n = sub === "Toutes"
+        ? COMMANDS.filter(c => c.category === activeCategory).length
+        : COMMANDS.filter(c => c.category === activeCategory && c.subcategory === sub).length;
+      const active = sub === activeSubcategory ? "active" : "";
+      return `<span class="chip ${active}" data-sub="${escapeAttr(sub)}">${escapeHtml(sub)}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    subchipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        activeSubcategory = el.dataset.sub;
+        renderSubchips();
+        renderResults();
+      });
+    });
+  }
+
+  function renderLevelChips() {
+    const relevant = GUIDES.filter(g => activeCategory === "Toutes" || g.category === activeCategory);
+    const present = LEVEL_ORDER.filter(lvl => relevant.some(g => g.level === lvl));
+    if (present.length < 2) {
+      subchipsEl.style.display = "none";
+      subchipsEl.innerHTML = "";
+      return;
+    }
+    subchipsEl.style.display = "flex";
+    subchipsEl.innerHTML = present.map(lvl => {
+      const n = relevant.filter(g => g.level === lvl).length;
+      const active = lvl === activeLevel ? "active" : "";
+      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}">${escapeHtml(lvl)}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    subchipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        // re-cliquer sur le niveau déjà actif désélectionne (retour à "tous")
+        activeLevel = (el.dataset.level === activeLevel) ? "Toutes" : el.dataset.level;
+        renderLevelChips();
+        renderResults();
+      });
+    });
+  }
+
+  function matchesCommand(item, q) {
+    if (!q) return true;
+    const haystack = [item.title, item.cmd, item.desc, item.category, item.subcategory, ...(item.tags || [])]
+      .join(" ")
+      .toLowerCase();
+    return q.toLowerCase().split(/\s+/).every(part => haystack.includes(part));
+  }
+
+  function matchesGuide(item, q) {
+    if (!q) return true;
+    const contentText = (item.content || []).map(s => `${s.heading} ${s.text}`).join(" ");
+    const haystack = [item.title, item.summary, item.category, item.level, contentText]
+      .join(" ")
+      .toLowerCase();
+    return q.toLowerCase().split(/\s+/).every(part => haystack.includes(part));
+  }
+
+  function renderResults() {
+    if (mode === "formation") {
+      renderGuideResults();
+    } else {
+      renderCommandResults();
+    }
+  }
+
+  function renderCommandResults() {
+    const filtered = COMMANDS.filter(item =>
+      (activeCategory === "Toutes" || item.category === activeCategory) &&
+      (activeSubcategory === "Toutes" || item.subcategory === activeSubcategory) &&
+      matchesCommand(item, query)
+    );
+
+    if (filtered.length === 0) {
+      resultsEl.innerHTML = `<div class="empty">Aucune commande ne correspond 🤷</div>`;
+      return;
+    }
+
+    // group by category, then by subcategory (if present), in the order they first appear
+    const grouped = {};
+    filtered.forEach(item => {
+      const catBucket = (grouped[item.category] = grouped[item.category] || { __order: [], subs: {} });
+      const subKey = item.subcategory || "__none";
+      if (!catBucket.subs[subKey]) {
+        catBucket.subs[subKey] = [];
+        catBucket.__order.push(subKey);
+      }
+      catBucket.subs[subKey].push(item);
+    });
+
+    let html = "";
+    Object.keys(grouped).forEach(cat => {
+      html += `<div class="group-title">${escapeHtml(cat)}</div>`;
+      const catBucket = grouped[cat];
+      catBucket.__order.forEach(subKey => {
+        if (subKey !== "__none") {
+          html += `<div class="subgroup-title">${escapeHtml(subKey)}</div>`;
+        }
+        catBucket.subs[subKey].forEach((item, idx) => {
+          const id = `${cat}-${subKey}-${idx}`;
+          html += `
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title">${escapeHtml(item.title)}</div>
+                <button class="copy-btn" data-id="${escapeAttr(id)}">Copier</button>
+              </div>
+              <pre class="cmd" id="cmd-${escapeAttr(id)}">${escapeHtml(item.cmd)}</pre>
+              ${item.desc ? `<div class="desc">${escapeHtml(item.desc)}</div>` : ""}
+              ${item.tags && item.tags.length ? `<div class="tags">${item.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+            </div>`;
+        });
+      });
+    });
+    resultsEl.innerHTML = html;
+
+    resultsEl.querySelectorAll(".copy-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        const text = document.getElementById(`cmd-${id}`).textContent;
+        copyToClipboard(text).then(() => {
+          const original = btn.textContent;
+          btn.textContent = "Copié ✓";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove("copied");
+          }, 1200);
+        });
+      });
+    });
+  }
+
+  function renderGuideResults() {
+    const filtered = GUIDES.filter(item =>
+      (activeCategory === "Toutes" || item.category === activeCategory) &&
+      (activeLevel === "Toutes" || item.level === activeLevel) &&
+      matchesGuide(item, query)
+    );
+
+    if (filtered.length === 0) {
+      resultsEl.innerHTML = `<div class="empty">Aucune fiche ne correspond 🤷</div>`;
+      return;
+    }
+
+    // groupé par niveau (vert → jaune → rouge), puis par thème à l'intérieur
+    const levelsPresent = LEVEL_ORDER.filter(lvl => filtered.some(g => g.level === lvl));
+    const grouped = {};
+    levelsPresent.forEach(lvl => {
+      grouped[lvl] = {};
+      filtered.filter(g => g.level === lvl).forEach(item => {
+        (grouped[lvl][item.category] = grouped[lvl][item.category] || []).push(item);
+      });
+    });
+
+    let html = "";
+    levelsPresent.forEach(lvl => {
+      html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(lvl)}</div>`;
+      Object.keys(grouped[lvl]).forEach(cat => {
+        html += `<div class="subgroup-title">${escapeHtml(cat)}</div>`;
+        grouped[lvl][cat].forEach(item => {
+        const sections = (item.content || []).map(s => `
+          <div class="guide-section">
+            <h4>${escapeHtml(s.heading)}</h4>
+            <p>${escapeHtml(s.text)}</p>
+          </div>`).join("");
+        html += `
+          <details class="guide-card">
+            <summary>
+              <span class="guide-level">${escapeHtml(item.level || "")}</span>
+              <span class="guide-title">${escapeHtml(item.title)}</span>
+            </summary>
+            <div class="guide-summary">${escapeHtml(item.summary)}</div>
+            <div class="guide-content">${sections}</div>
+          </details>`;
+        });
+      });
+    });
+    resultsEl.innerHTML = html;
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    }
+    return fallbackCopy(text);
+  }
+
+  function fallbackCopy(text) {
+    return new Promise((resolve) => {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      resolve();
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[s]));
+  }
+  function escapeAttr(str) { return escapeHtml(str); }
+
+  searchInput.addEventListener("input", (e) => {
+    query = e.target.value;
+    renderResults();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && document.activeElement !== searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+    if (e.key === "Escape") {
+      searchInput.value = "";
+      query = "";
+      searchInput.blur();
+      renderResults();
+    }
+  });
+
+  modeTabsEl.querySelectorAll(".mode-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.mode === mode) return;
+      mode = btn.dataset.mode;
+      activeCategory = "Toutes";
+      activeSubcategory = "Toutes";
+      activeLevel = "Toutes";
+      query = "";
+      searchInput.value = "";
+      renderModeTabs();
+      renderChips();
+      renderSubchips();
+      renderResults();
+    });
+  });
+
+  renderModeTabs();
+  renderChips();
+  renderSubchips();
+  renderResults();
+</script>
