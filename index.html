@@ -79,6 +79,33 @@
     box-shadow: var(--shadow);
   }
   #search:focus { border-color: var(--accent); }
+  .search-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .search-row #search { flex: 1; }
+  .fav-toggle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+  .fav-toggle.active {
+    border-color: #d6a326;
+    color: #d6a326;
+    background: color-mix(in srgb, #d6a326 12%, var(--bg-elevated));
+  }
   .chips {
     display: flex;
     flex-wrap: wrap;
@@ -162,10 +189,35 @@
     align-items: flex-start;
     gap: 10px;
   }
+  .card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
   .card-title {
     font-weight: 600;
     font-size: 14.5px;
   }
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .fav-btn {
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  .fav-btn:hover { color: #d6a326; }
+  .fav-btn.active { color: #d6a326; }
   .copy-btn {
     flex-shrink: 0;
     border: 1px solid var(--border);
@@ -265,9 +317,10 @@
     padding: 12px 0;
     list-style: none;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 8px;
   }
+  .guide-card summary .guide-title { margin-right: auto; }
   .guide-card summary::-webkit-details-marker { display: none; }
   .guide-card summary::before {
     content: "▸";
@@ -341,7 +394,10 @@
   </div>
 
   <div class="search-bar">
-    <input id="search" type="text" placeholder="Rechercher une commande, un tag, une description… (touche /)" autocomplete="off">
+    <div class="search-row">
+      <input id="search" type="text" placeholder="Rechercher une commande, un tag, une description… (touche /)" autocomplete="off">
+      <button class="fav-toggle" id="favToggle" title="N'afficher que mes favoris">⭐ <span id="favToggleLabel">Favoris</span></button>
+    </div>
     <div class="chips" id="chips"></div>
     <div class="subchips" id="subchips" style="display:none;"></div>
   </div>
@@ -357,14 +413,92 @@
   const subchipsEl = document.getElementById("subchips");
   const resultsEl = document.getElementById("results");
   const modeTabsEl = document.getElementById("modeTabs");
+  const favToggleEl = document.getElementById("favToggle");
+  const favToggleLabelEl = document.getElementById("favToggleLabel");
 
   const LEVEL_ORDER = ["🟢 Débutant", "🟡 Intermédiaire", "🔴 Avancé"];
+  const STATE_KEY = "cmdhub_state_v1";
+  const FAV_KEY = "cmdhub_favorites_v1";
 
   let mode = "commands"; // "commands" | "formation"
   let activeCategory = "Toutes";
   let activeSubcategory = "Toutes";
   let activeLevel = "Toutes";
   let query = "";
+  let showFavoritesOnly = false;
+
+  // --- Favoris (persistés dans localStorage) ---------------------------
+  let favorites = loadFavorites();
+
+  function loadFavorites() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(FAV_KEY));
+      return {
+        commands: Array.isArray(raw && raw.commands) ? raw.commands : [],
+        formation: Array.isArray(raw && raw.formation) ? raw.formation : []
+      };
+    } catch (e) {
+      return { commands: [], formation: [] };
+    }
+  }
+
+  function saveFavorites() {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(favorites)); } catch (e) {}
+  }
+
+  function favKey(item) {
+    return mode === "formation"
+      ? `${item.category}|${item.title}`
+      : `${item.category}|${item.subcategory || ""}|${item.title}`;
+  }
+
+  function isFavoriteKey(key) {
+    return favorites[mode].includes(key);
+  }
+
+  function toggleFavoriteKey(key) {
+    const list = favorites[mode];
+    const i = list.indexOf(key);
+    if (i === -1) list.push(key); else list.splice(i, 1);
+    saveFavorites();
+  }
+
+  function isFavorite(item) { return isFavoriteKey(favKey(item)); }
+
+  function favCountForCurrentMode() {
+    return dataset().filter(item => isFavorite(item)).length;
+  }
+
+  // --- Mémorisation du dernier état (localStorage) ----------------------
+  function saveState() {
+    try {
+      localStorage.setItem(STATE_KEY, JSON.stringify({
+        mode, activeCategory, activeSubcategory, activeLevel, query, showFavoritesOnly
+      }));
+    } catch (e) {}
+  }
+
+  function restoreState() {
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem(STATE_KEY)); } catch (e) { saved = null; }
+    if (!saved) return;
+
+    if (saved.mode === "commands" || saved.mode === "formation") mode = saved.mode;
+
+    const cats = categoriesFor(dataset());
+    if (typeof saved.activeCategory === "string" && cats.includes(saved.activeCategory)) {
+      activeCategory = saved.activeCategory;
+    }
+    if (typeof saved.activeSubcategory === "string") {
+      const subs = ["Toutes", ...subcategoriesFor(activeCategory)];
+      if (subs.includes(saved.activeSubcategory)) activeSubcategory = saved.activeSubcategory;
+    }
+    if (typeof saved.activeLevel === "string") {
+      activeLevel = saved.activeLevel; // validé implicitement par le filtre (aucun résultat sinon, sans casser l'UI)
+    }
+    if (typeof saved.query === "string") query = saved.query;
+    if (typeof saved.showFavoritesOnly === "boolean") showFavoritesOnly = saved.showFavoritesOnly;
+  }
 
   function levelClass(level) {
     if (!level) return "";
@@ -398,6 +532,11 @@
       : "Rechercher une commande, un tag, une description… (touche /)";
   }
 
+  function renderFavToggle() {
+    favToggleEl.classList.toggle("active", showFavoritesOnly);
+    favToggleLabelEl.textContent = `Favoris (${favCountForCurrentMode()})`;
+  }
+
   function renderChips() {
     const categories = categoriesFor(dataset());
     chipsEl.innerHTML = categories.map(cat => {
@@ -410,6 +549,7 @@
         activeCategory = el.dataset.cat;
         activeSubcategory = "Toutes";
         activeLevel = "Toutes";
+        saveState();
         renderChips();
         renderSubchips();
         renderResults();
@@ -440,6 +580,7 @@
     subchipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
         activeSubcategory = el.dataset.sub;
+        saveState();
         renderSubchips();
         renderResults();
       });
@@ -464,6 +605,7 @@
       el.addEventListener("click", () => {
         // re-cliquer sur le niveau déjà actif désélectionne (retour à "tous")
         activeLevel = (el.dataset.level === activeLevel) ? "Toutes" : el.dataset.level;
+        saveState();
         renderLevelChips();
         renderResults();
       });
@@ -488,6 +630,7 @@
   }
 
   function renderResults() {
+    renderFavToggle();
     if (mode === "formation") {
       renderGuideResults();
     } else {
@@ -499,11 +642,14 @@
     const filtered = COMMANDS.filter(item =>
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeSubcategory === "Toutes" || item.subcategory === activeSubcategory) &&
+      (!showFavoritesOnly || isFavorite(item)) &&
       matchesCommand(item, query)
     );
 
     if (filtered.length === 0) {
-      resultsEl.innerHTML = `<div class="empty">Aucune commande ne correspond 🤷</div>`;
+      resultsEl.innerHTML = showFavoritesOnly
+        ? `<div class="empty">Aucun favori ici — clique sur ☆ à côté d'une commande pour l'ajouter ⭐</div>`
+        : `<div class="empty">Aucune commande ne correspond 🤷</div>`;
       return;
     }
 
@@ -529,10 +675,14 @@
         }
         catBucket.subs[subKey].forEach((item, idx) => {
           const id = `${cat}-${subKey}-${idx}`;
+          const fav = isFavorite(item);
           html += `
             <div class="card">
               <div class="card-top">
-                <div class="card-title">${escapeHtml(item.title)}</div>
+                <div class="card-title-row">
+                  <button class="fav-btn ${fav ? "active" : ""}" data-favkey="${escapeAttr(favKey(item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+                  <div class="card-title">${escapeHtml(item.title)}</div>
+                </div>
                 <button class="copy-btn" data-id="${escapeAttr(id)}">Copier</button>
               </div>
               <pre class="cmd" id="cmd-${escapeAttr(id)}">${escapeHtml(item.cmd)}</pre>
@@ -559,17 +709,27 @@
         });
       });
     });
+
+    resultsEl.querySelectorAll(".fav-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        toggleFavoriteKey(btn.dataset.favkey);
+        renderResults();
+      });
+    });
   }
 
   function renderGuideResults() {
     const filtered = GUIDES.filter(item =>
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeLevel === "Toutes" || item.level === activeLevel) &&
+      (!showFavoritesOnly || isFavorite(item)) &&
       matchesGuide(item, query)
     );
 
     if (filtered.length === 0) {
-      resultsEl.innerHTML = `<div class="empty">Aucune fiche ne correspond 🤷</div>`;
+      resultsEl.innerHTML = showFavoritesOnly
+        ? `<div class="empty">Aucun favori ici — clique sur ☆ à côté d'une fiche pour l'ajouter ⭐</div>`
+        : `<div class="empty">Aucune fiche ne correspond 🤷</div>`;
       return;
     }
 
@@ -594,11 +754,13 @@
             <h4>${escapeHtml(s.heading)}</h4>
             <p>${escapeHtml(s.text)}</p>
           </div>`).join("");
+        const fav = isFavorite(item);
         html += `
           <details class="guide-card">
             <summary>
               <span class="guide-level">${escapeHtml(item.level || "")}</span>
               <span class="guide-title">${escapeHtml(item.title)}</span>
+              <button class="fav-btn ${fav ? "active" : ""}" data-favkey="${escapeAttr(favKey(item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
             </summary>
             <div class="guide-summary">${escapeHtml(item.summary)}</div>
             <div class="guide-content">${sections}</div>
@@ -607,6 +769,15 @@
       });
     });
     resultsEl.innerHTML = html;
+
+    resultsEl.querySelectorAll(".fav-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavoriteKey(btn.dataset.favkey);
+        renderResults();
+      });
+    });
   }
 
   function copyToClipboard(text) {
@@ -640,6 +811,7 @@
 
   searchInput.addEventListener("input", (e) => {
     query = e.target.value;
+    saveState();
     renderResults();
   });
 
@@ -651,9 +823,16 @@
     if (e.key === "Escape") {
       searchInput.value = "";
       query = "";
+      saveState();
       searchInput.blur();
       renderResults();
     }
+  });
+
+  favToggleEl.addEventListener("click", () => {
+    showFavoritesOnly = !showFavoritesOnly;
+    saveState();
+    renderResults();
   });
 
   modeTabsEl.querySelectorAll(".mode-tab").forEach(btn => {
@@ -665,6 +844,7 @@
       activeLevel = "Toutes";
       query = "";
       searchInput.value = "";
+      saveState();
       renderModeTabs();
       renderChips();
       renderSubchips();
@@ -672,6 +852,9 @@
     });
   });
 
+  // --- Restauration du dernier état avant le tout premier rendu ---
+  restoreState();
+  searchInput.value = query;
   renderModeTabs();
   renderChips();
   renderSubchips();
