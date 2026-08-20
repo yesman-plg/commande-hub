@@ -1,0 +1,1384 @@
+// ============================================================
+// Command Hub — English translations for commands.js
+// ============================================================
+// This file only overrides DISPLAY text (title / desc / tags) for the
+// English UI. It never overrides `cmd` (the actual command stays
+// identical in both languages) and never touches favorites/state,
+// which are always keyed on the French category/subcategory/title —
+// so switching language never breaks a saved favorite.
+//
+// Key format: "category|subcategory|title" using the EXACT French
+// values from commands.js (subcategory is "" when the command has none).
+// Add an entry here whenever you add/rename a command in commands.js.
+// ============================================================
+
+const COMMAND_TRANSLATIONS_EN = {
+  "Expo / React Native|Démarrage & Dev|Démarrer le projet": {
+    "title": "Start the project",
+    "desc": "Launches the Expo dev server (Metro bundler).",
+    "tags": [
+      "dev",
+      "start",
+      "metro"
+    ]
+  },
+  "Expo / React Native|Démarrage & Dev|Démarrer avec cache vidé": {
+    "title": "Start with cleared cache",
+    "desc": "Useful when Metro has a corrupted cache or after a config change.",
+    "tags": [
+      "cache",
+      "clear",
+      "debug"
+    ]
+  },
+  "Expo / React Native|EAS Build & Submit|Build Android (EAS)": {
+    "title": "Build Android (EAS)",
+    "desc": "Cloud build via EAS. Change the profile (development/preview/production) as needed.",
+    "tags": [
+      "build",
+      "eas",
+      "android"
+    ]
+  },
+  "Expo / React Native|Build local|Build local Android": {
+    "title": "Local Android build",
+    "desc": "Builds and installs on a connected emulator/device without going through EAS.",
+    "tags": [
+      "build",
+      "local",
+      "android"
+    ]
+  },
+  "Expo / React Native|EAS Build & Submit|Soumettre sur le Play Store": {
+    "title": "Submit to the Play Store",
+    "desc": "Sends the latest build to Google Play.",
+    "tags": [
+      "submit",
+      "play store",
+      "release"
+    ]
+  },
+  "Expo / React Native|Diagnostic & config|Vérifier la config du projet": {
+    "title": "Check the project config",
+    "desc": "Diagnoses version/config mismatches.",
+    "tags": [
+      "doctor",
+      "diagnostic"
+    ]
+  },
+  "Expo / React Native|Diagnostic & config|Installer une lib compatible Expo": {
+    "title": "Install an Expo-compatible lib",
+    "desc": "Like npm install, but picks the version compatible with your Expo SDK.",
+    "tags": [
+      "install",
+      "package",
+      "dependency"
+    ]
+  },
+  "Expo / React Native|Diagnostic & config|Mettre à jour le SDK Expo": {
+    "title": "Update the Expo SDK",
+    "desc": "Upgrades, then checks everything is consistent.",
+    "tags": [
+      "upgrade",
+      "sdk"
+    ]
+  },
+  "Expo / React Native|Build local|Prebuild (générer android/ios natifs)": {
+    "title": "Prebuild (generate native android/ios)",
+    "desc": "Regenerates the native folders from app.json/app.config.js.",
+    "tags": [
+      "prebuild",
+      "native",
+      "clean"
+    ]
+  },
+  "Expo / React Native|Démarrage & Dev|Créer un nouveau projet": {
+    "title": "Create a new project",
+    "desc": "Generates a new Expo project from the default template.",
+    "tags": [
+      "create",
+      "new",
+      "init"
+    ]
+  },
+  "Expo / React Native|Build local|Build local iOS": {
+    "title": "Local iOS build",
+    "desc": "Builds and runs on an iOS simulator (requires a Mac/Xcode).",
+    "tags": [
+      "build",
+      "local",
+      "ios"
+    ]
+  },
+  "Expo / React Native|Démarrage & Dev|Ouvrir directement sur une plateforme": {
+    "title": "Open directly on a platform",
+    "desc": "Starts the server and opens the app directly on the chosen platform.",
+    "tags": [
+      "start",
+      "android",
+      "ios",
+      "web"
+    ]
+  },
+  "Expo / React Native|Démarrage & Dev|Démarrer via tunnel": {
+    "title": "Start via tunnel",
+    "desc": "Useful when the phone and computer aren't on the same network (or the wifi blocks LAN traffic).",
+    "tags": [
+      "tunnel",
+      "network",
+      "start"
+    ]
+  },
+  "Expo / React Native|Compte & credentials|Se connecter à EAS": {
+    "title": "Log in to EAS",
+    "desc": "Required before any build/submit/update via EAS. Check with: eas whoami",
+    "tags": [
+      "eas",
+      "login",
+      "account"
+    ]
+  },
+  "Expo / React Native|Compte & credentials|Initialiser EAS sur le projet": {
+    "title": "Initialize EAS on the project",
+    "desc": "Links the local project to an existing Expo/EAS project (or creates one).",
+    "tags": [
+      "eas",
+      "init",
+      "setup"
+    ]
+  },
+  "Expo / React Native|EAS Build & Submit|Build iOS (EAS)": {
+    "title": "Build iOS (EAS)",
+    "desc": "iOS equivalent of the Android build — requires a configured Apple Developer account.",
+    "tags": [
+      "build",
+      "eas",
+      "ios"
+    ]
+  },
+  "Expo / React Native|EAS Build & Submit|Build les deux plateformes": {
+    "title": "Build both platforms",
+    "desc": "Triggers an Android and iOS build in a single command.",
+    "tags": [
+      "build",
+      "eas",
+      "all"
+    ]
+  },
+  "Expo / React Native|EAS Build & Submit|Soumettre sur l'App Store": {
+    "title": "Submit to the App Store",
+    "desc": "Sends the latest iOS build to App Store Connect.",
+    "tags": [
+      "submit",
+      "app store",
+      "ios",
+      "release"
+    ]
+  },
+  "Expo / React Native|EAS Update (OTA)|Publier une mise à jour OTA": {
+    "title": "Publish an OTA update",
+    "desc": "Pushes a JS/assets change straight to users without going through the store (requires expo-updates).",
+    "tags": [
+      "eas",
+      "update",
+      "ota"
+    ]
+  },
+  "Expo / React Native|EAS Update (OTA)|Lister les branches de update": {
+    "title": "List update branches",
+    "desc": "Shows which OTA deployment channels/branches exist (preview, production…).",
+    "tags": [
+      "eas",
+      "channel",
+      "update"
+    ]
+  },
+  "Expo / React Native|EAS Build & Submit|Lister les builds récents": {
+    "title": "List recent builds",
+    "desc": "History of cloud builds with their status.",
+    "tags": [
+      "eas",
+      "build",
+      "list"
+    ]
+  },
+  "Expo / React Native|Compte & credentials|Gérer les credentials de signature": {
+    "title": "Manage signing credentials",
+    "desc": "Interactive interface to view/regenerate the Android/iOS signing keys managed by EAS.",
+    "tags": [
+      "eas",
+      "credentials",
+      "signing"
+    ]
+  },
+  "Expo / React Native|Diagnostic & config|Corriger les versions de dépendances": {
+    "title": "Fix dependency versions",
+    "desc": "Automatically aligns installed packages with the versions expected by the Expo SDK.",
+    "tags": [
+      "install",
+      "fix",
+      "dependencies"
+    ]
+  },
+  "Expo / React Native|Diagnostic & config|Voir la config résolue de l'app": {
+    "title": "View the app's resolved config",
+    "desc": "Shows app.json/app.config.js exactly as Expo interprets it, including default values.",
+    "tags": [
+      "config",
+      "debug"
+    ]
+  },
+  "Expo / React Native|Diagnostic & config|Exporter le bundle statique": {
+    "title": "Export the static bundle",
+    "desc": "Generates static files (JS, assets) in dist/ — useful for the web or custom update hosting.",
+    "tags": [
+      "export",
+      "build",
+      "static"
+    ]
+  },
+  "Expo / React Native|Diagnostic & config|Ajouter le dev client": {
+    "title": "Add the dev client",
+    "desc": "Needed as soon as the project uses custom native code (beyond Expo Go). Pairs with a --profile development build.",
+    "tags": [
+      "dev-client",
+      "native",
+      "expo-go"
+    ]
+  },
+  "Kotlin / Android|Gradle|Build debug": {
+    "title": "Debug build",
+    "desc": "Compiles the debug APK.",
+    "tags": [
+      "gradle",
+      "build",
+      "debug"
+    ]
+  },
+  "Kotlin / Android|Gradle|Installer sur appareil/émulateur": {
+    "title": "Install on device/emulator",
+    "desc": "Builds and installs the debug APK directly on the connected device (adb).",
+    "tags": [
+      "gradle",
+      "install",
+      "adb"
+    ]
+  },
+  "Kotlin / Android|Gradle|Build release signé": {
+    "title": "Signed release build",
+    "desc": "Requires the signing config in build.gradle (keystore).",
+    "tags": [
+      "gradle",
+      "release",
+      "signing"
+    ]
+  },
+  "Kotlin / Android|Gradle|Générer un App Bundle (Play Store)": {
+    "title": "Generate an App Bundle (Play Store)",
+    "desc": "Generates the .aab expected by the Play Store.",
+    "tags": [
+      "gradle",
+      "aab",
+      "bundle",
+      "play store"
+    ]
+  },
+  "Kotlin / Android|Gradle|Nettoyer le projet": {
+    "title": "Clean the project",
+    "desc": "Removes build artifacts. Useful for weird build errors.",
+    "tags": [
+      "gradle",
+      "clean"
+    ]
+  },
+  "Kotlin / Android|Gradle|Lancer les tests unitaires": {
+    "title": "Run unit tests",
+    "desc": "Runs the JVM tests (non-instrumented).",
+    "tags": [
+      "gradle",
+      "test"
+    ]
+  },
+  "Kotlin / Android|Gradle|Lancer les tests instrumentés": {
+    "title": "Run instrumented tests",
+    "desc": "Tests that actually run on a connected device/emulator (UI, Android context…).",
+    "tags": [
+      "gradle",
+      "test",
+      "instrumentation"
+    ]
+  },
+  "Kotlin / Android|Gradle|Build complet (compile + tests + lint)": {
+    "title": "Full build (compile + tests + lint)",
+    "desc": "More thorough than assembleDebug, checks everything before considering the build successful.",
+    "tags": [
+      "gradle",
+      "build",
+      "full"
+    ]
+  },
+  "Kotlin / Android|Gradle|Lancer le lint": {
+    "title": "Run lint",
+    "desc": "Static analysis of the Android code, generates an HTML report of detected issues.",
+    "tags": [
+      "gradle",
+      "lint"
+    ]
+  },
+  "Kotlin / Android|Gradle|Lister toutes les tâches disponibles": {
+    "title": "List all available tasks",
+    "desc": "Useful to discover specific tasks exposed by the project/plugins.",
+    "tags": [
+      "gradle",
+      "tasks",
+      "help"
+    ]
+  },
+  "Kotlin / Android|Gradle|Voir l'arbre des dépendances": {
+    "title": "View the dependency tree",
+    "desc": "Useful for tracking down a version conflict between libraries.",
+    "tags": [
+      "gradle",
+      "dependencies"
+    ]
+  },
+  "Kotlin / Android|Gradle|Voir les empreintes de signature (SHA1/SHA256)": {
+    "title": "View signing fingerprints (SHA1/SHA256)",
+    "desc": "Needed to configure Firebase, Google Sign-In, Maps API, etc.",
+    "tags": [
+      "gradle",
+      "signing",
+      "sha1",
+      "firebase"
+    ]
+  },
+  "Kotlin / Android|Gradle|Build avec la stacktrace complète": {
+    "title": "Build with the full stacktrace",
+    "desc": "To understand an unclear build error. Add --info for even more detail.",
+    "tags": [
+      "gradle",
+      "debug",
+      "stacktrace",
+      "error"
+    ]
+  },
+  "Kotlin / Android|Gradle|Arrêter le daemon Gradle": {
+    "title": "Stop the Gradle daemon",
+    "desc": "Useful when Gradle is acting up (cache, stuck process…) before relaunching a build.",
+    "tags": [
+      "gradle",
+      "daemon",
+      "stop"
+    ]
+  },
+  "Kotlin / Android|ADB|Lister les appareils connectés": {
+    "title": "List connected devices",
+    "desc": "Checks that the emulator/phone is properly detected.",
+    "tags": [
+      "adb",
+      "devices"
+    ]
+  },
+  "Kotlin / Android|ADB|Voir les logs (logcat filtré)": {
+    "title": "View logs (filtered logcat)",
+    "desc": "Shows errors only. Replace *:E with YourTag:D to filter a specific tag.",
+    "tags": [
+      "adb",
+      "logcat",
+      "debug"
+    ]
+  },
+  "Kotlin / Android|ADB|Vider les logs": {
+    "title": "Clear the logs",
+    "desc": "Clears the log buffer before reproducing a bug, to start clean.",
+    "tags": [
+      "adb",
+      "logcat",
+      "clear"
+    ]
+  },
+  "Kotlin / Android|ADB|Désinstaller l'app": {
+    "title": "Uninstall the app",
+    "desc": "Useful when the install fails due to a signature conflict.",
+    "tags": [
+      "adb",
+      "uninstall"
+    ]
+  },
+  "Kotlin / Android|ADB|Installer un APK manuellement": {
+    "title": "Install an APK manually",
+    "desc": "Add -r to reinstall over an existing app while keeping its data.",
+    "tags": [
+      "adb",
+      "install",
+      "apk"
+    ]
+  },
+  "Kotlin / Android|ADB|Effacer les données de l'app": {
+    "title": "Clear the app's data",
+    "desc": "Resets the app to a 'first install' state without uninstalling it.",
+    "tags": [
+      "adb",
+      "clear",
+      "data"
+    ]
+  },
+  "Kotlin / Android|ADB|Copier un fichier vers l'appareil": {
+    "title": "Copy a file to the device",
+    "desc": "To pull a file from the device instead, use adb pull /sdcard/source local-file",
+    "tags": [
+      "adb",
+      "push",
+      "pull",
+      "file"
+    ]
+  },
+  "Kotlin / Android|ADB|Rediriger un port (dev server)": {
+    "title": "Forward a port (dev server)",
+    "desc": "Lets a USB-connected device reach a local server (Metro, API…) without wifi.",
+    "tags": [
+      "adb",
+      "reverse",
+      "port",
+      "metro"
+    ]
+  },
+  "Kotlin / Android|ADB|Ouvrir un shell sur l'appareil": {
+    "title": "Open a shell on the device",
+    "desc": "Direct shell access on the connected device/emulator.",
+    "tags": [
+      "adb",
+      "shell"
+    ]
+  },
+  "Kotlin / Android|ADB|Lancer une activité précise": {
+    "title": "Launch a specific activity",
+    "desc": "Starts an Activity directly, bypassing the launcher.",
+    "tags": [
+      "adb",
+      "activity",
+      "start"
+    ]
+  },
+  "Kotlin / Android|ADB|Prendre une capture d'écran": {
+    "title": "Take a screenshot",
+    "desc": "Saves the device's screen directly to a local file.",
+    "tags": [
+      "adb",
+      "screenshot",
+      "capture"
+    ]
+  },
+  "Kotlin / Android|ADB|Redémarrer le serveur adb": {
+    "title": "Restart the adb server",
+    "desc": "Fixes most device detection issues ('device offline', etc.).",
+    "tags": [
+      "adb",
+      "restart",
+      "troubleshoot"
+    ]
+  },
+  "Kotlin / Android|Émulateur|Lister les émulateurs disponibles": {
+    "title": "List available emulators",
+    "desc": "Shows the AVDs (Android Virtual Devices) configured on the machine.",
+    "tags": [
+      "emulator",
+      "avd",
+      "list"
+    ]
+  },
+  "Kotlin / Android|Émulateur|Lancer un émulateur précis": {
+    "title": "Launch a specific emulator",
+    "desc": "Starts the emulator from the command line, without going through Android Studio.",
+    "tags": [
+      "emulator",
+      "avd",
+      "start"
+    ]
+  },
+  "Linux|Fichiers & disque|Lister en détail (avec cachés)": {
+    "title": "List in detail (including hidden)",
+    "desc": "Lists all files, including hidden ones, with permissions/size/date.",
+    "tags": [
+      "ls",
+      "list"
+    ]
+  },
+  "Linux|Fichiers & disque|Revenir au dossier précédent": {
+    "title": "Go back to the previous folder",
+    "desc": "Switches to the last folder you were in before the current cd.",
+    "tags": [
+      "cd",
+      "navigation"
+    ]
+  },
+  "Linux|Fichiers & disque|Espace disque par dossier": {
+    "title": "Disk space by folder",
+    "desc": "Top 20 biggest folders/files in the current directory.",
+    "tags": [
+      "disk",
+      "du",
+      "space"
+    ]
+  },
+  "Linux|Fichiers & disque|Espace disque global": {
+    "title": "Overall disk space",
+    "desc": "Used/available space per partition.",
+    "tags": [
+      "disk",
+      "df"
+    ]
+  },
+  "Linux|Fichiers & disque|Lister les disques/partitions": {
+    "title": "List disks/partitions",
+    "desc": "Tree view of disks, partitions and mount points.",
+    "tags": [
+      "disk",
+      "partition",
+      "lsblk"
+    ]
+  },
+  "Linux|Fichiers & disque|Trouver un fichier par nom": {
+    "title": "Find a file by name",
+    "desc": "Case-insensitive search across the whole system, ignoring permission errors.",
+    "tags": [
+      "find",
+      "search",
+      "file"
+    ]
+  },
+  "Linux|Fichiers & disque|Recherche rapide (index)": {
+    "title": "Fast search (index)",
+    "desc": "Much faster than find (uses an index). Install: sudo apt install mlocate, then sudo updatedb to refresh the index.",
+    "tags": [
+      "locate",
+      "search"
+    ]
+  },
+  "Linux|Fichiers & disque|Chercher du texte dans des fichiers": {
+    "title": "Search text inside files",
+    "desc": "Recursive search with line numbers in the current folder.",
+    "tags": [
+      "grep",
+      "search",
+      "text"
+    ]
+  },
+  "Linux|Fichiers & disque|Copier/synchroniser avec progression": {
+    "title": "Copy/sync with progress",
+    "desc": "More robust than cp for big transfers, resumes where it left off.",
+    "tags": [
+      "rsync",
+      "copy",
+      "sync"
+    ]
+  },
+  "Linux|Fichiers & disque|Rendre un script exécutable": {
+    "title": "Make a script executable",
+    "desc": "Required before you can run ./script.sh",
+    "tags": [
+      "chmod",
+      "permissions",
+      "executable"
+    ]
+  },
+  "Linux|Fichiers & disque|Changer le propriétaire d'un fichier": {
+    "title": "Change a file's owner",
+    "desc": "Add -R to apply it recursively to a folder.",
+    "tags": [
+      "chown",
+      "permissions",
+      "owner"
+    ]
+  },
+  "Linux|Fichiers & disque|Créer un lien symbolique": {
+    "title": "Create a symbolic link",
+    "desc": "Handy to expose a script or folder from anywhere.",
+    "tags": [
+      "ln",
+      "symlink"
+    ]
+  },
+  "Linux|Fichiers & disque|Archiver un dossier (tar.gz)": {
+    "title": "Archive a folder (tar.gz)",
+    "desc": "Compresses. To decompress: tar -xzvf archive.tar.gz",
+    "tags": [
+      "tar",
+      "archive",
+      "compression"
+    ]
+  },
+  "Linux|Fichiers & disque|Zipper / dézipper": {
+    "title": "Zip / unzip",
+    "desc": "Alternative to tar, more common when exchanging files with Windows/Mac.",
+    "tags": [
+      "zip",
+      "unzip",
+      "compression"
+    ]
+  },
+  "Linux|Fichiers & disque|Voir les métadonnées d'un fichier": {
+    "title": "View a file's metadata",
+    "desc": "Size, modified/accessed dates, detailed permissions, inode…",
+    "tags": [
+      "stat",
+      "metadata"
+    ]
+  },
+  "Linux|Fichiers & disque|Monter / démonter une clé USB": {
+    "title": "Mount / unmount a USB drive",
+    "desc": "First locate the device with lsblk before mounting.",
+    "tags": [
+      "mount",
+      "umount",
+      "usb"
+    ]
+  },
+  "Linux|Fichiers & disque|Voir l'arborescence d'un dossier": {
+    "title": "View a folder's tree",
+    "desc": "Shows the structure 2 levels deep. Install: sudo apt install tree.",
+    "tags": [
+      "tree",
+      "structure"
+    ]
+  },
+  "Linux|Processus & système|Moniteur interactif CPU/RAM": {
+    "title": "Interactive CPU/RAM monitor",
+    "desc": "Real-time process view. Install with: sudo apt install htop.",
+    "tags": [
+      "process",
+      "cpu",
+      "ram",
+      "monitoring"
+    ]
+  },
+  "Linux|Processus & système|Chercher un processus par nom": {
+    "title": "Find a process by name",
+    "desc": "Lists matching processes with their PID.",
+    "tags": [
+      "ps",
+      "process",
+      "grep"
+    ]
+  },
+  "Linux|Processus & système|Tuer un processus": {
+    "title": "Kill a process",
+    "desc": "Forces it to stop. To kill by name directly: killall process-name",
+    "tags": [
+      "kill",
+      "process",
+      "stop"
+    ]
+  },
+  "Linux|Processus & système|Mémoire disponible": {
+    "title": "Available memory",
+    "desc": "Used/free RAM and swap, in a readable format.",
+    "tags": [
+      "ram",
+      "memory",
+      "free"
+    ]
+  },
+  "Linux|Processus & système|Depuis combien de temps le système tourne": {
+    "title": "How long the system has been running",
+    "desc": "Uptime + average system load.",
+    "tags": [
+      "uptime",
+      "system"
+    ]
+  },
+  "Linux|Processus & système|Infos noyau / système": {
+    "title": "Kernel / system info",
+    "desc": "Kernel version, architecture, hostname.",
+    "tags": [
+      "uname",
+      "kernel",
+      "info"
+    ]
+  },
+  "Linux|Processus & système|Version de la distribution": {
+    "title": "Distribution version",
+    "desc": "Confirms the installed Linux Mint version.",
+    "tags": [
+      "lsb_release",
+      "version",
+      "distro"
+    ]
+  },
+  "Linux|Processus & système|Statut d'un service": {
+    "title": "A service's status",
+    "desc": "See whether a service is running, and its latest logs.",
+    "tags": [
+      "systemctl",
+      "service"
+    ]
+  },
+  "Linux|Processus & système|Redémarrer un service": {
+    "title": "Restart a service",
+    "desc": "Useful after a config change.",
+    "tags": [
+      "systemctl",
+      "service",
+      "restart"
+    ]
+  },
+  "Linux|Processus & système|Voir les logs système récents": {
+    "title": "View recent system logs",
+    "desc": "Latest systemd logs, useful to debug a crashing service.",
+    "tags": [
+      "logs",
+      "journalctl",
+      "systemd"
+    ]
+  },
+  "Linux|Processus & système|Suivre les logs d'un service en direct": {
+    "title": "Follow a service's logs live",
+    "desc": "Equivalent of tail -f, but for a systemd service.",
+    "tags": [
+      "logs",
+      "journalctl",
+      "follow"
+    ]
+  },
+  "Linux|Processus & système|Qui est connecté": {
+    "title": "Who's logged in",
+    "desc": "Users currently logged into the machine.",
+    "tags": [
+      "who",
+      "users",
+      "session"
+    ]
+  },
+  "Linux|Réseau|Adresse IP locale": {
+    "title": "Local IP address",
+    "desc": "Shows network interfaces and their IPs (replaces the old ifconfig).",
+    "tags": [
+      "ip",
+      "network",
+      "address"
+    ]
+  },
+  "Linux|Réseau|IP locale rapide": {
+    "title": "Quick local IP",
+    "desc": "Just the IP, without interface details.",
+    "tags": [
+      "ip",
+      "hostname"
+    ]
+  },
+  "Linux|Réseau|Tester une connexion": {
+    "title": "Test a connection",
+    "desc": "Sends 4 packets then stops (without -c, ping keeps going forever).",
+    "tags": [
+      "ping",
+      "network",
+      "test"
+    ]
+  },
+  "Linux|Réseau|Quel processus utilise ce port ?": {
+    "title": "Which process is using this port?",
+    "desc": "Identifies what's listening on a given port (e.g. 3000, 8081).",
+    "tags": [
+      "network",
+      "port",
+      "ss"
+    ]
+  },
+  "Linux|Réseau|Tester si un port distant est ouvert": {
+    "title": "Test if a remote port is open",
+    "desc": "Handy to check a server/API is reachable before debugging further.",
+    "tags": [
+      "nc",
+      "netcat",
+      "port",
+      "test"
+    ]
+  },
+  "Linux|Réseau|Voir les en-têtes HTTP d'une URL": {
+    "title": "View a URL's HTTP headers",
+    "desc": "Quick way to check an HTTP status, redirects, CORS headers…",
+    "tags": [
+      "curl",
+      "http",
+      "headers"
+    ]
+  },
+  "Linux|Réseau|Télécharger un fichier": {
+    "title": "Download a file",
+    "desc": "Alternative to curl -O, simpler for a direct download.",
+    "tags": [
+      "wget",
+      "download"
+    ]
+  },
+  "Linux|Réseau|Copier un fichier vers/depuis un serveur": {
+    "title": "Copy a file to/from a server",
+    "desc": "Secure copy over SSH. Add -r for an entire folder.",
+    "tags": [
+      "scp",
+      "ssh",
+      "copy"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Mettre à jour le système": {
+    "title": "Update the system",
+    "desc": "Refreshes the package list, then upgrades.",
+    "tags": [
+      "apt",
+      "update",
+      "upgrade"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Nettoyer les paquets inutiles": {
+    "title": "Clean up unused packages",
+    "desc": "Frees disk space by removing orphaned packages and the cache.",
+    "tags": [
+      "apt",
+      "clean",
+      "disk"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Chercher un paquet": {
+    "title": "Search for a package",
+    "desc": "Searches among available packages.",
+    "tags": [
+      "apt",
+      "search"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Voir les infos d'un paquet": {
+    "title": "View a package's info",
+    "desc": "Description, version, dependencies, size.",
+    "tags": [
+      "apt",
+      "info"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Lister les paquets installés": {
+    "title": "List installed packages",
+    "desc": "Checks whether a specific package is already installed.",
+    "tags": [
+      "dpkg",
+      "list"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Installer un .deb téléchargé": {
+    "title": "Install a downloaded .deb",
+    "desc": "The 2nd line automatically fixes missing dependencies.",
+    "tags": [
+      "dpkg",
+      "deb",
+      "install"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Gérer les paquets Snap": {
+    "title": "Manage Snap packages",
+    "desc": "Sandboxed package manager, an alternative to apt for some apps.",
+    "tags": [
+      "snap",
+      "install"
+    ]
+  },
+  "Linux|Paquets (apt / snap / flatpak)|Gérer les paquets Flatpak": {
+    "title": "Manage Flatpak packages",
+    "desc": "Another sandboxed package system, widely used for recent GUI apps.",
+    "tags": [
+      "flatpak",
+      "install"
+    ]
+  },
+  "Linux|Utilisateurs & permissions|Ouvrir un shell root": {
+    "title": "Open a root shell",
+    "desc": "Switches to root for the current session. Use with caution.",
+    "tags": [
+      "sudo",
+      "root"
+    ]
+  },
+  "Linux|Utilisateurs & permissions|Ajouter l'utilisateur courant à un groupe": {
+    "title": "Add the current user to a group",
+    "desc": "E.g.: sudo usermod -aG docker $USER to use Docker without sudo. Requires logging back in.",
+    "tags": [
+      "usermod",
+      "group",
+      "permissions"
+    ]
+  },
+  "Linux|Utilisateurs & permissions|Voir mes groupes": {
+    "title": "View my groups",
+    "desc": "Lists the groups the current user belongs to.",
+    "tags": [
+      "groups",
+      "id"
+    ]
+  },
+  "Linux|Utilisateurs & permissions|Changer les permissions récursivement": {
+    "title": "Change permissions recursively",
+    "desc": "755 = owner rwx, group/others r-x. Adjust to your actual needs.",
+    "tags": [
+      "chmod",
+      "permissions",
+      "recursive"
+    ]
+  },
+  "Linux|Outils CLI divers|VS Code avec un profil isolé": {
+    "title": "VS Code with an isolated profile",
+    "desc": "Launches VS Code with a separate config folder (extensions, settings). Handy to isolate a project or test without polluting your main profile.",
+    "tags": [
+      "vscode",
+      "code",
+      "profile",
+      "user-data-dir"
+    ]
+  },
+  "Linux|Outils CLI divers|Ouvrir VS Code ici": {
+    "title": "Open VS Code here",
+    "desc": "Opens the current folder in VS Code.",
+    "tags": [
+      "vscode",
+      "code"
+    ]
+  },
+  "Linux|Outils CLI divers|Rechercher dans l'historique du shell": {
+    "title": "Search the shell history",
+    "desc": "Finds a command you typed a while ago. Ctrl+R does an equivalent interactive search.",
+    "tags": [
+      "history",
+      "search"
+    ]
+  },
+  "Linux|Outils CLI divers|Créer un alias permanent": {
+    "title": "Create a permanent alias",
+    "desc": "Adds a reusable command shortcut in every new terminal.",
+    "tags": [
+      "alias",
+      "bashrc",
+      "shortcut"
+    ]
+  },
+  "Linux|Outils CLI divers|Éditer les tâches planifiées": {
+    "title": "Edit scheduled tasks",
+    "desc": "Schedules commands to run automatically (e.g. nightly backups).",
+    "tags": [
+      "cron",
+      "crontab",
+      "scheduling"
+    ]
+  },
+  "Linux|Outils CLI divers|Définir une variable d'environnement": {
+    "title": "Set an environment variable",
+    "desc": "Valid for the current terminal session. Add it to ~/.bashrc to make it permanent.",
+    "tags": [
+      "export",
+      "env",
+      "variable"
+    ]
+  },
+  "Linux|Outils CLI divers|Générer une clé SSH": {
+    "title": "Generate an SSH key",
+    "desc": "Creates a modern key pair (ed25519), useful for GitHub/remote servers.",
+    "tags": [
+      "ssh",
+      "ssh-keygen",
+      "key"
+    ]
+  },
+  "Linux|Outils CLI divers|Se connecter en SSH": {
+    "title": "Connect via SSH",
+    "desc": "Opens a secure remote shell session.",
+    "tags": [
+      "ssh",
+      "connection"
+    ]
+  },
+  "Linux|Outils CLI divers|Localiser un exécutable": {
+    "title": "Locate an executable",
+    "desc": "Shows which binary is actually executed (useful in case of version conflicts).",
+    "tags": [
+      "which",
+      "path"
+    ]
+  },
+  "Linux|Outils CLI divers|Afficher le manuel d'une commande": {
+    "title": "Show a command's manual",
+    "desc": "Full documentation installed locally. Quit with the q key.",
+    "tags": [
+      "man",
+      "help",
+      "documentation"
+    ]
+  },
+  "Linux|Docker|Conteneurs en cours d'exécution": {
+    "title": "Running containers",
+    "desc": "Add -a to also see stopped containers.",
+    "tags": [
+      "docker",
+      "ps",
+      "container"
+    ]
+  },
+  "Linux|Docker|Lister les images": {
+    "title": "List images",
+    "desc": "All Docker images present locally.",
+    "tags": [
+      "docker",
+      "images"
+    ]
+  },
+  "Linux|Docker|Lancer un conteneur": {
+    "title": "Run a container",
+    "desc": "-d = in the background, -p = host:container port mapping.",
+    "tags": [
+      "docker",
+      "run"
+    ]
+  },
+  "Linux|Docker|Ouvrir un shell dans un conteneur": {
+    "title": "Open a shell inside a container",
+    "desc": "Use sh instead of bash if the image doesn't have it (e.g. Alpine images).",
+    "tags": [
+      "docker",
+      "exec",
+      "shell"
+    ]
+  },
+  "Linux|Docker|Suivre les logs d'un conteneur": {
+    "title": "Follow a container's logs",
+    "desc": "-f to follow live, like a tail -f.",
+    "tags": [
+      "docker",
+      "logs"
+    ]
+  },
+  "Linux|Docker|Arrêter / démarrer un conteneur": {
+    "title": "Stop / start a container",
+    "desc": "Stops or restarts an existing container without recreating it.",
+    "tags": [
+      "docker",
+      "stop",
+      "start"
+    ]
+  },
+  "Linux|Docker|Supprimer un conteneur": {
+    "title": "Remove a container",
+    "desc": "The container must be stopped. Add -f to force it without stopping it first.",
+    "tags": [
+      "docker",
+      "rm",
+      "remove"
+    ]
+  },
+  "Linux|Docker|Construire une image": {
+    "title": "Build an image",
+    "desc": "Builds from the Dockerfile in the current folder.",
+    "tags": [
+      "docker",
+      "build",
+      "image"
+    ]
+  },
+  "Linux|Docker|Lancer / arrêter une stack (Compose)": {
+    "title": "Start / stop a stack (Compose)",
+    "desc": "up -d starts all services in the background, down stops and removes the containers.",
+    "tags": [
+      "docker",
+      "compose",
+      "stack"
+    ]
+  },
+  "Linux|Docker|Voir les logs d'une stack Compose": {
+    "title": "View a Compose stack's logs",
+    "desc": "Follows the logs of every service defined in docker-compose.yml.",
+    "tags": [
+      "docker",
+      "compose",
+      "logs"
+    ]
+  },
+  "Linux|Docker|Tout nettoyer (images/conteneurs/réseaux inutilisés)": {
+    "title": "Clean up everything (unused images/containers/networks)",
+    "desc": "⚠️ Removes everything not used by an active container. Frees up a lot of disk space.",
+    "tags": [
+      "docker",
+      "prune",
+      "clean",
+      "danger"
+    ]
+  },
+  "Linux|Docker|Inspecter un conteneur/image": {
+    "title": "Inspect a container/image",
+    "desc": "Full JSON details (IP, volumes, env variables, network config…).",
+    "tags": [
+      "docker",
+      "inspect"
+    ]
+  },
+  "Linux|Docker|Lister les volumes": {
+    "title": "List volumes",
+    "desc": "Persistent data volumes managed by Docker.",
+    "tags": [
+      "docker",
+      "volume"
+    ]
+  },
+  "Git|Staging & Commit|Statut du dépôt": {
+    "title": "Repository status",
+    "desc": "Modified / staged / untracked files.",
+    "tags": [
+      "status"
+    ]
+  },
+  "Git|Staging & Commit|Ajouter tous les changements": {
+    "title": "Stage all changes",
+    "desc": "Stages the entire current folder.",
+    "tags": [
+      "add",
+      "staging"
+    ]
+  },
+  "Git|Staging & Commit|Ajouter en interactif": {
+    "title": "Stage interactively",
+    "desc": "Choose piece by piece (hunk) what gets staged.",
+    "tags": [
+      "add",
+      "staging",
+      "interactive"
+    ]
+  },
+  "Git|Staging & Commit|Commit": {
+    "title": "Commit",
+    "desc": "Records the staged changes.",
+    "tags": [
+      "commit"
+    ]
+  },
+  "Git|Staging & Commit|Modifier le dernier commit": {
+    "title": "Amend the last commit",
+    "desc": "Changes the message and/or adds forgotten files to the last commit.",
+    "tags": [
+      "commit",
+      "amend"
+    ]
+  },
+  "Git|Branches|Nouvelle branche + bascule": {
+    "title": "New branch + switch",
+    "desc": "Creates and switches to a new branch in one command (equivalent: git switch -c name).",
+    "tags": [
+      "branch",
+      "checkout",
+      "switch"
+    ]
+  },
+  "Git|Branches|Changer de branche": {
+    "title": "Switch branch",
+    "desc": "Switches to an existing branch.",
+    "tags": [
+      "branch",
+      "switch",
+      "checkout"
+    ]
+  },
+  "Git|Branches|Lister les branches": {
+    "title": "List branches",
+    "desc": "Local and remote. Add -v to see the latest commit of each.",
+    "tags": [
+      "branch",
+      "list"
+    ]
+  },
+  "Git|Branches|Supprimer une branche locale": {
+    "title": "Delete a local branch",
+    "desc": "Use -D (uppercase) to force it if it isn't merged.",
+    "tags": [
+      "branch",
+      "delete"
+    ]
+  },
+  "Git|Branches|Renommer la branche courante": {
+    "title": "Rename the current branch",
+    "desc": "Renames the branch you're currently on.",
+    "tags": [
+      "branch",
+      "rename"
+    ]
+  },
+  "Git|Remote (push/pull/clone)|Récupérer les changements distants": {
+    "title": "Fetch remote changes",
+    "desc": "Downloads new commits without merging them into your branch.",
+    "tags": [
+      "fetch",
+      "remote"
+    ]
+  },
+  "Git|Remote (push/pull/clone)|Récupérer + fusionner": {
+    "title": "Fetch + merge",
+    "desc": "fetch + merge in a single command. Add --rebase to rebase instead of merging.",
+    "tags": [
+      "pull",
+      "remote",
+      "merge"
+    ]
+  },
+  "Git|Remote (push/pull/clone)|Envoyer les commits": {
+    "title": "Push commits",
+    "desc": "Pushes the current branch to the remote.",
+    "tags": [
+      "push",
+      "remote"
+    ]
+  },
+  "Git|Remote (push/pull/clone)|Premier push d'une nouvelle branche": {
+    "title": "First push of a new branch",
+    "desc": "Pushes and links the local branch to the remote branch (-u = upstream).",
+    "tags": [
+      "push",
+      "remote",
+      "upstream"
+    ]
+  },
+  "Git|Branches|Fusionner une branche": {
+    "title": "Merge a branch",
+    "desc": "Merges the given branch into the current branch.",
+    "tags": [
+      "merge"
+    ]
+  },
+  "Git|Branches|Rebaser sur une autre branche": {
+    "title": "Rebase onto another branch",
+    "desc": "Replays your commits on top of the other branch. On conflict: git rebase --continue / --abort.",
+    "tags": [
+      "rebase"
+    ]
+  },
+  "Git|Historique & recherche|Voir l'historique en une ligne": {
+    "title": "View history, one line each",
+    "desc": "Compact, graphical view of branches/commits.",
+    "tags": [
+      "log",
+      "history",
+      "graph"
+    ]
+  },
+  "Git|Staging & Commit|Voir les changements non stagés": {
+    "title": "View unstaged changes",
+    "desc": "Diff of files modified but not yet staged. Add --staged to see the staged diff.",
+    "tags": [
+      "diff"
+    ]
+  },
+  "Git|Annuler & restaurer|Annuler le dernier commit (garder les modifs)": {
+    "title": "Undo the last commit (keep the changes)",
+    "desc": "Undoes the commit but keeps the changes staged.",
+    "tags": [
+      "reset",
+      "undo",
+      "commit"
+    ]
+  },
+  "Git|Annuler & restaurer|Annuler le dernier commit (tout jeter)": {
+    "title": "Undo the last commit (discard everything)",
+    "desc": "⚠️ Permanently deletes the commit AND the changes. Irreversible.",
+    "tags": [
+      "reset",
+      "undo",
+      "commit",
+      "danger"
+    ]
+  },
+  "Git|Annuler & restaurer|Remettre un fichier comme au dernier commit": {
+    "title": "Restore a file to its last commit state",
+    "desc": "Undoes unstaged local changes on this file (modern equivalent: git restore file-name).",
+    "tags": [
+      "checkout",
+      "restore",
+      "undo"
+    ]
+  },
+  "Git|Annuler & restaurer|Retirer un fichier du staging": {
+    "title": "Unstage a file",
+    "desc": "The file stays modified but leaves the staging area.",
+    "tags": [
+      "restore",
+      "unstage"
+    ]
+  },
+  "Git|Stash|Mettre de côté les changements (stash)": {
+    "title": "Stash the changes away",
+    "desc": "Temporarily stores current changes to get back a clean working folder.",
+    "tags": [
+      "stash"
+    ]
+  },
+  "Git|Stash|Récupérer le dernier stash": {
+    "title": "Restore the last stash",
+    "desc": "Reapplies the last stash and removes it from the list.",
+    "tags": [
+      "stash",
+      "pop"
+    ]
+  },
+  "Git|Stash|Lister les stash": {
+    "title": "List stashes",
+    "desc": "See all pending stashes.",
+    "tags": [
+      "stash",
+      "list"
+    ]
+  },
+  "Git|Tags & config|Créer un tag": {
+    "title": "Create a tag",
+    "desc": "Annotated tag (recommended for releases). git push --tags to send it.",
+    "tags": [
+      "tag",
+      "release"
+    ]
+  },
+  "Git|Remote (push/pull/clone)|Cloner un dépôt": {
+    "title": "Clone a repository",
+    "desc": "Fetches a remote repository locally.",
+    "tags": [
+      "clone"
+    ]
+  },
+  "Git|Historique & recherche|Voir qui a changé quoi (blame)": {
+    "title": "See who changed what (blame)",
+    "desc": "Shows the last commit that modified each line.",
+    "tags": [
+      "blame"
+    ]
+  },
+  "Git|Historique & recherche|Chercher un commit par contenu": {
+    "title": "Search a commit by content",
+    "desc": "Finds commits that added/removed a given string in the code.",
+    "tags": [
+      "log",
+      "search",
+      "pickaxe"
+    ]
+  },
+  "Git|Annuler & restaurer|Nettoyer les fichiers non suivis": {
+    "title": "Clean up untracked files",
+    "desc": "⚠️ Permanently deletes untracked files/folders. Add -n first to preview without deleting anything.",
+    "tags": [
+      "clean",
+      "danger"
+    ]
+  },
+  "Git|Tags & config|Configurer nom et email globaux": {
+    "title": "Set your global name and email",
+    "desc": "To do once per machine.",
+    "tags": [
+      "config",
+      "setup"
+    ]
+  },
+  "Git|Branches|Réécrire les N derniers commits (rebase interactif)": {
+    "title": "Rewrite the last N commits (interactive rebase)",
+    "desc": "Lets you squash / reword / reorder the last 5 commits.",
+    "tags": [
+      "rebase",
+      "interactive",
+      "squash"
+    ]
+  }
+};

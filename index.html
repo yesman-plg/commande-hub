@@ -103,6 +103,78 @@
     white-space: nowrap;
   }
   .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .top-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .lang-toggle {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+  .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    padding: 20px;
+  }
+  .lang-gate-card {
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+  }
+  .lang-gate-logo { font-size: 40px; margin-bottom: 10px; }
+  .lang-gate-card h1 {
+    font-size: 22px;
+    margin: 0 0 8px;
+  }
+  .lang-gate-card p {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin: 0 0 24px;
+  }
+  .lang-gate-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lang-choice {
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .lang-choice:hover { border-color: var(--accent); color: var(--accent); }
+  .translation-notice {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-bottom: 18px;
+    line-height: 1.4;
+  }
   .search-bar {
     position: sticky;
     top: 0;
@@ -680,37 +752,53 @@
   .level-title.lvl-red { border-left-color: var(--danger); }
 </style>
 
+<div class="lang-gate" id="langGate" style="display:none;">
+  <div class="lang-gate-card">
+    <div class="lang-gate-logo">🧰</div>
+    <h1>Command Hub</h1>
+    <p>Choisis ta langue&nbsp;/&nbsp;Choose your language</p>
+    <div class="lang-gate-buttons">
+      <button class="lang-choice" data-lang="fr">🇫🇷 Français</button>
+      <button class="lang-choice" data-lang="en">🇬🇧 English</button>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <h1>🧰 Command Hub</h1>
-    <p>Toutes tes commandes Expo, Kotlin/Android, Linux Mint &amp; Git au même endroit. Tape pour chercher, clique pour copier.</p>
+    <p id="headerTagline"></p>
     <p class="stats-line" id="statsLine"></p>
   </header>
 
   <div class="top-row" id="topRow">
     <div class="mode-tabs" id="modeTabs">
-      <button class="mode-tab active" data-mode="commands">🧰 Commandes</button>
-      <button class="mode-tab" data-mode="formation">📘 Formation</button>
+      <button class="mode-tab active" data-mode="commands">🧰 <span id="modeTabCommandsLabel"></span></button>
+      <button class="mode-tab" data-mode="formation">📘 <span id="modeTabFormationLabel"></span></button>
     </div>
-    <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
+    <div class="top-row-actions">
+      <button class="lang-toggle" id="langToggle" title="Switch language / Changer de langue"></button>
+      <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
+    </div>
   </div>
 
   <div class="search-bar" id="searchBar">
     <div class="search-row">
-      <input id="search" type="text" placeholder="Rechercher une commande, un tag, une description… (touche /)" autocomplete="off">
-      <button class="fav-toggle" id="favToggle" title="N'afficher que mes favoris">⭐ <span id="favToggleLabel">Favoris</span></button>
+      <input id="search" type="text" autocomplete="off">
+      <button class="fav-toggle" id="favToggle"><span id="favToggleStar">⭐</span> <span id="favToggleLabel"></span></button>
     </div>
     <div class="chips-wrap" id="chipsWrap">
       <div class="chips" id="chips"></div>
       <div class="subchips" id="subchips" style="display:none;"></div>
     </div>
-    <div class="search-hint" id="searchHint" style="display:none;">🔍 Recherche simultanée dans Commandes et Formation — les filtres reprennent une fois la recherche effacée</div>
+    <div class="search-hint" id="searchHint" style="display:none;"></div>
   </div>
 
   <div id="results"></div>
 </div>
 
 <script src="commands.js"></script>
+<script src="commands.en.js"></script>
 <script src="guides.js"></script>
 <script>
   const searchInput = document.getElementById("search");
@@ -726,11 +814,181 @@
   const favToggleLabelEl = document.getElementById("favToggleLabel");
   const statsLineEl = document.getElementById("statsLine");
   const themeToggleEl = document.getElementById("themeToggle");
+  const langGateEl = document.getElementById("langGate");
+  const langToggleEl = document.getElementById("langToggle");
+  const headerTaglineEl = document.getElementById("headerTagline");
+  const modeTabCommandsLabelEl = document.getElementById("modeTabCommandsLabel");
+  const modeTabFormationLabelEl = document.getElementById("modeTabFormationLabel");
 
   const LEVEL_ORDER = ["🟢 Débutant", "🟡 Intermédiaire", "🔴 Avancé"];
   const STATE_KEY = "cmdhub_state_v1";
   const FAV_KEY = "cmdhub_favorites_v1";
   const THEME_KEY = "cmdhub_theme_v1";
+  const LANG_KEY = "cmdhub_lang_v1";
+
+  // --- Langue (FR / EN) ---------------------------------------------------
+  const UI_STRINGS = {
+    fr: {
+      tagline: "Toutes tes commandes Expo, Kotlin/Android, Linux Mint & Git au même endroit. Tape pour chercher, clique pour copier.",
+      statsLine: (n, m) => `${n} commandes · ${m} fiches de formation`,
+      modeCommands: "Commandes",
+      modeFormation: "Formation",
+      searchPlaceholderCommands: "Rechercher une commande, un tag, une description… (touche /)",
+      searchPlaceholderFormation: "Rechercher une notion, un thème… (touche /)",
+      favLabel: (n) => `Favoris (${n})`,
+      favToggleTitle: "N'afficher que mes favoris",
+      themeToggleTitle: "Changer le thème",
+      langToggleLabel: "🌐 EN",
+      searchHint: "🔍 Recherche simultanée dans Commandes et Formation — les filtres reprennent une fois la recherche effacée",
+      emptyCommands: "Aucune commande ne correspond 🤷",
+      emptyCommandsFav: "Aucun favori ici — clique sur ☆ à côté d'une commande pour l'ajouter ⭐",
+      emptyFormation: "Aucune fiche ne correspond 🤷",
+      emptyFormationFav: "Aucun favori ici — clique sur ☆ à côté d'une fiche pour l'ajouter ⭐",
+      emptyBoth: "Rien ne correspond, ni dans les commandes ni dans la formation 🤷",
+      copy: "Copier",
+      copied: "Copié ✓",
+      forUnderstanding: "📘 Pour comprendre :",
+      removeFav: "Retirer des favoris",
+      addFav: "Ajouter aux favoris",
+      backToList: "← Retour à la liste",
+      stepTheory: "1. Théorie",
+      stepExercises: "2. Exercices",
+      goExercises: "Passer aux exercices →",
+      noExercisesNote: "Pas encore d'exercices pratiques pour cette fiche.",
+      backToTheory: "← Retour à la théorie",
+      seeCorrection: "Voir la correction",
+      terminalPlaceholder: "tape une commande…",
+      fillinPlaceholder: "Ta réponse…",
+      fillinCheck: "Vérifier",
+      exerciseSuccess: "✅ Exercice réussi !",
+      exerciseWrongCommand: "Commande non reconnue pour cet exercice, réessaie.",
+      exerciseHintPrefix: (hint) => `Pas tout à fait — indice : ${hint}`,
+      quizCorrect: "✅ Exact !",
+      quizIncorrect: "❌ Pas tout à fait.",
+      formationNotice: "🚧 La Formation n'est pas encore traduite en anglais — le contenu ci-dessous reste en français.",
+      langGateTitle: "Choisis ta langue / Choose your language",
+      allChip: "Toutes",
+      hasExercisesTitle: "Contient des exercices pratiques"
+    },
+    en: {
+      tagline: "All your Expo, Kotlin/Android, Linux Mint & Git commands in one place. Type to search, click to copy.",
+      statsLine: (n, m) => `${n} commands · ${m} learning guides`,
+      modeCommands: "Commands",
+      modeFormation: "Learn",
+      searchPlaceholderCommands: "Search a command, tag, description… (press /)",
+      searchPlaceholderFormation: "Search a topic, a concept… (press /)",
+      favLabel: (n) => `Favorites (${n})`,
+      favToggleTitle: "Show favorites only",
+      themeToggleTitle: "Change theme",
+      langToggleLabel: "🌐 FR",
+      searchHint: "🔍 Searching Commands and Learn at the same time — filters come back once the search is cleared",
+      emptyCommands: "No command matches 🤷",
+      emptyCommandsFav: "No favorites here yet — click ☆ next to a command to add it ⭐",
+      emptyFormation: "No guide matches 🤷",
+      emptyFormationFav: "No favorites here yet — click ☆ next to a guide to add it ⭐",
+      emptyBoth: "Nothing matches, neither in commands nor in the learning guides 🤷",
+      copy: "Copy",
+      copied: "Copied ✓",
+      forUnderstanding: "📘 To understand this:",
+      removeFav: "Remove from favorites",
+      addFav: "Add to favorites",
+      backToList: "← Back to list",
+      stepTheory: "1. Theory",
+      stepExercises: "2. Exercises",
+      goExercises: "Go to exercises →",
+      noExercisesNote: "No practice exercises for this guide yet.",
+      backToTheory: "← Back to theory",
+      seeCorrection: "See the answer",
+      terminalPlaceholder: "type a command…",
+      fillinPlaceholder: "Your answer…",
+      fillinCheck: "Check",
+      exerciseSuccess: "✅ Exercise complete!",
+      exerciseWrongCommand: "That command isn't expected here, try again.",
+      exerciseHintPrefix: (hint) => `Not quite — hint: ${hint}`,
+      quizCorrect: "✅ Correct!",
+      quizIncorrect: "❌ Not quite.",
+      formationNotice: "🚧 The Learn section isn't translated to English yet — the content below is still in French.",
+      langGateTitle: "Choose your language / Choisis ta langue",
+      allChip: "All",
+      hasExercisesTitle: "Has practice exercises"
+    }
+  };
+
+  let lang = "fr";
+  try {
+    const savedLang = localStorage.getItem(LANG_KEY);
+    if (savedLang === "fr" || savedLang === "en") lang = savedLang;
+  } catch (e) {}
+
+  function t(key, ...args) {
+    const entry = (UI_STRINGS[lang] && UI_STRINGS[lang][key] !== undefined) ? UI_STRINGS[lang][key] : UI_STRINGS.fr[key];
+    return typeof entry === "function" ? entry(...args) : entry;
+  }
+
+  const LEVEL_LABELS = {
+    fr: { "Débutant": "Débutant", "Intermédiaire": "Intermédiaire", "Avancé": "Avancé" },
+    en: { "Débutant": "Beginner", "Intermédiaire": "Intermediate", "Avancé": "Advanced" }
+  };
+  function translateLevelText(text) {
+    return (LEVEL_LABELS[lang] && LEVEL_LABELS[lang][text]) || text;
+  }
+
+  const CATEGORY_LABELS = {
+    en: {
+      "Bases du terminal": "Terminal basics",
+      "Programmation": "Programming",
+      "Git": "Git",
+      "Expo / React Native": "Expo / React Native",
+      "Kotlin / Android": "Kotlin / Android",
+      "Linux Mint": "Linux Mint",
+      "Linux": "Linux",
+      "Docker": "Docker",
+      "FAQ : erreurs fréquentes": "FAQ: common errors"
+    }
+  };
+  const SUBCATEGORY_LABELS = {
+    en: {
+      "Fichiers & disque": "Files & disk",
+      "Processus & système": "Processes & system",
+      "Réseau": "Network",
+      "Paquets (apt / snap / flatpak)": "Packages (apt / snap / flatpak)",
+      "Utilisateurs & permissions": "Users & permissions",
+      "Outils CLI divers": "Misc CLI tools",
+      "Démarrage & Dev": "Getting started & Dev",
+      "Build local": "Local build",
+      "EAS Build & Submit": "EAS Build & Submit",
+      "EAS Update (OTA)": "EAS Update (OTA)",
+      "Compte & credentials": "Account & credentials",
+      "Diagnostic & config": "Diagnostics & config",
+      "Gradle": "Gradle",
+      "ADB": "ADB",
+      "Émulateur": "Emulator",
+      "Staging & Commit": "Staging & Commit",
+      "Branches": "Branches",
+      "Remote (push/pull/clone)": "Remote (push/pull/clone)",
+      "Annuler & restaurer": "Undo & restore",
+      "Stash": "Stash",
+      "Historique & recherche": "History & search",
+      "Tags & config": "Tags & config"
+    }
+  };
+  function catLabel(cat) {
+    return (CATEGORY_LABELS[lang] && CATEGORY_LABELS[lang][cat]) || cat;
+  }
+  function subcatLabel(sub) {
+    return (SUBCATEGORY_LABELS[lang] && SUBCATEGORY_LABELS[lang][sub]) || sub;
+  }
+
+  function localizedCommand(item) {
+    if (lang === "en") {
+      const key = `${item.category}|${item.subcategory || ""}|${item.title}`;
+      const tr = COMMAND_TRANSLATIONS_EN[key];
+      if (tr) {
+        return { title: tr.title || item.title, desc: tr.desc || item.desc, tags: tr.tags || item.tags };
+      }
+    }
+    return { title: item.title, desc: item.desc, tags: item.tags };
+  }
 
   // --- Thème (auto / clair / sombre) ------------------------------------
   const THEME_CYCLE = ["auto", "light", "dark"];
@@ -757,7 +1015,46 @@
   });
 
   applyTheme();
-  statsLineEl.textContent = `${COMMANDS.length} commandes · ${GUIDES.length} fiches de formation`;
+
+  // --- Applique la langue courante à tout le texte statique de l'interface ---
+  function applyLang() {
+    document.documentElement.lang = lang;
+    headerTaglineEl.textContent = t("tagline");
+    statsLineEl.textContent = t("statsLine", COMMANDS.length, GUIDES.length);
+    modeTabCommandsLabelEl.textContent = t("modeCommands");
+    modeTabFormationLabelEl.textContent = t("modeFormation");
+    favToggleEl.title = t("favToggleTitle");
+    themeToggleEl.title = t("themeToggleTitle");
+    langToggleEl.textContent = t("langToggleLabel");
+    searchInput.placeholder = mode === "formation" ? t("searchPlaceholderFormation") : t("searchPlaceholderCommands");
+    searchHintEl.textContent = t("searchHint");
+  }
+
+  function setLang(newLang) {
+    lang = newLang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+    applyLang();
+    renderChips();
+    renderSubchips();
+    renderResults();
+  }
+
+  langToggleEl.addEventListener("click", () => setLang(lang === "fr" ? "en" : "fr"));
+
+  langGateEl.querySelectorAll(".lang-choice").forEach(btn => {
+    btn.addEventListener("click", () => {
+      langGateEl.style.display = "none";
+      setLang(btn.dataset.lang);
+    });
+  });
+
+  // Affiche la page de choix de langue seulement si aucune langue n'a
+  // jamais été choisie sur cette machine (sinon on l'a déjà en mémoire).
+  let langChosen = false;
+  try { langChosen = localStorage.getItem(LANG_KEY) === "fr" || localStorage.getItem(LANG_KEY) === "en"; } catch (e) {}
+  if (!langChosen) langGateEl.style.display = "flex";
+
+  applyLang();
 
   let mode = "commands"; // "commands" | "formation"
   let activeCategory = "Toutes";
@@ -882,14 +1179,12 @@
     modeTabsEl.querySelectorAll(".mode-tab").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.mode === mode);
     });
-    searchInput.placeholder = mode === "formation"
-      ? "Rechercher une notion, un thème… (touche /)"
-      : "Rechercher une commande, un tag, une description… (touche /)";
+    searchInput.placeholder = mode === "formation" ? t("searchPlaceholderFormation") : t("searchPlaceholderCommands");
   }
 
   function renderFavToggle() {
     favToggleEl.classList.toggle("active", showFavoritesOnly);
-    favToggleLabelEl.textContent = `Favoris (${favCountForCurrentMode()})`;
+    favToggleLabelEl.textContent = t("favLabel", favCountForCurrentMode());
   }
 
   function renderChips() {
@@ -897,7 +1192,8 @@
     chipsEl.innerHTML = categories.map(cat => {
       const n = cat === "Toutes" ? dataset().length : dataset().filter(c => c.category === cat).length;
       const active = cat === activeCategory ? "active" : "";
-      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(cat)}<span class="count-badge">${n}</span></span>`;
+      const label = cat === "Toutes" ? t("allChip") : catLabel(cat);
+      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(label)}<span class="count-badge">${n}</span></span>`;
     }).join("");
     chipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
@@ -930,7 +1226,8 @@
         ? COMMANDS.filter(c => c.category === activeCategory).length
         : COMMANDS.filter(c => c.category === activeCategory && c.subcategory === sub).length;
       const active = sub === activeSubcategory ? "active" : "";
-      return `<span class="chip ${active}" data-sub="${escapeAttr(sub)}">${escapeHtml(sub)}<span class="count-badge">${n}</span></span>`;
+      const label = sub === "Toutes" ? t("allChip") : subcatLabel(sub);
+      return `<span class="chip ${active}" data-sub="${escapeAttr(sub)}">${escapeHtml(label)}<span class="count-badge">${n}</span></span>`;
     }).join("");
     subchipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
@@ -954,7 +1251,7 @@
     subchipsEl.innerHTML = present.map(lvl => {
       const n = relevant.filter(g => g.level === lvl).length;
       const active = lvl === activeLevel ? "active" : "";
-      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}"><span class="guide-dot ${levelClass(lvl)}"></span>${escapeHtml(levelText(lvl))}<span class="count-badge">${n}</span></span>`;
+      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}"><span class="guide-dot ${levelClass(lvl)}"></span>${escapeHtml(translateLevelText(levelText(lvl)))}<span class="count-badge">${n}</span></span>`;
     }).join("");
     subchipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
@@ -969,7 +1266,8 @@
 
   function matchesCommand(item, q) {
     if (!q) return true;
-    const haystack = [item.title, item.cmd, item.desc, item.category, item.subcategory, ...(item.tags || [])]
+    const loc = localizedCommand(item);
+    const haystack = [item.title, loc.title, item.cmd, item.desc, loc.desc, item.category, item.subcategory, ...(item.tags || []), ...(loc.tags || [])]
       .join(" ")
       .toLowerCase();
     return q.toLowerCase().split(/\s+/).every(part => haystack.includes(part));
@@ -1028,20 +1326,21 @@
     const onTheory = guideStep === "theory" || !hasExercises;
 
     let html = `<div class="guide-detail">`;
-    html += `<button class="back-btn" data-action="back-to-list">← Retour à la liste</button>`;
+    html += `<button class="back-btn" data-action="back-to-list">${t("backToList")}</button>`;
+    if (lang === "en") html += `<div class="translation-notice">${t("formationNotice")}</div>`;
     html += `
       <div class="detail-head">
         <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
         <h2 class="detail-title">${escapeHtml(item.title)}</h2>
-        <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+        <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
       </div>
       <p class="detail-summary">${escapeHtml(item.summary)}</p>`;
 
     if (hasExercises) {
       html += `
         <div class="detail-steps">
-          <span class="detail-step ${onTheory ? "active" : ""}">1. Théorie</span>
-          <span class="detail-step ${!onTheory ? "active" : ""}">2. Exercices</span>
+          <span class="detail-step ${onTheory ? "active" : ""}">${t("stepTheory")}</span>
+          <span class="detail-step ${!onTheory ? "active" : ""}">${t("stepExercises")}</span>
         </div>`;
     }
 
@@ -1052,14 +1351,14 @@
           <p>${renderGuideParagraph(s.text)}</p>
         </div>`).join("");
       html += hasExercises
-        ? `<button class="next-step-btn" data-action="go-exercises">Passer aux exercices →</button>`
-        : `<p class="no-exercises-note">Pas encore d'exercices pratiques pour cette fiche.</p>`;
+        ? `<button class="next-step-btn" data-action="go-exercises">${t("goExercises")}</button>`
+        : `<p class="no-exercises-note">${t("noExercisesNote")}</p>`;
     } else {
       TERMINAL_REGISTRY = {};
       QUIZ_REGISTRY = {};
       FILLIN_REGISTRY = {};
       html += exercisesHtml(item.exercises, guideDomId(item));
-      html += `<button class="next-step-btn secondary" data-action="back-to-theory">← Retour à la théorie</button>`;
+      html += `<button class="next-step-btn secondary" data-action="back-to-theory">${t("backToTheory")}</button>`;
     }
 
     html += `</div>`;
@@ -1077,23 +1376,24 @@
       const cat = r.slice(0, sep), title = r.slice(sep + 2);
       return `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(title)}</a>`;
     }).filter(Boolean).join(", ");
-    return links ? `<div class="related-line">📘 Pour comprendre : ${links}</div>` : "";
+    return links ? `<div class="related-line">${t("forUnderstanding")} ${links}</div>` : "";
   }
 
   function commandCardHtml(item, id) {
     const fav = isFavoriteFor("commands", item);
+    const loc = localizedCommand(item);
     return `
       <div class="card">
         <div class="card-top">
           <div class="card-title-row">
-            <button class="fav-btn ${fav ? "active" : ""}" data-favtype="commands" data-favkey="${escapeAttr(favKeyFor("commands", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
-            <div class="card-title">${escapeHtml(item.title)}</div>
+            <button class="fav-btn ${fav ? "active" : ""}" data-favtype="commands" data-favkey="${escapeAttr(favKeyFor("commands", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
+            <div class="card-title">${escapeHtml(loc.title)}</div>
           </div>
-          <button class="copy-btn" data-id="${escapeAttr(id)}">Copier</button>
+          <button class="copy-btn" data-id="${escapeAttr(id)}">${t("copy")}</button>
         </div>
         <pre class="cmd" id="cmd-${escapeAttr(id)}">${escapeHtml(item.cmd)}</pre>
-        ${item.desc ? `<div class="desc">${escapeHtml(item.desc)}</div>` : ""}
-        ${item.tags && item.tags.length ? `<div class="tags">${item.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+        ${loc.desc ? `<div class="desc">${escapeHtml(loc.desc)}</div>` : ""}
+        ${loc.tags && loc.tags.length ? `<div class="tags">${loc.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
         ${renderRelatedLinks(item)}
       </div>`;
   }
@@ -1112,7 +1412,7 @@
         <div class="fterm-output"></div>
         <div class="fterm-inputline">
           <span class="fterm-prompt">${escapeHtml(ex.terminal.prompt || "user@mint:~$")}</span>
-          <input type="text" class="fterm-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="tape une commande…">
+          <input type="text" class="fterm-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${escapeAttr(t("terminalPlaceholder"))}">
         </div>
       </div>`;
   }
@@ -1140,8 +1440,8 @@
     return `
       <div class="fillin" id="${escapeAttr(fillId)}">
         <div class="fillin-row">
-          <input type="text" class="fillin-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ta réponse…">
-          <button class="fillin-check">Vérifier</button>
+          <input type="text" class="fillin-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${escapeAttr(t("fillinPlaceholder"))}">
+          <button class="fillin-check">${t("fillinCheck")}</button>
         </div>
         <div class="fillin-feedback"></div>
       </div>`;
@@ -1161,7 +1461,7 @@
       // redemander séparément.
       const reveal = ex.type === "quiz" || ex.type === "fillin" ? "" : `
         <details class="exercise-reveal">
-          <summary>Voir la correction</summary>
+          <summary>${t("seeCorrection")}</summary>
           <div class="exercise-correction-body">${escapeHtml(ex.correction)}</div>
         </details>`;
 
@@ -1203,7 +1503,7 @@
             else if (i === idx) b.classList.add("incorrect");
           });
           const ok = idx === state.correctIndex;
-          feedbackEl.innerHTML = `<span class="${ok ? "feedback-ok" : "feedback-ko"}">${ok ? "✅ Exact !" : "❌ Pas tout à fait."}</span> ${escapeHtml(state.correction)}`;
+          feedbackEl.innerHTML = `<span class="${ok ? "feedback-ok" : "feedback-ko"}">${ok ? t("quizCorrect") : t("quizIncorrect")}</span> ${escapeHtml(state.correction)}`;
           feedbackEl.classList.add("visible");
         });
       });
@@ -1230,7 +1530,7 @@
         inputEl.disabled = true;
         checkBtn.disabled = true;
         root.classList.add(ok ? "fillin-correct" : "fillin-incorrect");
-        feedbackEl.innerHTML = `<span class="${ok ? "feedback-ok" : "feedback-ko"}">${ok ? "✅ Exact !" : "❌ Pas tout à fait."}</span> ${escapeHtml(state.correction)}`;
+        feedbackEl.innerHTML = `<span class="${ok ? "feedback-ok" : "feedback-ko"}">${ok ? t("quizCorrect") : t("quizIncorrect")}</span> ${escapeHtml(state.correction)}`;
         feedbackEl.classList.add("visible");
       };
 
@@ -1277,12 +1577,12 @@
           if (step.output) appendLine(step.output, "fterm-out");
           state.stepIndex++;
           if (state.stepIndex >= state.steps.length) {
-            appendLine("✅ Exercice réussi !", "fterm-success");
+            appendLine(t("exerciseSuccess"), "fterm-success");
             root.classList.add("fterm-done");
           }
         } else {
           appendLine(
-            state.hint ? `Pas tout à fait — indice : ${state.hint}` : "Commande non reconnue pour cet exercice, réessaie.",
+            state.hint ? t("exerciseHintPrefix", state.hint) : t("exerciseWrongCommand"),
             "fterm-error"
           );
         }
@@ -1300,8 +1600,8 @@
         <div class="guide-row-top">
           <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
           <span class="guide-title">${escapeHtml(item.title)}</span>
-          ${hasExercises ? `<span class="exercise-flag" title="Contient des exercices pratiques">🧪</span>` : ""}
-          <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+          ${hasExercises ? `<span class="exercise-flag" title="${escapeAttr(t("hasExercisesTitle"))}">🧪</span>` : ""}
+          <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
         </div>
         <p class="guide-row-summary">${escapeHtml(item.summary)}</p>
       </div>`;
@@ -1317,8 +1617,8 @@
 
     if (filtered.length === 0) {
       resultsEl.innerHTML = showFavoritesOnly
-        ? `<div class="empty">Aucun favori ici — clique sur ☆ à côté d'une commande pour l'ajouter ⭐</div>`
-        : `<div class="empty">Aucune commande ne correspond 🤷</div>`;
+        ? `<div class="empty">${t("emptyCommandsFav")}</div>`
+        : `<div class="empty">${t("emptyCommands")}</div>`;
       return;
     }
 
@@ -1336,11 +1636,11 @@
 
     let html = "";
     Object.keys(grouped).forEach(cat => {
-      html += `<div class="group-title">${escapeHtml(cat)}</div>`;
+      html += `<div class="group-title">${escapeHtml(catLabel(cat))}</div>`;
       const catBucket = grouped[cat];
       catBucket.__order.forEach(subKey => {
         if (subKey !== "__none") {
-          html += `<div class="subgroup-title">${escapeHtml(subKey)}</div>`;
+          html += `<div class="subgroup-title">${escapeHtml(subcatLabel(subKey))}</div>`;
         }
         catBucket.subs[subKey].forEach((item, idx) => {
           html += commandCardHtml(item, `${cat}-${subKey}-${idx}`);
@@ -1360,8 +1660,8 @@
 
     if (filtered.length === 0) {
       resultsEl.innerHTML = showFavoritesOnly
-        ? `<div class="empty">Aucun favori ici — clique sur ☆ à côté d'une fiche pour l'ajouter ⭐</div>`
-        : `<div class="empty">Aucune fiche ne correspond 🤷</div>`;
+        ? `<div class="empty">${t("emptyFormationFav")}</div>`
+        : `<div class="empty">${t("emptyFormation")}</div>`;
       return;
     }
 
@@ -1376,10 +1676,11 @@
     });
 
     let html = "";
+    if (lang === "en") html += `<div class="translation-notice">${t("formationNotice")}</div>`;
     levelsPresent.forEach(lvl => {
-      html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(levelText(lvl))}</div>`;
+      html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(translateLevelText(levelText(lvl)))}</div>`;
       Object.keys(grouped[lvl]).forEach(cat => {
-        html += `<div class="subgroup-title">${escapeHtml(cat)}</div>`;
+        html += `<div class="subgroup-title">${escapeHtml(catLabel(cat))}</div>`;
         grouped[lvl][cat].forEach(item => {
           html += guideCardHtml(item);
         });
@@ -1393,19 +1694,19 @@
     const guideMatches = GUIDES.filter(item => (!showFavoritesOnly || isFavoriteFor("formation", item)) && matchesGuide(item, query));
 
     if (cmdMatches.length === 0 && guideMatches.length === 0) {
-      resultsEl.innerHTML = `<div class="empty">Rien ne correspond, ni dans les commandes ni dans la formation 🤷</div>`;
+      resultsEl.innerHTML = `<div class="empty">${t("emptyBoth")}</div>`;
       return;
     }
 
     let html = "";
     if (cmdMatches.length > 0) {
-      html += `<div class="group-title">🧰 Commandes (${cmdMatches.length})</div>`;
+      html += `<div class="group-title">🧰 ${t("modeCommands")} (${cmdMatches.length})</div>`;
       cmdMatches.forEach((item, idx) => {
         html += commandCardHtml(item, `search-cmd-${idx}`);
       });
     }
     if (guideMatches.length > 0) {
-      html += `<div class="group-title">📘 Formation (${guideMatches.length})</div>`;
+      html += `<div class="group-title">📘 ${t("modeFormation")} (${guideMatches.length})</div>`;
       guideMatches.forEach(item => {
         html += guideCardHtml(item);
       });
@@ -1500,7 +1801,7 @@
       const text = document.getElementById(`cmd-${id}`).textContent;
       copyToClipboard(text).then(() => {
         const original = copyBtn.textContent;
-        copyBtn.textContent = "Copié ✓";
+        copyBtn.textContent = t("copied");
         copyBtn.classList.add("copied");
         setTimeout(() => {
           copyBtn.textContent = original;
