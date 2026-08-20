@@ -853,7 +853,7 @@
 
     let html = "";
     Object.keys(grouped).forEach(cat => {
-      html += `<div class="group-title">${categoryIcon(cat)}${escapeHtml(cat)}</div>`;
+      html += `<div class="group-title">${escapeHtml(cat)}</div>`;
       const catBucket = grouped[cat];
       catBucket.__order.forEach(subKey => {
         if (subKey !== "__none") {
@@ -896,7 +896,7 @@
     levelsPresent.forEach(lvl => {
       html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(lvl)}</div>`;
       Object.keys(grouped[lvl]).forEach(cat => {
-        html += `<div class="subgroup-title">${categoryIcon(cat)}${escapeHtml(cat)}</div>`;
+        html += `<div class="subgroup-title">${escapeHtml(cat)}</div>`;
         grouped[lvl][cat].forEach(item => {
           html += guideCardHtml(item);
         });
