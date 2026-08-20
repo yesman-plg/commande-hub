@@ -18,6 +18,7 @@ const COMMANDS = [
   // --- Expo / React Native ---------------------------------
   {
     category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
     title: "Démarrer le projet",
     cmd: "npx expo start",
     desc: "Lance le serveur de dev Expo (Metro bundler).",
@@ -25,6 +26,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
     title: "Démarrer avec cache vidé",
     cmd: "npx expo start -c",
     desc: "Utile quand Metro a un cache corrompu ou après un changement de config.",
@@ -32,6 +34,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
     title: "Build Android (EAS)",
     cmd: "eas build --platform android --profile preview",
     desc: "Build cloud via EAS. Change le profil (development/preview/production) selon le besoin.",
@@ -39,6 +42,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Build local",
     title: "Build local Android",
     cmd: "npx expo run:android",
     desc: "Build et installe sur un émulateur/appareil connecté sans passer par EAS.",
@@ -46,6 +50,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
     title: "Soumettre sur le Play Store",
     cmd: "eas submit --platform android",
     desc: "Envoie le dernier build vers Google Play.",
@@ -53,6 +58,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
     title: "Vérifier la config du projet",
     cmd: "npx expo-doctor",
     desc: "Diagnostique les incompatibilités de versions / config.",
@@ -60,6 +66,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
     title: "Installer une lib compatible Expo",
     cmd: "npx expo install <nom-du-package>",
     desc: "Comme npm install, mais choisit la version compatible avec ton SDK Expo.",
@@ -67,6 +74,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
     title: "Mettre à jour le SDK Expo",
     cmd: "npx expo install expo@latest\nnpx expo-doctor",
     desc: "Upgrade puis vérifie que tout est cohérent.",
@@ -74,6 +82,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Build local",
     title: "Prebuild (générer android/ios natifs)",
     cmd: "npx expo prebuild --clean",
     desc: "Régénère les dossiers natifs à partir de app.json/app.config.js.",
@@ -81,6 +90,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
     title: "Créer un nouveau projet",
     cmd: "npx create-expo-app@latest mon-projet",
     desc: "Génère un nouveau projet Expo à partir du template par défaut.",
@@ -88,6 +98,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Build local",
     title: "Build local iOS",
     cmd: "npx expo run:ios",
     desc: "Build et lance sur un simulateur iOS (nécessite un Mac/Xcode).",
@@ -95,6 +106,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
     title: "Ouvrir directement sur une plateforme",
     cmd: "npx expo start --android\nnpx expo start --ios\nnpx expo start --web",
     desc: "Lance le serveur et ouvre directement l'app sur la plateforme choisie.",
@@ -102,6 +114,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
     title: "Démarrer via tunnel",
     cmd: "npx expo start --tunnel",
     desc: "Utile quand le téléphone et l'ordi ne sont pas sur le même réseau (ou wifi qui bloque le LAN).",
@@ -109,6 +122,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Compte & credentials",
     title: "Se connecter à EAS",
     cmd: "eas login",
     desc: "Requis avant tout build/submit/update via EAS. Vérifie avec: eas whoami",
@@ -116,6 +130,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Compte & credentials",
     title: "Initialiser EAS sur le projet",
     cmd: "eas init",
     desc: "Lie le projet local à un projet Expo/EAS existant (ou en crée un).",
@@ -123,6 +138,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
     title: "Build iOS (EAS)",
     cmd: "eas build --platform ios --profile preview",
     desc: "Équivalent iOS du build Android — nécessite un compte Apple Developer configuré.",
@@ -130,6 +146,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
     title: "Build les deux plateformes",
     cmd: "eas build --platform all --profile preview",
     desc: "Lance un build Android et iOS en une seule commande.",
@@ -137,6 +154,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
     title: "Soumettre sur l'App Store",
     cmd: "eas submit --platform ios",
     desc: "Envoie le dernier build iOS vers App Store Connect.",
@@ -144,6 +162,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Update (OTA)",
     title: "Publier une mise à jour OTA",
     cmd: 'eas update --branch preview --message "description du fix"',
     desc: "Pousse un changement JS/assets directement aux utilisateurs sans repasser par le store (nécessite expo-updates).",
@@ -151,6 +170,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Update (OTA)",
     title: "Lister les branches de update",
     cmd: "eas channel:list",
     desc: "Voit quels channels/branches de déploiement OTA existent (preview, production…).",
@@ -158,6 +178,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
     title: "Lister les builds récents",
     cmd: "eas build:list",
     desc: "Historique des builds cloud avec leur statut.",
@@ -165,6 +186,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Compte & credentials",
     title: "Gérer les credentials de signature",
     cmd: "eas credentials",
     desc: "Interface interactive pour voir/régénérer les clés de signature Android/iOS gérées par EAS.",
@@ -172,6 +194,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
     title: "Corriger les versions de dépendances",
     cmd: "npx expo install --fix",
     desc: "Aligne automatiquement les packages installés sur les versions attendues par le SDK Expo.",
@@ -179,6 +202,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
     title: "Voir la config résolue de l'app",
     cmd: "npx expo config --type public",
     desc: "Affiche app.json/app.config.js tel qu'Expo l'interprète réellement, avec les valeurs par défaut.",
@@ -186,6 +210,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
     title: "Exporter le bundle statique",
     cmd: "npx expo export",
     desc: "Génère les fichiers statiques (JS, assets) dans dist/ — utile pour le web ou un hébergement custom d'updates.",
@@ -193,6 +218,7 @@ const COMMANDS = [
   },
   {
     category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
     title: "Ajouter le dev client",
     cmd: "npx expo install expo-dev-client",
     desc: "Nécessaire dès que le projet utilise du code natif custom (au-delà d'Expo Go). Se combine avec un build --profile development.",
@@ -1022,6 +1048,7 @@ const COMMANDS = [
   // --- Git ------------------------------------------------------
   {
     category: "Git",
+    subcategory: "Staging & Commit",
     title: "Statut du dépôt",
     cmd: "git status",
     desc: "Fichiers modifiés / en staging / non suivis.",
@@ -1029,6 +1056,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Staging & Commit",
     title: "Ajouter tous les changements",
     cmd: "git add .",
     desc: "Met tout le dossier courant en staging.",
@@ -1036,6 +1064,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Staging & Commit",
     title: "Ajouter en interactif",
     cmd: "git add -p",
     desc: "Choisit morceau par morceau (hunk) ce qui part en staging.",
@@ -1043,6 +1072,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Staging & Commit",
     title: "Commit",
     cmd: 'git commit -m "message"',
     desc: "Enregistre les changements en staging.",
@@ -1050,6 +1080,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Staging & Commit",
     title: "Modifier le dernier commit",
     cmd: "git commit --amend",
     desc: "Change le message et/ou ajoute des fichiers oubliés au dernier commit.",
@@ -1057,6 +1088,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Nouvelle branche + bascule",
     cmd: "git checkout -b nom-de-la-branche",
     desc: "Crée et bascule sur une nouvelle branche en une commande (équivalent: git switch -c nom).",
@@ -1064,6 +1096,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Changer de branche",
     cmd: "git switch nom-de-la-branche",
     desc: "Bascule sur une branche existante.",
@@ -1071,6 +1104,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Lister les branches",
     cmd: "git branch -a",
     desc: "Locales et distantes. Ajoute -v pour voir le dernier commit de chacune.",
@@ -1078,6 +1112,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Supprimer une branche locale",
     cmd: "git branch -d nom-de-la-branche",
     desc: "Utilise -D (majuscule) pour forcer si elle n'est pas fusionnée.",
@@ -1085,6 +1120,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Renommer la branche courante",
     cmd: "git branch -m nouveau-nom",
     desc: "Renomme la branche sur laquelle tu es actuellement.",
@@ -1092,6 +1128,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Remote (push/pull/clone)",
     title: "Récupérer les changements distants",
     cmd: "git fetch",
     desc: "Télécharge les nouveautés sans les fusionner dans ta branche.",
@@ -1099,6 +1136,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Remote (push/pull/clone)",
     title: "Récupérer + fusionner",
     cmd: "git pull",
     desc: "fetch + merge en une commande. Ajoute --rebase pour rebaser au lieu de merger.",
@@ -1106,6 +1144,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Remote (push/pull/clone)",
     title: "Envoyer les commits",
     cmd: "git push",
     desc: "Pousse la branche courante vers le remote.",
@@ -1113,6 +1152,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Remote (push/pull/clone)",
     title: "Premier push d'une nouvelle branche",
     cmd: "git push -u origin nom-de-la-branche",
     desc: "Pousse et lie la branche locale à la branche distante (-u = upstream).",
@@ -1120,6 +1160,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Fusionner une branche",
     cmd: "git merge nom-de-la-branche",
     desc: "Fusionne la branche indiquée dans la branche courante.",
@@ -1127,6 +1168,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Rebaser sur une autre branche",
     cmd: "git rebase nom-de-la-branche",
     desc: "Rejoue tes commits par-dessus l'autre branche. En cas de conflit : git rebase --continue / --abort.",
@@ -1134,6 +1176,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Historique & recherche",
     title: "Voir l'historique en une ligne",
     cmd: "git log --oneline --graph --all",
     desc: "Vue compacte et graphique des branches/commits.",
@@ -1141,6 +1184,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Staging & Commit",
     title: "Voir les changements non stagés",
     cmd: "git diff",
     desc: "Diff des fichiers modifiés mais pas encore ajoutés au staging. Ajoute --staged pour voir le diff du staging.",
@@ -1148,6 +1192,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Annuler & restaurer",
     title: "Annuler le dernier commit (garder les modifs)",
     cmd: "git reset --soft HEAD~1",
     desc: "Défait le commit mais garde les changements en staging.",
@@ -1155,6 +1200,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Annuler & restaurer",
     title: "Annuler le dernier commit (tout jeter)",
     cmd: "git reset --hard HEAD~1",
     desc: "⚠️ Supprime définitivement le commit ET les changements. Irréversible.",
@@ -1162,6 +1208,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Annuler & restaurer",
     title: "Remettre un fichier comme au dernier commit",
     cmd: "git checkout -- nom-du-fichier",
     desc: "Annule les modifications locales non stagées sur ce fichier (équivalent moderne: git restore nom-du-fichier).",
@@ -1169,6 +1216,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Annuler & restaurer",
     title: "Retirer un fichier du staging",
     cmd: "git restore --staged nom-du-fichier",
     desc: "Le fichier reste modifié mais sort du staging.",
@@ -1176,6 +1224,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Stash",
     title: "Mettre de côté les changements (stash)",
     cmd: "git stash",
     desc: "Range temporairement les modifs en cours pour retrouver un dossier propre.",
@@ -1183,6 +1232,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Stash",
     title: "Récupérer le dernier stash",
     cmd: "git stash pop",
     desc: "Réapplique le dernier stash et le retire de la liste.",
@@ -1190,6 +1240,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Stash",
     title: "Lister les stash",
     cmd: "git stash list",
     desc: "Voir tous les stash en attente.",
@@ -1197,6 +1248,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Tags & config",
     title: "Créer un tag",
     cmd: 'git tag -a v1.0.0 -m "message"',
     desc: "Tag annoté (recommandé pour les releases). git push --tags pour l'envoyer.",
@@ -1204,6 +1256,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Remote (push/pull/clone)",
     title: "Cloner un dépôt",
     cmd: "git clone <url>",
     desc: "Récupère un dépôt distant en local.",
@@ -1211,6 +1264,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Historique & recherche",
     title: "Voir qui a changé quoi (blame)",
     cmd: "git blame nom-du-fichier",
     desc: "Affiche le dernier commit ayant modifié chaque ligne.",
@@ -1218,6 +1272,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Historique & recherche",
     title: "Chercher un commit par contenu",
     cmd: 'git log -S"texte-recherché" --oneline',
     desc: "Trouve les commits qui ont ajouté/supprimé une chaîne donnée dans le code.",
@@ -1225,6 +1280,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Annuler & restaurer",
     title: "Nettoyer les fichiers non suivis",
     cmd: "git clean -fd",
     desc: "⚠️ Supprime définitivement les fichiers/dossiers non trackés. Ajoute -n avant pour prévisualiser sans rien supprimer.",
@@ -1232,6 +1288,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Tags & config",
     title: "Configurer nom et email globaux",
     cmd: 'git config --global user.name "Ton Nom"\ngit config --global user.email "ton@email.com"',
     desc: "À faire une fois par machine.",
@@ -1239,6 +1296,7 @@ const COMMANDS = [
   },
   {
     category: "Git",
+    subcategory: "Branches",
     title: "Réécrire les N derniers commits (rebase interactif)",
     cmd: "git rebase -i HEAD~5",
     desc: "Permet de squash / reword / réordonner les 5 derniers commits.",
