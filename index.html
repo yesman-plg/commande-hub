@@ -582,6 +582,78 @@
     color: var(--text);
     white-space: pre-line;
   }
+  /* --- QCM --- */
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .quiz-option {
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .quiz-option:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-option:disabled { cursor: default; }
+  .quiz-option.correct {
+    border-color: #3aa76d;
+    background: color-mix(in srgb, #3aa76d 14%, var(--bg-elevated));
+    font-weight: 600;
+  }
+  .quiz-option.incorrect {
+    border-color: var(--danger);
+    background: color-mix(in srgb, var(--danger) 14%, var(--bg-elevated));
+  }
+  /* --- Réponse à saisir --- */
+  .fillin-row {
+    display: flex;
+    gap: 8px;
+  }
+  .fillin-input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 13px;
+    outline: none;
+  }
+  .fillin-input:focus { border-color: var(--accent); }
+  .fillin-input:disabled { opacity: .75; }
+  .fillin-check {
+    flex-shrink: 0;
+    padding: 0 16px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .fillin-check:disabled { opacity: .6; cursor: default; }
+  .fillin.fillin-correct .fillin-input { border-color: #3aa76d; }
+  .fillin.fillin-incorrect .fillin-input { border-color: var(--danger); }
+  /* --- Commun QCM / réponse à saisir --- */
+  .quiz-feedback, .fillin-feedback {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    display: none;
+  }
+  .quiz-feedback.visible, .fillin-feedback.visible { display: block; }
+  .feedback-ok { color: #3aa76d; font-weight: 600; }
+  .feedback-ko { color: var(--danger); font-weight: 600; }
   .guide-link {
     color: var(--accent);
     text-decoration: underline;
@@ -984,13 +1056,15 @@
         : `<p class="no-exercises-note">Pas encore d'exercices pratiques pour cette fiche.</p>`;
     } else {
       TERMINAL_REGISTRY = {};
+      QUIZ_REGISTRY = {};
+      FILLIN_REGISTRY = {};
       html += exercisesHtml(item.exercises, guideDomId(item));
       html += `<button class="next-step-btn secondary" data-action="back-to-theory">← Retour à la théorie</button>`;
     }
 
     html += `</div>`;
     resultsEl.innerHTML = html;
-    if (!onTheory) initTerminals();
+    if (!onTheory) initExercises();
   }
 
   // --- Gabarits de carte réutilisés par le parcours par onglet ET la recherche transversale ---
@@ -1024,10 +1098,11 @@
       </div>`;
   }
 
-  // --- Terminal simulé pour les exercices pratiques ------------------------
-  // Registre reconstruit à chaque rendu : id de l'encadré terminal → état
-  // (les commandes attendues, l'indice, et où on en est).
+  // --- Exercices pratiques : terminal simulé, QCM, réponse à saisir --------
+  // Registres reconstruits à chaque rendu : id de l'encadré → état.
   let TERMINAL_REGISTRY = {};
+  let QUIZ_REGISTRY = {};
+  let FILLIN_REGISTRY = {};
 
   function terminalHtml(ex, termId) {
     if (ex.type !== "terminal" || !ex.terminal) return "";
@@ -1036,31 +1111,136 @@
       <div class="fterm" id="${escapeAttr(termId)}">
         <div class="fterm-output"></div>
         <div class="fterm-inputline">
-          <span class="fterm-prompt">${escapeHtml(ex.terminal.prompt || "evan@mint:~$")}</span>
+          <span class="fterm-prompt">${escapeHtml(ex.terminal.prompt || "user@mint:~$")}</span>
           <input type="text" class="fterm-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="tape une commande…">
         </div>
       </div>`;
   }
 
+  function quizHtml(ex, quizId) {
+    if (ex.type !== "quiz" || !ex.options) return "";
+    QUIZ_REGISTRY[quizId] = { correctIndex: ex.correctIndex, correction: ex.correction, answered: false };
+    const opts = ex.options.map((opt, idx) =>
+      `<button class="quiz-option" data-idx="${idx}">${escapeHtml(opt)}</button>`
+    ).join("");
+    return `
+      <div class="quiz" id="${escapeAttr(quizId)}">
+        <div class="quiz-options">${opts}</div>
+        <div class="quiz-feedback"></div>
+      </div>`;
+  }
+
+  function fillinHtml(ex, fillId) {
+    if (ex.type !== "fillin") return "";
+    FILLIN_REGISTRY[fillId] = {
+      accept: Array.isArray(ex.accept) ? ex.accept : [ex.accept],
+      correction: ex.correction,
+      answered: false
+    };
+    return `
+      <div class="fillin" id="${escapeAttr(fillId)}">
+        <div class="fillin-row">
+          <input type="text" class="fillin-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ta réponse…">
+          <button class="fillin-check">Vérifier</button>
+        </div>
+        <div class="fillin-feedback"></div>
+      </div>`;
+  }
+
   function exercisesHtml(exercises, ownerId) {
     if (!exercises || !exercises.length) return "";
-    const items = exercises.map((ex, idx) => `
-      <div class="exercise">
-        <p class="exercise-instruction">📝 ${escapeHtml(ex.instruction)}</p>
-        ${terminalHtml(ex, `fterm-${ownerId}-${idx}`)}
+    const items = exercises.map((ex, idx) => {
+      let interactive = "";
+      if (ex.type === "terminal") interactive = terminalHtml(ex, `fterm-${ownerId}-${idx}`);
+      else if (ex.type === "quiz") interactive = quizHtml(ex, `quiz-${ownerId}-${idx}`);
+      else if (ex.type === "fillin") interactive = fillinHtml(ex, `fillin-${ownerId}-${idx}`);
+
+      // Le terminal garde une correction repliable à part (utile même une
+      // fois l'exercice réussi) ; QCM et réponse-à-saisir affichent leur
+      // correction automatiquement dès qu'on répond, pas besoin de la
+      // redemander séparément.
+      const reveal = ex.type === "quiz" || ex.type === "fillin" ? "" : `
         <details class="exercise-reveal">
           <summary>Voir la correction</summary>
           <div class="exercise-correction-body">${escapeHtml(ex.correction)}</div>
-        </details>
-      </div>`).join("");
+        </details>`;
+
+      return `
+        <div class="exercise">
+          <p class="exercise-instruction">📝 ${escapeHtml(ex.instruction)}</p>
+          ${interactive}
+          ${reveal}
+        </div>`;
+    }).join("");
     return `
       <div class="exercises-block">
         ${items}
       </div>`;
   }
 
-  // Attache les écouteurs clavier sur chaque terminal fraîchement rendu.
-  // Appelée après chaque resultsEl.innerHTML = ... qui peut contenir des fiches.
+  // Attache les écouteurs sur chaque encadré interactif fraîchement rendu.
+  function initExercises() {
+    initTerminals();
+    initQuizzes();
+    initFillins();
+  }
+
+  function initQuizzes() {
+    Object.keys(QUIZ_REGISTRY).forEach(quizId => {
+      const root = document.getElementById(quizId);
+      if (!root) return;
+      const state = QUIZ_REGISTRY[quizId];
+      const feedbackEl = root.querySelector(".quiz-feedback");
+      root.querySelectorAll(".quiz-option").forEach(btn => {
+        if (btn.dataset.wired) return;
+        btn.dataset.wired = "1";
+        btn.addEventListener("click", () => {
+          if (state.answered) return;
+          state.answered = true;
+          const idx = parseInt(btn.dataset.idx, 10);
+          root.querySelectorAll(".quiz-option").forEach((b, i) => {
+            if (i === state.correctIndex) b.classList.add("correct");
+            else if (i === idx) b.classList.add("incorrect");
+          });
+          const ok = idx === state.correctIndex;
+          feedbackEl.innerHTML = `<span class="${ok ? "feedback-ok" : "feedback-ko"}">${ok ? "✅ Exact !" : "❌ Pas tout à fait."}</span> ${escapeHtml(state.correction)}`;
+          feedbackEl.classList.add("visible");
+        });
+      });
+    });
+  }
+
+  function initFillins() {
+    Object.keys(FILLIN_REGISTRY).forEach(fillId => {
+      const root = document.getElementById(fillId);
+      if (!root) return;
+      const inputEl = root.querySelector(".fillin-input");
+      const checkBtn = root.querySelector(".fillin-check");
+      const feedbackEl = root.querySelector(".fillin-feedback");
+      if (!inputEl || !checkBtn || checkBtn.dataset.wired) return;
+      checkBtn.dataset.wired = "1";
+      const state = FILLIN_REGISTRY[fillId];
+
+      const check = () => {
+        if (state.answered) return;
+        const normalize = s => s.toLowerCase().replace(/\s+/g, " ").trim();
+        const val = normalize(inputEl.value);
+        const ok = val !== "" && state.accept.some(a => normalize(a) === val);
+        state.answered = true;
+        inputEl.disabled = true;
+        checkBtn.disabled = true;
+        root.classList.add(ok ? "fillin-correct" : "fillin-incorrect");
+        feedbackEl.innerHTML = `<span class="${ok ? "feedback-ok" : "feedback-ko"}">${ok ? "✅ Exact !" : "❌ Pas tout à fait."}</span> ${escapeHtml(state.correction)}`;
+        feedbackEl.classList.add("visible");
+      };
+
+      checkBtn.addEventListener("click", check);
+      inputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); check(); }
+      });
+    });
+  }
+
   function initTerminals() {
     Object.keys(TERMINAL_REGISTRY).forEach(termId => {
       const root = document.getElementById(termId);
@@ -1171,7 +1351,6 @@
   }
 
   function renderGuideResults() {
-    TERMINAL_REGISTRY = {};
     const filtered = GUIDES.filter(item =>
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeLevel === "Toutes" || item.level === activeLevel) &&
@@ -1207,11 +1386,9 @@
       });
     });
     resultsEl.innerHTML = html;
-    initTerminals();
   }
 
   function renderTransversalResults() {
-    TERMINAL_REGISTRY = {};
     const cmdMatches = COMMANDS.filter(item => (!showFavoritesOnly || isFavoriteFor("commands", item)) && matchesCommand(item, query));
     const guideMatches = GUIDES.filter(item => (!showFavoritesOnly || isFavoriteFor("formation", item)) && matchesGuide(item, query));
 
@@ -1234,7 +1411,6 @@
       });
     }
     resultsEl.innerHTML = html;
-    initTerminals();
   }
 
   function copyToClipboard(text) {

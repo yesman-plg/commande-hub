@@ -40,9 +40,15 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Décompose la commande suivante partie par partie : rm -rf <nom-du-dossier>. Que fait chaque morceau, et que dois-tu remplacer avant de la taper ?",
-            "correction": "rm = supprimer.\n-r = récursif (aussi le contenu à l'intérieur du dossier).\n-f = force (ne demande pas confirmation, n'affiche pas d'erreur si le fichier n'existe pas).\n<nom-du-dossier> est un chevron : à remplacer par le VRAI nom du dossier, les chevrons ne se tapent jamais.\n\n⚠️ C'est une des commandes les plus dangereuses du terminal : combinée à -rf, une suppression est instantanée et définitive, sans corbeille."
+            "type": "fillin",
+            "instruction": "Quel flag combiné (2 lettres) faut-il ajouter à rm pour supprimer tout un dossier, sans confirmation demandée ?",
+            "accept": [
+                  "-rf",
+                  "-fr",
+                  "rf",
+                  "fr"
+            ],
+            "correction": "-rf : -r pour récursif (supprime aussi le contenu du dossier), -f pour force (sans confirmation, sans erreur si le fichier n'existe pas). C'est la combinaison à utiliser avec la plus grande prudence — aucune corbeille, aucun retour en arrière possible."
       }
 ]
   },
@@ -66,7 +72,7 @@ const GUIDES = [
       },
       {
         heading: "Chemin relatif vs absolu",
-        text: "Un chemin absolu commence par / et part de la racine du système (ex: /home/evan/cmd-hub). Un chemin relatif part d'où tu es actuellement (ex: cmd-hub/index.html si tu es déjà dans /home/evan). Le symbole ~ est un raccourci vers ton dossier personnel."
+        text: "Un chemin absolu commence par / et part de la racine du système (ex: /home/user/cmd-hub). Un chemin relatif part d'où tu es actuellement (ex: cmd-hub/index.html si tu es déjà dans /home/user). Le symbole ~ est un raccourci vers ton dossier personnel."
       },
       {
         heading: "L'autocomplétion (Tab)",
@@ -78,13 +84,13 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Affiche dans quel dossier tu te trouves actuellement.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
                                     "pwd"
                               ],
-                              "output": "/home/evan/cmd-hub"
+                              "output": "/home/user/cmd-hub"
                         }
                   ]
             },
@@ -108,7 +114,7 @@ const GUIDES = [
       },
       {
         heading: "Décoder une ligne de ls -la",
-        text: "Exemple : -rwxr-xr-- 1 evan evan 220 ... script.sh\n\n• Le tout premier caractère (-) dit si c'est un fichier (-) ou un dossier (d).\n• rwx → le propriétaire (evan) peut tout faire.\n• r-x → le groupe peut lire et exécuter, pas modifier.\n• r-- → tous les autres peuvent seulement lire."
+        text: "Exemple : -rwxr-xr-- 1 user user 220 ... script.sh\n\n• Le tout premier caractère (-) dit si c'est un fichier (-) ou un dossier (d).\n• rwx → le propriétaire (user) peut tout faire.\n• r-x → le groupe peut lire et exécuter, pas modifier.\n• r-- → tous les autres peuvent seulement lire."
       },
       {
         heading: "Le format en chiffres (chmod 755)",
@@ -121,9 +127,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Un fichier a les permissions -rwxr-x---. Le propriétaire peut-il l'exécuter ? Le groupe peut-il le modifier ? Les autres peuvent-ils le lire ?",
-            "correction": "Propriétaire (rwx) : peut lire, écrire ET exécuter → oui, il peut l'exécuter.\nGroupe (r-x) : peut lire et exécuter, mais pas écrire → non, il ne peut pas le modifier.\nAutres (---) : aucun droit → non, ils ne peuvent même pas le lire."
+            "type": "quiz",
+            "instruction": "Un fichier a les permissions -rwxr-x---. Que peut faire le GROUPE dessus ?",
+            "options": [
+                  "Lire et exécuter, mais pas modifier",
+                  "Lire, écrire et exécuter",
+                  "Aucun droit",
+                  "Écrire seulement"
+            ],
+            "correctIndex": 0,
+            "correction": "-rwxr-x--- se lit par blocs de 3 : rwx (propriétaire, tous les droits), r-x (groupe, lire+exécuter mais pas écrire), --- (autres, aucun droit)."
       }
 ]
   },
@@ -163,7 +176,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Affiche le chemin complet de l'exécutable utilisé quand tu tapes la commande git.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -202,9 +215,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Dans package.json, une lib est listée comme \"expo\": \"~50.0.2\". Un npm install peut-il installer la version 50.1.0 ? Et la version 51.0.0 ?",
-            "correction": "~50.0.2 n'autorise QUE les correctifs (50.0.x) : 50.1.0 est refusé (c'est une mise à jour MINEURE, pas juste un correctif). 51.0.0 est encore plus refusé (version MAJEURE). Seul un 50.0.3, 50.0.4, etc. serait accepté automatiquement."
+            "type": "quiz",
+            "instruction": "Un package.json contient \"expo\": \"~50.0.2\". Un npm install peut-il installer automatiquement la version 50.1.0 ?",
+            "options": [
+                  "Non, ~ n'autorise que les correctifs (50.0.x)",
+                  "Oui, sans aucun problème",
+                  "Seulement avec npx",
+                  "Seulement en mode développement"
+            ],
+            "correctIndex": 0,
+            "correction": "~50.0.2 n'autorise QUE les correctifs (50.0.x). 50.1.0 est une mise à jour MINEURE, refusée par ce symbole — il aurait fallu ^50.0.2 pour l'accepter automatiquement."
       }
 ]
   },
@@ -229,9 +249,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Tu supprimes par erreur le dossier node_modules/ de ton projet Expo. Est-ce grave ? Et si tu supprimes /usr par erreur sur ta machine Linux ?",
-            "correction": "node_modules/ : pas grave du tout — npm install le régénère entièrement à partir de package.json en quelques secondes.\n/usr : catastrophique — c'est là que vivent la plupart des programmes installés par apt sur tout le système. Le supprimer casse une grande partie de Linux Mint, sans regénération automatique possible."
+            "type": "quiz",
+            "instruction": "Tu supprimes par erreur le dossier node_modules/ d'un projet Expo. Que se passe-t-il ?",
+            "options": [
+                  "Rien de grave, npm install le régénère entièrement",
+                  "Le projet est perdu définitivement",
+                  "Il faut réinstaller Node.js",
+                  "Ça casse aussi les autres projets sur la machine"
+            ],
+            "correctIndex": 0,
+            "correction": "node_modules/ est entièrement régénérable à partir de package.json — contrairement à un dossier système comme /usr, dont la suppression casserait une bonne partie de Linux Mint sans regénération automatique possible."
       }
 ]
   },
@@ -263,13 +290,13 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Liste le contenu du dossier en détail, et ne garde que les lignes contenant \"guides\".",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
                                     "ls -la | grep guides"
                               ],
-                              "output": "-rw-r--r-- 1 evan evan 48213 20 août 15:02 guides.js"
+                              "output": "-rw-r--r-- 1 user user 48213 20 août 15:02 guides.js"
                         }
                   ]
             },
@@ -291,7 +318,7 @@ const GUIDES = [
       },
       {
         heading: "À quoi ça ressemble",
-        text: "{\n  \"nom\": \"Evan\",\n  \"age\": 30,\n  \"projets\": [\"KDriveMusic\", \"ActiveLog\"],\n  \"actif\": true\n}\n\nDes paires clé/valeur entre accolades { }, où une valeur peut elle-même contenir un autre objet ou une liste — c'est cette imbrication qui permet de représenter des données complexes."
+        text: "{\n  \"nom\": \"Alex\",\n  \"age\": 30,\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\"],\n  \"actif\": true\n}\n\nDes paires clé/valeur entre accolades { }, où une valeur peut elle-même contenir un autre objet ou une liste — c'est cette imbrication qui permet de représenter des données complexes."
       },
       {
         heading: "Les types de valeurs possibles",
@@ -304,9 +331,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Ce JSON est invalide, trouve l'erreur :\n{\n  \"nom\": \"Evan\",\n  \"projets\": [\"KDriveMusic\", \"ActiveLog\",]\n}",
-            "correction": "La virgule après \"ActiveLog\" (juste avant le crochet fermant ]) est en trop. En JSON strict, contrairement à JS, une virgule après le DERNIER élément d'un tableau ou d'un objet est une erreur de syntaxe qui fait planter le parsing."
+            "type": "quiz",
+            "instruction": "Où se trouve l'erreur dans ce JSON ?\n{\n  \"nom\": \"Alex\",\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\",]\n}",
+            "options": [
+                  "La virgule après le dernier élément du tableau",
+                  "Les guillemets autour de \"nom\"",
+                  "L'accolade ouvrante {",
+                  "Il n'y a pas d'erreur"
+            ],
+            "correctIndex": 0,
+            "correction": "La virgule après \"SiteVitrine\" (juste avant le crochet fermant ]) est en trop. En JSON strict, une virgule après le DERNIER élément d'un tableau ou d'un objet est une erreur de syntaxe qui fait planter le parsing — contrairement à JavaScript, plus permissif sur ce point."
       }
 ]
   },
@@ -333,15 +367,22 @@ const GUIDES = [
         text: "Une API dite \"REST\" organise ses URL autour de RESSOURCES (ex: /morceaux, /morceaux/42), et laisse la méthode HTTP dire ce qu'on veut en faire. Résultat : GET /morceaux/42 lit le morceau 42, DELETE /morceaux/42 le supprime — même URL, action différente selon le verbe."
       },
       {
-        heading: "Exemple concret : WebDAV (comme dans KDriveMusic)",
+        heading: "Exemple concret : WebDAV (partage de fichiers à distance)",
         text: "WebDAV est une EXTENSION de HTTP pensée pour gérer des fichiers à distance : PROPFIND pour lister le contenu d'un dossier, GET pour télécharger un fichier, PUT pour en envoyer un, DELETE pour en supprimer un. Comprendre HTTP en général aide directement à comprendre pourquoi WebDAV fonctionne comme il fonctionne."
       }
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Ton app fait un GET /morceaux/999 mais ce morceau n'existe pas dans la base. Quel code de statut le serveur devrait-il renvoyer ? Et si l'app envoie une requête sans être connectée ?",
-            "correction": "Ressource inexistante → 404 Not Found.\nNon authentifié → 401 Unauthorized.\nCe sont deux erreurs différentes qui appellent des réactions différentes côté app (404 : afficher \"introuvable\" ; 401 : rediriger vers l'écran de connexion)."
+            "type": "quiz",
+            "instruction": "Ton app fait un GET sur une ressource qui n'existe pas dans la base. Quel code de statut attends-tu ?",
+            "options": [
+                  "404 Not Found",
+                  "200 OK",
+                  "500 Internal Server Error",
+                  "301 Moved Permanently"
+            ],
+            "correctIndex": 0,
+            "correction": "404 signifie \"ressource introuvable\" — l'URL demandée n'existe pas. Un 500 signalerait un problème côté serveur (pas ton cas ici), un 200 signifierait au contraire que tout s'est bien passé."
       }
 ]
   },
@@ -374,9 +415,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Ce code a un bug — trouve-le :\nasync function chargerMorceaux() {\n  const reponse = fetch(\"https://api.exemple.com/morceaux\");\n  const donnees = await reponse.json();\n  return donnees;\n}",
-            "correction": "Il manque le await devant fetch(...). Sans lui, reponse contient la PROMESSE elle-même (pas encore résolue), pas la vraie réponse — donc reponse.json() plante ou renvoie n'importe quoi. Correction : const reponse = await fetch(...)."
+            "type": "quiz",
+            "instruction": "Quel est le bug dans ce code ?\nasync function chargerDonnees() {\n  const reponse = fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}",
+            "options": [
+                  "Il manque await devant fetch(...)",
+                  "La fonction n'est pas déclarée async",
+                  "Il manque un return",
+                  "reponse.json() n'existe pas"
+            ],
+            "correctIndex": 0,
+            "correction": "Sans await devant fetch(...), reponse contient la PROMESSE elle-même (pas encore résolue), pas la vraie réponse HTTP — donc reponse.json() plante ou renvoie n'importe quoi. Correction : const reponse = await fetch(...)."
       }
 ]
   },
@@ -405,9 +453,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Sans règles de sécurité Firestore bien configurées, quelqu'un connaissant juste l'URL de ton projet Firebase peut-il lire toutes tes données ?",
-            "correction": "Oui, potentiellement — sans Security Rules explicites qui vérifient l'identité (request.auth.uid), Firestore n'a AUCUN serveur intermédiaire à toi pour filtrer les requêtes. Les règles de sécurité sont le seul rempart, elles doivent toujours restreindre l'accès aux données de chaque utilisateur à lui seul."
+            "type": "quiz",
+            "instruction": "Sans règles de sécurité Firestore configurées, qui peut potentiellement lire toutes tes données ?",
+            "options": [
+                  "N'importe qui connaissant l'URL du projet",
+                  "Seulement toi",
+                  "Personne, Firebase bloque tout par défaut",
+                  "Seulement les comptes Google vérifiés"
+            ],
+            "correctIndex": 0,
+            "correction": "Firestore n'a pas de serveur intermédiaire à toi pour filtrer les requêtes — sans Security Rules qui vérifient l'identité (request.auth.uid), l'accès reste potentiellement ouvert à quiconque connaît l'URL du projet."
       }
 ]
   },
@@ -442,11 +497,11 @@ const GUIDES = [
         instruction: "Dans le terminal ci-dessous, initialise un tout nouveau dépôt Git dans le dossier courant.",
         hint: "La commande commence par git init",
         terminal: {
-          prompt: "evan@mint:~/mon-projet$",
+          prompt: "user@mint:~/mon-projet$",
           steps: [
             {
               expect: ["git init"],
-              output: "Dépôt Git vide initialisé dans /home/evan/mon-projet/.git/"
+              output: "Dépôt Git vide initialisé dans /home/user/mon-projet/.git/"
             }
           ]
         },
@@ -482,7 +537,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Commite un changement (message \"fix: corrige le titre\"), PUIS envoie-le sur le remote.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -528,7 +583,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Reproduis le workflow complet : vérifie l'état, mets tout en staging, puis commite avec le message \"feat: ajoute le tri par date\".",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -587,7 +642,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Crée une nouvelle branche nommée \"ajout-favoris\" et bascule dessus, en une seule commande.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -629,7 +684,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Tu viens de committer par erreur (pas encore pushé). Annule ce commit en gardant les changements prêts à être re-commités.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -664,9 +719,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Parmi node_modules/, App.js, .env et build/, lesquels doivent apparaître dans un .gitignore ?",
-            "correction": "node_modules/, .env et build/ doivent y être : ce sont des fichiers générés ou des secrets, pas du code source à versionner. App.js est ton code source réel — il doit rester suivi par Git, surtout PAS ignoré."
+            "type": "quiz",
+            "instruction": "Lequel de ces éléments NE DOIT PAS figurer dans .gitignore ?",
+            "options": [
+                  "App.js (ton code source)",
+                  "node_modules/",
+                  ".env",
+                  "build/"
+            ],
+            "correctIndex": 0,
+            "correction": "App.js est ton code source réel — il doit rester suivi par Git. node_modules/, .env et build/ sont respectivement du code généré et des secrets : à ignorer systématiquement."
       }
 ]
   },
@@ -695,9 +757,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Tu vois ceci dans un fichier après un git pull :\n<<<<<<< HEAD\nconst couleur = \"violet\";\n=======\nconst couleur = \"bleu\";\n>>>>>>> origin/master\nQue dois-tu faire, étape par étape ?",
-            "correction": "1. Choisis quelle ligne garder (ou combine les deux si ça a du sens) — ex: garder const couleur = \"violet\";\n2. Supprime complètement les 3 lignes de marqueurs (<<<<<<<, =======, >>>>>>>).\n3. git add le fichier concerné.\n4. git commit pour finaliser la fusion."
+            "type": "quiz",
+            "instruction": "Après avoir choisi la bonne version dans un fichier en conflit et supprimé les marqueurs <<<<<<< ======= >>>>>>>, que fais-tu ensuite ?",
+            "options": [
+                  "git add le fichier, puis git commit",
+                  "git push directement",
+                  "git reset --hard",
+                  "Rien, c'est déjà terminé"
+            ],
+            "correctIndex": 0,
+            "correction": "git add nom-du-fichier marque le conflit comme résolu aux yeux de Git, puis git commit finalise la fusion (le message est souvent déjà pré-rempli automatiquement)."
       }
 ]
   },
@@ -725,7 +794,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Affiche l'historique des commits en une ligne chacun.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -760,9 +829,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Remets ces étapes dans le bon ordre : (a) ouvrir une PR sur GitHub, (b) créer une branche et committer dessus, (c) fusionner la PR, (d) pousser la branche.",
-            "correction": "Ordre correct : (b) créer la branche et committer → (d) pousser la branche → (a) ouvrir la PR sur GitHub → (c) fusionner une fois relue/approuvée."
+            "type": "quiz",
+            "instruction": "Quelle est la toute première étape du flow d'une Pull Request ?",
+            "options": [
+                  "Créer une branche et committer dessus",
+                  "Ouvrir la PR sur GitHub",
+                  "Fusionner la PR",
+                  "Pousser la branche sur le remote"
+            ],
+            "correctIndex": 0,
+            "correction": "L'ordre complet : créer une branche + committer → pousser la branche (git push -u origin ...) → ouvrir la PR sur GitHub → la fusionner une fois relue/approuvée."
       }
 ]
   },
@@ -801,9 +877,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Associe chaque besoin à la bonne commande : (1) je veux tester en live pendant que je code, (2) je veux un fichier .apk installable, (3) je veux corriger un bug JS déjà en prod sans repasser par le store.",
-            "correction": "(1) → npx expo start (dev). (2) → eas build (build). (3) → eas update (update, OTA). Aucune de ces trois étapes ne remplace les autres — elles interviennent à des moments différents du cycle de vie de l'app."
+            "type": "quiz",
+            "instruction": "Tu veux corriger un bug JS déjà en production, SANS repasser par le store. Quelle commande utilises-tu ?",
+            "options": [
+                  "eas update",
+                  "eas build",
+                  "eas submit",
+                  "npx expo start"
+            ],
+            "correctIndex": 0,
+            "correction": "eas update pousse un changement JS/assets directement aux utilisateurs qui ont déjà l'app installée, sans nouveau passage par le store. eas build fabrique un nouveau fichier installable, eas submit l'envoie au store — deux étapes bien plus lourdes pour un simple correctif JS."
       }
 ]
   },
@@ -831,7 +914,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Ton app affiche une erreur bizarre après avoir installé une nouvelle lib. Relance le serveur de dev en vidant complètement le cache.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -866,9 +949,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Tu veux un build \"preview\" installable directement pour tes testeurs, et un build \"production\" optimisé pour le store — avec chacun sa propre URL d'API. Où configures-tu ça ?",
-            "correction": "Dans eas.json, avec deux profils distincts (ex: \"preview\" et \"production\"), chacun pouvant définir ses propres variables d'environnement (URL d'API différente) et son propre type de distribution. app.json reste l'identité générale de l'app (nom, icône, permissions), commune aux deux profils."
+            "type": "quiz",
+            "instruction": "Tu veux une URL d'API différente entre ton build \"preview\" et ton build \"production\". Où configures-tu ça ?",
+            "options": [
+                  "Dans eas.json, avec un profil par environnement",
+                  "Dans app.json uniquement",
+                  "Dans package.json",
+                  "Ce n'est pas possible avec Expo"
+            ],
+            "correctIndex": 0,
+            "correction": "eas.json permet de définir plusieurs profils (preview, production…), chacun avec ses propres variables d'environnement. app.json reste l'identité générale de l'app (nom, icône, permissions), commune à tous les profils."
       }
 ]
   },
@@ -896,7 +986,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Ton téléphone n'est pas sur le même wifi que ton PC. Démarre Metro avec un tunnel pour qu'il puisse quand même s'y connecter.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -931,9 +1021,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
+            "type": "quiz",
             "instruction": "Tu viens d'installer une librairie avec du code natif custom. Expo Go suffit-il pour la tester ?",
-            "correction": "Non — Expo Go ne contient que les librairies natives déjà incluses par défaut. Une lib native custom demande un Dev Client (rebuild nécessaire à chaque nouvelle lib native, mais pas à chaque changement de JS ensuite)."
+            "options": [
+                  "Non, il faut un Dev Client (rebuild nécessaire)",
+                  "Oui, Expo Go gère tout automatiquement",
+                  "Seulement sur Android",
+                  "Seulement si la lib est gratuite"
+            ],
+            "correctIndex": 0,
+            "correction": "Expo Go ne contient que les librairies natives déjà incluses par défaut. Une lib avec du code natif custom demande un Dev Client — à reconstruire à chaque nouvelle lib native, mais pas à chaque changement de JS ensuite."
       }
 ]
   },
@@ -967,7 +1064,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Compile un APK de debug.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1009,7 +1106,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Vérifie qu'un appareil Android est bien détecté par ton PC.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1040,9 +1137,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Tu veux tester le comportement de la caméra et les vraies performances juste avant de publier ton app. Émulateur ou vrai téléphone ?",
-            "correction": "Vrai téléphone. L'émulateur est pratique pour le développement au quotidien, mais la caméra, le GPS et les performances réelles ne sont fiables qu'avec un vrai appareil — indispensable juste avant une publication."
+            "type": "quiz",
+            "instruction": "Juste avant de publier ton app, tu veux vérifier les vraies performances et le comportement de la caméra. Tu utilises :",
+            "options": [
+                  "Un vrai téléphone",
+                  "L'émulateur",
+                  "Les deux sont strictement équivalents",
+                  "Aucun test n'est nécessaire"
+            ],
+            "correctIndex": 0,
+            "correction": "L'émulateur est parfait pour le développement au quotidien, mais la caméra, le GPS et les performances réelles ne sont fiables qu'avec un vrai appareil — indispensable en dernière vérification avant publication."
       }
 ]
   },
@@ -1067,9 +1171,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Tu perds le fichier keystore utilisé pour signer tes précédents builds release. Peux-tu quand même publier une mise à jour de ton app existante sur le Play Store ?",
-            "correction": "Non — sans le même keystore (même clé privée), Android considère que la mise à jour vient d'un développeur différent et refuse de l'installer par-dessus l'app existante. C'est pour ça que le keystore doit être précieusement sauvegardé (jamais dans Git) dès le premier build release."
+            "type": "quiz",
+            "instruction": "Tu perds ton fichier keystore utilisé pour les précédents builds release. Peux-tu quand même publier une mise à jour de ton app existante ?",
+            "options": [
+                  "Non, plus jamais sous le même identifiant",
+                  "Oui, sans aucun problème",
+                  "Oui, mais seulement via l'AAB",
+                  "Seulement en contactant Google"
+            ],
+            "correctIndex": 0,
+            "correction": "Sans le même keystore (même clé privée), Android considère que la mise à jour vient d'un développeur différent et la refuse. Le keystore doit être sauvegardé précieusement dès le premier build release — jamais dans Git."
       }
 ]
   },
@@ -1094,9 +1205,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "L'utilisateur fait pivoter son téléphone pendant qu'il remplit un formulaire dans ton app. Que risque-t-il de se passer si tu stockais le texte tapé dans une simple variable locale, et comment l'éviter ?",
-            "correction": "La rotation détruit et recrée l'Activity par défaut → la variable locale est réinitialisée, le texte tapé est perdu. Pour l'éviter : stocker cette donnée dans un ViewModel (qui survit à la recréation) ou la sauvegarder via onSaveInstanceState."
+            "type": "quiz",
+            "instruction": "Une rotation d'écran DÉTRUIT l'Activity par défaut. Comment préserver le texte qu'un utilisateur est en train de taper ?",
+            "options": [
+                  "Le stocker dans un ViewModel",
+                  "Ne rien faire, Android s'en occupe seul",
+                  "Empêcher toute rotation de l'écran",
+                  "Utiliser uniquement une variable locale"
+            ],
+            "correctIndex": 0,
+            "correction": "Une variable locale est réinitialisée à chaque recréation de l'Activity (donc à chaque rotation). Un ViewModel survit à cette recréation — c'est l'outil standard pour ce genre de donnée, avec onSaveInstanceState comme alternative pour de petites données."
       }
 ]
   },
@@ -1125,9 +1243,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Ce code plante ou freeze l'app — trouve le problème :\nfun chargerDonnees() {\n  val resultat = api.getMorceaux() // appel réseau bloquant\n  afficher(resultat)\n}",
-            "correction": "L'appel réseau bloquant est fait directement sur le thread principal (UI thread), qui gère aussi l'affichage — ça gèle l'interface, voire déclenche une erreur ANR. Correction : lancer l'appel dans une coroutine sur Dispatchers.IO (ex: via lifecycleScope.launch), puis revenir sur Dispatchers.Main seulement pour afficher le résultat."
+            "type": "quiz",
+            "instruction": "Où dois-tu lancer un appel réseau bloquant pour ne pas geler l'interface de l'app ?",
+            "options": [
+                  "Sur Dispatchers.IO, dans une coroutine",
+                  "Directement dans la fonction, sur le thread principal",
+                  "Peu importe, Kotlin gère ça tout seul",
+                  "Uniquement dans onCreate()"
+            ],
+            "correctIndex": 0,
+            "correction": "Le thread principal (UI thread) gère aussi l'affichage — un appel réseau bloquant dessus gèle l'interface, voire déclenche une erreur ANR. Dispatchers.IO est optimisé pour ce genre d'opération bloquante, dans une coroutine lancée via lifecycleScope ou viewModelScope."
       }
 ]
   },
@@ -1157,13 +1282,13 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Mets à jour la liste des paquets disponibles (sans encore rien installer).",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
                                     "sudo apt update"
                               ],
-                              "output": "[sudo] Mot de passe de evan :\nRéception de : 1 http://archive.ubuntu.com/ubuntu…\nTous les paquets sont à jour."
+                              "output": "[sudo] Mot de passe de user :\nRéception de : 1 http://archive.ubuntu.com/ubuntu…\nTous les paquets sont à jour."
                         }
                   ]
             },
@@ -1199,7 +1324,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Cherche si un paquet lié à \"htop\" existe dans les dépôts.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1241,7 +1366,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Le port 8081 semble déjà utilisé par un vieux serveur Metro. Trouve quel processus l'occupe.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1276,9 +1401,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Où trouverais-tu les logs d'un service qui vient de planter ? Et le fichier de configuration d'un logiciel installé via apt ?",
-            "correction": "Les logs → /var/log (les données qui changent souvent vivent dans /var).\nLa configuration → /etc (c'est là qu'apt range systématiquement les fichiers de config des paquets installés)."
+            "type": "quiz",
+            "instruction": "Un service vient de planter. Où cherches-tu ses logs en premier ?",
+            "options": [
+                  "/var/log",
+                  "/etc",
+                  "/usr",
+                  "/tmp"
+            ],
+            "correctIndex": 0,
+            "correction": "/var contient les données qui changent souvent, notamment les logs dans /var/log. /etc contient la CONFIGURATION (pas les logs), /usr les programmes installés, /tmp des fichiers temporaires effacés au redémarrage."
       }
 ]
   },
@@ -1303,9 +1435,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Que désigne 127.0.0.1:3000, précisément ?",
-            "correction": "127.0.0.1 (alias \"localhost\") désigne toujours TA PROPRE machine, quel que soit le réseau. :3000 précise le port — donc ça pointe vers un service qui tourne sur TON ordinateur et écoute sur le port 3000 (souvent un serveur de dev)."
+            "type": "quiz",
+            "instruction": "Que désigne l'adresse 127.0.0.1, quel que soit le réseau sur lequel tu es connecté ?",
+            "options": [
+                  "Toujours ta propre machine (localhost)",
+                  "Le routeur wifi",
+                  "Un serveur externe par défaut",
+                  "Une adresse toujours invalide"
+            ],
+            "correctIndex": 0,
+            "correction": "127.0.0.1 (alias \"localhost\") pointe toujours vers TA PROPRE machine — c'est pour ça qu'un serveur de dev lancé localement est accessible via localhost:PORT, peu importe le réseau."
       }
 ]
   },
@@ -1333,14 +1472,14 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Génère une nouvelle paire de clés SSH moderne pour te connecter à GitHub.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
                                     "ssh-keygen -t ed25519 -C \"toi@email.com\"",
                                     "ssh-keygen -t ed25519 -C 'toi@email.com'"
                               ],
-                              "output": "Generating public/private ed25519 key pair.\nYour identification has been saved in /home/evan/.ssh/id_ed25519\nYour public key has been saved in /home/evan/.ssh/id_ed25519.pub"
+                              "output": "Generating public/private ed25519 key pair.\nYour identification has been saved in /home/user/.ssh/id_ed25519\nYour public key has been saved in /home/user/.ssh/id_ed25519.pub"
                         }
                   ]
             },
@@ -1372,7 +1511,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Vérifie l'état actuel du service Docker.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1398,7 +1537,7 @@ const GUIDES = [
       },
       {
         heading: "La syntaxe (les 5 étoiles)",
-        text: "minute heure jour-du-mois mois jour-de-semaine commande\n\nExemple : 0 3 * * * /home/evan/backup.sh\n→ exécute backup.sh tous les jours à 3h00 du matin (chaque * signifie \"à chaque valeur possible\" pour cette position)."
+        text: "minute heure jour-du-mois mois jour-de-semaine commande\n\nExemple : 0 3 * * * /home/user/backup.sh\n→ exécute backup.sh tous les jours à 3h00 du matin (chaque * signifie \"à chaque valeur possible\" pour cette position)."
       },
       {
         heading: "Tester avant de programmer",
@@ -1407,9 +1546,12 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Écris la ligne cron qui exécute /home/evan/backup.sh tous les jours à 3h00 du matin.",
-            "correction": "0 3 * * * /home/evan/backup.sh\n\nminute=0, heure=3, jour-du-mois=* (tous), mois=* (tous), jour-de-semaine=* (tous les jours de la semaine) → tous les jours à 3h00 pile."
+            "type": "fillin",
+            "instruction": "Écris la ligne cron complète qui exécute /home/user/backup.sh tous les jours à 3h00 du matin.",
+            "accept": [
+                  "0 3 * * * /home/user/backup.sh"
+            ],
+            "correction": "0 3 * * * /home/user/backup.sh\n\nminute=0, heure=3, jour-du-mois=* (tous), mois=* (tous), jour-de-semaine=* (tous) → tous les jours à 3h00 pile."
       }
 ]
   },
@@ -1436,9 +1578,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Un collègue te dit \"ça marche chez moi mais pas sur le serveur\". Comment Docker aurait pu éviter ce problème ?",
-            "correction": "En empaquetant l'app ET tout son environnement (versions, dépendances, config) dans une image unique, Docker garantit que le conteneur tourne À L'IDENTIQUE sur n'importe quelle machine — plus de divergence possible entre \"chez moi\" et le serveur."
+            "type": "quiz",
+            "instruction": "Un collègue te dit \"ça marche chez moi mais pas sur le serveur\". En quoi Docker aurait pu éviter ce problème ?",
+            "options": [
+                  "En empaquetant l'app ET son environnement dans une image identique partout",
+                  "En étant simplement plus rapide que le code normal",
+                  "En remplaçant le serveur",
+                  "Docker ne change rien à ce genre de problème"
+            ],
+            "correctIndex": 0,
+            "correction": "Docker empaquette l'app avec TOUT son environnement (versions, dépendances, config) dans une image — garantissant qu'elle tourne à l'identique sur n'importe quelle machine ayant Docker, sans divergence possible entre \"chez toi\" et le serveur."
       }
 ]
   },
@@ -1466,7 +1615,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Liste les conteneurs actuellement en cours d'exécution.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1504,7 +1653,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Démarre toute la stack décrite dans docker-compose.yml, en arrière-plan.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1540,7 +1689,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Rends le script deploy.sh exécutable pour pouvoir le lancer.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1574,7 +1723,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Le port 8081 est occupé par un vieux processus (PID 48213). Libère-le.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1608,7 +1757,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Vérifie si node est réellement installé et trouvable par le shell.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1642,7 +1791,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "adb ne détecte plus ton téléphone correctement. Redémarre le serveur adb.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1676,7 +1825,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Tu viens de modifier metro.config.js et l'app se comporte bizarrement. Relance le serveur en vidant le cache.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1710,7 +1859,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Ton push est rejeté car le remote a des commits que tu n'as pas. Récupère-les proprement.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1741,9 +1890,16 @@ const GUIDES = [
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Après avoir choisi la bonne version dans un fichier en conflit et supprimé les marqueurs, quelles sont les 2 commandes qui restent à taper pour finaliser ?",
-            "correction": "git add nom-du-fichier (marque le conflit comme résolu), puis git commit (finalise la fusion — le message est souvent déjà pré-rempli par Git)."
+            "type": "quiz",
+            "instruction": "Ces symboles apparaissent dans un fichier après un git pull. De quoi s'agit-il ?",
+            "options": [
+                  "Un conflit de fusion Git à résoudre manuellement",
+                  "Une corruption du fichier",
+                  "Un virus",
+                  "Un format de fichier inconnu"
+            ],
+            "correctIndex": 0,
+            "correction": "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier et insère ces marqueurs à l'endroit exact du désaccord, pour que tu choisisses manuellement quoi garder avant de supprimer les marqueurs et de committer."
       }
 ]
   },
@@ -1767,7 +1923,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Un projet Expo a des versions de dépendances incompatibles avec le SDK. Corrige ça automatiquement.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1801,7 +1957,7 @@ const GUIDES = [
             "type": "terminal",
             "instruction": "Le service Docker n'est pas démarré. Démarre-le.",
             "terminal": {
-                  "prompt": "evan@mint:~/cmd-hub$",
+                  "prompt": "user@mint:~/cmd-hub$",
                   "steps": [
                         {
                               "expect": [
@@ -1827,14 +1983,17 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/evan/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
+        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/user/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
       }
     ],
     exercises: [
       {
-            "type": "reflect",
-            "instruction": "Ton SDK Android est installé dans /home/evan/Android/Sdk. Quelle ligne dois-tu ajouter dans android/local.properties pour corriger l'erreur ?",
-            "correction": "sdk.dir=/home/evan/Android/Sdk\n\nCe fichier n'est pas versionné dans Git (chemin propre à chaque machine) — c'est pour ça qu'il faut le recréer soi-même sur une nouvelle machine ou après une réinstallation."
+            "type": "fillin",
+            "instruction": "Ton SDK Android est installé dans /home/user/Android/Sdk. Quelle ligne dois-tu ajouter dans android/local.properties pour corriger l'erreur ?",
+            "accept": [
+                  "sdk.dir=/home/user/Android/Sdk"
+            ],
+            "correction": "sdk.dir=/home/user/Android/Sdk\n\nCe fichier n'est pas versionné dans Git (le chemin est propre à chaque machine) — il faut le recréer soi-même sur une nouvelle machine ou après une réinstallation."
       }
 ]
   }
