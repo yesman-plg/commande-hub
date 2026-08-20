@@ -374,7 +374,7 @@
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
   .guide-card summary .guide-title { margin-right: auto; }
   .guide-card summary::-webkit-details-marker { display: none; }
@@ -397,6 +397,10 @@
   .guide-dot.lvl-green { background: #3aa76d; }
   .guide-dot.lvl-yellow { background: #d6a326; }
   .guide-dot.lvl-red { background: var(--danger); }
+  /* Même échelle d'espacement (6px) que .subgroup-title, .card-title-row,
+     .fav-toggle, .mode-tabs — la pastille dans un chip de niveau suit la
+     même règle "icône + texte" que partout ailleurs dans le site. */
+  .chip .guide-dot { margin-right: 6px; }
   .guide-title {
     font-weight: 600;
     font-size: 14.5px;
@@ -739,7 +743,7 @@
     subchipsEl.innerHTML = present.map(lvl => {
       const n = relevant.filter(g => g.level === lvl).length;
       const active = lvl === activeLevel ? "active" : "";
-      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}"><span class="guide-dot ${levelClass(lvl)}"></span> ${escapeHtml(levelText(lvl))}<span class="count-badge">${n}</span></span>`;
+      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}"><span class="guide-dot ${levelClass(lvl)}"></span>${escapeHtml(levelText(lvl))}<span class="count-badge">${n}</span></span>`;
     }).join("");
     subchipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
