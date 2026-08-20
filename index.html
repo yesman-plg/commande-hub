@@ -164,6 +164,8 @@
     border-top: 1px dashed var(--border);
   }
   .chip {
+    display: inline-flex;
+    align-items: center;
     padding: 6px 13px;
     border-radius: 999px;
     background: var(--chip-bg);
@@ -637,6 +639,14 @@
     return "";
   }
 
+  // Enlève l'emoji devant le niveau ("🟢 Débutant" → "Débutant") : on affiche
+  // la couleur nous-mêmes via une pastille CSS (levelClass), pour ne pas
+  // dépendre du vert/jaune/rouge propre à la police d'emoji du système —
+  // qui ne correspond jamais exactement à nos couleurs personnalisées.
+  function levelText(level) {
+    return (level || "").replace(/^\S+\s*/, "");
+  }
+
   function dataset() {
     return mode === "formation" ? GUIDES : COMMANDS;
   }
@@ -729,7 +739,7 @@
     subchipsEl.innerHTML = present.map(lvl => {
       const n = relevant.filter(g => g.level === lvl).length;
       const active = lvl === activeLevel ? "active" : "";
-      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}">${escapeHtml(lvl)}<span class="count-badge">${n}</span></span>`;
+      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}"><span class="guide-dot ${levelClass(lvl)}"></span> ${escapeHtml(levelText(lvl))}<span class="count-badge">${n}</span></span>`;
     }).join("");
     subchipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
@@ -894,7 +904,7 @@
 
     let html = "";
     levelsPresent.forEach(lvl => {
-      html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(lvl)}</div>`;
+      html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(levelText(lvl))}</div>`;
       Object.keys(grouped[lvl]).forEach(cat => {
         html += `<div class="subgroup-title">${escapeHtml(cat)}</div>`;
         grouped[lvl][cat].forEach(item => {
