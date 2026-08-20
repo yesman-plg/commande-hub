@@ -1054,8 +1054,6 @@
   try { langChosen = localStorage.getItem(LANG_KEY) === "fr" || localStorage.getItem(LANG_KEY) === "en"; } catch (e) {}
   if (!langChosen) langGateEl.style.display = "flex";
 
-  applyLang();
-
   let mode = "commands"; // "commands" | "formation"
   let activeCategory = "Toutes";
   let activeSubcategory = "Toutes";
@@ -1877,6 +1875,7 @@
   // --- Restauration du dernier état avant le tout premier rendu ---
   restoreState();
   searchInput.value = query;
+  applyLang();
   renderModeTabs();
   renderChips();
   renderSubchips();
