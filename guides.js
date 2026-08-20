@@ -35,7 +35,7 @@ const GUIDES = [
       },
       {
         heading: "\"command not found\", que faire ?",
-        text: "Ça veut dire que le shell n'a trouvé aucun programme portant ce nom (faute de frappe, ou logiciel pas installé, ou pas dans le PATH — voir la fiche dédiée aux variables d'environnement).\n\nRéflexe : vérifie l'orthographe, puis demande-toi \"ce logiciel est-il vraiment installé ?\" avec which nom-de-la-commande ou en cherchant comment l'installer (souvent via apt)."
+        text: "Ça veut dire que le shell n'a trouvé aucun programme portant ce nom (faute de frappe, ou logiciel pas installé, ou pas dans le PATH — voir [[Bases du terminal::Variables d'environnement et PATH]]).\n\nRéflexe : vérifie l'orthographe, puis demande-toi \"ce logiciel est-il vraiment installé ?\" avec which nom-de-la-commande ou en cherchant comment l'installer (souvent via apt)."
       }
     ]
   },
@@ -147,7 +147,7 @@ const GUIDES = [
       },
       {
         heading: "Pourquoi npx expo install plutôt que npm install",
-        text: "npm install seul installe la DERNIÈRE version publiée d'un paquet, sans se soucier de compatibilité. npx expo install choisit spécifiquement la version COMPATIBLE avec le SDK Expo utilisé par ton projet — une nuance qui évite une bonne partie des plantages après installation d'une librairie (voir la fiche \"Pourquoi ça plante après avoir installé une lib\" dans Expo / React Native)."
+        text: "npm install seul installe la DERNIÈRE version publiée d'un paquet, sans se soucier de compatibilité. npx expo install choisit spécifiquement la version COMPATIBLE avec le SDK Expo utilisé par ton projet — une nuance qui évite une bonne partie des plantages après installation d'une librairie (voir [[Expo / React Native::Pourquoi ça plante après avoir installé une lib]])."
       }
     ]
   },
@@ -360,7 +360,7 @@ const GUIDES = [
       { heading: "Étape 1 — git status", text: "Toujours la première commande à taper. Elle dit ce qui a changé depuis ton dernier commit : fichiers modifiés, nouveaux fichiers non suivis, etc. Ça évite les mauvaises surprises." },
       { heading: "Étape 2 (optionnelle mais utile) — git diff", text: "Affiche précisément QUELLES LIGNES ont changé, avant de tout mettre en staging. Un bon réflexe pour repérer un console.log ou un commentaire de debug oublié avant qu'il ne parte dans l'historique." },
       { heading: "Étape 3 — git add", text: "Met tes changements \"en préparation\" (staging) avant de les enregistrer. git add . ajoute tout ; git add nom-du-fichier n'ajoute qu'un fichier précis si tu veux être sélectif." },
-      { heading: "Étape 4 — git commit", text: "git commit -m \"message clair\" enregistre officiellement ce qui est en staging, LOCALEMENT (voir la fiche \"Local vs distant\"). Le message doit expliquer le POURQUOI ou le QUOI, pas juste \"update\"." },
+      { heading: "Étape 4 — git commit", text: "git commit -m \"message clair\" enregistre officiellement ce qui est en staging, LOCALEMENT (voir [[Git::Local vs distant : ce qui se passe vraiment à chaque étape]]). Le message doit expliquer le POURQUOI ou le QUOI, pas juste \"update\"." },
       { heading: "Étape 5 — git push", text: "Envoie tes commits locaux vers le remote (GitHub par ex.), pour les partager ou les sauvegarder en ligne. Sans push, tes commits restent uniquement sur ta machine." },
       {
         heading: "Convention de message (optionnelle mais très répandue)",
@@ -998,7 +998,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire (voir la fiche \"sudo et les permissions\").\n\nVoir aussi : \"Les permissions de fichiers en détail\" (Bases du terminal)."
+        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire (voir [[Linux Mint::sudo et les permissions, sans y laisser des plumes]]).\n\nVoir aussi : [[Bases du terminal::Les permissions de fichiers en détail]]."
       }
     ]
   },
@@ -1014,7 +1014,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. kill -9 PID pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : \"Réseau pour les nuls\" (Linux Mint) et \"Processus, ports, RAM\" (Linux Mint)."
+        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. kill -9 PID pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] et [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
       }
     ]
   },
@@ -1030,7 +1030,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. which nom-de-la-commande confirme si le shell le trouve ou non.\n\nVoir aussi : \"Variables d'environnement et PATH\" (Bases du terminal)."
+        text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. which nom-de-la-commande confirme si le shell le trouve ou non.\n\nVoir aussi : [[Bases du terminal::Variables d'environnement et PATH]]."
       }
     ]
   },
@@ -1062,7 +1062,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "npx expo start -c relance le serveur en vidant complètement le cache. Si ça ne suffit pas : npx expo-doctor pour vérifier la cohérence générale du projet.\n\nVoir aussi : \"Metro, le serveur qui recharge ton app\" (Expo / React Native)."
+        text: "npx expo start -c relance le serveur en vidant complètement le cache. Si ça ne suffit pas : npx expo-doctor pour vérifier la cohérence générale du projet.\n\nVoir aussi : [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
       }
     ]
   },
@@ -1078,7 +1078,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "git pull (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir la fiche dédiée). Une fois à jour, git push repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
+        text: "git pull (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir [[Git::Les conflits de fusion (merge conflicts)]]). Une fois à jour, git push repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
       }
     ]
   },
@@ -1094,7 +1094,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Voir la fiche complète \"Les conflits de fusion (merge conflicts)\" dans Git — résumé : choisis/combine le bon contenu, supprime les marqueurs, git add le fichier, puis git commit."
+        text: "Voir la fiche complète [[Git::Les conflits de fusion (merge conflicts)]] — résumé : choisis/combine le bon contenu, supprime les marqueurs, git add le fichier, puis git commit."
       }
     ]
   },
@@ -1110,7 +1110,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Dans un projet Expo, npx expo install --fix aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : \"npm & npx, et package.json en détail\" (Bases du terminal)."
+        text: "Dans un projet Expo, npx expo install --fix aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : [[Bases du terminal::npm & npx, et package.json en détail]]."
       }
     ]
   },
@@ -1126,7 +1126,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : \"systemd et les services\" (Linux Mint)."
+        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux Mint::systemd et les services]]."
       }
     ]
   },

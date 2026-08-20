@@ -413,6 +413,18 @@
     white-space: pre-line;
   }
   .guide-section p:last-child { margin-bottom: 0; }
+  .guide-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    cursor: pointer;
+  }
+  .guide-link:hover { text-decoration-color: var(--accent); }
+  .guide-card.guide-highlight { animation: guideFlash 1.6s ease; }
+  @keyframes guideFlash {
+    0% { box-shadow: 0 0 0 3px var(--accent); }
+    100% { box-shadow: var(--shadow); }
+  }
   .level-title {
     display: flex;
     align-items: center;
@@ -836,11 +848,11 @@
         const sections = (item.content || []).map(s => `
           <div class="guide-section">
             <h4>${escapeHtml(s.heading)}</h4>
-            <p>${escapeHtml(s.text)}</p>
+            <p>${renderGuideParagraph(s.text)}</p>
           </div>`).join("");
         const fav = isFavorite(item);
         html += `
-          <details class="guide-card">
+          <details class="guide-card" id="${guideDomId(item)}">
             <summary>
               <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
               <span class="guide-title">${escapeHtml(item.title)}</span>
@@ -892,6 +904,65 @@
     }[s]));
   }
   function escapeAttr(str) { return escapeHtml(str); }
+
+  // --- Liens internes entre fiches Formation : [[Catégorie::Titre]] ------
+  function renderGuideParagraph(text) {
+    const re = /\[\[([^:\]]+)::([^\]]+)\]\]/g;
+    let out = "";
+    let last = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      out += escapeHtml(text.slice(last, m.index));
+      const cat = m[1], title = m[2];
+      out += `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(title)}</a>`;
+      last = re.lastIndex;
+    }
+    out += escapeHtml(text.slice(last));
+    return out;
+  }
+
+  function hashStr(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0;
+    return (h >>> 0).toString(36);
+  }
+  function guideDomId(item) {
+    return "guide-" + hashStr(`${item.category}|${item.title}`);
+  }
+
+  function navigateToGuide(cat, title) {
+    const target = GUIDES.find(g => g.category === cat && g.title === title);
+    if (!target) return;
+
+    mode = "formation";
+    activeCategory = cat;
+    activeSubcategory = "Toutes";
+    activeLevel = "Toutes";
+    showFavoritesOnly = false;
+    query = "";
+    searchInput.value = "";
+    saveState();
+    renderModeTabs();
+    renderChips();
+    renderSubchips();
+    renderResults();
+
+    requestAnimationFrame(() => {
+      const el = document.getElementById(guideDomId(target));
+      if (!el) return;
+      el.open = true;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("guide-highlight");
+      setTimeout(() => el.classList.remove("guide-highlight"), 1600);
+    });
+  }
+
+  resultsEl.addEventListener("click", (e) => {
+    const link = e.target.closest(".guide-link");
+    if (!link) return;
+    e.preventDefault();
+    navigateToGuide(link.dataset.cat, link.dataset.title);
+  });
 
   searchInput.addEventListener("input", (e) => {
     query = e.target.value;
