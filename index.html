@@ -800,6 +800,7 @@
 <script src="commands.js"></script>
 <script src="commands.en.js"></script>
 <script src="guides.js"></script>
+<script src="guides.en.js"></script>
 <script>
   const searchInput = document.getElementById("search");
   const chipsEl = document.getElementById("chips");
@@ -988,6 +989,24 @@
       }
     }
     return { title: item.title, desc: item.desc, tags: item.tags };
+  }
+
+  function guideTranslation(cat, title) {
+    return lang === "en" ? GUIDE_TRANSLATIONS_EN[`${cat}|${title}`] : null;
+  }
+
+  function localizedGuide(item) {
+    const tr = guideTranslation(item.category, item.title);
+    if (tr) {
+      return {
+        title: tr.title || item.title,
+        summary: tr.summary || item.summary,
+        content: tr.content || item.content,
+        exercises: tr.exercises || item.exercises,
+        translated: true
+      };
+    }
+    return { title: item.title, summary: item.summary, content: item.content, exercises: item.exercises, translated: false };
   }
 
   // --- Thème (auto / clair / sombre) ------------------------------------
@@ -1273,8 +1292,10 @@
 
   function matchesGuide(item, q) {
     if (!q) return true;
+    const loc = localizedGuide(item);
     const contentText = (item.content || []).map(s => `${s.heading} ${s.text}`).join(" ");
-    const haystack = [item.title, item.summary, item.category, item.level, contentText]
+    const locContentText = (loc.content || []).map(s => `${s.heading} ${s.text}`).join(" ");
+    const haystack = [item.title, loc.title, item.summary, loc.summary, item.category, item.level, contentText, locContentText]
       .join(" ")
       .toLowerCase();
     return q.toLowerCase().split(/\s+/).every(part => haystack.includes(part));
@@ -1319,20 +1340,21 @@
 
   function renderGuideDetail() {
     const item = openGuide;
+    const loc = localizedGuide(item);
     const fav = isFavoriteFor("formation", item);
-    const hasExercises = item.exercises && item.exercises.length > 0;
+    const hasExercises = loc.exercises && loc.exercises.length > 0;
     const onTheory = guideStep === "theory" || !hasExercises;
 
     let html = `<div class="guide-detail">`;
     html += `<button class="back-btn" data-action="back-to-list">${t("backToList")}</button>`;
-    if (lang === "en") html += `<div class="translation-notice">${t("formationNotice")}</div>`;
+    if (lang === "en" && !loc.translated) html += `<div class="translation-notice">${t("formationNotice")}</div>`;
     html += `
       <div class="detail-head">
         <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
-        <h2 class="detail-title">${escapeHtml(item.title)}</h2>
+        <h2 class="detail-title">${escapeHtml(loc.title)}</h2>
         <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
       </div>
-      <p class="detail-summary">${escapeHtml(item.summary)}</p>`;
+      <p class="detail-summary">${escapeHtml(loc.summary)}</p>`;
 
     if (hasExercises) {
       html += `
@@ -1343,7 +1365,7 @@
     }
 
     if (onTheory) {
-      html += (item.content || []).map(s => `
+      html += (loc.content || []).map(s => `
         <div class="guide-section">
           <h4>${escapeHtml(s.heading)}</h4>
           <p>${renderGuideParagraph(s.text)}</p>
@@ -1355,7 +1377,7 @@
       TERMINAL_REGISTRY = {};
       QUIZ_REGISTRY = {};
       FILLIN_REGISTRY = {};
-      html += exercisesHtml(item.exercises, guideDomId(item));
+      html += exercisesHtml(loc.exercises, guideDomId(item));
       html += `<button class="next-step-btn secondary" data-action="back-to-theory">${t("backToTheory")}</button>`;
     }
 
@@ -1593,15 +1615,16 @@
   function guideCardHtml(item) {
     const fav = isFavoriteFor("formation", item);
     const hasExercises = item.exercises && item.exercises.length > 0;
+    const loc = localizedGuide(item);
     return `
       <div class="guide-card guide-card-row" data-cat="${escapeAttr(item.category)}" data-title="${escapeAttr(item.title)}">
         <div class="guide-row-top">
           <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
-          <span class="guide-title">${escapeHtml(item.title)}</span>
+          <span class="guide-title">${escapeHtml(loc.title)}</span>
           ${hasExercises ? `<span class="exercise-flag" title="${escapeAttr(t("hasExercisesTitle"))}">🧪</span>` : ""}
           <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
         </div>
-        <p class="guide-row-summary">${escapeHtml(item.summary)}</p>
+        <p class="guide-row-summary">${escapeHtml(loc.summary)}</p>
       </div>`;
   }
 
@@ -1674,7 +1697,6 @@
     });
 
     let html = "";
-    if (lang === "en") html += `<div class="translation-notice">${t("formationNotice")}</div>`;
     levelsPresent.forEach(lvl => {
       html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(translateLevelText(levelText(lvl)))}</div>`;
       Object.keys(grouped[lvl]).forEach(cat => {
@@ -1750,7 +1772,12 @@
     while ((m = re.exec(text)) !== null) {
       out += escapeHtml(text.slice(last, m.index));
       const cat = m[1], title = m[2];
-      out += `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(title)}</a>`;
+      // data-cat/data-title restent le titre FRANÇAIS canonique (identité de
+      // la fiche, sert à la navigation) ; seul le texte affiché du lien est
+      // traduit s'il existe une version anglaise de la fiche ciblée.
+      const targetTr = guideTranslation(cat, title);
+      const label = targetTr && targetTr.title ? targetTr.title : title;
+      out += `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(label)}</a>`;
       last = re.lastIndex;
     }
     out += escapeHtml(text.slice(last));
