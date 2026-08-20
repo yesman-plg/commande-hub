@@ -18,7 +18,7 @@
     --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 10px rgba(0,0,0,.03);
   }
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-theme="light"]) {
       --bg: #17171b;
       --bg-elevated: #201f26;
       --border: #302f38;
@@ -34,6 +34,23 @@
       --danger: #ff8080;
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
     }
+  }
+  /* Bascule manuelle : force le thème quel que soit le système */
+  :root[data-theme="dark"] {
+    --bg: #17171b;
+    --bg-elevated: #201f26;
+    --border: #302f38;
+    --text: #eceaf5;
+    --text-dim: #94919f;
+    --accent: #8f7dff;
+    --accent-text: #17171b;
+    --code-bg: #262233;
+    --code-text: #b9adff;
+    --chip-bg: #2a2932;
+    --chip-active-bg: #8f7dff;
+    --chip-active-text: #17171b;
+    --danger: #ff8080;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
   }
   * { box-sizing: border-box; }
   body {
@@ -57,9 +74,35 @@
   }
   header p {
     color: var(--text-dim);
-    margin: 0 0 22px;
+    margin: 0 0 4px;
     font-size: 14px;
   }
+  .stats-line {
+    color: var(--text-dim);
+    font-size: 12.5px;
+    margin: 0 0 22px;
+  }
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .theme-toggle {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
   .search-bar {
     position: sticky;
     top: 0;
@@ -386,11 +429,15 @@
   <header>
     <h1>🧰 Command Hub</h1>
     <p>Toutes tes commandes Expo, Kotlin/Android, Linux Mint &amp; Git au même endroit. Tape pour chercher, clique pour copier.</p>
+    <p class="stats-line" id="statsLine"></p>
   </header>
 
-  <div class="mode-tabs" id="modeTabs">
-    <button class="mode-tab active" data-mode="commands">🧰 Commandes</button>
-    <button class="mode-tab" data-mode="formation">📘 Formation</button>
+  <div class="top-row">
+    <div class="mode-tabs" id="modeTabs">
+      <button class="mode-tab active" data-mode="commands">🧰 Commandes</button>
+      <button class="mode-tab" data-mode="formation">📘 Formation</button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
   </div>
 
   <div class="search-bar">
@@ -415,10 +462,40 @@
   const modeTabsEl = document.getElementById("modeTabs");
   const favToggleEl = document.getElementById("favToggle");
   const favToggleLabelEl = document.getElementById("favToggleLabel");
+  const statsLineEl = document.getElementById("statsLine");
+  const themeToggleEl = document.getElementById("themeToggle");
 
   const LEVEL_ORDER = ["🟢 Débutant", "🟡 Intermédiaire", "🔴 Avancé"];
   const STATE_KEY = "cmdhub_state_v1";
   const FAV_KEY = "cmdhub_favorites_v1";
+  const THEME_KEY = "cmdhub_theme_v1";
+
+  // --- Thème (auto / clair / sombre) ------------------------------------
+  const THEME_CYCLE = ["auto", "light", "dark"];
+  const THEME_LABEL = { auto: "🖥️ Auto", light: "☀️ Clair", dark: "🌙 Sombre" };
+  let theme = "auto";
+  try {
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    if (THEME_CYCLE.includes(savedTheme)) theme = savedTheme;
+  } catch (e) {}
+
+  function applyTheme() {
+    if (theme === "auto") {
+      delete document.documentElement.dataset.theme;
+    } else {
+      document.documentElement.dataset.theme = theme;
+    }
+    themeToggleEl.textContent = THEME_LABEL[theme];
+  }
+
+  themeToggleEl.addEventListener("click", () => {
+    theme = THEME_CYCLE[(THEME_CYCLE.indexOf(theme) + 1) % THEME_CYCLE.length];
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    applyTheme();
+  });
+
+  applyTheme();
+  statsLineEl.textContent = `${COMMANDS.length} commandes · ${GUIDES.length} fiches de formation`;
 
   let mode = "commands"; // "commands" | "formation"
   let activeCategory = "Toutes";

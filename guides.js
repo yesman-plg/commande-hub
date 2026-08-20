@@ -983,5 +983,167 @@ const GUIDES = [
         text: "docker compose up -d démarre toute la stack décrite dans le fichier, en arrière-plan.\ndocker compose down l'arrête ET supprime les conteneurs — mais conserve les volumes nommés (donc les données), sauf si tu ajoutes explicitement l'option -v."
       }
     ]
+  },
+
+  // --- FAQ : erreurs fréquentes ---------------------------------------
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"Permission denied\"",
+    level: "🟢 Débutant",
+    summary: "Le message d'erreur le plus courant sous Linux — presque toujours une question de droits, pas un bug.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Soit tu essaies d'exécuter un fichier qui n'a pas le droit x (souvent un script ./nom.sh), soit tu essaies de modifier/lire un fichier appartenant à un autre utilisateur (souvent root)."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire (voir la fiche \"sudo et les permissions\").\n\nVoir aussi : \"Les permissions de fichiers en détail\" (Bases du terminal)."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"Port already in use\" / \"Address already in use\"",
+    level: "🟢 Débutant",
+    summary: "Un autre programme occupe déjà le port que ton serveur (Metro, Docker…) essaie d'utiliser.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Deux programmes ne peuvent pas écouter sur le même port en même temps sur la même machine. Souvent : un ancien npx expo start ou docker run n'a pas été vraiment arrêté (processus zombie, terminal fermé sans Ctrl+C propre)."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. kill -9 PID pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : \"Réseau pour les nuls\" (Linux Mint) et \"Processus, ports, RAM\" (Linux Mint)."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"command not found\"",
+    level: "🟢 Débutant",
+    summary: "Le shell ne trouve aucun programme portant ce nom.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Trois causes possibles : une faute de frappe, un logiciel qui n'est simplement pas installé, ou un logiciel installé mais dont le dossier n'est pas dans ton PATH."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. which nom-de-la-commande confirme si le shell le trouve ou non.\n\nVoir aussi : \"Variables d'environnement et PATH\" (Bases du terminal)."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "adb : \"device not found\" / \"unauthorized\"",
+    level: "🟢 Débutant",
+    summary: "Ton PC ne voit pas ton téléphone/émulateur Android, ou le voit sans y avoir accès.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "\"device not found\" : le débogage USB n'est pas activé sur le téléphone, ou le câble/port USB ne transmet pas les données (certains câbles ne sont que pour charger).\n\n\"unauthorized\" : le téléphone a détecté la connexion mais attend que tu acceptes la popup d'autorisation affichée sur SON écran."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. Active le débogage USB (Paramètres → Options développeur).\n2. Débranche/rebranche le câble.\n3. Regarde l'ÉCRAN DU TÉLÉPHONE pour une popup à accepter.\n4. adb devices pour vérifier que le statut passe à \"device\".\n5. En dernier recours : adb kill-server && adb start-server."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Expo : comportement bizarre après un changement de config",
+    level: "🟢 Débutant",
+    summary: "L'app ne reflète pas tes derniers changements, ou une erreur incompréhensible apparaît après avoir touché babel.config.js/metro.config.js.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Metro garde en cache une version déjà compilée de ton code pour aller plus vite. Après un changement de configuration, ce cache peut contenir une version périmée qui ne correspond plus à ta config actuelle."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "npx expo start -c relance le serveur en vidant complètement le cache. Si ça ne suffit pas : npx expo-doctor pour vérifier la cohérence générale du projet.\n\nVoir aussi : \"Metro, le serveur qui recharge ton app\" (Expo / React Native)."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "git push : \"rejected\" / \"non-fast-forward\"",
+    level: "🟡 Intermédiaire",
+    summary: "Git refuse ton push car le remote a des commits que tu n'as pas encore en local.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Quelqu'un (ou toi, depuis une autre machine) a pushé des commits sur cette branche après ton dernier pull. Git refuse par sécurité d'écraser ces commits que tu ne connais pas encore."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "git pull (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir la fiche dédiée). Une fois à jour, git push repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Des symboles <<<<<<< ======= >>>>>>> apparaissent dans un fichier",
+    level: "🟡 Intermédiaire",
+    summary: "Ce n'est pas une corruption de fichier — c'est un conflit de fusion Git en cours de résolution.",
+    content: [
+      {
+        heading: "Ce qu'il se passe",
+        text: "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier, et a inséré des marqueurs à l'endroit exact du désaccord pour que tu choisisses manuellement quoi garder."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Voir la fiche complète \"Les conflits de fusion (merge conflicts)\" dans Git — résumé : choisis/combine le bon contenu, supprime les marqueurs, git add le fichier, puis git commit."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "npm : conflit de versions / peer dependency",
+    level: "🟡 Intermédiaire",
+    summary: "npm install refuse d'installer, ou affiche un avertissement de dépendances incompatibles entre elles.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Une librairie que tu installes s'attend à une version précise d'une autre librairie (souvent React ou Expo) déjà présente dans ton projet, mais ce n'est pas celle installée."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Dans un projet Expo, npx expo install --fix aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : \"npm & npx, et package.json en détail\" (Bases du terminal)."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Docker : \"Cannot connect to the Docker daemon\"",
+    level: "🟢 Débutant",
+    summary: "Docker refuse toutes tes commandes avec ce message.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Le service Docker (le \"daemon\", qui tourne en arrière-plan) n'est tout simplement pas démarré sur ta machine."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : \"systemd et les services\" (Linux Mint)."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Gradle : \"SDK location not found\"",
+    level: "🟡 Intermédiaire",
+    summary: "Le build Android échoue immédiatement, avant même de compiler quoi que ce soit.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Gradle ne trouve pas où est installé l'Android SDK sur ta machine — souvent après une réinstallation d'Android Studio, un déplacement de dossier, ou sur une machine neuve où la variable n'a jamais été configurée."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/evan/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
+      }
+    ]
   }
 ];
