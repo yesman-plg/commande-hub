@@ -998,7 +998,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire (voir [[Linux Mint::sudo et les permissions, sans y laisser des plumes]]).\n\nVoir aussi : [[Bases du terminal::Les permissions de fichiers en détail]]."
+        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux Mint::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
       }
     ]
   },
