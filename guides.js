@@ -130,11 +130,11 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Un fichier a les permissions -rwxr-x---. Que peut faire le GROUPE dessus ?",
             "options": [
-                  "Lire et exécuter, mais pas modifier",
-                  "Lire, écrire et exécuter",
-                  "Aucun droit",
-                  "Écrire seulement"
-            ],
+            "Lire et exécuter, mais pas modifier",
+            "Lire, écrire et exécuter",
+            "Aucun droit",
+            "Écrire seulement"
+      ],
             "correctIndex": 0,
             "correction": "-rwxr-x--- se lit par blocs de 3 : rwx (propriétaire, tous les droits), r-x (groupe, lire+exécuter mais pas écrire), --- (autres, aucun droit)."
       }
@@ -218,12 +218,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Un package.json contient \"expo\": \"~50.0.2\". Un npm install peut-il installer automatiquement la version 50.1.0 ?",
             "options": [
-                  "Non, ~ n'autorise que les correctifs (50.0.x)",
-                  "Oui, sans aucun problème",
-                  "Seulement avec npx",
-                  "Seulement en mode développement"
-            ],
-            "correctIndex": 0,
+            "Oui, sans aucun problème",
+            "Non, ~ n'autorise que les correctifs (50.0.x)",
+            "Seulement avec npx",
+            "Seulement en mode développement"
+      ],
+            "correctIndex": 1,
             "correction": "~50.0.2 n'autorise QUE les correctifs (50.0.x). 50.1.0 est une mise à jour MINEURE, refusée par ce symbole — il aurait fallu ^50.0.2 pour l'accepter automatiquement."
       }
 ]
@@ -252,12 +252,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Tu supprimes par erreur le dossier node_modules/ d'un projet Expo. Que se passe-t-il ?",
             "options": [
-                  "Rien de grave, npm install le régénère entièrement",
-                  "Le projet est perdu définitivement",
-                  "Il faut réinstaller Node.js",
-                  "Ça casse aussi les autres projets sur la machine"
-            ],
-            "correctIndex": 0,
+            "Le projet est perdu définitivement",
+            "Il faut réinstaller Node.js",
+            "Rien de grave, npm install le régénère entièrement",
+            "Ça casse aussi les autres projets sur la machine"
+      ],
+            "correctIndex": 2,
             "correction": "node_modules/ est entièrement régénérable à partir de package.json — contrairement à un dossier système comme /usr, dont la suppression casserait une bonne partie de Linux Mint sans regénération automatique possible."
       }
 ]
@@ -334,12 +334,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Où se trouve l'erreur dans ce JSON ?\n{\n  \"nom\": \"Alex\",\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\",]\n}",
             "options": [
-                  "La virgule après le dernier élément du tableau",
-                  "Les guillemets autour de \"nom\"",
-                  "L'accolade ouvrante {",
-                  "Il n'y a pas d'erreur"
-            ],
-            "correctIndex": 0,
+            "Les guillemets autour de \"nom\"",
+            "L'accolade ouvrante {",
+            "Il n'y a pas d'erreur",
+            "La virgule après le dernier élément du tableau"
+      ],
+            "correctIndex": 3,
             "correction": "La virgule après \"SiteVitrine\" (juste avant le crochet fermant ]) est en trop. En JSON strict, une virgule après le DERNIER élément d'un tableau ou d'un objet est une erreur de syntaxe qui fait planter le parsing — contrairement à JavaScript, plus permissif sur ce point."
       }
 ]
@@ -376,11 +376,11 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Ton app fait un GET sur une ressource qui n'existe pas dans la base. Quel code de statut attends-tu ?",
             "options": [
-                  "404 Not Found",
-                  "200 OK",
-                  "500 Internal Server Error",
-                  "301 Moved Permanently"
-            ],
+            "404 Not Found",
+            "200 OK",
+            "500 Internal Server Error",
+            "301 Moved Permanently"
+      ],
             "correctIndex": 0,
             "correction": "404 signifie \"ressource introuvable\" — l'URL demandée n'existe pas. Un 500 signalerait un problème côté serveur (pas ton cas ici), un 200 signifierait au contraire que tout s'est bien passé."
       }
@@ -418,12 +418,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Quel est le bug dans ce code ?\nasync function chargerDonnees() {\n  const reponse = fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}",
             "options": [
-                  "Il manque await devant fetch(...)",
-                  "La fonction n'est pas déclarée async",
-                  "Il manque un return",
-                  "reponse.json() n'existe pas"
-            ],
-            "correctIndex": 0,
+            "La fonction n'est pas déclarée async",
+            "Il manque await devant fetch(...)",
+            "Il manque un return",
+            "reponse.json() n'existe pas"
+      ],
+            "correctIndex": 1,
             "correction": "Sans await devant fetch(...), reponse contient la PROMESSE elle-même (pas encore résolue), pas la vraie réponse HTTP — donc reponse.json() plante ou renvoie n'importe quoi. Correction : const reponse = await fetch(...)."
       }
 ]
@@ -456,12 +456,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Sans règles de sécurité Firestore configurées, qui peut potentiellement lire toutes tes données ?",
             "options": [
-                  "N'importe qui connaissant l'URL du projet",
-                  "Seulement toi",
-                  "Personne, Firebase bloque tout par défaut",
-                  "Seulement les comptes Google vérifiés"
-            ],
-            "correctIndex": 0,
+            "Seulement toi",
+            "Personne, Firebase bloque tout par défaut",
+            "N'importe qui connaissant l'URL du projet",
+            "Seulement les comptes Google vérifiés"
+      ],
+            "correctIndex": 2,
             "correction": "Firestore n'a pas de serveur intermédiaire à toi pour filtrer les requêtes — sans Security Rules qui vérifient l'identité (request.auth.uid), l'accès reste potentiellement ouvert à quiconque connaît l'URL du projet."
       }
 ]
@@ -722,12 +722,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Lequel de ces éléments NE DOIT PAS figurer dans .gitignore ?",
             "options": [
-                  "App.js (ton code source)",
-                  "node_modules/",
-                  ".env",
-                  "build/"
-            ],
-            "correctIndex": 0,
+            "node_modules/",
+            ".env",
+            "build/",
+            "App.js (ton code source)"
+      ],
+            "correctIndex": 3,
             "correction": "App.js est ton code source réel — il doit rester suivi par Git. node_modules/, .env et build/ sont respectivement du code généré et des secrets : à ignorer systématiquement."
       }
 ]
@@ -760,11 +760,11 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Après avoir choisi la bonne version dans un fichier en conflit et supprimé les marqueurs <<<<<<< ======= >>>>>>>, que fais-tu ensuite ?",
             "options": [
-                  "git add le fichier, puis git commit",
-                  "git push directement",
-                  "git reset --hard",
-                  "Rien, c'est déjà terminé"
-            ],
+            "git add le fichier, puis git commit",
+            "git push directement",
+            "git reset --hard",
+            "Rien, c'est déjà terminé"
+      ],
             "correctIndex": 0,
             "correction": "git add nom-du-fichier marque le conflit comme résolu aux yeux de Git, puis git commit finalise la fusion (le message est souvent déjà pré-rempli automatiquement)."
       }
@@ -832,12 +832,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Quelle est la toute première étape du flow d'une Pull Request ?",
             "options": [
-                  "Créer une branche et committer dessus",
-                  "Ouvrir la PR sur GitHub",
-                  "Fusionner la PR",
-                  "Pousser la branche sur le remote"
-            ],
-            "correctIndex": 0,
+            "Ouvrir la PR sur GitHub",
+            "Créer une branche et committer dessus",
+            "Fusionner la PR",
+            "Pousser la branche sur le remote"
+      ],
+            "correctIndex": 1,
             "correction": "L'ordre complet : créer une branche + committer → pousser la branche (git push -u origin ...) → ouvrir la PR sur GitHub → la fusionner une fois relue/approuvée."
       }
 ]
@@ -880,12 +880,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Tu veux corriger un bug JS déjà en production, SANS repasser par le store. Quelle commande utilises-tu ?",
             "options": [
-                  "eas update",
-                  "eas build",
-                  "eas submit",
-                  "npx expo start"
-            ],
-            "correctIndex": 0,
+            "eas build",
+            "eas submit",
+            "eas update",
+            "npx expo start"
+      ],
+            "correctIndex": 2,
             "correction": "eas update pousse un changement JS/assets directement aux utilisateurs qui ont déjà l'app installée, sans nouveau passage par le store. eas build fabrique un nouveau fichier installable, eas submit l'envoie au store — deux étapes bien plus lourdes pour un simple correctif JS."
       }
 ]
@@ -952,12 +952,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Tu veux une URL d'API différente entre ton build \"preview\" et ton build \"production\". Où configures-tu ça ?",
             "options": [
-                  "Dans eas.json, avec un profil par environnement",
-                  "Dans app.json uniquement",
-                  "Dans package.json",
-                  "Ce n'est pas possible avec Expo"
-            ],
-            "correctIndex": 0,
+            "Dans app.json uniquement",
+            "Dans package.json",
+            "Ce n'est pas possible avec Expo",
+            "Dans eas.json, avec un profil par environnement"
+      ],
+            "correctIndex": 3,
             "correction": "eas.json permet de définir plusieurs profils (preview, production…), chacun avec ses propres variables d'environnement. app.json reste l'identité générale de l'app (nom, icône, permissions), commune à tous les profils."
       }
 ]
@@ -1024,11 +1024,11 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Tu viens d'installer une librairie avec du code natif custom. Expo Go suffit-il pour la tester ?",
             "options": [
-                  "Non, il faut un Dev Client (rebuild nécessaire)",
-                  "Oui, Expo Go gère tout automatiquement",
-                  "Seulement sur Android",
-                  "Seulement si la lib est gratuite"
-            ],
+            "Non, il faut un Dev Client (rebuild nécessaire)",
+            "Oui, Expo Go gère tout automatiquement",
+            "Seulement sur Android",
+            "Seulement si la lib est gratuite"
+      ],
             "correctIndex": 0,
             "correction": "Expo Go ne contient que les librairies natives déjà incluses par défaut. Une lib avec du code natif custom demande un Dev Client — à reconstruire à chaque nouvelle lib native, mais pas à chaque changement de JS ensuite."
       }
@@ -1140,12 +1140,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Juste avant de publier ton app, tu veux vérifier les vraies performances et le comportement de la caméra. Tu utilises :",
             "options": [
-                  "Un vrai téléphone",
-                  "L'émulateur",
-                  "Les deux sont strictement équivalents",
-                  "Aucun test n'est nécessaire"
-            ],
-            "correctIndex": 0,
+            "L'émulateur",
+            "Un vrai téléphone",
+            "Les deux sont strictement équivalents",
+            "Aucun test n'est nécessaire"
+      ],
+            "correctIndex": 1,
             "correction": "L'émulateur est parfait pour le développement au quotidien, mais la caméra, le GPS et les performances réelles ne sont fiables qu'avec un vrai appareil — indispensable en dernière vérification avant publication."
       }
 ]
@@ -1174,12 +1174,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Tu perds ton fichier keystore utilisé pour les précédents builds release. Peux-tu quand même publier une mise à jour de ton app existante ?",
             "options": [
-                  "Non, plus jamais sous le même identifiant",
-                  "Oui, sans aucun problème",
-                  "Oui, mais seulement via l'AAB",
-                  "Seulement en contactant Google"
-            ],
-            "correctIndex": 0,
+            "Oui, sans aucun problème",
+            "Oui, mais seulement via l'AAB",
+            "Non, plus jamais sous le même identifiant",
+            "Seulement en contactant Google"
+      ],
+            "correctIndex": 2,
             "correction": "Sans le même keystore (même clé privée), Android considère que la mise à jour vient d'un développeur différent et la refuse. Le keystore doit être sauvegardé précieusement dès le premier build release — jamais dans Git."
       }
 ]
@@ -1208,12 +1208,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Une rotation d'écran DÉTRUIT l'Activity par défaut. Comment préserver le texte qu'un utilisateur est en train de taper ?",
             "options": [
-                  "Le stocker dans un ViewModel",
-                  "Ne rien faire, Android s'en occupe seul",
-                  "Empêcher toute rotation de l'écran",
-                  "Utiliser uniquement une variable locale"
-            ],
-            "correctIndex": 0,
+            "Ne rien faire, Android s'en occupe seul",
+            "Empêcher toute rotation de l'écran",
+            "Utiliser uniquement une variable locale",
+            "Le stocker dans un ViewModel"
+      ],
+            "correctIndex": 3,
             "correction": "Une variable locale est réinitialisée à chaque recréation de l'Activity (donc à chaque rotation). Un ViewModel survit à cette recréation — c'est l'outil standard pour ce genre de donnée, avec onSaveInstanceState comme alternative pour de petites données."
       }
 ]
@@ -1246,11 +1246,11 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Où dois-tu lancer un appel réseau bloquant pour ne pas geler l'interface de l'app ?",
             "options": [
-                  "Sur Dispatchers.IO, dans une coroutine",
-                  "Directement dans la fonction, sur le thread principal",
-                  "Peu importe, Kotlin gère ça tout seul",
-                  "Uniquement dans onCreate()"
-            ],
+            "Sur Dispatchers.IO, dans une coroutine",
+            "Directement dans la fonction, sur le thread principal",
+            "Peu importe, Kotlin gère ça tout seul",
+            "Uniquement dans onCreate()"
+      ],
             "correctIndex": 0,
             "correction": "Le thread principal (UI thread) gère aussi l'affichage — un appel réseau bloquant dessus gèle l'interface, voire déclenche une erreur ANR. Dispatchers.IO est optimisé pour ce genre d'opération bloquante, dans une coroutine lancée via lifecycleScope ou viewModelScope."
       }
@@ -1404,12 +1404,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Un service vient de planter. Où cherches-tu ses logs en premier ?",
             "options": [
-                  "/var/log",
-                  "/etc",
-                  "/usr",
-                  "/tmp"
-            ],
-            "correctIndex": 0,
+            "/etc",
+            "/var/log",
+            "/usr",
+            "/tmp"
+      ],
+            "correctIndex": 1,
             "correction": "/var contient les données qui changent souvent, notamment les logs dans /var/log. /etc contient la CONFIGURATION (pas les logs), /usr les programmes installés, /tmp des fichiers temporaires effacés au redémarrage."
       }
 ]
@@ -1438,12 +1438,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Que désigne l'adresse 127.0.0.1, quel que soit le réseau sur lequel tu es connecté ?",
             "options": [
-                  "Toujours ta propre machine (localhost)",
-                  "Le routeur wifi",
-                  "Un serveur externe par défaut",
-                  "Une adresse toujours invalide"
-            ],
-            "correctIndex": 0,
+            "Le routeur wifi",
+            "Un serveur externe par défaut",
+            "Toujours ta propre machine (localhost)",
+            "Une adresse toujours invalide"
+      ],
+            "correctIndex": 2,
             "correction": "127.0.0.1 (alias \"localhost\") pointe toujours vers TA PROPRE machine — c'est pour ça qu'un serveur de dev lancé localement est accessible via localhost:PORT, peu importe le réseau."
       }
 ]
@@ -1581,12 +1581,12 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Un collègue te dit \"ça marche chez moi mais pas sur le serveur\". En quoi Docker aurait pu éviter ce problème ?",
             "options": [
-                  "En empaquetant l'app ET son environnement dans une image identique partout",
-                  "En étant simplement plus rapide que le code normal",
-                  "En remplaçant le serveur",
-                  "Docker ne change rien à ce genre de problème"
-            ],
-            "correctIndex": 0,
+            "En étant simplement plus rapide que le code normal",
+            "En remplaçant le serveur",
+            "Docker ne change rien à ce genre de problème",
+            "En empaquetant l'app ET son environnement dans une image identique partout"
+      ],
+            "correctIndex": 3,
             "correction": "Docker empaquette l'app avec TOUT son environnement (versions, dépendances, config) dans une image — garantissant qu'elle tourne à l'identique sur n'importe quelle machine ayant Docker, sans divergence possible entre \"chez toi\" et le serveur."
       }
 ]
@@ -1893,11 +1893,11 @@ const GUIDES = [
             "type": "quiz",
             "instruction": "Ces symboles apparaissent dans un fichier après un git pull. De quoi s'agit-il ?",
             "options": [
-                  "Un conflit de fusion Git à résoudre manuellement",
-                  "Une corruption du fichier",
-                  "Un virus",
-                  "Un format de fichier inconnu"
-            ],
+            "Un conflit de fusion Git à résoudre manuellement",
+            "Une corruption du fichier",
+            "Un virus",
+            "Un format de fichier inconnu"
+      ],
             "correctIndex": 0,
             "correction": "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier et insère ces marqueurs à l'endroit exact du désaccord, pour que tu choisisses manuellement quoi garder avant de supprimer les marqueurs et de committer."
       }
