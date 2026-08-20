@@ -2012,7 +2012,14 @@ const GUIDES = [
         heading: "\"command not found\", que faire ?",
         text: "Ça veut dire que le shell n'a trouvé aucun programme portant ce nom (faute de frappe, ou logiciel pas installé, ou pas dans le PATH — voir [[Bases du terminal::Variables d'environnement et PATH]]).\n\nRéflexe : vérifie l'orthographe, puis demande-toi \"ce logiciel est-il vraiment installé ?\" avec which nom-de-la-commande ou en cherchant comment l'installer (souvent via apt)."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Décompose la commande suivante partie par partie : rm -rf <nom-du-dossier>. Que fait chaque morceau, et que dois-tu remplacer avant de la taper ?",
+            "correction": "rm = supprimer.\n-r = récursif (aussi le contenu à l'intérieur du dossier).\n-f = force (ne demande pas confirmation, n'affiche pas d'erreur si le fichier n'existe pas).\n<nom-du-dossier> est un chevron : à remplacer par le VRAI nom du dossier, les chevrons ne se tapent jamais.\n\n⚠️ C'est une des commandes les plus dangereuses du terminal : combinée à -rf, une suppression est instantanée et définitive, sans corbeille."
+      }
+]
   },
   {
     category: "Bases du terminal",
@@ -2040,7 +2047,25 @@ const GUIDES = [
         heading: "L'autocomplétion (Tab)",
         text: "Tape les premières lettres d'un nom de fichier/dossier puis appuie sur Tab : le terminal le complète automatiquement. Si plusieurs fichiers commencent pareil, appuie deux fois sur Tab pour voir la liste des possibilités.\n\nRéflexe à prendre tout de suite : ça évite les fautes de frappe et fait gagner énormément de temps."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Affiche dans quel dossier tu te trouves actuellement.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "pwd"
+                              ],
+                              "output": "/home/evan/cmd-hub"
+                        }
+                  ]
+            },
+            "correction": "pwd (Print Working Directory) affiche toujours le chemin ABSOLU du dossier courant — le point de départ avant de te déplacer avec cd."
+      }
+]
   },
   {
     category: "Bases du terminal",
@@ -2068,7 +2093,14 @@ const GUIDES = [
         heading: "Erreur fréquente",
         text: "./script.sh: Permission denied → le fichier n'a pas le droit x. Corrige avec chmod +x script.sh (ajoute juste le droit d'exécution, sans toucher au reste)."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Un fichier a les permissions -rwxr-x---. Le propriétaire peut-il l'exécuter ? Le groupe peut-il le modifier ? Les autres peuvent-ils le lire ?",
+            "correction": "Propriétaire (rwx) : peut lire, écrire ET exécuter → oui, il peut l'exécuter.\nGroupe (r-x) : peut lire et exécuter, mais pas écrire → non, il ne peut pas le modifier.\nAutres (---) : aucun droit → non, ils ne peuvent même pas le lire."
+      }
+]
   },
   {
     category: "Bases du terminal",
@@ -2100,7 +2132,25 @@ const GUIDES = [
         heading: "Piège spécifique à Expo/React Native : EXPO_PUBLIC_",
         text: "Dans un projet Expo, seules les variables préfixées par EXPO_PUBLIC_ (ex: EXPO_PUBLIC_API_URL) sont intégrées dans le bundle JS envoyé sur le téléphone — les autres variables du .env restent invisibles côté app, utilisables seulement pendant le build.\n\n\"Public\" ici veut dire littéralement EMBARQUÉE DANS L'APP, donc potentiellement lisible par n'importe qui qui décompile le fichier installé. Ne mets JAMAIS un vrai secret (mot de passe, clé privée, token d'accès complet) derrière un EXPO_PUBLIC_ — uniquement des informations qui peuvent sans risque être publiques, comme une URL d'API ou une clé Firebase déjà conçue pour être publique."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Affiche le chemin complet de l'exécutable utilisé quand tu tapes la commande git.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "which git"
+                              ],
+                              "output": "/usr/bin/git"
+                        }
+                  ]
+            },
+            "correction": "which te montre EXACTEMENT quel fichier le shell va exécuter en cherchant dans le PATH, dans l'ordre des dossiers qui le composent. Précieux quand plusieurs versions d'un même programme traînent sur la machine."
+      }
+]
   },
   {
     category: "Bases du terminal",
@@ -2124,7 +2174,14 @@ const GUIDES = [
         heading: "Pourquoi npx expo install plutôt que npm install",
         text: "npm install seul installe la DERNIÈRE version publiée d'un paquet, sans se soucier de compatibilité. npx expo install choisit spécifiquement la version COMPATIBLE avec le SDK Expo utilisé par ton projet — une nuance qui évite une bonne partie des plantages après installation d'une librairie (voir [[Expo / React Native::Pourquoi ça plante après avoir installé une lib]])."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Dans package.json, une lib est listée comme \"expo\": \"~50.0.2\". Un npm install peut-il installer la version 50.1.0 ? Et la version 51.0.0 ?",
+            "correction": "~50.0.2 n'autorise QUE les correctifs (50.0.x) : 50.1.0 est refusé (c'est une mise à jour MINEURE, pas juste un correctif). 51.0.0 est encore plus refusé (version MAJEURE). Seul un 50.0.3, 50.0.4, etc. serait accepté automatiquement."
+      }
+]
   },
   {
     category: "Bases du terminal",
@@ -2144,7 +2201,14 @@ const GUIDES = [
         heading: "package.json / build.gradle : la liste de courses",
         text: "Ces fichiers listent les dépendances voulues et leurs versions (ex: \"expo\": \"~50.0.0\"). Un fichier \"lock\" associé (package-lock.json, ou son équivalent Gradle) fige les versions EXACTES réellement utilisées, pour que le projet installe rigoureusement la même chose chez toi, chez un collègue, ou sur un serveur de build."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Tu supprimes par erreur le dossier node_modules/ de ton projet Expo. Est-ce grave ? Et si tu supprimes /usr par erreur sur ta machine Linux ?",
+            "correction": "node_modules/ : pas grave du tout — npm install le régénère entièrement à partir de package.json en quelques secondes.\n/usr : catastrophique — c'est là que vivent la plupart des programmes installés par apt sur tout le système. Le supprimer casse une grande partie de Linux Mint, sans regénération automatique possible."
+      }
+]
   },
   {
     category: "Bases du terminal",
@@ -2168,7 +2232,25 @@ const GUIDES = [
         heading: "; : exécuter l'une après l'autre, sans condition",
         text: "commande1 ; commande2 exécute les deux à la suite, peu importe si la première a réussi ou échoué. À utiliser seulement quand la deuxième commande n'a pas besoin que la première ait fonctionné."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Liste le contenu du dossier en détail, et ne garde que les lignes contenant \"guides\".",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "ls -la | grep guides"
+                              ],
+                              "output": "-rw-r--r-- 1 evan evan 48213 20 août 15:02 guides.js"
+                        }
+                  ]
+            },
+            "correction": "ls -la | grep guides envoie (pipe |) toute la sortie de ls -la vers grep, qui ne laisse passer que les lignes contenant le mot \"guides\" — un filtre appliqué après coup, sans que ls ait besoin de savoir filtrer lui-même."
+      }
+]
   },
 
   // --- Programmation ---------------------------------------
@@ -2194,7 +2276,14 @@ const GUIDES = [
         heading: "Pourquoi c'est partout",
         text: "JSON étant indépendant de tout langage, un serveur écrit en Kotlin peut envoyer une réponse JSON qu'une app Expo/JavaScript comprend nativement avec JSON.parse(), et inversement avec JSON.stringify(). C'est ce langage commun qui permet à des technologies complètement différentes de se parler."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Ce JSON est invalide, trouve l'erreur :\n{\n  \"nom\": \"Evan\",\n  \"projets\": [\"KDriveMusic\", \"ActiveLog\",]\n}",
+            "correction": "La virgule après \"ActiveLog\" (juste avant le crochet fermant ]) est en trop. En JSON strict, contrairement à JS, une virgule après le DERNIER élément d'un tableau ou d'un objet est une erreur de syntaxe qui fait planter le parsing."
+      }
+]
   },
   {
     category: "Programmation",
@@ -2222,7 +2311,14 @@ const GUIDES = [
         heading: "Exemple concret : WebDAV (comme dans KDriveMusic)",
         text: "WebDAV est une EXTENSION de HTTP pensée pour gérer des fichiers à distance : PROPFIND pour lister le contenu d'un dossier, GET pour télécharger un fichier, PUT pour en envoyer un, DELETE pour en supprimer un. Comprendre HTTP en général aide directement à comprendre pourquoi WebDAV fonctionne comme il fonctionne."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Ton app fait un GET /morceaux/999 mais ce morceau n'existe pas dans la base. Quel code de statut le serveur devrait-il renvoyer ? Et si l'app envoie une requête sans être connectée ?",
+            "correction": "Ressource inexistante → 404 Not Found.\nNon authentifié → 401 Unauthorized.\nCe sont deux erreurs différentes qui appellent des réactions différentes côté app (404 : afficher \"introuvable\" ; 401 : rediriger vers l'écran de connexion)."
+      }
+]
   },
   {
     category: "Programmation",
@@ -2250,7 +2346,14 @@ const GUIDES = [
         heading: "Piège fréquent : oublier le await",
         text: "Appeler une fonction async SANS await ne donne pas le résultat final, mais la Promise elle-même (non résolue) — une erreur très courante qui se traduit par un objet bizarre affiché au lieu de la vraie donnée attendue."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Ce code a un bug — trouve-le :\nasync function chargerMorceaux() {\n  const reponse = fetch(\"https://api.exemple.com/morceaux\");\n  const donnees = await reponse.json();\n  return donnees;\n}",
+            "correction": "Il manque le await devant fetch(...). Sans lui, reponse contient la PROMESSE elle-même (pas encore résolue), pas la vraie réponse — donc reponse.json() plante ou renvoie n'importe quoi. Correction : const reponse = await fetch(...)."
+      }
+]
   },
   {
     category: "Programmation",
@@ -2274,7 +2377,14 @@ const GUIDES = [
         heading: "Règles de sécurité (Security Rules)",
         text: "Par défaut, sans règles bien configurées, N'IMPORTE QUI connaissant l'adresse de ta base peut potentiellement lire ou écrire dedans — Firebase n'a pas de \"serveur\" à toi qui filtre les requêtes, les règles de sécurité SONT le seul rempart. Elles se définissent dans un fichier séparé (ex: allow read, write: if request.auth.uid == userId;) et sont vérifiées côté Firebase à chaque requête, jamais côté app (où elles seraient contournables)."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Sans règles de sécurité Firestore bien configurées, quelqu'un connaissant juste l'URL de ton projet Firebase peut-il lire toutes tes données ?",
+            "correction": "Oui, potentiellement — sans Security Rules explicites qui vérifient l'identité (request.auth.uid), Firestore n'a AUCUN serveur intermédiaire à toi pour filtrer les requêtes. Les règles de sécurité sont le seul rempart, elles doivent toujours restreindre l'accès aux données de chaque utilisateur à lui seul."
+      }
+]
   },
 
   // --- Git ---------------------------------------
@@ -2341,7 +2451,32 @@ const GUIDES = [
         heading: "Ce que ça implique concrètement",
         text: "• Si ton PC crashe avant un push, tu perds les commits non pushés — ils n'ont jamais existé ailleurs que sur ce disque.\n• Si Internet est coupé, tu peux quand même committer (aucune étape ne touche le réseau) mais pas push/pull.\n• C'est pour ça qu'un commit régulier + un push en fin de session est une bonne habitude : le commit te protège des erreurs de manipulation, le push te protège de la perte de la machine."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Commite un changement (message \"fix: corrige le titre\"), PUIS envoie-le sur le remote.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "git commit -m \"fix: corrige le titre\"",
+                                    "git commit -m \"fix: corrige le titre\""
+                              ],
+                              "output": "[master a3f9c2e] fix: corrige le titre\n 1 file changed, 1 insertion(+)"
+                        },
+                        {
+                              "expect": [
+                                    "git push"
+                              ],
+                              "output": "Énumération des objets : 4, fait.\nVers github.com:toi/projet.git\n   9de4781..a3f9c2e  master -> master"
+                        }
+                  ]
+            },
+            "correction": "Remarque : après le commit, RIEN n'a encore été envoyé — c'est uniquement le push qui copie le commit vers le remote. Si tu avais coupé le PC juste après le commit, ce changement serait resté strictement local."
+      }
+]
   },
   {
     category: "Git",
@@ -2362,7 +2497,38 @@ const GUIDES = [
         heading: "Exemple concret de bout en bout",
         text: "Tu viens de corriger un bug d'affichage :\n\ngit status   →  tu vois app/Login.kt modifié\ngit diff     →  tu vérifies que ce sont bien les bonnes lignes\ngit add .\ngit commit -m \"fix: corrige l'alignement du bouton login\"\ngit push"
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Reproduis le workflow complet : vérifie l'état, mets tout en staging, puis commite avec le message \"feat: ajoute le tri par date\".",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "git status"
+                              ],
+                              "output": "Sur la branche master\nModifications qui seront validées :\n  modifié : app/Liste.kt"
+                        },
+                        {
+                              "expect": [
+                                    "git add ."
+                              ],
+                              "output": ""
+                        },
+                        {
+                              "expect": [
+                                    "git commit -m \"feat: ajoute le tri par date\"",
+                                    "git commit -m \"feat: ajoute le tri par date\""
+                              ],
+                              "output": "[master 7c1e4aa] feat: ajoute le tri par date\n 1 file changed, 12 insertions(+)"
+                        }
+                  ]
+            },
+            "correction": "status → add → commit, dans cet ordre, à chaque fois : c'est le cycle que tu vas répéter des centaines de fois. status en premier n'est jamais une perte de temps, il évite d'ajouter par erreur un fichier que tu ne voulais pas committer."
+      }
+]
   },
   {
     category: "Git",
@@ -2390,7 +2556,25 @@ const GUIDES = [
         heading: "Quand créer une branche",
         text: "Dès que tu commences quelque chose qui prend plus de quelques minutes, ou qui pourrait casser ce qui marche : une nouvelle fonctionnalité, un gros refactor, un test risqué."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Crée une nouvelle branche nommée \"ajout-favoris\" et bascule dessus, en une seule commande.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "git checkout -b ajout-favoris"
+                              ],
+                              "output": "Basculement sur la nouvelle branche 'ajout-favoris'"
+                        }
+                  ]
+            },
+            "correction": "git checkout -b fait deux choses d'un coup : créer la branche ET basculer dessus. Ton travail sur cette branche n'affecte pas main tant que tu ne fais pas de merge."
+      }
+]
   },
   {
     category: "Git",
@@ -2414,7 +2598,25 @@ const GUIDES = [
         heading: "Je veux juste mettre mon travail de côté temporairement",
         text: "git stash range tes changements en cours sans les commiter, et te remet un dossier propre (utile pour changer de branche vite fait sans avoir à committer du travail inachevé). git stash pop les fait revenir plus tard."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Tu viens de committer par erreur (pas encore pushé). Annule ce commit en gardant les changements prêts à être re-commités.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "git reset --soft HEAD~1"
+                              ],
+                              "output": "(le dernier commit est annulé, les changements sont de retour en staging)"
+                        }
+                  ]
+            },
+            "correction": "git reset --soft HEAD~1 est l'option SÛRE : elle défait uniquement le commit, sans toucher aux fichiers ni à leur contenu. --hard aurait aussi supprimé les changements eux-mêmes — à réserver aux cas où tu es certain de vouloir tout perdre."
+      }
+]
   },
   {
     category: "Git",
@@ -2434,7 +2636,14 @@ const GUIDES = [
         heading: "Piège fréquent",
         text: "Si un fichier était déjà commité AVANT d'être ajouté au .gitignore, Git continue de le suivre — l'ajouter au .gitignore seul ne suffit pas. Il faut d'abord le retirer explicitement du suivi avec git rm --cached nom-du-fichier, puis commit ce retrait."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Parmi node_modules/, App.js, .env et build/, lesquels doivent apparaître dans un .gitignore ?",
+            "correction": "node_modules/, .env et build/ doivent y être : ce sont des fichiers générés ou des secrets, pas du code source à versionner. App.js est ton code source réel — il doit rester suivi par Git, surtout PAS ignoré."
+      }
+]
   },
   {
     category: "Git",
@@ -2458,7 +2667,14 @@ const GUIDES = [
         heading: "Comment en avoir moins",
         text: "Fais des git pull ou merge fréquents plutôt que de laisser ta branche diverger pendant des semaines. Et si vous travaillez à plusieurs sur le même fichier, communiquez — les conflits sont normaux en équipe, pas un signe d'échec."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Tu vois ceci dans un fichier après un git pull :\n<<<<<<< HEAD\nconst couleur = \"violet\";\n=======\nconst couleur = \"bleu\";\n>>>>>>> origin/master\nQue dois-tu faire, étape par étape ?",
+            "correction": "1. Choisis quelle ligne garder (ou combine les deux si ça a du sens) — ex: garder const couleur = \"violet\";\n2. Supprime complètement les 3 lignes de marqueurs (<<<<<<<, =======, >>>>>>>).\n3. git add le fichier concerné.\n4. git commit pour finaliser la fusion."
+      }
+]
   },
   {
     category: "Git",
@@ -2478,7 +2694,25 @@ const GUIDES = [
         heading: "HEAD, HEAD~1, HEAD~2…",
         text: "HEAD désigne le commit sur lequel tu te trouves actuellement. HEAD~1 désigne le commit juste AVANT lui, HEAD~2 celui d'encore avant, etc. C'est cette notation qu'on utilise dans git reset --soft HEAD~1 : \"reviens à l'état d'avant le dernier commit\"."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Affiche l'historique des commits en une ligne chacun.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "git log --oneline"
+                              ],
+                              "output": "a3f9c2e fix: corrige le titre\n7c1e4aa feat: ajoute le tri par date\n9de4781 Sauvegarde initiale"
+                        }
+                  ]
+            },
+            "correction": "Chaque ligne = un SHA court (identifiant unique du commit) + son message. Le commit tout en haut (a3f9c2e) est le plus récent — c'est celui que désigne HEAD."
+      }
+]
   },
   {
     category: "Git",
@@ -2498,7 +2732,14 @@ const GUIDES = [
         heading: "Pourquoi c'est utile même en travaillant seul",
         text: "Ouvrir une PR force à relire son propre diff avec du recul avant de fusionner dans main, et garde une trace claire et cherchable de POURQUOI chaque changement a été fait — précieux quand tu reviens sur un vieux projet des mois plus tard."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Remets ces étapes dans le bon ordre : (a) ouvrir une PR sur GitHub, (b) créer une branche et committer dessus, (c) fusionner la PR, (d) pousser la branche.",
+            "correction": "Ordre correct : (b) créer la branche et committer → (d) pousser la branche → (a) ouvrir la PR sur GitHub → (c) fusionner une fois relue/approuvée."
+      }
+]
   },
 
   // --- Expo / React Native ---------------------------------------
@@ -2532,7 +2773,14 @@ const GUIDES = [
         heading: "Résumé en une phrase",
         text: "Je code → expo start. Je veux un fichier à installer → eas build. Je veux le publier → eas submit. Je veux corriger un bug vite sans repasser par le store → eas update."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Associe chaque besoin à la bonne commande : (1) je veux tester en live pendant que je code, (2) je veux un fichier .apk installable, (3) je veux corriger un bug JS déjà en prod sans repasser par le store.",
+            "correction": "(1) → npx expo start (dev). (2) → eas build (build). (3) → eas update (update, OTA). Aucune de ces trois étapes ne remplace les autres — elles interviennent à des moments différents du cycle de vie de l'app."
+      }
+]
   },
   {
     category: "Expo / React Native",
@@ -2552,7 +2800,25 @@ const GUIDES = [
         heading: "La checklist de dépannage",
         text: "1. As-tu utilisé npx expo install (pas npm install) ? Il choisit la version compatible avec ton SDK.\n2. Relance avec le cache vidé : npx expo start -c\n3. Si la lib a du code natif et que tu es en dev client / bare workflow : npx expo prebuild --clean puis un nouveau build.\n4. En cas de doute sur la config générale : npx expo-doctor te dit ce qui cloche."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Ton app affiche une erreur bizarre après avoir installé une nouvelle lib. Relance le serveur de dev en vidant complètement le cache.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo start -c"
+                              ],
+                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
+                        }
+                  ]
+            },
+            "correction": "npx expo start -c force Metro à tout recompiler depuis zéro, en ignorant l'ancien bundle mis en cache — le premier réflexe avant de creuser plus loin."
+      }
+]
   },
   {
     category: "Expo / React Native",
@@ -2572,7 +2838,14 @@ const GUIDES = [
         heading: "Pourquoi plusieurs profils",
         text: "Tu veux souvent un build \"preview\" installable directement sans passer par un store (pour toi ou tes testeurs), et un build \"production\" optimisé destiné au store — parfois avec des URLs d'API différentes entre les deux (serveur de test vs serveur réel)."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Tu veux un build \"preview\" installable directement pour tes testeurs, et un build \"production\" optimisé pour le store — avec chacun sa propre URL d'API. Où configures-tu ça ?",
+            "correction": "Dans eas.json, avec deux profils distincts (ex: \"preview\" et \"production\"), chacun pouvant définir ses propres variables d'environnement (URL d'API différente) et son propre type de distribution. app.json reste l'identité générale de l'app (nom, icône, permissions), commune aux deux profils."
+      }
+]
   },
   {
     category: "Expo / React Native",
@@ -2592,7 +2865,25 @@ const GUIDES = [
         heading: "Le QR code, comment ça marche",
         text: "Il encode l'adresse (IP + port) du serveur Metro sur ton réseau local. Le téléphone le scanne, s'y connecte, et télécharge le bundle JS. C'est pour ça qu'il faut être sur le MÊME réseau wifi que ton PC — sinon, utilise npx expo start --tunnel."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Ton téléphone n'est pas sur le même wifi que ton PC. Démarre Metro avec un tunnel pour qu'il puisse quand même s'y connecter.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo start --tunnel"
+                              ],
+                              "output": "Tunnel ngrok établi.\nScanne le QR code pour te connecter depuis n'importe quel réseau."
+                        }
+                  ]
+            },
+            "correction": "--tunnel fait transiter la connexion par un service externe (ngrok), plutôt que par le réseau local — plus lent, mais fonctionne même si le téléphone et le PC ne sont pas sur le même wifi."
+      }
+]
   },
   {
     category: "Expo / React Native",
@@ -2612,7 +2903,14 @@ const GUIDES = [
         heading: "Build standalone",
         text: "Le fichier final (.apk/.aab/.ipa), totalement autonome, sans aucun lien avec un serveur de développement. C'est ce que les utilisateurs finaux installent depuis le store — ou que tu installes toi-même via adb install pour un test final proche du réel."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Tu viens d'installer une librairie avec du code natif custom. Expo Go suffit-il pour la tester ?",
+            "correction": "Non — Expo Go ne contient que les librairies natives déjà incluses par défaut. Une lib native custom demande un Dev Client (rebuild nécessaire à chaque nouvelle lib native, mais pas à chaque changement de JS ensuite)."
+      }
+]
   },
 
   // --- Kotlin / Android ---------------------------------------
@@ -2638,7 +2936,25 @@ const GUIDES = [
         heading: "Les variantes de build (flavors)",
         text: "Au-delà de debug/release, un projet peut définir des \"flavors\" (ex: free/paid, staging/prod), combinés avec debug/release pour donner des tâches comme assembleFreeDebug ou assembleProdRelease. Consulte le fichier build.gradle du module pour voir ceux définis sur ton projet — ./gradlew tasks les liste aussi."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Compile un APK de debug.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "./gradlew assembleDebug"
+                              ],
+                              "output": "BUILD SUCCESSFUL in 24s\n34 actionable tasks: 34 executed"
+                        }
+                  ]
+            },
+            "correction": "assembleDebug fabrique le fichier .apk debug dans build/outputs/apk/debug/, sans l'installer. Pour build ET installer directement sur l'appareil connecté, il aurait fallu installDebug à la place."
+      }
+]
   },
   {
     category: "Kotlin / Android",
@@ -2662,7 +2978,25 @@ const GUIDES = [
         heading: "Pourquoi \"device not found\" ou \"unauthorized\"",
         text: "Vérifie que le débogage USB est activé sur le téléphone (Options développeur), et accepte la popup d'autorisation qui apparaît sur l'écran du téléphone la première fois que tu le connectes."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Vérifie qu'un appareil Android est bien détecté par ton PC.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "adb devices"
+                              ],
+                              "output": "List of devices attached\nR58N30XXXXX\tdevice"
+                        }
+                  ]
+            },
+            "correction": "adb devices est toujours le premier réflexe avant toute autre commande adb — si l'appareil n'apparaît pas ici (ou apparaît en \"unauthorized\"), rien d'autre ne fonctionnera."
+      }
+]
   },
   {
     category: "Kotlin / Android",
@@ -2678,7 +3012,14 @@ const GUIDES = [
         heading: "Le vrai téléphone",
         text: "Indispensable avant de publier une app : les performances réelles, la caméra, le GPS, les notifications se comportent différemment sur un vrai appareil. Connecte-le en USB avec le débogage activé, vérifie avec adb devices."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Tu veux tester le comportement de la caméra et les vraies performances juste avant de publier ton app. Émulateur ou vrai téléphone ?",
+            "correction": "Vrai téléphone. L'émulateur est pratique pour le développement au quotidien, mais la caméra, le GPS et les performances réelles ne sont fiables qu'avec un vrai appareil — indispensable juste avant une publication."
+      }
+]
   },
   {
     category: "Kotlin / Android",
@@ -2698,7 +3039,14 @@ const GUIDES = [
         heading: "Le keystore, la carte d'identité de ton app",
         text: "Un build release doit être signé avec un keystore (un fichier .jks/.keystore contenant une clé privée). Cette signature prouve que les mises à jour proviennent bien du même développeur — Android refuse d'installer une mise à jour signée avec une clé différente.\n\n⚠️ Si tu perds ce fichier ou son mot de passe, tu ne pourras plus JAMAIS mettre à jour ton app sur le Play Store sous le même identifiant. Sauvegarde-le précieusement, et ne le commite JAMAIS dans Git."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Tu perds le fichier keystore utilisé pour signer tes précédents builds release. Peux-tu quand même publier une mise à jour de ton app existante sur le Play Store ?",
+            "correction": "Non — sans le même keystore (même clé privée), Android considère que la mise à jour vient d'un développeur différent et refuse de l'installer par-dessus l'app existante. C'est pour ça que le keystore doit être précieusement sauvegardé (jamais dans Git) dès le premier build release."
+      }
+]
   },
   {
     category: "Kotlin / Android",
@@ -2718,7 +3066,14 @@ const GUIDES = [
         heading: "Le piège classique",
         text: "Une simple rotation d'écran DÉTRUIT et RECRÉE l'Activity par défaut. Si une donnée était stockée dans une simple variable locale, elle est perdue au moment de la recréation. C'est pour ça qu'on utilise un ViewModel (qui survit aux rotations) ou onSaveInstanceState pour préserver l'état à travers ces recréations."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "L'utilisateur fait pivoter son téléphone pendant qu'il remplit un formulaire dans ton app. Que risque-t-il de se passer si tu stockais le texte tapé dans une simple variable locale, et comment l'éviter ?",
+            "correction": "La rotation détruit et recrée l'Activity par défaut → la variable locale est réinitialisée, le texte tapé est perdu. Pour l'éviter : stocker cette donnée dans un ViewModel (qui survit à la recréation) ou la sauvegarder via onSaveInstanceState."
+      }
+]
   },
   {
     category: "Kotlin / Android",
@@ -2742,7 +3097,14 @@ const GUIDES = [
         heading: "Dispatchers : choisir où ça s'exécute",
         text: "Dispatchers.Main → sur le thread principal (pour toucher à l'UI).\nDispatchers.IO → optimisé pour les opérations bloquantes (réseau, fichiers, base de données).\nDispatchers.Default → optimisé pour du calcul intensif en CPU.\n\nwithContext(Dispatchers.IO) { ... } permet de basculer temporairement une portion de code sur le bon thread avant de revenir automatiquement là où on était."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Ce code plante ou freeze l'app — trouve le problème :\nfun chargerDonnees() {\n  val resultat = api.getMorceaux() // appel réseau bloquant\n  afficher(resultat)\n}",
+            "correction": "L'appel réseau bloquant est fait directement sur le thread principal (UI thread), qui gère aussi l'affichage — ça gèle l'interface, voire déclenche une erreur ANR. Correction : lancer l'appel dans une coroutine sur Dispatchers.IO (ex: via lifecycleScope.launch), puis revenir sur Dispatchers.Main seulement pour afficher le résultat."
+      }
+]
   },
 
   // --- Linux Mint ---------------------------------------
@@ -2764,7 +3126,25 @@ const GUIDES = [
         heading: "chmod et chown, brièvement",
         text: "chmod change qui a le droit de lire/écrire/exécuter un fichier. chown change à qui appartient le fichier. Tu en auras besoin par exemple pour rendre un script exécutable (chmod +x) ou récupérer un fichier appartenant à root. Le détail complet des rwx/octal est dans la fiche \"Les permissions de fichiers en détail\" (Bases du terminal)."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Mets à jour la liste des paquets disponibles (sans encore rien installer).",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo apt update"
+                              ],
+                              "output": "[sudo] Mot de passe de evan :\nRéception de : 1 http://archive.ubuntu.com/ubuntu…\nTous les paquets sont à jour."
+                        }
+                  ]
+            },
+            "correction": "sudo apt update nécessite les droits administrateur car il touche à la configuration système partagée — d'où le mot de passe demandé. Il ne fait que rafraîchir la LISTE des paquets, rien n'est encore installé."
+      }
+]
   },
   {
     category: "Linux Mint",
@@ -2788,7 +3168,25 @@ const GUIDES = [
         heading: "D'où viennent les paquets : les dépôts (sources.list)",
         text: "apt cherche dans une liste de dépôts configurés (/etc/apt/sources.list et /etc/apt/sources.list.d/). La commande add-apt-repository ppa:... ajoute une source tierce à cette liste — ce qui revient à faire confiance à quelqu'un d'autre pour exécuter du code avec tes droits. À faire seulement pour des sources reconnues."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Cherche si un paquet lié à \"htop\" existe dans les dépôts.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "apt search htop"
+                              ],
+                              "output": "htop/stable 3.2.2-1 amd64\n  interactive processes viewer"
+                        }
+                  ]
+            },
+            "correction": "apt search interroge la liste locale des paquets disponibles (mise à jour par le dernier apt update) — pas besoin de sudo puisque ça ne fait que consulter, sans rien modifier sur le système."
+      }
+]
   },
   {
     category: "Linux Mint",
@@ -2812,7 +3210,25 @@ const GUIDES = [
         heading: "Le %CPU qui dépasse 100, ce n'est pas un bug",
         text: "Sur une machine multi-coeurs, un processus peut utiliser plusieurs coeurs simultanément à 100% chacun — top/htop additionnent ces pourcentages. Donc 350% sur une machine à 4 coeurs veut dire environ 87% de la puissance TOTALE de la machine utilisée par ce seul processus."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Le port 8081 semble déjà utilisé par un vieux serveur Metro. Trouve quel processus l'occupe.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo ss -tulpn | grep :8081"
+                              ],
+                              "output": "tcp   LISTEN  0  511  0.0.0.0:8081  0.0.0.0:*  users:((\"node\",pid=48213,fd=22))"
+                        }
+                  ]
+            },
+            "correction": "Le PID 48213 (processus node) occupe le port 8081. L'étape suivante serait kill -9 48213 pour le libérer, avant de relancer ton propre serveur."
+      }
+]
   },
   {
     category: "Linux Mint",
@@ -2832,7 +3248,14 @@ const GUIDES = [
         heading: "Où sont mes logiciels installés",
         text: "Contrairement à Windows où tout un logiciel tient dans un seul dossier (Program Files), sous Linux les fichiers d'un logiciel sont répartis PAR TYPE dans ces dossiers standards : le binaire exécutable dans /usr/bin, sa config dans /etc, ses données partagées dans /usr/share… C'est apt qui range tout au bon endroit automatiquement à l'installation."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Où trouverais-tu les logs d'un service qui vient de planter ? Et le fichier de configuration d'un logiciel installé via apt ?",
+            "correction": "Les logs → /var/log (les données qui changent souvent vivent dans /var).\nLa configuration → /etc (c'est là qu'apt range systématiquement les fichiers de config des paquets installés)."
+      }
+]
   },
   {
     category: "Linux Mint",
@@ -2852,7 +3275,14 @@ const GUIDES = [
         heading: "Le DNS, l'annuaire qui traduit les noms",
         text: "Tu tapes google.com dans ton navigateur, mais le réseau ne comprend que des adresses IP. Le DNS traduit google.com en une IP (ex: 142.250.x.x) avant de s'y connecter réellement — exactement comme chercher un numéro dans un annuaire à partir d'un nom."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Que désigne 127.0.0.1:3000, précisément ?",
+            "correction": "127.0.0.1 (alias \"localhost\") désigne toujours TA PROPRE machine, quel que soit le réseau. :3000 précise le port — donc ça pointe vers un service qui tourne sur TON ordinateur et écoute sur le port 3000 (souvent un serveur de dev)."
+      }
+]
   },
   {
     category: "Linux Mint",
@@ -2872,7 +3302,26 @@ const GUIDES = [
         heading: "ssh-keygen, concrètement",
         text: "Génère deux fichiers, par défaut dans ~/.ssh/ : id_ed25519 (la clé PRIVÉE) et id_ed25519.pub (la clé PUBLIQUE).\n\nLe fichier .pub est celui que tu colles dans les paramètres GitHub ou d'un serveur distant. Le fichier SANS .pub ne doit JAMAIS être partagé, ni commité dans un dépôt Git."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Génère une nouvelle paire de clés SSH moderne pour te connecter à GitHub.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "ssh-keygen -t ed25519 -C \"toi@email.com\"",
+                                    "ssh-keygen -t ed25519 -C 'toi@email.com'"
+                              ],
+                              "output": "Generating public/private ed25519 key pair.\nYour identification has been saved in /home/evan/.ssh/id_ed25519\nYour public key has been saved in /home/evan/.ssh/id_ed25519.pub"
+                        }
+                  ]
+            },
+            "correction": "Deux fichiers sont créés : id_ed25519 (clé PRIVÉE, ne jamais partager) et id_ed25519.pub (clé PUBLIQUE, celle que tu colles dans les paramètres GitHub)."
+      }
+]
   },
   {
     category: "Linux Mint",
@@ -2892,7 +3341,25 @@ const GUIDES = [
         heading: "Où chercher pourquoi un service ne démarre pas",
         text: "journalctl -u nom-du-service donne les logs spécifiques à ce service précis — généralement le premier réflexe à avoir pour comprendre une panne, plutôt que de fouiller dans les logs système généraux."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Vérifie l'état actuel du service Docker.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo systemctl status docker"
+                              ],
+                              "output": "● docker.service - Docker Application Container Engine\n     Active: active (running) since…"
+                        }
+                  ]
+            },
+            "correction": "systemctl status est toujours le premier réflexe pour diagnostiquer un service : il montre s'il tourne, depuis quand, et ses derniers logs, avant d'agir dessus avec start/stop/restart."
+      }
+]
   },
   {
     category: "Linux Mint",
@@ -2912,7 +3379,14 @@ const GUIDES = [
         heading: "Tester avant de programmer",
         text: "Lance TOUJOURS la commande manuellement dans le terminal avant de la programmer dans cron, pour vérifier qu'elle fonctionne correctement. Si elle échoue une fois programmée, cron ne t'avertit pas visiblement — l'échec passe facilement inaperçu pendant des semaines."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Écris la ligne cron qui exécute /home/evan/backup.sh tous les jours à 3h00 du matin.",
+            "correction": "0 3 * * * /home/evan/backup.sh\n\nminute=0, heure=3, jour-du-mois=* (tous), mois=* (tous), jour-de-semaine=* (tous les jours de la semaine) → tous les jours à 3h00 pile."
+      }
+]
   },
 
   // --- Docker ---------------------------------------
@@ -2934,7 +3408,14 @@ const GUIDES = [
         heading: "Conteneur ≠ machine virtuelle",
         text: "Contrairement à une machine virtuelle qui simule un ordinateur entier (avec son propre noyau, très lourde et lente à démarrer), un conteneur PARTAGE le noyau Linux de la machine hôte. Résultat : beaucoup plus léger, et un démarrage qui se compte en secondes plutôt qu'en minutes."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Un collègue te dit \"ça marche chez moi mais pas sur le serveur\". Comment Docker aurait pu éviter ce problème ?",
+            "correction": "En empaquetant l'app ET tout son environnement (versions, dépendances, config) dans une image unique, Docker garantit que le conteneur tourne À L'IDENTIQUE sur n'importe quelle machine — plus de divergence possible entre \"chez moi\" et le serveur."
+      }
+]
   },
   {
     category: "Docker",
@@ -2954,7 +3435,25 @@ const GUIDES = [
         heading: "Ce qui se perd quand un conteneur s'arrête",
         text: "Par défaut, tout ce qui est écrit À L'INTÉRIEUR d'un conteneur (fichiers créés, données de base de données…) disparaît définitivement quand ce conteneur est supprimé (docker rm). C'est pour ça qu'on utilise des volumes pour les données qu'on veut conserver durablement."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Liste les conteneurs actuellement en cours d'exécution.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "docker ps"
+                              ],
+                              "output": "CONTAINER ID   IMAGE      STATUS         PORTS\nf3a1b2c9d0e4   postgres   Up 2 hours     5432/tcp"
+                        }
+                  ]
+            },
+            "correction": "docker ps montre les CONTENEURS (instances vivantes), pas les images. Une seule image (ex: postgres) peut donner naissance à plusieurs conteneurs différents lancés à des moments différents."
+      }
+]
   },
   {
     category: "Docker",
@@ -2974,7 +3473,25 @@ const GUIDES = [
         heading: "up -d vs down",
         text: "docker compose up -d démarre toute la stack décrite dans le fichier, en arrière-plan.\ndocker compose down l'arrête ET supprime les conteneurs — mais conserve les volumes nommés (donc les données), sauf si tu ajoutes explicitement l'option -v."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Démarre toute la stack décrite dans docker-compose.yml, en arrière-plan.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "docker compose up -d"
+                              ],
+                              "output": "[+] Running 3/3\n ✔ Container app-db-1        Started\n ✔ Container app-backend-1   Started\n ✔ Container app-redis-1     Started"
+                        }
+                  ]
+            },
+            "correction": "up -d démarre TOUS les services décrits dans le fichier en une seule commande, en arrière-plan (-d = detached), avec un réseau privé automatiquement créé pour qu'ils communiquent entre eux par leur nom."
+      }
+]
   },
 
   // --- FAQ : erreurs fréquentes ---------------------------------------
@@ -2992,7 +3509,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux Mint::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Rends le script deploy.sh exécutable pour pouvoir le lancer.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "chmod +x deploy.sh"
+                              ],
+                              "output": "(le script est maintenant exécutable)"
+                        }
+                  ]
+            },
+            "correction": "chmod +x ajoute uniquement le droit d'exécution, sans toucher aux autres permissions du fichier — le correctif standard pour ./script.sh: Permission denied."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3008,7 +3543,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. kill -9 PID pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] et [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Le port 8081 est occupé par un vieux processus (PID 48213). Libère-le.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "kill -9 48213"
+                              ],
+                              "output": "(le processus 48213 est arrêté, le port 8081 est libéré)"
+                        }
+                  ]
+            },
+            "correction": "kill -9 PID force l'arrêt immédiat du processus identifié précédemment (via sudo ss -tulpn | grep :8081), libérant le port pour ton propre serveur."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3024,7 +3577,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. which nom-de-la-commande confirme si le shell le trouve ou non.\n\nVoir aussi : [[Bases du terminal::Variables d'environnement et PATH]]."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Vérifie si node est réellement installé et trouvable par le shell.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "which node"
+                              ],
+                              "output": "/usr/bin/node"
+                        }
+                  ]
+            },
+            "correction": "which confirme immédiatement si le programme existe et est dans le PATH. Une absence de résultat confirmerait qu'il faut l'installer (souvent via apt ou un gestionnaire de versions Node)."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3040,7 +3611,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "1. Active le débogage USB (Paramètres → Options développeur).\n2. Débranche/rebranche le câble.\n3. Regarde l'ÉCRAN DU TÉLÉPHONE pour une popup à accepter.\n4. adb devices pour vérifier que le statut passe à \"device\".\n5. En dernier recours : adb kill-server && adb start-server."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "adb ne détecte plus ton téléphone correctement. Redémarre le serveur adb.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "adb kill-server && adb start-server"
+                              ],
+                              "output": "* daemon stopped successfully *\n* daemon started successfully *"
+                        }
+                  ]
+            },
+            "correction": "Ce redémarrage corrige la grande majorité des soucis de détection (\"device offline\", appareil qui n'apparaît plus) sans avoir besoin de redémarrer le téléphone ou le PC."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3056,7 +3645,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "npx expo start -c relance le serveur en vidant complètement le cache. Si ça ne suffit pas : npx expo-doctor pour vérifier la cohérence générale du projet.\n\nVoir aussi : [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Tu viens de modifier metro.config.js et l'app se comporte bizarrement. Relance le serveur en vidant le cache.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo start -c"
+                              ],
+                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
+                        }
+                  ]
+            },
+            "correction": "Le cache de Metro peut contenir une version compilée AVANT ton changement de config — -c force à tout recompiler depuis zéro en tenant compte de la nouvelle configuration."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3072,7 +3679,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "git pull (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir [[Git::Les conflits de fusion (merge conflicts)]]). Une fois à jour, git push repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Ton push est rejeté car le remote a des commits que tu n'as pas. Récupère-les proprement.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "git pull --rebase"
+                              ],
+                              "output": "Rebasing (1/1)\nSuccessfully rebased and updated refs/heads/master."
+                        }
+                  ]
+            },
+            "correction": "git pull --rebase rapatrie les commits manquants et rejoue les tiens par-dessus, donnant un historique linéaire (plutôt qu'un commit de merge). Une fois à jour, git push repasse normalement."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3088,7 +3713,14 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "Voir la fiche complète [[Git::Les conflits de fusion (merge conflicts)]] — résumé : choisis/combine le bon contenu, supprime les marqueurs, git add le fichier, puis git commit."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Après avoir choisi la bonne version dans un fichier en conflit et supprimé les marqueurs, quelles sont les 2 commandes qui restent à taper pour finaliser ?",
+            "correction": "git add nom-du-fichier (marque le conflit comme résolu), puis git commit (finalise la fusion — le message est souvent déjà pré-rempli par Git)."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3104,7 +3736,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "Dans un projet Expo, npx expo install --fix aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : [[Bases du terminal::npm & npx, et package.json en détail]]."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Un projet Expo a des versions de dépendances incompatibles avec le SDK. Corrige ça automatiquement.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo install --fix"
+                              ],
+                              "output": "Certaines dépendances ne correspondent pas au SDK installé :\n  react-native@0.72.0 - attendu : 0.73.6\nCorrection en cours…"
+                        }
+                  ]
+            },
+            "correction": "npx expo install --fix aligne automatiquement les versions installées sur ce qu'attend le SDK Expo du projet — souvent suffisant sans avoir à modifier package.json à la main."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3120,7 +3770,25 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux Mint::systemd et les services]]."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Le service Docker n'est pas démarré. Démarre-le.",
+            "terminal": {
+                  "prompt": "evan@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo systemctl start docker"
+                              ],
+                              "output": "(le service docker est démarré)"
+                        }
+                  ]
+            },
+            "correction": "Le \"daemon\" Docker est le service en arrière-plan sans lequel AUCUNE commande docker ne peut fonctionner — sudo systemctl start docker le lance."
+      }
+]
   },
   {
     category: "FAQ : erreurs fréquentes",
@@ -3136,7 +3804,14 @@ const GUIDES = [
         heading: "Comment le résoudre",
         text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/evan/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
       }
-    ]
+    ],
+    exercises: [
+      {
+            "type": "reflect",
+            "instruction": "Ton SDK Android est installé dans /home/evan/Android/Sdk. Quelle ligne dois-tu ajouter dans android/local.properties pour corriger l'erreur ?",
+            "correction": "sdk.dir=/home/evan/Android/Sdk\n\nCe fichier n'est pas versionné dans Git (chemin propre à chaque machine) — c'est pour ça qu'il faut le recréer soi-même sur une nouvelle machine ou après une réinstallation."
+      }
+]
   }
 ];
 
