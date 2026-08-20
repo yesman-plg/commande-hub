@@ -511,21 +511,6 @@
   const FAV_KEY = "cmdhub_favorites_v1";
   const THEME_KEY = "cmdhub_theme_v1";
 
-  const CATEGORY_ICONS = {
-    "Expo / React Native": "📱",
-    "Kotlin / Android": "🤖",
-    "Linux": "🐧",
-    "Linux Mint": "🐧",
-    "Git": "🔀",
-    "Docker": "🐳",
-    "Bases du terminal": "⌨️",
-    "Programmation": "🧑‍💻",
-    "FAQ : erreurs fréquentes": "🆘"
-  };
-  function categoryIcon(cat) {
-    return CATEGORY_ICONS[cat] ? CATEGORY_ICONS[cat] + " " : "";
-  }
-
   // --- Thème (auto / clair / sombre) ------------------------------------
   const THEME_CYCLE = ["auto", "light", "dark"];
   const THEME_LABEL = { auto: "🖥️ Auto", light: "☀️ Clair", dark: "🌙 Sombre" };
@@ -685,8 +670,7 @@
     chipsEl.innerHTML = categories.map(cat => {
       const n = cat === "Toutes" ? dataset().length : dataset().filter(c => c.category === cat).length;
       const active = cat === activeCategory ? "active" : "";
-      const icon = cat === "Toutes" ? "" : categoryIcon(cat);
-      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${icon}${escapeHtml(cat)}<span class="count-badge">${n}</span></span>`;
+      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(cat)}<span class="count-badge">${n}</span></span>`;
     }).join("");
     chipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
