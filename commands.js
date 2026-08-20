@@ -11,6 +11,11 @@
 //   cmd         : la commande (utilise \n pour plusieurs lignes)
 //   desc        : explication courte (optionnel)
 //   tags        : mots-clés pour la recherche (optionnel)
+//   related     : renvoi vers une fiche Formation liée (optionnel), au
+//                 format "Catégorie::Titre exact de la fiche" (le titre
+//                 doit exister tel quel dans guides.js). Accepte aussi
+//                 un tableau de plusieurs renvois. Affiché en bas de la
+//                 carte comme "📘 Pour comprendre : ...".
 // Sauvegarde le fichier, puis recharge la page dans le navigateur.
 // ============================================================
 
@@ -22,7 +27,8 @@ const COMMANDS = [
     title: "Démarrer le projet",
     cmd: "npx expo start",
     desc: "Lance le serveur de dev Expo (Metro bundler).",
-    tags: ["dev", "start", "metro"]
+    tags: ["dev", "start", "metro"],
+    related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
   },
   {
     category: "Expo / React Native",
@@ -30,7 +36,8 @@ const COMMANDS = [
     title: "Démarrer avec cache vidé",
     cmd: "npx expo start -c",
     desc: "Utile quand Metro a un cache corrompu ou après un changement de config.",
-    tags: ["cache", "clear", "debug"]
+    tags: ["cache", "clear", "debug"],
+    related: "Expo / React Native::Metro, le serveur qui recharge ton app",
   },
   {
     category: "Expo / React Native",
@@ -38,7 +45,8 @@ const COMMANDS = [
     title: "Build Android (EAS)",
     cmd: "eas build --platform android --profile preview",
     desc: "Build cloud via EAS. Change le profil (development/preview/production) selon le besoin.",
-    tags: ["build", "eas", "android"]
+    tags: ["build", "eas", "android"],
+    related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
   },
   {
     category: "Expo / React Native",
@@ -70,7 +78,8 @@ const COMMANDS = [
     title: "Installer une lib compatible Expo",
     cmd: "npx expo install <nom-du-package>",
     desc: "Comme npm install, mais choisit la version compatible avec ton SDK Expo.",
-    tags: ["install", "package", "dependency"]
+    tags: ["install", "package", "dependency"],
+    related: "Expo / React Native::Pourquoi ça plante après avoir installé une lib",
   },
   {
     category: "Expo / React Native",
@@ -166,7 +175,8 @@ const COMMANDS = [
     title: "Publier une mise à jour OTA",
     cmd: 'eas update --branch preview --message "description du fix"',
     desc: "Pousse un changement JS/assets directement aux utilisateurs sans repasser par le store (nécessite expo-updates).",
-    tags: ["eas", "update", "ota"]
+    tags: ["eas", "update", "ota"],
+    related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
   },
   {
     category: "Expo / React Native",
@@ -232,7 +242,8 @@ const COMMANDS = [
     title: "Build debug",
     cmd: "./gradlew assembleDebug",
     desc: "Compile l'APK debug.",
-    tags: ["gradle", "build", "debug"]
+    tags: ["gradle", "build", "debug"],
+    related: "Kotlin / Android::Gradle, le chef d'orchestre de ton build",
   },
   {
     category: "Kotlin / Android",
@@ -256,7 +267,8 @@ const COMMANDS = [
     title: "Générer un App Bundle (Play Store)",
     cmd: "./gradlew bundleRelease",
     desc: "Génère le .aab attendu par le Play Store.",
-    tags: ["gradle", "aab", "bundle", "play store"]
+    tags: ["gradle", "aab", "bundle", "play store"],
+    related: "Kotlin / Android::APK vs AAB, et le keystore de signature",
   },
   {
     category: "Kotlin / Android",
@@ -354,7 +366,8 @@ const COMMANDS = [
     title: "Voir les logs (logcat filtré)",
     cmd: "adb logcat *:E",
     desc: "Affiche uniquement les erreurs. Remplace *:E par TonTag:D pour filtrer un tag précis.",
-    tags: ["adb", "logcat", "debug"]
+    tags: ["adb", "logcat", "debug"],
+    related: "Kotlin / Android::ADB, le pont entre ton PC et ton téléphone",
   },
   {
     category: "Kotlin / Android",
@@ -722,7 +735,8 @@ const COMMANDS = [
     title: "Quel processus utilise ce port ?",
     cmd: "sudo ss -tulpn | grep :<port>",
     desc: "Identifie ce qui écoute sur un port donné (ex: 3000, 8081).",
-    tags: ["réseau", "port", "ss"]
+    tags: ["réseau", "port", "ss"],
+    related: "Linux Mint::Processus, ports, RAM : pourquoi ça rame",
   },
   {
     category: "Linux",
@@ -764,7 +778,8 @@ const COMMANDS = [
     title: "Mettre à jour le système",
     cmd: "sudo apt update && sudo apt upgrade -y",
     desc: "Rafraîchit la liste des paquets puis met à jour.",
-    tags: ["apt", "update", "upgrade"]
+    tags: ["apt", "update", "upgrade"],
+    related: "Linux Mint::apt : installer et gérer des logiciels",
   },
   {
     category: "Linux",
@@ -830,7 +845,8 @@ const COMMANDS = [
     title: "Ouvrir un shell root",
     cmd: "sudo -i",
     desc: "Bascule en root pour la session courante. À utiliser avec prudence.",
-    tags: ["sudo", "root"]
+    tags: ["sudo", "root"],
+    related: "Linux Mint::sudo et les permissions, sans y laisser des plumes",
   },
   {
     category: "Linux",
@@ -912,7 +928,8 @@ const COMMANDS = [
     title: "Générer une clé SSH",
     cmd: "ssh-keygen -t ed25519 -C \"ton@email.com\"",
     desc: "Crée une paire de clés moderne (ed25519), utile pour GitHub/serveurs distants.",
-    tags: ["ssh", "ssh-keygen", "cle"]
+    tags: ["ssh", "ssh-keygen", "cle"],
+    related: "Linux Mint::SSH et les clés : comment ça marche vraiment",
   },
   {
     category: "Linux",
@@ -946,7 +963,8 @@ const COMMANDS = [
     title: "Conteneurs en cours d'exécution",
     cmd: "docker ps",
     desc: "Ajoute -a pour voir aussi les conteneurs arrêtés.",
-    tags: ["docker", "ps", "conteneur"]
+    tags: ["docker", "ps", "conteneur"],
+    related: "Docker::Image vs conteneur, la différence",
   },
   {
     category: "Linux",
@@ -1010,7 +1028,8 @@ const COMMANDS = [
     title: "Lancer / arrêter une stack (Compose)",
     cmd: "docker compose up -d\ndocker compose down",
     desc: "up -d démarre tous les services en arrière-plan, down les arrête et supprime les conteneurs.",
-    tags: ["docker", "compose", "stack"]
+    tags: ["docker", "compose", "stack"],
+    related: "Docker::Docker Compose, orchestrer plusieurs conteneurs",
   },
   {
     category: "Linux",
@@ -1076,7 +1095,8 @@ const COMMANDS = [
     title: "Commit",
     cmd: 'git commit -m "message"',
     desc: "Enregistre les changements en staging.",
-    tags: ["commit"]
+    tags: ["commit"],
+    related: "Git::Local vs distant : ce qui se passe vraiment à chaque étape",
   },
   {
     category: "Git",
@@ -1092,7 +1112,8 @@ const COMMANDS = [
     title: "Nouvelle branche + bascule",
     cmd: "git checkout -b nom-de-la-branche",
     desc: "Crée et bascule sur une nouvelle branche en une commande (équivalent: git switch -c nom).",
-    tags: ["branch", "checkout", "switch"]
+    tags: ["branch", "checkout", "switch"],
+    related: "Git::Les branches : travailler sans tout casser",
   },
   {
     category: "Git",
@@ -1148,7 +1169,8 @@ const COMMANDS = [
     title: "Envoyer les commits",
     cmd: "git push",
     desc: "Pousse la branche courante vers le remote.",
-    tags: ["push", "remote"]
+    tags: ["push", "remote"],
+    related: "Git::Local vs distant : ce qui se passe vraiment à chaque étape",
   },
   {
     category: "Git",
@@ -1164,7 +1186,8 @@ const COMMANDS = [
     title: "Fusionner une branche",
     cmd: "git merge nom-de-la-branche",
     desc: "Fusionne la branche indiquée dans la branche courante.",
-    tags: ["merge"]
+    tags: ["merge"],
+    related: "Git::Les conflits de fusion (merge conflicts)",
   },
   {
     category: "Git",
@@ -1180,7 +1203,8 @@ const COMMANDS = [
     title: "Voir l'historique en une ligne",
     cmd: "git log --oneline --graph --all",
     desc: "Vue compacte et graphique des branches/commits.",
-    tags: ["log", "history", "graph"]
+    tags: ["log", "history", "graph"],
+    related: "Git::Lire l'historique : git log, HEAD, SHA",
   },
   {
     category: "Git",
@@ -1196,7 +1220,8 @@ const COMMANDS = [
     title: "Annuler le dernier commit (garder les modifs)",
     cmd: "git reset --soft HEAD~1",
     desc: "Défait le commit mais garde les changements en staging.",
-    tags: ["reset", "undo", "commit"]
+    tags: ["reset", "undo", "commit"],
+    related: "Git::Annuler une erreur sans paniquer",
   },
   {
     category: "Git",
@@ -1204,7 +1229,8 @@ const COMMANDS = [
     title: "Annuler le dernier commit (tout jeter)",
     cmd: "git reset --hard HEAD~1",
     desc: "⚠️ Supprime définitivement le commit ET les changements. Irréversible.",
-    tags: ["reset", "undo", "commit", "danger"]
+    tags: ["reset", "undo", "commit", "danger"],
+    related: "Git::Annuler une erreur sans paniquer",
   },
   {
     category: "Git",

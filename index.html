@@ -188,6 +188,17 @@
   .subchips .chip.active {
     border-color: var(--accent);
   }
+  .search-hint {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+  .related-line {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+  .related-line .guide-link { font-size: inherit; }
   .count-badge {
     opacity: .65;
     font-weight: 400;
@@ -464,8 +475,11 @@
       <input id="search" type="text" placeholder="Rechercher une commande, un tag, une description… (touche /)" autocomplete="off">
       <button class="fav-toggle" id="favToggle" title="N'afficher que mes favoris">⭐ <span id="favToggleLabel">Favoris</span></button>
     </div>
-    <div class="chips" id="chips"></div>
-    <div class="subchips" id="subchips" style="display:none;"></div>
+    <div class="chips-wrap" id="chipsWrap">
+      <div class="chips" id="chips"></div>
+      <div class="subchips" id="subchips" style="display:none;"></div>
+    </div>
+    <div class="search-hint" id="searchHint" style="display:none;">🔍 Recherche simultanée dans Commandes et Formation — les filtres reprennent une fois la recherche effacée</div>
   </div>
 
   <div id="results"></div>
@@ -477,6 +491,8 @@
   const searchInput = document.getElementById("search");
   const chipsEl = document.getElementById("chips");
   const subchipsEl = document.getElementById("subchips");
+  const chipsWrapEl = document.getElementById("chipsWrap");
+  const searchHintEl = document.getElementById("searchHint");
   const resultsEl = document.getElementById("results");
   const modeTabsEl = document.getElementById("modeTabs");
   const favToggleEl = document.getElementById("favToggle");
@@ -488,6 +504,21 @@
   const STATE_KEY = "cmdhub_state_v1";
   const FAV_KEY = "cmdhub_favorites_v1";
   const THEME_KEY = "cmdhub_theme_v1";
+
+  const CATEGORY_ICONS = {
+    "Expo / React Native": "📱",
+    "Kotlin / Android": "🤖",
+    "Linux": "🐧",
+    "Linux Mint": "🐧",
+    "Git": "🔀",
+    "Docker": "🐳",
+    "Bases du terminal": "⌨️",
+    "Programmation": "🧑‍💻",
+    "FAQ : erreurs fréquentes": "🆘"
+  };
+  function categoryIcon(cat) {
+    return CATEGORY_ICONS[cat] ? CATEGORY_ICONS[cat] + " " : "";
+  }
 
   // --- Thème (auto / clair / sombre) ------------------------------------
   const THEME_CYCLE = ["auto", "light", "dark"];
@@ -542,24 +573,26 @@
     try { localStorage.setItem(FAV_KEY, JSON.stringify(favorites)); } catch (e) {}
   }
 
-  function favKey(item) {
-    return mode === "formation"
+  function favKeyFor(type, item) {
+    return type === "formation"
       ? `${item.category}|${item.title}`
       : `${item.category}|${item.subcategory || ""}|${item.title}`;
   }
 
-  function isFavoriteKey(key) {
-    return favorites[mode].includes(key);
+  function isFavoriteFor(type, item) {
+    return favorites[type].includes(favKeyFor(type, item));
   }
 
-  function toggleFavoriteKey(key) {
-    const list = favorites[mode];
+  function toggleFavoriteFor(type, key) {
+    const list = favorites[type];
     const i = list.indexOf(key);
     if (i === -1) list.push(key); else list.splice(i, 1);
     saveFavorites();
   }
 
-  function isFavorite(item) { return isFavoriteKey(favKey(item)); }
+  // Raccourcis liés au mode actif (pratique pour le parcours par onglet)
+  function favKey(item) { return favKeyFor(mode, item); }
+  function isFavorite(item) { return isFavoriteFor(mode, item); }
 
   function favCountForCurrentMode() {
     return dataset().filter(item => isFavorite(item)).length;
@@ -638,7 +671,8 @@
     chipsEl.innerHTML = categories.map(cat => {
       const n = cat === "Toutes" ? dataset().length : dataset().filter(c => c.category === cat).length;
       const active = cat === activeCategory ? "active" : "";
-      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(cat)}<span class="count-badge">${n}</span></span>`;
+      const icon = cat === "Toutes" ? "" : categoryIcon(cat);
+      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${icon}${escapeHtml(cat)}<span class="count-badge">${n}</span></span>`;
     }).join("");
     chipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
@@ -727,18 +761,74 @@
 
   function renderResults() {
     renderFavToggle();
-    if (mode === "formation") {
+    const searching = query.trim() !== "";
+    chipsWrapEl.style.display = searching ? "none" : "";
+    searchHintEl.style.display = searching ? "block" : "none";
+
+    if (searching) {
+      renderTransversalResults();
+    } else if (mode === "formation") {
       renderGuideResults();
     } else {
       renderCommandResults();
     }
   }
 
+  // --- Gabarits de carte réutilisés par le parcours par onglet ET la recherche transversale ---
+  function renderRelatedLinks(item) {
+    if (!item.related) return "";
+    const list = Array.isArray(item.related) ? item.related : [item.related];
+    const links = list.map(r => {
+      const sep = r.indexOf("::");
+      if (sep === -1) return "";
+      const cat = r.slice(0, sep), title = r.slice(sep + 2);
+      return `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(title)}</a>`;
+    }).filter(Boolean).join(", ");
+    return links ? `<div class="related-line">📘 Pour comprendre : ${links}</div>` : "";
+  }
+
+  function commandCardHtml(item, id) {
+    const fav = isFavoriteFor("commands", item);
+    return `
+      <div class="card">
+        <div class="card-top">
+          <div class="card-title-row">
+            <button class="fav-btn ${fav ? "active" : ""}" data-favtype="commands" data-favkey="${escapeAttr(favKeyFor("commands", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+            <div class="card-title">${escapeHtml(item.title)}</div>
+          </div>
+          <button class="copy-btn" data-id="${escapeAttr(id)}">Copier</button>
+        </div>
+        <pre class="cmd" id="cmd-${escapeAttr(id)}">${escapeHtml(item.cmd)}</pre>
+        ${item.desc ? `<div class="desc">${escapeHtml(item.desc)}</div>` : ""}
+        ${item.tags && item.tags.length ? `<div class="tags">${item.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+        ${renderRelatedLinks(item)}
+      </div>`;
+  }
+
+  function guideCardHtml(item) {
+    const fav = isFavoriteFor("formation", item);
+    const sections = (item.content || []).map(s => `
+      <div class="guide-section">
+        <h4>${escapeHtml(s.heading)}</h4>
+        <p>${renderGuideParagraph(s.text)}</p>
+      </div>`).join("");
+    return `
+      <details class="guide-card" id="${guideDomId(item)}">
+        <summary>
+          <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
+          <span class="guide-title">${escapeHtml(item.title)}</span>
+          <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+        </summary>
+        <div class="guide-summary">${escapeHtml(item.summary)}</div>
+        <div class="guide-content">${sections}</div>
+      </details>`;
+  }
+
   function renderCommandResults() {
     const filtered = COMMANDS.filter(item =>
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeSubcategory === "Toutes" || item.subcategory === activeSubcategory) &&
-      (!showFavoritesOnly || isFavorite(item)) &&
+      (!showFavoritesOnly || isFavoriteFor("commands", item)) &&
       matchesCommand(item, query)
     );
 
@@ -763,62 +853,25 @@
 
     let html = "";
     Object.keys(grouped).forEach(cat => {
-      html += `<div class="group-title">${escapeHtml(cat)}</div>`;
+      html += `<div class="group-title">${categoryIcon(cat)}${escapeHtml(cat)}</div>`;
       const catBucket = grouped[cat];
       catBucket.__order.forEach(subKey => {
         if (subKey !== "__none") {
           html += `<div class="subgroup-title">${escapeHtml(subKey)}</div>`;
         }
         catBucket.subs[subKey].forEach((item, idx) => {
-          const id = `${cat}-${subKey}-${idx}`;
-          const fav = isFavorite(item);
-          html += `
-            <div class="card">
-              <div class="card-top">
-                <div class="card-title-row">
-                  <button class="fav-btn ${fav ? "active" : ""}" data-favkey="${escapeAttr(favKey(item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
-                  <div class="card-title">${escapeHtml(item.title)}</div>
-                </div>
-                <button class="copy-btn" data-id="${escapeAttr(id)}">Copier</button>
-              </div>
-              <pre class="cmd" id="cmd-${escapeAttr(id)}">${escapeHtml(item.cmd)}</pre>
-              ${item.desc ? `<div class="desc">${escapeHtml(item.desc)}</div>` : ""}
-              ${item.tags && item.tags.length ? `<div class="tags">${item.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
-            </div>`;
+          html += commandCardHtml(item, `${cat}-${subKey}-${idx}`);
         });
       });
     });
     resultsEl.innerHTML = html;
-
-    resultsEl.querySelectorAll(".copy-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.id;
-        const text = document.getElementById(`cmd-${id}`).textContent;
-        copyToClipboard(text).then(() => {
-          const original = btn.textContent;
-          btn.textContent = "Copié ✓";
-          btn.classList.add("copied");
-          setTimeout(() => {
-            btn.textContent = original;
-            btn.classList.remove("copied");
-          }, 1200);
-        });
-      });
-    });
-
-    resultsEl.querySelectorAll(".fav-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        toggleFavoriteKey(btn.dataset.favkey);
-        renderResults();
-      });
-    });
   }
 
   function renderGuideResults() {
     const filtered = GUIDES.filter(item =>
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeLevel === "Toutes" || item.level === activeLevel) &&
-      (!showFavoritesOnly || isFavorite(item)) &&
+      (!showFavoritesOnly || isFavoriteFor("formation", item)) &&
       matchesGuide(item, query)
     );
 
@@ -843,37 +896,38 @@
     levelsPresent.forEach(lvl => {
       html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(lvl)}</div>`;
       Object.keys(grouped[lvl]).forEach(cat => {
-        html += `<div class="subgroup-title">${escapeHtml(cat)}</div>`;
+        html += `<div class="subgroup-title">${categoryIcon(cat)}${escapeHtml(cat)}</div>`;
         grouped[lvl][cat].forEach(item => {
-        const sections = (item.content || []).map(s => `
-          <div class="guide-section">
-            <h4>${escapeHtml(s.heading)}</h4>
-            <p>${renderGuideParagraph(s.text)}</p>
-          </div>`).join("");
-        const fav = isFavorite(item);
-        html += `
-          <details class="guide-card" id="${guideDomId(item)}">
-            <summary>
-              <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
-              <span class="guide-title">${escapeHtml(item.title)}</span>
-              <button class="fav-btn ${fav ? "active" : ""}" data-favkey="${escapeAttr(favKey(item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
-            </summary>
-            <div class="guide-summary">${escapeHtml(item.summary)}</div>
-            <div class="guide-content">${sections}</div>
-          </details>`;
+          html += guideCardHtml(item);
         });
       });
     });
     resultsEl.innerHTML = html;
+  }
 
-    resultsEl.querySelectorAll(".fav-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleFavoriteKey(btn.dataset.favkey);
-        renderResults();
+  function renderTransversalResults() {
+    const cmdMatches = COMMANDS.filter(item => (!showFavoritesOnly || isFavoriteFor("commands", item)) && matchesCommand(item, query));
+    const guideMatches = GUIDES.filter(item => (!showFavoritesOnly || isFavoriteFor("formation", item)) && matchesGuide(item, query));
+
+    if (cmdMatches.length === 0 && guideMatches.length === 0) {
+      resultsEl.innerHTML = `<div class="empty">Rien ne correspond, ni dans les commandes ni dans la formation 🤷</div>`;
+      return;
+    }
+
+    let html = "";
+    if (cmdMatches.length > 0) {
+      html += `<div class="group-title">🧰 Commandes (${cmdMatches.length})</div>`;
+      cmdMatches.forEach((item, idx) => {
+        html += commandCardHtml(item, `search-cmd-${idx}`);
       });
-    });
+    }
+    if (guideMatches.length > 0) {
+      html += `<div class="group-title">📘 Formation (${guideMatches.length})</div>`;
+      guideMatches.forEach(item => {
+        html += guideCardHtml(item);
+      });
+    }
+    resultsEl.innerHTML = html;
   }
 
   function copyToClipboard(text) {
@@ -957,11 +1011,40 @@
     });
   }
 
+  // Délégation unique : marche pour toutes les cartes, quel que soit
+  // l'endroit où elles sont rendues (parcours par onglet ou recherche
+  // transversale), sans avoir à ré-attacher des écouteurs à chaque rendu.
   resultsEl.addEventListener("click", (e) => {
     const link = e.target.closest(".guide-link");
-    if (!link) return;
-    e.preventDefault();
-    navigateToGuide(link.dataset.cat, link.dataset.title);
+    if (link) {
+      e.preventDefault();
+      navigateToGuide(link.dataset.cat, link.dataset.title);
+      return;
+    }
+
+    const favBtn = e.target.closest(".fav-btn");
+    if (favBtn) {
+      e.preventDefault();
+      e.stopPropagation(); // évite de (dé)plier une fiche Formation au clic sur son étoile
+      toggleFavoriteFor(favBtn.dataset.favtype, favBtn.dataset.favkey);
+      renderResults();
+      return;
+    }
+
+    const copyBtn = e.target.closest(".copy-btn");
+    if (copyBtn) {
+      const id = copyBtn.dataset.id;
+      const text = document.getElementById(`cmd-${id}`).textContent;
+      copyToClipboard(text).then(() => {
+        const original = copyBtn.textContent;
+        copyBtn.textContent = "Copié ✓";
+        copyBtn.classList.add("copied");
+        setTimeout(() => {
+          copyBtn.textContent = original;
+          copyBtn.classList.remove("copied");
+        }, 1200);
+      });
+    }
   });
 
   searchInput.addEventListener("input", (e) => {
