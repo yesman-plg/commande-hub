@@ -360,32 +360,40 @@
     color: var(--text);
     box-shadow: var(--shadow);
   }
+  /* --- Liste des fiches Formation (lignes cliquables) --- */
   .guide-card {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 4px 16px;
+    padding: 14px 16px;
     margin-bottom: 10px;
     box-shadow: var(--shadow);
   }
-  .guide-card summary {
+  .guide-card-row {
     cursor: pointer;
-    padding: 12px 0;
-    list-style: none;
+    transition: border-color .15s;
+  }
+  .guide-card-row:hover { border-color: var(--accent); }
+  .guide-row-top {
     display: flex;
     align-items: center;
     gap: 6px;
   }
-  .guide-card summary .guide-title { margin-right: auto; }
-  .guide-card summary::-webkit-details-marker { display: none; }
-  .guide-card summary::before {
-    content: "▸";
+  .guide-row-top::after {
+    content: "›";
     color: var(--text-dim);
-    font-size: 11px;
-    transition: transform .15s;
+    font-size: 18px;
+    line-height: 1;
     flex-shrink: 0;
   }
-  .guide-card[open] summary::before { transform: rotate(90deg); }
+  .guide-row-top .guide-title { margin-right: auto; }
+  .exercise-flag { font-size: 12px; flex-shrink: 0; }
+  .guide-row-summary {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 6px 0 0 14px;
+    line-height: 1.4;
+  }
   .guide-dot {
     width: 8px;
     height: 8px;
@@ -398,26 +406,74 @@
   .guide-dot.lvl-yellow { background: #d6a326; }
   .guide-dot.lvl-red { background: var(--danger); }
   /* Même échelle d'espacement (6px) que .subgroup-title, .card-title-row,
-     .fav-toggle, .mode-tabs — la pastille dans un chip de niveau suit la
-     même règle "icône + texte" que partout ailleurs dans le site. */
+     .fav-toggle, .mode-tabs — la pastille suit la même règle "icône + texte"
+     que partout ailleurs dans le site. */
   .chip .guide-dot { margin-right: 6px; }
   .guide-title {
     font-weight: 600;
     font-size: 14.5px;
   }
-  .guide-summary {
-    font-size: 13px;
-    color: var(--text-dim);
-    margin: -6px 0 12px 19px;
-    line-height: 1.4;
+
+  /* --- Page dédiée d'une fiche (théorie → exercices) --- */
+  .guide-detail {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px 26px;
+    box-shadow: var(--shadow);
   }
-  .guide-content {
-    padding: 2px 0 16px 19px;
-    border-top: 1px solid var(--border);
+  .back-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 18px;
+  }
+  .back-btn:hover { color: var(--accent); }
+  .detail-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .detail-title {
+    font-size: 19px;
+    margin: 0;
+    margin-right: auto;
+    letter-spacing: -.01em;
+  }
+  .detail-summary {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  .detail-steps {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .detail-step {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--text-dim);
+  }
+  .detail-step.active {
+    background: var(--chip-active-bg);
+    color: var(--chip-active-text);
   }
   .guide-section {
     margin-top: 14px;
   }
+  .guide-section:first-of-type { margin-top: 0; }
   .guide-section h4 {
     font-size: 13px;
     margin: 0 0 6px;
@@ -430,6 +486,102 @@
     white-space: pre-line;
   }
   .guide-section p:last-child { margin-bottom: 0; }
+  .next-step-btn {
+    display: block;
+    margin: 24px 0 0;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .next-step-btn.secondary {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .next-step-btn:hover { opacity: .9; }
+  .no-exercises-note {
+    margin: 22px 0 0;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .exercises-block {
+    margin-top: 0;
+  }
+  .exercise {
+    margin-bottom: 18px;
+  }
+  .exercise:last-child { margin-bottom: 0; }
+  .exercise-instruction {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 10px;
+  }
+  .fterm {
+    background: #17171b;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 12.5px;
+    margin-bottom: 8px;
+  }
+  .fterm-output {
+    max-height: 220px;
+    overflow-y: auto;
+    color: #d7d7dc;
+  }
+  .fterm-line {
+    padding: 1px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .fterm-line.fterm-cmd { color: #a99bff; }
+  .fterm-line.fterm-error { color: #ff8f8f; }
+  .fterm-line.fterm-success { color: #6fd39a; font-weight: 600; }
+  .fterm-inputline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .fterm-prompt { color: #6fd39a; flex-shrink: 0; }
+  .fterm-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #eceaf5;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  .fterm.fterm-done { box-shadow: inset 0 0 0 1px #3aa76d; }
+  .exercise-reveal summary {
+    cursor: pointer;
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 600;
+    list-style: none;
+  }
+  .exercise-reveal summary::-webkit-details-marker { display: none; }
+  .exercise-reveal summary::before { content: "💡 "; }
+  .exercise-reveal[open] summary::before { content: "✅ "; }
+  .exercise-correction-body {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+    white-space: pre-line;
+  }
   .guide-link {
     color: var(--accent);
     text-decoration: underline;
@@ -437,11 +589,6 @@
     cursor: pointer;
   }
   .guide-link:hover { text-decoration-color: var(--accent); }
-  .guide-card.guide-highlight { animation: guideFlash 1.6s ease; }
-  @keyframes guideFlash {
-    0% { box-shadow: 0 0 0 3px var(--accent); }
-    100% { box-shadow: var(--shadow); }
-  }
   .level-title {
     display: flex;
     align-items: center;
@@ -468,7 +615,7 @@
     <p class="stats-line" id="statsLine"></p>
   </header>
 
-  <div class="top-row">
+  <div class="top-row" id="topRow">
     <div class="mode-tabs" id="modeTabs">
       <button class="mode-tab active" data-mode="commands">🧰 Commandes</button>
       <button class="mode-tab" data-mode="formation">📘 Formation</button>
@@ -476,7 +623,7 @@
     <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
   </div>
 
-  <div class="search-bar">
+  <div class="search-bar" id="searchBar">
     <div class="search-row">
       <input id="search" type="text" placeholder="Rechercher une commande, un tag, une description… (touche /)" autocomplete="off">
       <button class="fav-toggle" id="favToggle" title="N'afficher que mes favoris">⭐ <span id="favToggleLabel">Favoris</span></button>
@@ -499,6 +646,8 @@
   const subchipsEl = document.getElementById("subchips");
   const chipsWrapEl = document.getElementById("chipsWrap");
   const searchHintEl = document.getElementById("searchHint");
+  const topRowEl = document.getElementById("topRow");
+  const searchBarEl = document.getElementById("searchBar");
   const resultsEl = document.getElementById("results");
   const modeTabsEl = document.getElementById("modeTabs");
   const favToggleEl = document.getElementById("favToggle");
@@ -544,6 +693,12 @@
   let activeLevel = "Toutes";
   let query = "";
   let showFavoritesOnly = false;
+
+  // Page "cours" plein écran d'une fiche Formation : null = liste normale,
+  // sinon la fiche GUIDES actuellement ouverte. Volontairement PAS persisté
+  // (on ne rouvre pas un cours en plein milieu au rechargement).
+  let openGuide = null;
+  let guideStep = "theory"; // "theory" | "exercises"
 
   // --- Favoris (persistés dans localStorage) ---------------------------
   let favorites = loadFavorites();
@@ -758,6 +913,15 @@
   }
 
   function renderResults() {
+    if (openGuide) {
+      topRowEl.style.display = "none";
+      searchBarEl.style.display = "none";
+      renderGuideDetail();
+      return;
+    }
+    topRowEl.style.display = "";
+    searchBarEl.style.display = "";
+
     renderFavToggle();
     const searching = query.trim() !== "";
     chipsWrapEl.style.display = searching ? "none" : "";
@@ -770,6 +934,63 @@
     } else {
       renderCommandResults();
     }
+  }
+
+  function openGuideDetail(item) {
+    openGuide = item;
+    guideStep = "theory";
+    renderModeTabs();
+    renderResults();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function closeGuideDetail() {
+    openGuide = null;
+    renderResults();
+  }
+
+  function renderGuideDetail() {
+    const item = openGuide;
+    const fav = isFavoriteFor("formation", item);
+    const hasExercises = item.exercises && item.exercises.length > 0;
+    const onTheory = guideStep === "theory" || !hasExercises;
+
+    let html = `<div class="guide-detail">`;
+    html += `<button class="back-btn" data-action="back-to-list">← Retour à la liste</button>`;
+    html += `
+      <div class="detail-head">
+        <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
+        <h2 class="detail-title">${escapeHtml(item.title)}</h2>
+        <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+      </div>
+      <p class="detail-summary">${escapeHtml(item.summary)}</p>`;
+
+    if (hasExercises) {
+      html += `
+        <div class="detail-steps">
+          <span class="detail-step ${onTheory ? "active" : ""}">1. Théorie</span>
+          <span class="detail-step ${!onTheory ? "active" : ""}">2. Exercices</span>
+        </div>`;
+    }
+
+    if (onTheory) {
+      html += (item.content || []).map(s => `
+        <div class="guide-section">
+          <h4>${escapeHtml(s.heading)}</h4>
+          <p>${renderGuideParagraph(s.text)}</p>
+        </div>`).join("");
+      html += hasExercises
+        ? `<button class="next-step-btn" data-action="go-exercises">Passer aux exercices →</button>`
+        : `<p class="no-exercises-note">Pas encore d'exercices pratiques pour cette fiche.</p>`;
+    } else {
+      TERMINAL_REGISTRY = {};
+      html += exercisesHtml(item.exercises, guideDomId(item));
+      html += `<button class="next-step-btn secondary" data-action="back-to-theory">← Retour à la théorie</button>`;
+    }
+
+    html += `</div>`;
+    resultsEl.innerHTML = html;
+    if (!onTheory) initTerminals();
   }
 
   // --- Gabarits de carte réutilisés par le parcours par onglet ET la recherche transversale ---
@@ -803,23 +1024,107 @@
       </div>`;
   }
 
-  function guideCardHtml(item) {
-    const fav = isFavoriteFor("formation", item);
-    const sections = (item.content || []).map(s => `
-      <div class="guide-section">
-        <h4>${escapeHtml(s.heading)}</h4>
-        <p>${renderGuideParagraph(s.text)}</p>
+  // --- Terminal simulé pour les exercices pratiques ------------------------
+  // Registre reconstruit à chaque rendu : id de l'encadré terminal → état
+  // (les commandes attendues, l'indice, et où on en est).
+  let TERMINAL_REGISTRY = {};
+
+  function terminalHtml(ex, termId) {
+    if (ex.type !== "terminal" || !ex.terminal) return "";
+    TERMINAL_REGISTRY[termId] = { steps: ex.terminal.steps || [], stepIndex: 0, hint: ex.hint || "" };
+    return `
+      <div class="fterm" id="${escapeAttr(termId)}">
+        <div class="fterm-output"></div>
+        <div class="fterm-inputline">
+          <span class="fterm-prompt">${escapeHtml(ex.terminal.prompt || "evan@mint:~$")}</span>
+          <input type="text" class="fterm-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="tape une commande…">
+        </div>
+      </div>`;
+  }
+
+  function exercisesHtml(exercises, ownerId) {
+    if (!exercises || !exercises.length) return "";
+    const items = exercises.map((ex, idx) => `
+      <div class="exercise">
+        <p class="exercise-instruction">📝 ${escapeHtml(ex.instruction)}</p>
+        ${terminalHtml(ex, `fterm-${ownerId}-${idx}`)}
+        <details class="exercise-reveal">
+          <summary>Voir la correction</summary>
+          <div class="exercise-correction-body">${escapeHtml(ex.correction)}</div>
+        </details>
       </div>`).join("");
     return `
-      <details class="guide-card" id="${guideDomId(item)}">
-        <summary>
+      <div class="exercises-block">
+        ${items}
+      </div>`;
+  }
+
+  // Attache les écouteurs clavier sur chaque terminal fraîchement rendu.
+  // Appelée après chaque resultsEl.innerHTML = ... qui peut contenir des fiches.
+  function initTerminals() {
+    Object.keys(TERMINAL_REGISTRY).forEach(termId => {
+      const root = document.getElementById(termId);
+      if (!root) return;
+      const inputEl = root.querySelector(".fterm-input");
+      const outputEl = root.querySelector(".fterm-output");
+      if (!inputEl || !outputEl || inputEl.dataset.wired) return;
+      inputEl.dataset.wired = "1";
+      const state = TERMINAL_REGISTRY[termId];
+
+      const appendLine = (text, cls) => {
+        const line = document.createElement("div");
+        line.className = "fterm-line" + (cls ? " " + cls : "");
+        line.textContent = text;
+        outputEl.appendChild(line);
+        outputEl.scrollTop = outputEl.scrollHeight;
+      };
+
+      inputEl.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        const raw = inputEl.value.trim();
+        if (!raw) return;
+        appendLine("$ " + raw, "fterm-cmd");
+        inputEl.value = "";
+        if (state.stepIndex >= state.steps.length) return;
+
+        const normalize = s => s.replace(/\s+/g, " ").trim();
+        const cmd = normalize(raw);
+        const step = state.steps[state.stepIndex];
+        const expected = Array.isArray(step.expect) ? step.expect : [step.expect];
+        const ok = expected.some(e => normalize(e) === cmd);
+
+        if (ok) {
+          if (step.output) appendLine(step.output, "fterm-out");
+          state.stepIndex++;
+          if (state.stepIndex >= state.steps.length) {
+            appendLine("✅ Exercice réussi !", "fterm-success");
+            root.classList.add("fterm-done");
+          }
+        } else {
+          appendLine(
+            state.hint ? `Pas tout à fait — indice : ${state.hint}` : "Commande non reconnue pour cet exercice, réessaie.",
+            "fterm-error"
+          );
+        }
+      });
+    });
+  }
+
+  // Ligne cliquable dans la liste — ouvre la page dédiée de la fiche
+  // (théorie puis, le cas échéant, exercices), plutôt qu'un accordéon.
+  function guideCardHtml(item) {
+    const fav = isFavoriteFor("formation", item);
+    const hasExercises = item.exercises && item.exercises.length > 0;
+    return `
+      <div class="guide-card guide-card-row" data-cat="${escapeAttr(item.category)}" data-title="${escapeAttr(item.title)}">
+        <div class="guide-row-top">
           <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
           <span class="guide-title">${escapeHtml(item.title)}</span>
+          ${hasExercises ? `<span class="exercise-flag" title="Contient des exercices pratiques">🧪</span>` : ""}
           <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
-        </summary>
-        <div class="guide-summary">${escapeHtml(item.summary)}</div>
-        <div class="guide-content">${sections}</div>
-      </details>`;
+        </div>
+        <p class="guide-row-summary">${escapeHtml(item.summary)}</p>
+      </div>`;
   }
 
   function renderCommandResults() {
@@ -866,6 +1171,7 @@
   }
 
   function renderGuideResults() {
+    TERMINAL_REGISTRY = {};
     const filtered = GUIDES.filter(item =>
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeLevel === "Toutes" || item.level === activeLevel) &&
@@ -901,9 +1207,11 @@
       });
     });
     resultsEl.innerHTML = html;
+    initTerminals();
   }
 
   function renderTransversalResults() {
+    TERMINAL_REGISTRY = {};
     const cmdMatches = COMMANDS.filter(item => (!showFavoritesOnly || isFavoriteFor("commands", item)) && matchesCommand(item, query));
     const guideMatches = GUIDES.filter(item => (!showFavoritesOnly || isFavoriteFor("formation", item)) && matchesGuide(item, query));
 
@@ -926,6 +1234,7 @@
       });
     }
     resultsEl.innerHTML = html;
+    initTerminals();
   }
 
   function copyToClipboard(text) {
@@ -985,28 +1294,8 @@
   function navigateToGuide(cat, title) {
     const target = GUIDES.find(g => g.category === cat && g.title === title);
     if (!target) return;
-
     mode = "formation";
-    activeCategory = cat;
-    activeSubcategory = "Toutes";
-    activeLevel = "Toutes";
-    showFavoritesOnly = false;
-    query = "";
-    searchInput.value = "";
-    saveState();
-    renderModeTabs();
-    renderChips();
-    renderSubchips();
-    renderResults();
-
-    requestAnimationFrame(() => {
-      const el = document.getElementById(guideDomId(target));
-      if (!el) return;
-      el.open = true;
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      el.classList.add("guide-highlight");
-      setTimeout(() => el.classList.remove("guide-highlight"), 1600);
-    });
+    openGuideDetail(target);
   }
 
   // Délégation unique : marche pour toutes les cartes, quel que soit
@@ -1042,6 +1331,22 @@
           copyBtn.classList.remove("copied");
         }, 1200);
       });
+      return;
+    }
+
+    const actionBtn = e.target.closest("[data-action]");
+    if (actionBtn) {
+      const action = actionBtn.dataset.action;
+      if (action === "back-to-list") closeGuideDetail();
+      else if (action === "go-exercises") { guideStep = "exercises"; renderResults(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+      else if (action === "back-to-theory") { guideStep = "theory"; renderResults(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+      return;
+    }
+
+    const guideRow = e.target.closest(".guide-card-row");
+    if (guideRow) {
+      const target = GUIDES.find(g => g.category === guideRow.dataset.cat && g.title === guideRow.dataset.title);
+      if (target) openGuideDetail(target);
     }
   });
 
@@ -1052,6 +1357,10 @@
   });
 
   document.addEventListener("keydown", (e) => {
+    if (openGuide) {
+      if (e.key === "Escape") closeGuideDetail();
+      return;
+    }
     if (e.key === "/" && document.activeElement !== searchInput) {
       e.preventDefault();
       searchInput.focus();

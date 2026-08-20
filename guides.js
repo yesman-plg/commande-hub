@@ -325,6 +325,23 @@ const GUIDES = [
         heading: "Pourquoi committer souvent, même sans push",
         text: "Comme le commit est local et ne coûte rien, il ne faut pas hésiter à committer souvent : ça donne des points de restauration fins auxquels revenir. Une pratique courante : committer plusieurs fois dans l'après-midi au fil du travail, et ne push qu'une fois en fin de journée, une fois que tout est stable et testé."
       }
+    ],
+    exercises: [
+      {
+        type: "terminal",
+        instruction: "Dans le terminal ci-dessous, initialise un tout nouveau dépôt Git dans le dossier courant.",
+        hint: "La commande commence par git init",
+        terminal: {
+          prompt: "evan@mint:~/mon-projet$",
+          steps: [
+            {
+              expect: ["git init"],
+              output: "Dépôt Git vide initialisé dans /home/evan/mon-projet/.git/"
+            }
+          ]
+        },
+        correction: "git init\n\nCrée un dossier caché .git/ dans le dossier courant : c'est LUI qui va stocker tout l'historique des commits à venir, uniquement en local. Rien n'est envoyé nulle part — c'est une opération 100% locale, comme vu dans la théorie."
+      }
     ]
   },
   {

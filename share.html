@@ -1,0 +1,3908 @@
+<meta charset="UTF-8">
+<title>Command Hub</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --bg-elevated: #ffffff;
+    --border: #e2e2e6;
+    --text: #1c1c1f;
+    --text-dim: #6b6b74;
+    --accent: #6d5efc;
+    --accent-text: #ffffff;
+    --code-bg: #f0eefe;
+    --code-text: #4a3fc9;
+    --chip-bg: #ececf1;
+    --chip-active-bg: #6d5efc;
+    --chip-active-text: #ffffff;
+    --danger: #d64545;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 10px rgba(0,0,0,.03);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17171b;
+      --bg-elevated: #201f26;
+      --border: #302f38;
+      --text: #eceaf5;
+      --text-dim: #94919f;
+      --accent: #8f7dff;
+      --accent-text: #17171b;
+      --code-bg: #262233;
+      --code-text: #b9adff;
+      --chip-bg: #2a2932;
+      --chip-active-bg: #8f7dff;
+      --chip-active-text: #17171b;
+      --danger: #ff8080;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  /* Bascule manuelle : force le thème quel que soit le système */
+  :root[data-theme="dark"] {
+    --bg: #17171b;
+    --bg-elevated: #201f26;
+    --border: #302f38;
+    --text: #eceaf5;
+    --text-dim: #94919f;
+    --accent: #8f7dff;
+    --accent-text: #17171b;
+    --code-bg: #262233;
+    --code-text: #b9adff;
+    --chip-bg: #2a2932;
+    --chip-active-bg: #8f7dff;
+    --chip-active-text: #17171b;
+    --danger: #ff8080;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+  header h1 {
+    font-size: 22px;
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  header p {
+    color: var(--text-dim);
+    margin: 0 0 4px;
+    font-size: 14px;
+  }
+  .stats-line {
+    color: var(--text-dim);
+    font-size: 12.5px;
+    margin: 0 0 22px;
+  }
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .theme-toggle {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .search-bar {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 8px 0 14px;
+    z-index: 10;
+  }
+  #search {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
+    outline: none;
+    box-shadow: var(--shadow);
+  }
+  #search:focus { border-color: var(--accent); }
+  .search-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .search-row #search { flex: 1; }
+  .fav-toggle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+  .fav-toggle.active {
+    border-color: #d6a326;
+    color: #d6a326;
+    background: color-mix(in srgb, #d6a326 12%, var(--bg-elevated));
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .subchips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 13px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .subchips .chip {
+    padding: 4px 11px;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+  }
+  .chip.active {
+    background: var(--chip-active-bg);
+    color: var(--chip-active-text);
+    font-weight: 600;
+  }
+  .subchips .chip.active {
+    border-color: var(--accent);
+  }
+  .search-hint {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+  .related-line {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+  .related-line .guide-link { font-size: inherit; }
+  .count-badge {
+    opacity: .65;
+    font-weight: 400;
+    margin-left: 3px;
+  }
+  .group-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-dim);
+    margin: 28px 0 10px;
+    font-weight: 600;
+  }
+  .group-title:first-of-type { margin-top: 18px; }
+  .subgroup-title {
+    font-size: 12px;
+    color: var(--accent);
+    margin: 18px 0 8px 2px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .subgroup-title::before {
+    content: "";
+    width: 10px;
+    height: 1px;
+    background: var(--accent);
+    opacity: .5;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .card-title {
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .fav-btn {
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  .fav-btn:hover { color: #d6a326; }
+  .fav-btn.active { color: #d6a326; }
+  .copy-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 12.5px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+  }
+  pre.cmd {
+    margin: 8px 0;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 9px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 6px 0 0;
+    line-height: 1.4;
+  }
+  .tags {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tag {
+    font-size: 11px;
+    color: var(--text-dim);
+    background: var(--chip-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 60px 0;
+    font-size: 14px;
+  }
+  kbd {
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-size: 11.5px;
+    font-family: inherit;
+  }
+  .mode-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    background: var(--chip-bg);
+    padding: 4px;
+    border-radius: 12px;
+    width: fit-content;
+  }
+  .mode-tab {
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .mode-tab.active {
+    background: var(--bg-elevated);
+    color: var(--text);
+    box-shadow: var(--shadow);
+  }
+  /* --- Liste des fiches Formation (lignes cliquables) --- */
+  .guide-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .guide-card-row {
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .guide-card-row:hover { border-color: var(--accent); }
+  .guide-row-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .guide-row-top::after {
+    content: "›";
+    color: var(--text-dim);
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .guide-row-top .guide-title { margin-right: auto; }
+  .exercise-flag { font-size: 12px; flex-shrink: 0; }
+  .guide-row-summary {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 6px 0 0 14px;
+    line-height: 1.4;
+  }
+  .guide-dot {
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--border);
+  }
+  .guide-dot.lvl-green { background: #3aa76d; }
+  .guide-dot.lvl-yellow { background: #d6a326; }
+  .guide-dot.lvl-red { background: var(--danger); }
+  /* Même échelle d'espacement (6px) que .subgroup-title, .card-title-row,
+     .fav-toggle, .mode-tabs — la pastille suit la même règle "icône + texte"
+     que partout ailleurs dans le site. */
+  .chip .guide-dot { margin-right: 6px; }
+  .guide-title {
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+
+  /* --- Page dédiée d'une fiche (théorie → exercices) --- */
+  .guide-detail {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px 26px;
+    box-shadow: var(--shadow);
+  }
+  .back-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 18px;
+  }
+  .back-btn:hover { color: var(--accent); }
+  .detail-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .detail-title {
+    font-size: 19px;
+    margin: 0;
+    margin-right: auto;
+    letter-spacing: -.01em;
+  }
+  .detail-summary {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  .detail-steps {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .detail-step {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--text-dim);
+  }
+  .detail-step.active {
+    background: var(--chip-active-bg);
+    color: var(--chip-active-text);
+  }
+  .guide-section {
+    margin-top: 14px;
+  }
+  .guide-section:first-of-type { margin-top: 0; }
+  .guide-section h4 {
+    font-size: 13px;
+    margin: 0 0 6px;
+    color: var(--accent);
+  }
+  .guide-section p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 8px;
+    white-space: pre-line;
+  }
+  .guide-section p:last-child { margin-bottom: 0; }
+  .next-step-btn {
+    display: block;
+    margin: 24px 0 0;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .next-step-btn.secondary {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .next-step-btn:hover { opacity: .9; }
+  .no-exercises-note {
+    margin: 22px 0 0;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .exercises-block {
+    margin-top: 0;
+  }
+  .exercise {
+    margin-bottom: 18px;
+  }
+  .exercise:last-child { margin-bottom: 0; }
+  .exercise-instruction {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 10px;
+  }
+  .fterm {
+    background: #17171b;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 12.5px;
+    margin-bottom: 8px;
+  }
+  .fterm-output {
+    max-height: 220px;
+    overflow-y: auto;
+    color: #d7d7dc;
+  }
+  .fterm-line {
+    padding: 1px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .fterm-line.fterm-cmd { color: #a99bff; }
+  .fterm-line.fterm-error { color: #ff8f8f; }
+  .fterm-line.fterm-success { color: #6fd39a; font-weight: 600; }
+  .fterm-inputline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .fterm-prompt { color: #6fd39a; flex-shrink: 0; }
+  .fterm-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #eceaf5;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  .fterm.fterm-done { box-shadow: inset 0 0 0 1px #3aa76d; }
+  .exercise-reveal summary {
+    cursor: pointer;
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 600;
+    list-style: none;
+  }
+  .exercise-reveal summary::-webkit-details-marker { display: none; }
+  .exercise-reveal summary::before { content: "💡 "; }
+  .exercise-reveal[open] summary::before { content: "✅ "; }
+  .exercise-correction-body {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+    white-space: pre-line;
+  }
+  .guide-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    cursor: pointer;
+  }
+  .guide-link:hover { text-decoration-color: var(--accent); }
+  .level-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-dim);
+    margin: 28px 0 10px;
+    font-weight: 600;
+    padding-left: 10px;
+    border-left: 3px solid var(--border);
+  }
+  .level-title:first-of-type { margin-top: 18px; }
+  .level-title.lvl-green { border-left-color: #3aa76d; }
+  .level-title.lvl-yellow { border-left-color: #d6a326; }
+  .level-title.lvl-red { border-left-color: var(--danger); }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>🧰 Command Hub</h1>
+    <p>Toutes tes commandes Expo, Kotlin/Android, Linux Mint &amp; Git au même endroit. Tape pour chercher, clique pour copier.</p>
+    <p class="stats-line" id="statsLine"></p>
+  </header>
+
+  <div class="top-row" id="topRow">
+    <div class="mode-tabs" id="modeTabs">
+      <button class="mode-tab active" data-mode="commands">🧰 Commandes</button>
+      <button class="mode-tab" data-mode="formation">📘 Formation</button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
+  </div>
+
+  <div class="search-bar" id="searchBar">
+    <div class="search-row">
+      <input id="search" type="text" placeholder="Rechercher une commande, un tag, une description… (touche /)" autocomplete="off">
+      <button class="fav-toggle" id="favToggle" title="N'afficher que mes favoris">⭐ <span id="favToggleLabel">Favoris</span></button>
+    </div>
+    <div class="chips-wrap" id="chipsWrap">
+      <div class="chips" id="chips"></div>
+      <div class="subchips" id="subchips" style="display:none;"></div>
+    </div>
+    <div class="search-hint" id="searchHint" style="display:none;">🔍 Recherche simultanée dans Commandes et Formation — les filtres reprennent une fois la recherche effacée</div>
+  </div>
+
+  <div id="results"></div>
+</div>
+
+<script>
+// ============================================================
+// Command Hub — fichier de données
+// ============================================================
+// Ajoute / modifie tes commandes ici. Chaque entrée :
+//   category    : onglet principal (crée-en un nouveau si besoin, il
+//                 apparaîtra automatiquement dans les filtres)
+//   subcategory : sous-catégorie à l'intérieur de l'onglet (optionnel).
+//                 Utilisé pour "Linux" afin d'éviter d'avoir 70 commandes
+//                 en vrac — même principe si un autre onglet grossit trop.
+//   title       : petit titre lisible
+//   cmd         : la commande (utilise \n pour plusieurs lignes)
+//   desc        : explication courte (optionnel)
+//   tags        : mots-clés pour la recherche (optionnel)
+//   related     : renvoi vers une fiche Formation liée (optionnel), au
+//                 format "Catégorie::Titre exact de la fiche" (le titre
+//                 doit exister tel quel dans guides.js). Accepte aussi
+//                 un tableau de plusieurs renvois. Affiché en bas de la
+//                 carte comme "📘 Pour comprendre : ...".
+// Sauvegarde le fichier, puis recharge la page dans le navigateur.
+// ============================================================
+
+const COMMANDS = [
+  // --- Expo / React Native ---------------------------------
+  {
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Démarrer le projet",
+    cmd: "npx expo start",
+    desc: "Lance le serveur de dev Expo (Metro bundler).",
+    tags: ["dev", "start", "metro"],
+    related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Démarrer avec cache vidé",
+    cmd: "npx expo start -c",
+    desc: "Utile quand Metro a un cache corrompu ou après un changement de config.",
+    tags: ["cache", "clear", "debug"],
+    related: "Expo / React Native::Metro, le serveur qui recharge ton app",
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
+    title: "Build Android (EAS)",
+    cmd: "eas build --platform android --profile preview",
+    desc: "Build cloud via EAS. Change le profil (development/preview/production) selon le besoin.",
+    tags: ["build", "eas", "android"],
+    related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Build local",
+    title: "Build local Android",
+    cmd: "npx expo run:android",
+    desc: "Build et installe sur un émulateur/appareil connecté sans passer par EAS.",
+    tags: ["build", "local", "android"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
+    title: "Soumettre sur le Play Store",
+    cmd: "eas submit --platform android",
+    desc: "Envoie le dernier build vers Google Play.",
+    tags: ["submit", "play store", "release"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Vérifier la config du projet",
+    cmd: "npx expo-doctor",
+    desc: "Diagnostique les incompatibilités de versions / config.",
+    tags: ["doctor", "diagnostic"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Installer une lib compatible Expo",
+    cmd: "npx expo install <nom-du-package>",
+    desc: "Comme npm install, mais choisit la version compatible avec ton SDK Expo.",
+    tags: ["install", "package", "dependency"],
+    related: "Expo / React Native::Pourquoi ça plante après avoir installé une lib",
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Mettre à jour le SDK Expo",
+    cmd: "npx expo install expo@latest\nnpx expo-doctor",
+    desc: "Upgrade puis vérifie que tout est cohérent.",
+    tags: ["upgrade", "sdk"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Build local",
+    title: "Prebuild (générer android/ios natifs)",
+    cmd: "npx expo prebuild --clean",
+    desc: "Régénère les dossiers natifs à partir de app.json/app.config.js.",
+    tags: ["prebuild", "native", "clean"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Créer un nouveau projet",
+    cmd: "npx create-expo-app@latest mon-projet",
+    desc: "Génère un nouveau projet Expo à partir du template par défaut.",
+    tags: ["create", "nouveau", "init"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Build local",
+    title: "Build local iOS",
+    cmd: "npx expo run:ios",
+    desc: "Build et lance sur un simulateur iOS (nécessite un Mac/Xcode).",
+    tags: ["build", "local", "ios"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Ouvrir directement sur une plateforme",
+    cmd: "npx expo start --android\nnpx expo start --ios\nnpx expo start --web",
+    desc: "Lance le serveur et ouvre directement l'app sur la plateforme choisie.",
+    tags: ["start", "android", "ios", "web"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Démarrer via tunnel",
+    cmd: "npx expo start --tunnel",
+    desc: "Utile quand le téléphone et l'ordi ne sont pas sur le même réseau (ou wifi qui bloque le LAN).",
+    tags: ["tunnel", "reseau", "start"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Compte & credentials",
+    title: "Se connecter à EAS",
+    cmd: "eas login",
+    desc: "Requis avant tout build/submit/update via EAS. Vérifie avec: eas whoami",
+    tags: ["eas", "login", "compte"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Compte & credentials",
+    title: "Initialiser EAS sur le projet",
+    cmd: "eas init",
+    desc: "Lie le projet local à un projet Expo/EAS existant (ou en crée un).",
+    tags: ["eas", "init", "setup"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
+    title: "Build iOS (EAS)",
+    cmd: "eas build --platform ios --profile preview",
+    desc: "Équivalent iOS du build Android — nécessite un compte Apple Developer configuré.",
+    tags: ["build", "eas", "ios"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
+    title: "Build les deux plateformes",
+    cmd: "eas build --platform all --profile preview",
+    desc: "Lance un build Android et iOS en une seule commande.",
+    tags: ["build", "eas", "all"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
+    title: "Soumettre sur l'App Store",
+    cmd: "eas submit --platform ios",
+    desc: "Envoie le dernier build iOS vers App Store Connect.",
+    tags: ["submit", "app store", "ios", "release"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Update (OTA)",
+    title: "Publier une mise à jour OTA",
+    cmd: 'eas update --branch preview --message "description du fix"',
+    desc: "Pousse un changement JS/assets directement aux utilisateurs sans repasser par le store (nécessite expo-updates).",
+    tags: ["eas", "update", "ota"],
+    related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Update (OTA)",
+    title: "Lister les branches de update",
+    cmd: "eas channel:list",
+    desc: "Voit quels channels/branches de déploiement OTA existent (preview, production…).",
+    tags: ["eas", "channel", "update"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
+    title: "Lister les builds récents",
+    cmd: "eas build:list",
+    desc: "Historique des builds cloud avec leur statut.",
+    tags: ["eas", "build", "list"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Compte & credentials",
+    title: "Gérer les credentials de signature",
+    cmd: "eas credentials",
+    desc: "Interface interactive pour voir/régénérer les clés de signature Android/iOS gérées par EAS.",
+    tags: ["eas", "credentials", "signing"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Corriger les versions de dépendances",
+    cmd: "npx expo install --fix",
+    desc: "Aligne automatiquement les packages installés sur les versions attendues par le SDK Expo.",
+    tags: ["install", "fix", "dependencies"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Voir la config résolue de l'app",
+    cmd: "npx expo config --type public",
+    desc: "Affiche app.json/app.config.js tel qu'Expo l'interprète réellement, avec les valeurs par défaut.",
+    tags: ["config", "debug"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Exporter le bundle statique",
+    cmd: "npx expo export",
+    desc: "Génère les fichiers statiques (JS, assets) dans dist/ — utile pour le web ou un hébergement custom d'updates.",
+    tags: ["export", "build", "static"]
+  },
+  {
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Ajouter le dev client",
+    cmd: "npx expo install expo-dev-client",
+    desc: "Nécessaire dès que le projet utilise du code natif custom (au-delà d'Expo Go). Se combine avec un build --profile development.",
+    tags: ["dev-client", "native", "expo-go"]
+  },
+
+  // --- Kotlin / Android — Gradle --------------------------------------
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Build debug",
+    cmd: "./gradlew assembleDebug",
+    desc: "Compile l'APK debug.",
+    tags: ["gradle", "build", "debug"],
+    related: "Kotlin / Android::Gradle, le chef d'orchestre de ton build",
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Installer sur appareil/émulateur",
+    cmd: "./gradlew installDebug",
+    desc: "Build + installe directement l'APK debug sur l'appareil connecté (adb).",
+    tags: ["gradle", "install", "adb"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Build release signé",
+    cmd: "./gradlew assembleRelease",
+    desc: "Nécessite la config de signing dans build.gradle (keystore).",
+    tags: ["gradle", "release", "signing"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Générer un App Bundle (Play Store)",
+    cmd: "./gradlew bundleRelease",
+    desc: "Génère le .aab attendu par le Play Store.",
+    tags: ["gradle", "aab", "bundle", "play store"],
+    related: "Kotlin / Android::APK vs AAB, et le keystore de signature",
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Nettoyer le projet",
+    cmd: "./gradlew clean",
+    desc: "Supprime les artefacts de build. Utile en cas d'erreur bizarre.",
+    tags: ["gradle", "clean"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Lancer les tests unitaires",
+    cmd: "./gradlew test",
+    desc: "Exécute les tests JVM (hors instrumentation).",
+    tags: ["gradle", "test"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Lancer les tests instrumentés",
+    cmd: "./gradlew connectedAndroidTest",
+    desc: "Tests qui tournent réellement sur un appareil/émulateur connecté (UI, contexte Android…).",
+    tags: ["gradle", "test", "instrumentation"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Build complet (compile + tests + lint)",
+    cmd: "./gradlew build",
+    desc: "Plus complet qu'assembleDebug, vérifie tout avant de considérer le build réussi.",
+    tags: ["gradle", "build", "complet"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Lancer le lint",
+    cmd: "./gradlew lint",
+    desc: "Analyse statique du code Android, génère un rapport HTML des problèmes détectés.",
+    tags: ["gradle", "lint"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Lister toutes les tâches disponibles",
+    cmd: "./gradlew tasks",
+    desc: "Utile pour découvrir les tâches spécifiques exposées par le projet/les plugins.",
+    tags: ["gradle", "tasks", "aide"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Voir l'arbre des dépendances",
+    cmd: "./gradlew :app:dependencies",
+    desc: "Utile pour traquer un conflit de version entre librairies.",
+    tags: ["gradle", "dependencies"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Voir les empreintes de signature (SHA1/SHA256)",
+    cmd: "./gradlew signingReport",
+    desc: "Nécessaire pour configurer Firebase, Google Sign-In, Maps API, etc.",
+    tags: ["gradle", "signing", "sha1", "firebase"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Build avec la stacktrace complète",
+    cmd: "./gradlew assembleDebug --stacktrace",
+    desc: "Pour comprendre une erreur de build peu claire. Ajoute --info pour encore plus de détails.",
+    tags: ["gradle", "debug", "stacktrace", "erreur"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Gradle",
+    title: "Arrêter le daemon Gradle",
+    cmd: "./gradlew --stop",
+    desc: "Utile quand Gradle se comporte bizarrement (cache, process bloqué…) avant de relancer un build.",
+    tags: ["gradle", "daemon", "stop"]
+  },
+
+  // --- Kotlin / Android — ADB --------------------------------------
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Lister les appareils connectés",
+    cmd: "adb devices",
+    desc: "Vérifie que l'émulateur/téléphone est bien détecté.",
+    tags: ["adb", "devices"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Voir les logs (logcat filtré)",
+    cmd: "adb logcat *:E",
+    desc: "Affiche uniquement les erreurs. Remplace *:E par TonTag:D pour filtrer un tag précis.",
+    tags: ["adb", "logcat", "debug"],
+    related: "Kotlin / Android::ADB, le pont entre ton PC et ton téléphone",
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Vider les logs",
+    cmd: "adb logcat -c",
+    desc: "Efface le buffer de logs avant de reproduire un bug, pour repartir propre.",
+    tags: ["adb", "logcat", "clear"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Désinstaller l'app",
+    cmd: "adb uninstall <nom.du.package>",
+    desc: "Utile quand l'install échoue à cause d'un conflit de signature.",
+    tags: ["adb", "uninstall"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Installer un APK manuellement",
+    cmd: "adb install app.apk",
+    desc: "Ajoute -r pour réinstaller par-dessus en gardant les données existantes.",
+    tags: ["adb", "install", "apk"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Effacer les données de l'app",
+    cmd: "adb shell pm clear <nom.du.package>",
+    desc: "Remet l'app dans l'état 'première installation' sans la désinstaller.",
+    tags: ["adb", "clear", "data"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Copier un fichier vers l'appareil",
+    cmd: "adb push fichier-local /sdcard/destination",
+    desc: "Pour récupérer un fichier depuis l'appareil, utilise adb pull /sdcard/source fichier-local",
+    tags: ["adb", "push", "pull", "fichier"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Rediriger un port (dev server)",
+    cmd: "adb reverse tcp:8081 tcp:8081",
+    desc: "Permet à un appareil branché en USB d'accéder à un serveur local (Metro, API…) sans wifi.",
+    tags: ["adb", "reverse", "port", "metro"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Ouvrir un shell sur l'appareil",
+    cmd: "adb shell",
+    desc: "Accès shell direct sur l'appareil/émulateur connecté.",
+    tags: ["adb", "shell"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Lancer une activité précise",
+    cmd: "adb shell am start -n nom.du.package/.MainActivity",
+    desc: "Démarre directement une Activity sans passer par le launcher.",
+    tags: ["adb", "activity", "start"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Prendre une capture d'écran",
+    cmd: "adb exec-out screencap -p > screen.png",
+    desc: "Sauvegarde directement l'écran de l'appareil dans un fichier local.",
+    tags: ["adb", "screenshot", "capture"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "ADB",
+    title: "Redémarrer le serveur adb",
+    cmd: "adb kill-server && adb start-server",
+    desc: "Corrige la plupart des soucis de détection d'appareil ('device offline', etc.).",
+    tags: ["adb", "restart", "troubleshoot"]
+  },
+
+  // --- Kotlin / Android — Émulateur --------------------------------------
+  {
+    category: "Kotlin / Android",
+    subcategory: "Émulateur",
+    title: "Lister les émulateurs disponibles",
+    cmd: "emulator -list-avds",
+    desc: "Affiche les AVD (Android Virtual Device) configurés sur la machine.",
+    tags: ["emulator", "avd", "list"]
+  },
+  {
+    category: "Kotlin / Android",
+    subcategory: "Émulateur",
+    title: "Lancer un émulateur précis",
+    cmd: "emulator -avd nom_de_avd",
+    desc: "Démarre l'émulateur en ligne de commande, sans passer par Android Studio.",
+    tags: ["emulator", "avd", "start"]
+  },
+
+  // --- Linux — Fichiers & disque -------------------------------
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Lister en détail (avec cachés)",
+    cmd: "ls -la",
+    desc: "Liste tous les fichiers, y compris cachés, avec permissions/taille/date.",
+    tags: ["ls", "list"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Revenir au dossier précédent",
+    cmd: "cd -",
+    desc: "Bascule vers le dernier dossier où tu étais avant le cd actuel.",
+    tags: ["cd", "navigation"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Espace disque par dossier",
+    cmd: "du -sh * | sort -rh | head -20",
+    desc: "Top 20 des plus gros dossiers/fichiers du répertoire courant.",
+    tags: ["disque", "du", "espace"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Espace disque global",
+    cmd: "df -h",
+    desc: "Espace utilisé/disponible par partition.",
+    tags: ["disque", "df"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Lister les disques/partitions",
+    cmd: "lsblk",
+    desc: "Vue arborescente des disques, partitions et points de montage.",
+    tags: ["disque", "partition", "lsblk"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Trouver un fichier par nom",
+    cmd: "find / -iname \"*motclé*\" 2>/dev/null",
+    desc: "Recherche insensible à la casse sur tout le système, en ignorant les erreurs de permission.",
+    tags: ["find", "recherche", "fichier"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Recherche rapide (index)",
+    cmd: "locate motclé",
+    desc: "Bien plus rapide que find (utilise un index). Installe: sudo apt install mlocate, puis sudo updatedb pour rafraîchir l'index.",
+    tags: ["locate", "recherche"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Chercher du texte dans des fichiers",
+    cmd: "grep -rn \"motclé\" .",
+    desc: "Recherche récursive avec numéro de ligne dans le dossier courant.",
+    tags: ["grep", "recherche", "texte"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Copier/synchroniser avec progression",
+    cmd: "rsync -avh --progress source/ destination/",
+    desc: "Plus robuste que cp pour de gros transferts, reprend là où ça s'est arrêté.",
+    tags: ["rsync", "copie", "sync"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Rendre un script exécutable",
+    cmd: "chmod +x script.sh",
+    desc: "Nécessaire avant de pouvoir lancer ./script.sh",
+    tags: ["chmod", "permissions", "executable"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Changer le propriétaire d'un fichier",
+    cmd: "sudo chown utilisateur:groupe fichier",
+    desc: "Ajoute -R pour l'appliquer récursivement à un dossier.",
+    tags: ["chown", "permissions", "owner"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Créer un lien symbolique",
+    cmd: "ln -s /chemin/source /chemin/lien",
+    desc: "Pratique pour exposer un script ou un dossier depuis n'importe où.",
+    tags: ["ln", "symlink"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Archiver un dossier (tar.gz)",
+    cmd: "tar -czvf archive.tar.gz mon-dossier/",
+    desc: "Compresse. Pour décompresser : tar -xzvf archive.tar.gz",
+    tags: ["tar", "archive", "compression"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Zipper / dézipper",
+    cmd: "zip -r archive.zip mon-dossier/\nunzip archive.zip",
+    desc: "Alternative à tar, plus courante quand il faut échanger avec Windows/Mac.",
+    tags: ["zip", "unzip", "compression"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Voir les métadonnées d'un fichier",
+    cmd: "stat fichier",
+    desc: "Taille, dates de modif/accès, permissions détaillées, inode…",
+    tags: ["stat", "metadata"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Monter / démonter une clé USB",
+    cmd: "lsblk\nsudo mount /dev/sdX1 /mnt\nsudo umount /mnt",
+    desc: "Repère d'abord le périphérique avec lsblk avant de monter.",
+    tags: ["mount", "umount", "usb"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Fichiers & disque",
+    title: "Voir l'arborescence d'un dossier",
+    cmd: "tree -L 2",
+    desc: "Affiche la structure sur 2 niveaux de profondeur. Installe: sudo apt install tree.",
+    tags: ["tree", "arborescence"]
+  },
+
+  // --- Linux — Processus & système -------------------------------
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Moniteur interactif CPU/RAM",
+    cmd: "htop",
+    desc: "Vue temps réel des processus. Installe avec: sudo apt install htop.",
+    tags: ["process", "cpu", "ram", "monitoring"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Chercher un processus par nom",
+    cmd: "ps aux | grep nom-du-processus",
+    desc: "Liste les processus correspondants avec leur PID.",
+    tags: ["ps", "process", "grep"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Tuer un processus",
+    cmd: "kill -9 PID",
+    desc: "Force l'arrêt. Pour tuer par nom directement : killall nom-du-processus",
+    tags: ["kill", "process", "stop"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Mémoire disponible",
+    cmd: "free -h",
+    desc: "RAM et swap utilisés/libres, format lisible.",
+    tags: ["ram", "memoire", "free"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Depuis combien de temps le système tourne",
+    cmd: "uptime",
+    desc: "Uptime + charge moyenne du système.",
+    tags: ["uptime", "system"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Infos noyau / système",
+    cmd: "uname -a",
+    desc: "Version du kernel, architecture, hostname.",
+    tags: ["uname", "kernel", "info"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Version de la distribution",
+    cmd: "lsb_release -a",
+    desc: "Confirme la version de Linux Mint installée.",
+    tags: ["lsb_release", "version", "distro"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Statut d'un service",
+    cmd: "systemctl status nom-du-service",
+    desc: "Voir si un service tourne, et ses derniers logs.",
+    tags: ["systemctl", "service"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Redémarrer un service",
+    cmd: "sudo systemctl restart nom-du-service",
+    desc: "Utile après un changement de config.",
+    tags: ["systemctl", "service", "restart"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Voir les logs système récents",
+    cmd: "journalctl -xe",
+    desc: "Derniers logs systemd, utile pour déboguer un service qui plante.",
+    tags: ["logs", "journalctl", "systemd"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Suivre les logs d'un service en direct",
+    cmd: "journalctl -u nom-du-service -f",
+    desc: "Équivalent d'un tail -f mais pour un service systemd.",
+    tags: ["logs", "journalctl", "follow"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Processus & système",
+    title: "Qui est connecté",
+    cmd: "who",
+    desc: "Utilisateurs actuellement connectés à la machine.",
+    tags: ["who", "users", "session"]
+  },
+
+  // --- Linux — Réseau -------------------------------
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "Adresse IP locale",
+    cmd: "ip a",
+    desc: "Affiche les interfaces réseau et leurs IP (remplace l'ancien ifconfig).",
+    tags: ["ip", "reseau", "adresse"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "IP locale rapide",
+    cmd: "hostname -I",
+    desc: "Juste l'IP, sans le détail des interfaces.",
+    tags: ["ip", "hostname"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "Tester une connexion",
+    cmd: "ping -c 4 exemple.com",
+    desc: "Envoie 4 paquets puis s'arrête (sans -c, ping continue indéfiniment).",
+    tags: ["ping", "reseau", "test"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "Quel processus utilise ce port ?",
+    cmd: "sudo ss -tulpn | grep :<port>",
+    desc: "Identifie ce qui écoute sur un port donné (ex: 3000, 8081).",
+    tags: ["réseau", "port", "ss"],
+    related: "Linux Mint::Processus, ports, RAM : pourquoi ça rame",
+  },
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "Tester si un port distant est ouvert",
+    cmd: "nc -zv hote port",
+    desc: "Pratique pour vérifier qu'un serveur/API est joignable avant de débugger plus loin.",
+    tags: ["nc", "netcat", "port", "test"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "Voir les en-têtes HTTP d'une URL",
+    cmd: "curl -I https://exemple.com",
+    desc: "Rapide pour vérifier un statut HTTP, des redirections, des headers CORS…",
+    tags: ["curl", "http", "headers"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "Télécharger un fichier",
+    cmd: "wget https://exemple.com/fichier",
+    desc: "Alternative à curl -O, plus simple pour un téléchargement direct.",
+    tags: ["wget", "download"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Réseau",
+    title: "Copier un fichier vers/depuis un serveur",
+    cmd: "scp fichier utilisateur@hote:/chemin/distant/",
+    desc: "Copie sécurisée via SSH. Ajoute -r pour un dossier entier.",
+    tags: ["scp", "ssh", "copie"]
+  },
+
+  // --- Linux — Paquets (apt / snap / flatpak) -------------------------------
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Mettre à jour le système",
+    cmd: "sudo apt update && sudo apt upgrade -y",
+    desc: "Rafraîchit la liste des paquets puis met à jour.",
+    tags: ["apt", "update", "upgrade"],
+    related: "Linux Mint::apt : installer et gérer des logiciels",
+  },
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Nettoyer les paquets inutiles",
+    cmd: "sudo apt autoremove -y && sudo apt autoclean",
+    desc: "Libère de l'espace disque en supprimant les paquets orphelins et le cache.",
+    tags: ["apt", "clean", "disque"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Chercher un paquet",
+    cmd: "apt search mot-clé",
+    desc: "Recherche dans les paquets disponibles.",
+    tags: ["apt", "search"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Voir les infos d'un paquet",
+    cmd: "apt show nom-du-paquet",
+    desc: "Description, version, dépendances, taille.",
+    tags: ["apt", "info"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Lister les paquets installés",
+    cmd: "dpkg -l | grep nom",
+    desc: "Vérifie si un paquet précis est déjà installé.",
+    tags: ["dpkg", "list"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Installer un .deb téléchargé",
+    cmd: "sudo dpkg -i fichier.deb\nsudo apt -f install",
+    desc: "La 2e ligne corrige automatiquement les dépendances manquantes.",
+    tags: ["dpkg", "deb", "install"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Gérer les paquets Snap",
+    cmd: "snap list\nsudo snap install nom-du-paquet",
+    desc: "Gestionnaire de paquets sandboxés, alternative à apt pour certaines apps.",
+    tags: ["snap", "install"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Paquets (apt / snap / flatpak)",
+    title: "Gérer les paquets Flatpak",
+    cmd: "flatpak list\nflatpak install flathub nom-du-paquet",
+    desc: "Autre système de paquets sandboxés, très utilisé pour les apps GUI récentes.",
+    tags: ["flatpak", "install"]
+  },
+
+  // --- Linux — Utilisateurs & permissions -------------------------------
+  {
+    category: "Linux",
+    subcategory: "Utilisateurs & permissions",
+    title: "Ouvrir un shell root",
+    cmd: "sudo -i",
+    desc: "Bascule en root pour la session courante. À utiliser avec prudence.",
+    tags: ["sudo", "root"],
+    related: "Linux Mint::sudo et les permissions, sans y laisser des plumes",
+  },
+  {
+    category: "Linux",
+    subcategory: "Utilisateurs & permissions",
+    title: "Ajouter l'utilisateur courant à un groupe",
+    cmd: "sudo usermod -aG groupe $USER",
+    desc: "Ex: sudo usermod -aG docker $USER pour utiliser Docker sans sudo. Nécessite de se reconnecter.",
+    tags: ["usermod", "groupe", "permissions"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Utilisateurs & permissions",
+    title: "Voir mes groupes",
+    cmd: "groups",
+    desc: "Liste les groupes auxquels appartient l'utilisateur courant.",
+    tags: ["groups", "id"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Utilisateurs & permissions",
+    title: "Changer les permissions récursivement",
+    cmd: "chmod -R 755 dossier/",
+    desc: "755 = propriétaire rwx, groupe/autres r-x. Adapte selon le besoin réel.",
+    tags: ["chmod", "permissions", "recursif"]
+  },
+
+  // --- Linux — Outils CLI divers -------------------------------
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "VS Code avec un profil isolé",
+    cmd: "code --user-data-dir ~/vscode-profiles/nom-du-profil",
+    desc: "Lance VS Code avec un dossier de config séparé (extensions, settings). Pratique pour isoler un projet ou tester sans polluer ton profil principal.",
+    tags: ["vscode", "code", "profile", "user-data-dir"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Ouvrir VS Code ici",
+    cmd: "code .",
+    desc: "Ouvre le dossier courant dans VS Code.",
+    tags: ["vscode", "code"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Rechercher dans l'historique du shell",
+    cmd: "history | grep mot-clé",
+    desc: "Retrouve une commande tapée il y a longtemps. Ctrl+R fait une recherche interactive équivalente.",
+    tags: ["history", "recherche"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Créer un alias permanent",
+    cmd: "echo \"alias ga='git add .'\" >> ~/.bashrc && source ~/.bashrc",
+    desc: "Ajoute un raccourci de commande réutilisable dans tous les nouveaux terminaux.",
+    tags: ["alias", "bashrc", "shortcut"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Éditer les tâches planifiées",
+    cmd: "crontab -e",
+    desc: "Programme des commandes à exécuter automatiquement (ex: sauvegardes nocturnes).",
+    tags: ["cron", "crontab", "planification"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Définir une variable d'environnement",
+    cmd: "export MA_VARIABLE=valeur",
+    desc: "Valable pour la session de terminal courante. Ajoute-la à ~/.bashrc pour la rendre permanente.",
+    tags: ["export", "env", "variable"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Générer une clé SSH",
+    cmd: "ssh-keygen -t ed25519 -C \"ton@email.com\"",
+    desc: "Crée une paire de clés moderne (ed25519), utile pour GitHub/serveurs distants.",
+    tags: ["ssh", "ssh-keygen", "cle"],
+    related: "Linux Mint::SSH et les clés : comment ça marche vraiment",
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Se connecter en SSH",
+    cmd: "ssh utilisateur@hote",
+    desc: "Ouvre une session shell distante sécurisée.",
+    tags: ["ssh", "connexion"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Localiser un exécutable",
+    cmd: "which nom-de-la-commande",
+    desc: "Montre quel binaire est réellement exécuté (utile en cas de conflit de versions).",
+    tags: ["which", "path"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Outils CLI divers",
+    title: "Afficher le manuel d'une commande",
+    cmd: "man nom-de-la-commande",
+    desc: "Documentation complète installée localement. Quitte avec la touche q.",
+    tags: ["man", "aide", "documentation"]
+  },
+
+  // --- Linux — Docker -------------------------------
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Conteneurs en cours d'exécution",
+    cmd: "docker ps",
+    desc: "Ajoute -a pour voir aussi les conteneurs arrêtés.",
+    tags: ["docker", "ps", "conteneur"],
+    related: "Docker::Image vs conteneur, la différence",
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Lister les images",
+    cmd: "docker images",
+    desc: "Toutes les images Docker présentes localement.",
+    tags: ["docker", "images"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Lancer un conteneur",
+    cmd: "docker run -d -p 8080:80 --name mon-conteneur nom-image",
+    desc: "-d = en arrière-plan, -p = mapping de port hôte:conteneur.",
+    tags: ["docker", "run"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Ouvrir un shell dans un conteneur",
+    cmd: "docker exec -it nom-conteneur bash",
+    desc: "Utilise sh à la place de bash si l'image ne l'a pas (ex: images Alpine).",
+    tags: ["docker", "exec", "shell"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Suivre les logs d'un conteneur",
+    cmd: "docker logs -f nom-conteneur",
+    desc: "-f pour suivre en direct, comme un tail -f.",
+    tags: ["docker", "logs"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Arrêter / démarrer un conteneur",
+    cmd: "docker stop nom-conteneur\ndocker start nom-conteneur",
+    desc: "Arrête ou relance un conteneur existant sans le recréer.",
+    tags: ["docker", "stop", "start"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Supprimer un conteneur",
+    cmd: "docker rm nom-conteneur",
+    desc: "Le conteneur doit être arrêté. Ajoute -f pour forcer sans l'arrêter d'abord.",
+    tags: ["docker", "rm", "supprimer"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Construire une image",
+    cmd: "docker build -t nom-image:tag .",
+    desc: "Construit à partir du Dockerfile du dossier courant.",
+    tags: ["docker", "build", "image"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Lancer / arrêter une stack (Compose)",
+    cmd: "docker compose up -d\ndocker compose down",
+    desc: "up -d démarre tous les services en arrière-plan, down les arrête et supprime les conteneurs.",
+    tags: ["docker", "compose", "stack"],
+    related: "Docker::Docker Compose, orchestrer plusieurs conteneurs",
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Voir les logs d'une stack Compose",
+    cmd: "docker compose logs -f",
+    desc: "Suit les logs de tous les services définis dans docker-compose.yml.",
+    tags: ["docker", "compose", "logs"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Tout nettoyer (images/conteneurs/réseaux inutilisés)",
+    cmd: "docker system prune -a",
+    desc: "⚠️ Supprime tout ce qui n'est pas utilisé par un conteneur actif. Libère beaucoup d'espace disque.",
+    tags: ["docker", "prune", "clean", "danger"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Inspecter un conteneur/image",
+    cmd: "docker inspect nom-conteneur",
+    desc: "Détails complets en JSON (IP, volumes, variables d'env, config réseau…).",
+    tags: ["docker", "inspect"]
+  },
+  {
+    category: "Linux",
+    subcategory: "Docker",
+    title: "Lister les volumes",
+    cmd: "docker volume ls",
+    desc: "Volumes de données persistants gérés par Docker.",
+    tags: ["docker", "volume"]
+  },
+
+  // --- Git ------------------------------------------------------
+  {
+    category: "Git",
+    subcategory: "Staging & Commit",
+    title: "Statut du dépôt",
+    cmd: "git status",
+    desc: "Fichiers modifiés / en staging / non suivis.",
+    tags: ["status"]
+  },
+  {
+    category: "Git",
+    subcategory: "Staging & Commit",
+    title: "Ajouter tous les changements",
+    cmd: "git add .",
+    desc: "Met tout le dossier courant en staging.",
+    tags: ["add", "staging"]
+  },
+  {
+    category: "Git",
+    subcategory: "Staging & Commit",
+    title: "Ajouter en interactif",
+    cmd: "git add -p",
+    desc: "Choisit morceau par morceau (hunk) ce qui part en staging.",
+    tags: ["add", "staging", "interactive"]
+  },
+  {
+    category: "Git",
+    subcategory: "Staging & Commit",
+    title: "Commit",
+    cmd: 'git commit -m "message"',
+    desc: "Enregistre les changements en staging.",
+    tags: ["commit"],
+    related: "Git::Local vs distant : ce qui se passe vraiment à chaque étape",
+  },
+  {
+    category: "Git",
+    subcategory: "Staging & Commit",
+    title: "Modifier le dernier commit",
+    cmd: "git commit --amend",
+    desc: "Change le message et/ou ajoute des fichiers oubliés au dernier commit.",
+    tags: ["commit", "amend"]
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Nouvelle branche + bascule",
+    cmd: "git checkout -b nom-de-la-branche",
+    desc: "Crée et bascule sur une nouvelle branche en une commande (équivalent: git switch -c nom).",
+    tags: ["branch", "checkout", "switch"],
+    related: "Git::Les branches : travailler sans tout casser",
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Changer de branche",
+    cmd: "git switch nom-de-la-branche",
+    desc: "Bascule sur une branche existante.",
+    tags: ["branch", "switch", "checkout"]
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Lister les branches",
+    cmd: "git branch -a",
+    desc: "Locales et distantes. Ajoute -v pour voir le dernier commit de chacune.",
+    tags: ["branch", "list"]
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Supprimer une branche locale",
+    cmd: "git branch -d nom-de-la-branche",
+    desc: "Utilise -D (majuscule) pour forcer si elle n'est pas fusionnée.",
+    tags: ["branch", "delete"]
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Renommer la branche courante",
+    cmd: "git branch -m nouveau-nom",
+    desc: "Renomme la branche sur laquelle tu es actuellement.",
+    tags: ["branch", "rename"]
+  },
+  {
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Récupérer les changements distants",
+    cmd: "git fetch",
+    desc: "Télécharge les nouveautés sans les fusionner dans ta branche.",
+    tags: ["fetch", "remote"]
+  },
+  {
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Récupérer + fusionner",
+    cmd: "git pull",
+    desc: "fetch + merge en une commande. Ajoute --rebase pour rebaser au lieu de merger.",
+    tags: ["pull", "remote", "merge"]
+  },
+  {
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Envoyer les commits",
+    cmd: "git push",
+    desc: "Pousse la branche courante vers le remote.",
+    tags: ["push", "remote"],
+    related: "Git::Local vs distant : ce qui se passe vraiment à chaque étape",
+  },
+  {
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Premier push d'une nouvelle branche",
+    cmd: "git push -u origin nom-de-la-branche",
+    desc: "Pousse et lie la branche locale à la branche distante (-u = upstream).",
+    tags: ["push", "remote", "upstream"]
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Fusionner une branche",
+    cmd: "git merge nom-de-la-branche",
+    desc: "Fusionne la branche indiquée dans la branche courante.",
+    tags: ["merge"],
+    related: "Git::Les conflits de fusion (merge conflicts)",
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Rebaser sur une autre branche",
+    cmd: "git rebase nom-de-la-branche",
+    desc: "Rejoue tes commits par-dessus l'autre branche. En cas de conflit : git rebase --continue / --abort.",
+    tags: ["rebase"]
+  },
+  {
+    category: "Git",
+    subcategory: "Historique & recherche",
+    title: "Voir l'historique en une ligne",
+    cmd: "git log --oneline --graph --all",
+    desc: "Vue compacte et graphique des branches/commits.",
+    tags: ["log", "history", "graph"],
+    related: "Git::Lire l'historique : git log, HEAD, SHA",
+  },
+  {
+    category: "Git",
+    subcategory: "Staging & Commit",
+    title: "Voir les changements non stagés",
+    cmd: "git diff",
+    desc: "Diff des fichiers modifiés mais pas encore ajoutés au staging. Ajoute --staged pour voir le diff du staging.",
+    tags: ["diff"]
+  },
+  {
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Annuler le dernier commit (garder les modifs)",
+    cmd: "git reset --soft HEAD~1",
+    desc: "Défait le commit mais garde les changements en staging.",
+    tags: ["reset", "undo", "commit"],
+    related: "Git::Annuler une erreur sans paniquer",
+  },
+  {
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Annuler le dernier commit (tout jeter)",
+    cmd: "git reset --hard HEAD~1",
+    desc: "⚠️ Supprime définitivement le commit ET les changements. Irréversible.",
+    tags: ["reset", "undo", "commit", "danger"],
+    related: "Git::Annuler une erreur sans paniquer",
+  },
+  {
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Remettre un fichier comme au dernier commit",
+    cmd: "git checkout -- nom-du-fichier",
+    desc: "Annule les modifications locales non stagées sur ce fichier (équivalent moderne: git restore nom-du-fichier).",
+    tags: ["checkout", "restore", "undo"]
+  },
+  {
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Retirer un fichier du staging",
+    cmd: "git restore --staged nom-du-fichier",
+    desc: "Le fichier reste modifié mais sort du staging.",
+    tags: ["restore", "unstage"]
+  },
+  {
+    category: "Git",
+    subcategory: "Stash",
+    title: "Mettre de côté les changements (stash)",
+    cmd: "git stash",
+    desc: "Range temporairement les modifs en cours pour retrouver un dossier propre.",
+    tags: ["stash"]
+  },
+  {
+    category: "Git",
+    subcategory: "Stash",
+    title: "Récupérer le dernier stash",
+    cmd: "git stash pop",
+    desc: "Réapplique le dernier stash et le retire de la liste.",
+    tags: ["stash", "pop"]
+  },
+  {
+    category: "Git",
+    subcategory: "Stash",
+    title: "Lister les stash",
+    cmd: "git stash list",
+    desc: "Voir tous les stash en attente.",
+    tags: ["stash", "list"]
+  },
+  {
+    category: "Git",
+    subcategory: "Tags & config",
+    title: "Créer un tag",
+    cmd: 'git tag -a v1.0.0 -m "message"',
+    desc: "Tag annoté (recommandé pour les releases). git push --tags pour l'envoyer.",
+    tags: ["tag", "release"]
+  },
+  {
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Cloner un dépôt",
+    cmd: "git clone <url>",
+    desc: "Récupère un dépôt distant en local.",
+    tags: ["clone"]
+  },
+  {
+    category: "Git",
+    subcategory: "Historique & recherche",
+    title: "Voir qui a changé quoi (blame)",
+    cmd: "git blame nom-du-fichier",
+    desc: "Affiche le dernier commit ayant modifié chaque ligne.",
+    tags: ["blame"]
+  },
+  {
+    category: "Git",
+    subcategory: "Historique & recherche",
+    title: "Chercher un commit par contenu",
+    cmd: 'git log -S"texte-recherché" --oneline',
+    desc: "Trouve les commits qui ont ajouté/supprimé une chaîne donnée dans le code.",
+    tags: ["log", "search", "pickaxe"]
+  },
+  {
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Nettoyer les fichiers non suivis",
+    cmd: "git clean -fd",
+    desc: "⚠️ Supprime définitivement les fichiers/dossiers non trackés. Ajoute -n avant pour prévisualiser sans rien supprimer.",
+    tags: ["clean", "danger"]
+  },
+  {
+    category: "Git",
+    subcategory: "Tags & config",
+    title: "Configurer nom et email globaux",
+    cmd: 'git config --global user.name "Ton Nom"\ngit config --global user.email "ton@email.com"',
+    desc: "À faire une fois par machine.",
+    tags: ["config", "setup"]
+  },
+  {
+    category: "Git",
+    subcategory: "Branches",
+    title: "Réécrire les N derniers commits (rebase interactif)",
+    cmd: "git rebase -i HEAD~5",
+    desc: "Permet de squash / reword / réordonner les 5 derniers commits.",
+    tags: ["rebase", "interactive", "squash"]
+  }
+];
+
+</script>
+<script>
+// ============================================================
+// Command Hub — fichier de formation
+// ============================================================
+// Contrairement à commands.js (des commandes à copier), ce fichier
+// contient des explications : le POURQUOI et le QUAND, pour quelqu'un
+// qui découvre. Chaque entrée :
+//   category : thème (devient un onglet de filtre dans l'app)
+//   title    : titre de la fiche
+//   level    : "🟢 Débutant", "🟡 Intermédiaire" ou "🔴 Avancé" (badge)
+//   summary  : résumé en 1-2 phrases, toujours visible
+//   content  : tableau de { heading, text }. text peut contenir des
+//              \n\n pour séparer les paragraphes, et des \n simples
+//              pour des lignes de commande/étapes.
+// ============================================================
+
+const GUIDES = [
+  // --- Bases du terminal ---------------------------------------
+  {
+    category: "Bases du terminal",
+    title: "Comment lire une commande",
+    level: "🟢 Débutant",
+    summary: "Avant de copier-coller n'importe quoi, comprends ce que veut dire chaque partie d'une commande.",
+    content: [
+      {
+        heading: "Anatomie d'une commande",
+        text: "Une commande a en général cette forme :\n\ncommande --option valeur argument\n\n• La commande (ex: git, npm, ls) dit quel programme lancer.\n• Les options (ou \"flags\") commencent par - ou -- et modifient le comportement. Ex: -r pour \"récursif\", --force pour forcer.\n• Un argument est une valeur donnée à la commande, souvent un nom de fichier ou de dossier.\n\nExemple : rm -r mon-dossier\n→ rm = supprimer, -r = aussi le contenu à l'intérieur, mon-dossier = ce qu'on supprime."
+      },
+      {
+        heading: "Les < > dans ce hub",
+        text: "Dans les commandes de ce hub, tu verras parfois <nom-du-package> ou <PID>. Les chevrons ne se tapent JAMAIS : ils veulent dire \"remplace ça par ta propre valeur\".\n\nEx: adb uninstall <nom.du.package> devient adb uninstall com.exemple.monapp"
+      },
+      {
+        heading: "sudo, c'est quoi ?",
+        text: "sudo veut dire \"exécute cette commande en tant qu'administrateur\". Le système demande ton mot de passe et autorise des actions normalement bloquées (installer un logiciel, modifier un fichier système…).\n\nRègle d'or : ne tape jamais sudo devant une commande que tu ne comprends pas, surtout si elle contient rm."
+      },
+      {
+        heading: "\"command not found\", que faire ?",
+        text: "Ça veut dire que le shell n'a trouvé aucun programme portant ce nom (faute de frappe, ou logiciel pas installé, ou pas dans le PATH — voir [[Bases du terminal::Variables d'environnement et PATH]]).\n\nRéflexe : vérifie l'orthographe, puis demande-toi \"ce logiciel est-il vraiment installé ?\" avec which nom-de-la-commande ou en cherchant comment l'installer (souvent via apt)."
+      }
+    ]
+  },
+  {
+    category: "Bases du terminal",
+    title: "Se déplacer dans les dossiers",
+    level: "🟢 Débutant",
+    summary: "pwd, cd, ls : les commandes que tu vas taper des dizaines de fois par jour.",
+    content: [
+      {
+        heading: "Où je suis ?",
+        text: "pwd (Print Working Directory) affiche le dossier dans lequel tu te trouves actuellement dans le terminal."
+      },
+      {
+        heading: "Se déplacer",
+        text: "cd nom-du-dossier entre dans un dossier.\ncd .. remonte d'un niveau.\ncd (tout seul) ou cd ~ te ramène dans ton dossier personnel.\ncd - te ramène au dossier précédent — pratique pour faire des allers-retours."
+      },
+      {
+        heading: "Voir ce qu'il y a",
+        text: "ls liste le contenu du dossier courant.\nls -la l'affiche en détail (permissions, taille, date) et montre aussi les fichiers cachés (ceux qui commencent par un point, comme .bashrc)."
+      },
+      {
+        heading: "Chemin relatif vs absolu",
+        text: "Un chemin absolu commence par / et part de la racine du système (ex: /home/evan/cmd-hub). Un chemin relatif part d'où tu es actuellement (ex: cmd-hub/index.html si tu es déjà dans /home/evan). Le symbole ~ est un raccourci vers ton dossier personnel."
+      },
+      {
+        heading: "L'autocomplétion (Tab)",
+        text: "Tape les premières lettres d'un nom de fichier/dossier puis appuie sur Tab : le terminal le complète automatiquement. Si plusieurs fichiers commencent pareil, appuie deux fois sur Tab pour voir la liste des possibilités.\n\nRéflexe à prendre tout de suite : ça évite les fautes de frappe et fait gagner énormément de temps."
+      }
+    ]
+  },
+  {
+    category: "Bases du terminal",
+    title: "Les permissions de fichiers en détail",
+    level: "🟡 Intermédiaire",
+    summary: "Décoder -rwxr-xr-- et comprendre ce que chmod 755 veut dire réellement.",
+    content: [
+      {
+        heading: "Trois types de droits",
+        text: "r (read) = peut lire le contenu.\nw (write) = peut modifier/supprimer.\nx (execute) = peut exécuter le fichier comme un programme — ou, pour un DOSSIER, peut \"entrer\" dedans (cd)."
+      },
+      {
+        heading: "Trois profils concernés",
+        text: "Chaque fichier a 3 groupes de droits séparés, dans cet ordre : le propriétaire (u = user), le groupe (g = group) auquel appartient le fichier, et tous les autres (o = others)."
+      },
+      {
+        heading: "Décoder une ligne de ls -la",
+        text: "Exemple : -rwxr-xr-- 1 evan evan 220 ... script.sh\n\n• Le tout premier caractère (-) dit si c'est un fichier (-) ou un dossier (d).\n• rwx → le propriétaire (evan) peut tout faire.\n• r-x → le groupe peut lire et exécuter, pas modifier.\n• r-- → tous les autres peuvent seulement lire."
+      },
+      {
+        heading: "Le format en chiffres (chmod 755)",
+        text: "Chaque droit a une valeur : r=4, w=2, x=1. On additionne par profil.\n\nrwx = 4+2+1 = 7\nr-x = 4+0+1 = 5\nr-- = 4+0+0 = 4\n\nchmod 755 fichier donne donc : propriétaire=7 (rwx), groupe=5 (r-x), autres=5 (r-x). C'est la combinaison typique pour un script qu'on veut pouvoir exécuter."
+      },
+      {
+        heading: "Erreur fréquente",
+        text: "./script.sh: Permission denied → le fichier n'a pas le droit x. Corrige avec chmod +x script.sh (ajoute juste le droit d'exécution, sans toucher au reste)."
+      }
+    ]
+  },
+  {
+    category: "Bases du terminal",
+    title: "Variables d'environnement et PATH",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi taper juste 'code' ou 'git' suffit à lancer le bon programme, où que tu sois.",
+    content: [
+      {
+        heading: "C'est quoi une variable d'environnement",
+        text: "Une paire nom=valeur disponible pour tous les programmes lancés depuis ce terminal — un peu comme des réglages ambiants. Exemple : $HOME contient le chemin de ton dossier personnel."
+      },
+      {
+        heading: "PATH, la liste des endroits où chercher un programme",
+        text: "Quand tu tapes une commande (ex: git), le shell ne connaît pas son emplacement exact par magie : il regarde, DANS L'ORDRE, chaque dossier listé dans la variable PATH, jusqu'à trouver un programme portant ce nom. S'il n'en trouve aucun → \"command not found\".\n\nwhich nom-de-la-commande te dit exactement quel fichier est utilisé, si plusieurs versions traînent sur le système."
+      },
+      {
+        heading: "Variable temporaire vs permanente",
+        text: "export MA_VARIABLE=valeur ne vaut que pour la session de terminal actuelle — ferme le terminal, elle disparaît. Pour la rendre permanente, ajoute la ligne export MA_VARIABLE=valeur dans ~/.bashrc (elle sera relue à chaque nouveau terminal)."
+      },
+      {
+        heading: "Exemple concret",
+        text: "Quand tu installes un logiciel comme VS Code ou Android Studio, son installeur ajoute automatiquement son propre dossier au PATH. C'est pour ça que taper code . fonctionne directement dans n'importe quel dossier, sans donner le chemin complet vers l'exécutable."
+      },
+      {
+        heading: "Les fichiers .env : centraliser la config sans la coder en dur",
+        text: "Un fichier .env à la racine d'un projet liste des variables (ex: API_URL=https://exemple.com) que certains outils (Node, Expo, Docker…) chargent automatiquement au démarrage. Ça permet de changer la config selon l'environnement (dev/prod) sans toucher au code, et surtout de garder les secrets HORS du code source.\n\nRègle absolue : un fichier .env doit TOUJOURS être listé dans .gitignore. Le committer par erreur revient à publier tes secrets dans l'historique Git, potentiellement pour toujours."
+      },
+      {
+        heading: "Piège spécifique à Expo/React Native : EXPO_PUBLIC_",
+        text: "Dans un projet Expo, seules les variables préfixées par EXPO_PUBLIC_ (ex: EXPO_PUBLIC_API_URL) sont intégrées dans le bundle JS envoyé sur le téléphone — les autres variables du .env restent invisibles côté app, utilisables seulement pendant le build.\n\n\"Public\" ici veut dire littéralement EMBARQUÉE DANS L'APP, donc potentiellement lisible par n'importe qui qui décompile le fichier installé. Ne mets JAMAIS un vrai secret (mot de passe, clé privée, token d'accès complet) derrière un EXPO_PUBLIC_ — uniquement des informations qui peuvent sans risque être publiques, comme une URL d'API ou une clé Firebase déjà conçue pour être publique."
+      }
+    ]
+  },
+  {
+    category: "Bases du terminal",
+    title: "npm & npx, et package.json en détail",
+    level: "🟡 Intermédiaire",
+    summary: "La différence entre npm et npx (que tu utilises dans presque toutes les commandes Expo), et comment lire un package.json.",
+    content: [
+      {
+        heading: "npm vs npx, la confusion la plus fréquente",
+        text: "npm (Node Package Manager) sert à INSTALLER des paquets dans ton projet (npm install).\n\nnpx sert à EXÉCUTER un paquet — en le téléchargeant temporairement s'il n'est pas déjà présent, sans l'ajouter durablement au projet. C'est pour ça que presque toutes les commandes Expo de ce hub commencent par npx expo ... plutôt que par une installation globale : ça garantit d'utiliser la version d'Expo CLI attendue par CE projet précis, sans rien installer de façon permanente sur ta machine."
+      },
+      {
+        heading: "Anatomie de package.json",
+        text: "dependencies : les librairies nécessaires pour que l'app FONCTIONNE une fois publiée (ex: react, expo).\n\ndevDependencies : des outils utiles seulement PENDANT le développement (ex: un linter, des types TypeScript) — ils ne sont pas inclus dans l'app finale distribuée aux utilisateurs.\n\nscripts : des raccourcis de commande personnalisés, lancés avec npm run nom-du-script (certains scripts spéciaux comme start se lancent directement avec npm start, sans \"run\")."
+      },
+      {
+        heading: "Lire un numéro de version (semver)",
+        text: "Un numéro de version suit le format MAJEUR.MINEUR.CORRECTIF (ex: 4.2.1 → changements cassants seulement sur le premier chiffre, en théorie). Dans package.json, les symboles placés devant précisent ce qu'un npm install a le droit d'installer automatiquement :\n\n^4.2.1 → accepte les mises à jour MINEURES et CORRECTIFS (jusqu'à 4.x.x), mais pas 5.0.0.\n~4.2.1 → accepte seulement les CORRECTIFS (4.2.x), plus prudent.\nAucun symbole (4.2.1 tout seul) → version figée exactement, rien d'autre n'est installé automatiquement."
+      },
+      {
+        heading: "Pourquoi npx expo install plutôt que npm install",
+        text: "npm install seul installe la DERNIÈRE version publiée d'un paquet, sans se soucier de compatibilité. npx expo install choisit spécifiquement la version COMPATIBLE avec le SDK Expo utilisé par ton projet — une nuance qui évite une bonne partie des plantages après installation d'une librairie (voir [[Expo / React Native::Pourquoi ça plante après avoir installé une lib]])."
+      }
+    ]
+  },
+  {
+    category: "Bases du terminal",
+    title: "Comprendre les gestionnaires de paquets",
+    level: "🟢 Débutant",
+    summary: "apt, npm, Gradle : trois outils différents qui résolvent le même problème dans trois écosystèmes différents.",
+    content: [
+      {
+        heading: "Le même problème, résolu différemment",
+        text: "Un gestionnaire de paquets automatise l'installation, la mise à jour et la suppression de logiciels/librairies, avec leurs dépendances. apt gère les LOGICIELS DU SYSTÈME Linux. npm (ou yarn) gère les LIBRAIRIES JAVASCRIPT d'un projet. Gradle gère les LIBRAIRIES JAVA/KOTLIN d'un projet Android."
+      },
+      {
+        heading: "Où sont installés les paquets",
+        text: "apt install installe pour TOUT le système, dans des dossiers partagés (/usr, /etc…) — un seul exemplaire pour tous tes projets.\n\nnpm install installe dans un dossier node_modules/ propre à CE projet — chaque projet a sa propre copie, isolée des autres. C'est pour ça qu'on peut supprimer node_modules/ sans risque : npm install le régénère entièrement.\n\nGradle télécharge dans un cache partagé (~/.gradle) puis le relie au projet."
+      },
+      {
+        heading: "package.json / build.gradle : la liste de courses",
+        text: "Ces fichiers listent les dépendances voulues et leurs versions (ex: \"expo\": \"~50.0.0\"). Un fichier \"lock\" associé (package-lock.json, ou son équivalent Gradle) fige les versions EXACTES réellement utilisées, pour que le projet installe rigoureusement la même chose chez toi, chez un collègue, ou sur un serveur de build."
+      }
+    ]
+  },
+  {
+    category: "Bases du terminal",
+    title: "Enchaîner des commandes (pipes et redirections)",
+    level: "🟡 Intermédiaire",
+    summary: "|, >, && : les symboles qui transforment des commandes isolées en petits scripts puissants.",
+    content: [
+      {
+        heading: "Le pipe | : brancher une commande sur une autre",
+        text: "| envoie la SORTIE de la commande de gauche comme ENTRÉE de la commande de droite.\n\nExemple : ps aux | grep node\n→ ps aux liste tous les processus, grep node ne garde que les lignes contenant \"node\". Résultat : une liste filtrée, sans avoir à tout lire à l'oeil."
+      },
+      {
+        heading: "> et >> : rediriger vers un fichier",
+        text: "> envoie le résultat dans un fichier, en ÉCRASANT son contenu existant.\n>> fait pareil mais AJOUTE à la fin, sans rien effacer.\n\nExemple : ls -la > liste.txt sauvegarde le résultat de ls dans un fichier au lieu de l'afficher à l'écran."
+      },
+      {
+        heading: "&& : exécuter la suite seulement si ça a réussi",
+        text: "commande1 && commande2 exécute la deuxième SEULEMENT SI la première a réussi (code de sortie 0).\n\nExemple : cd mon-projet && npm install\n→ Si le dossier mon-projet n'existe pas, cd échoue et npm install n'est jamais lancé au mauvais endroit. C'est plus sûr que de les taper séparément."
+      },
+      {
+        heading: "; : exécuter l'une après l'autre, sans condition",
+        text: "commande1 ; commande2 exécute les deux à la suite, peu importe si la première a réussi ou échoué. À utiliser seulement quand la deuxième commande n'a pas besoin que la première ait fonctionné."
+      }
+    ]
+  },
+
+  // --- Programmation ---------------------------------------
+  {
+    category: "Programmation",
+    title: "JSON, le format universel",
+    level: "🟢 Débutant",
+    summary: "La structure de données que tu croises partout : réponses d'API, fichiers de config, WebDAV, Firebase…",
+    content: [
+      {
+        heading: "C'est quoi JSON",
+        text: "JSON (JavaScript Object Notation) est né en JavaScript, mais il est aujourd'hui utilisé par pratiquement TOUS les langages (Kotlin, Python, Java…) car il est simple à lire pour un humain et facile à analyser pour une machine. C'est le format le plus courant pour échanger des données entre une app et un serveur."
+      },
+      {
+        heading: "À quoi ça ressemble",
+        text: "{\n  \"nom\": \"Evan\",\n  \"age\": 30,\n  \"projets\": [\"KDriveMusic\", \"ActiveLog\"],\n  \"actif\": true\n}\n\nDes paires clé/valeur entre accolades { }, où une valeur peut elle-même contenir un autre objet ou une liste — c'est cette imbrication qui permet de représenter des données complexes."
+      },
+      {
+        heading: "Les types de valeurs possibles",
+        text: "\"texte\" entre guillemets doubles (jamais simples en JSON strict), un nombre (42, 3.14), un booléen (true/false), null (l'absence de valeur), un objet {...}, ou un tableau [...].\n\nPiège fréquent : une virgule après le TOUT DERNIER élément d'un objet ou tableau est une erreur de syntaxe en JSON (contrairement à JS) — ça fait planter le parsing."
+      },
+      {
+        heading: "Pourquoi c'est partout",
+        text: "JSON étant indépendant de tout langage, un serveur écrit en Kotlin peut envoyer une réponse JSON qu'une app Expo/JavaScript comprend nativement avec JSON.parse(), et inversement avec JSON.stringify(). C'est ce langage commun qui permet à des technologies complètement différentes de se parler."
+      }
+    ]
+  },
+  {
+    category: "Programmation",
+    title: "Requêtes HTTP et API REST",
+    level: "🟡 Intermédiaire",
+    summary: "Comment une app parle à un serveur : méthodes, codes de statut, et le principe REST — la base de WebDAV comme de Firebase.",
+    content: [
+      {
+        heading: "Client et serveur, qui demande quoi",
+        text: "Ton app (le \"client\") envoie une REQUÊTE à une adresse précise (une URL), et le serveur renvoie une RÉPONSE. HTTP est le protocole — les règles du jeu — qui régit la forme de cet échange."
+      },
+      {
+        heading: "Les méthodes HTTP principales",
+        text: "GET → lire/récupérer une donnée, sans rien modifier (ex: récupérer la liste de tes morceaux).\nPOST → créer une nouvelle donnée (ex: ajouter une nouvelle séance de sport).\nPUT / PATCH → modifier une donnée existante (PUT remplace tout, PATCH modifie juste certains champs).\nDELETE → supprimer une donnée."
+      },
+      {
+        heading: "Les codes de statut à savoir lire",
+        text: "200 OK → tout s'est bien passé.\n201 Created → une ressource a bien été créée (typique après un POST).\n400 Bad Request → ta requête est mal formée (souvent une erreur côté client).\n401 Unauthorized → tu n'es pas authentifié (identifiants manquants/invalides).\n403 Forbidden → tu ES authentifié, mais tu n'as pas le droit d'accéder à ça.\n404 Not Found → l'URL demandée n'existe pas.\n500 Internal Server Error → le serveur a planté de son côté, pas toi.\n\nRéflexe : avant de chercher un bug dans ton code, regarde TOUJOURS le code de statut retourné — il dit souvent directement où chercher."
+      },
+      {
+        heading: "REST, le principe général",
+        text: "Une API dite \"REST\" organise ses URL autour de RESSOURCES (ex: /morceaux, /morceaux/42), et laisse la méthode HTTP dire ce qu'on veut en faire. Résultat : GET /morceaux/42 lit le morceau 42, DELETE /morceaux/42 le supprime — même URL, action différente selon le verbe."
+      },
+      {
+        heading: "Exemple concret : WebDAV (comme dans KDriveMusic)",
+        text: "WebDAV est une EXTENSION de HTTP pensée pour gérer des fichiers à distance : PROPFIND pour lister le contenu d'un dossier, GET pour télécharger un fichier, PUT pour en envoyer un, DELETE pour en supprimer un. Comprendre HTTP en général aide directement à comprendre pourquoi WebDAV fonctionne comme il fonctionne."
+      }
+    ]
+  },
+  {
+    category: "Programmation",
+    title: "Async/await & Promises en JavaScript",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi certaines lignes de code JS semblent 's'exécuter plus tard', et comment ne pas s'y perdre.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Une requête réseau (appeler une API, lire un fichier) prend du temps — parfois plusieurs secondes. Si JavaScript attendait bêtement la réponse en bloquant tout, l'app entière (y compris l'affichage) serait figée pendant ce temps. Les opérations \"asynchrones\" permettent de lancer cette attente SANS bloquer le reste de l'app."
+      },
+      {
+        heading: "La Promise : une promesse de valeur future",
+        text: "Une Promise représente une valeur qui n'est PAS encore disponible, mais qui le sera (ou échouera) plus tard. Elle a 3 états possibles : en attente (pending), réussie (fulfilled, avec une valeur), ou échouée (rejected, avec une erreur)."
+      },
+      {
+        heading: "async/await, la syntaxe qui simplifie tout",
+        text: "Une fonction déclarée async peut utiliser le mot-clé await devant un appel qui retourne une Promise — le code \"met en pause\" cette fonction précise (et seulement elle) jusqu'à ce que la Promise se résolve, puis continue avec la valeur obtenue. Ça permet d'écrire du code asynchrone qui SE LIT comme du code normal, séquentiel, plutôt qu'en cascade de callbacks.\n\nasync function chargerDonnees() {\n  const reponse = await fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}"
+      },
+      {
+        heading: "Gérer les erreurs : try/catch",
+        text: "Un await qui échoue (Promise rejetée, ex: pas de réseau) lève une erreur qu'il faut attraper avec try/catch, sinon l'app peut planter ou l'erreur passer inaperçue silencieusement :\n\ntry {\n  const donnees = await chargerDonnees();\n} catch (erreur) {\n  console.log(\"Échec du chargement :\", erreur);\n}"
+      },
+      {
+        heading: "Piège fréquent : oublier le await",
+        text: "Appeler une fonction async SANS await ne donne pas le résultat final, mais la Promise elle-même (non résolue) — une erreur très courante qui se traduit par un objet bizarre affiché au lieu de la vraie donnée attendue."
+      }
+    ]
+  },
+  {
+    category: "Programmation",
+    title: "Firebase, les bases",
+    level: "🟡 Intermédiaire",
+    summary: "Authentification, Firestore, règles de sécurité : le strict nécessaire pour s'y retrouver dans un backend Firebase.",
+    content: [
+      {
+        heading: "C'est quoi Firebase",
+        text: "Une plateforme backend \"clé en main\" fournie par Google : base de données, authentification des utilisateurs, stockage de fichiers, notifications… Elle évite d'avoir à écrire et héberger soi-même un serveur pour ces besoins courants — l'app communique directement avec les services Firebase via leur SDK."
+      },
+      {
+        heading: "Firestore : collections et documents",
+        text: "Firestore (la base de données la plus utilisée de Firebase) organise les données en COLLECTIONS (ex: \"utilisateurs\", \"seances\"), qui contiennent des DOCUMENTS (chacun un peu comme un objet JSON, avec un identifiant unique). Un document peut lui-même contenir des sous-collections — une hiérarchie plutôt que des tables reliées comme en SQL classique."
+      },
+      {
+        heading: "Authentication",
+        text: "Le service qui gère les comptes utilisateurs (email/mot de passe, Google, etc.) sans que tu aies à gérer toi-même le stockage sécurisé des mots de passe. Une fois connecté, chaque utilisateur reçoit un identifiant unique (uid) réutilisé pour savoir à QUI appartient chaque donnée dans Firestore."
+      },
+      {
+        heading: "Règles de sécurité (Security Rules)",
+        text: "Par défaut, sans règles bien configurées, N'IMPORTE QUI connaissant l'adresse de ta base peut potentiellement lire ou écrire dedans — Firebase n'a pas de \"serveur\" à toi qui filtre les requêtes, les règles de sécurité SONT le seul rempart. Elles se définissent dans un fichier séparé (ex: allow read, write: if request.auth.uid == userId;) et sont vérifiées côté Firebase à chaque requête, jamais côté app (où elles seraient contournables)."
+      }
+    ]
+  },
+
+  // --- Git ---------------------------------------
+  {
+    category: "Git",
+    title: "Git, à quoi ça sert vraiment ?",
+    level: "🟢 Débutant",
+    summary: "Comprendre le concept avant les commandes : Git garde un historique de chaque version de ton code, d'abord et avant tout en local.",
+    content: [
+      {
+        heading: "Le problème que Git résout",
+        text: "Sans Git, pour garder un historique, tu ferais un truc du genre projet_v1, projet_v2_final, projet_v2_final_VRAIMENT_final.zip. Git fait ça proprement : à chaque \"commit\", il prend une photo de l'état de ton code, avec un message qui explique ce qui a changé. Tu peux revenir à n'importe quelle photo plus tard."
+      },
+      {
+        heading: "Un commit, précisément",
+        text: "Un commit est une sauvegarde 100% LOCALE, horodatée, avec un message qui explique ce qui a changé. Elle ne se trouve QUE sur ta machine, dans le dossier caché .git/ de ton projet — personne d'autre ne la voit tant que tu ne l'as pas explicitement envoyée quelque part.\n\nC'est une nuance essentielle : committer n'est PAS partager. Tu peux committer 50 fois dans la journée sans que ça touche à quoi que ce soit d'autre que ton propre disque dur, même sans connexion internet."
+      },
+      {
+        heading: "Le dépôt (repo) local vs le remote",
+        text: "Le dépôt local est l'historique complet de commits stocké uniquement sur ta machine. Le remote (ex: GitHub) est une COPIE de cet historique hébergée sur un serveur ailleurs.\n\ngit push copie tes commits locaux VERS le remote. git pull rapatrie les commits du remote VERS ton dépôt local. Tant que tu n'as pas fait push, un commit reste une sauvegarde strictement locale — même si un remote est configuré sur le projet."
+      },
+      {
+        heading: "Pourquoi committer souvent, même sans push",
+        text: "Comme le commit est local et ne coûte rien, il ne faut pas hésiter à committer souvent : ça donne des points de restauration fins auxquels revenir. Une pratique courante : committer plusieurs fois dans l'après-midi au fil du travail, et ne push qu'une fois en fin de journée, une fois que tout est stable et testé."
+      }
+    ],
+    exercises: [
+      {
+        type: "terminal",
+        instruction: "Dans le terminal ci-dessous, initialise un tout nouveau dépôt Git dans le dossier courant.",
+        hint: "La commande commence par git init",
+        terminal: {
+          prompt: "evan@mint:~/mon-projet$",
+          steps: [
+            {
+              expect: ["git init"],
+              output: "Dépôt Git vide initialisé dans /home/evan/mon-projet/.git/"
+            }
+          ]
+        },
+        correction: "git init\n\nCrée un dossier caché .git/ dans le dossier courant : c'est LUI qui va stocker tout l'historique des commits à venir, uniquement en local. Rien n'est envoyé nulle part — c'est une opération 100% locale, comme vu dans la théorie."
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: "Local vs distant : ce qui se passe vraiment à chaque étape",
+    level: "🟢 Débutant",
+    summary: "La confusion n°1 des débutants : croire que 'commit' envoie le code sur GitHub. Ce guide clarifie où vit chaque étape.",
+    content: [
+      {
+        heading: "Les 3 zones sur TA machine",
+        text: "1. Working Directory : tes fichiers tels que tu les vois et les édites dans ton éditeur.\n2. Staging Area (l'index) : une zone d'attente où tu places ce que tu veux inclure dans le prochain commit (via git add).\n3. Repository local : l'historique complet des commits déjà enregistrés, stocké dans le dossier .git/ de ton projet."
+      },
+      {
+        heading: "Et le remote, une 4e zone — mais ailleurs",
+        text: "Le remote (GitHub, GitLab…) est une copie de ce repository, mais hébergée sur un serveur, potentiellement à l'autre bout du monde. Rien n'y arrive tant que tu n'exécutes pas explicitement git push."
+      },
+      {
+        heading: "Tableau récapitulatif",
+        text: "git add          : Working Directory → Staging          (reste local)\ngit commit       : Staging → Repository local              (reste local)\ngit push         : Repository local → Remote                (part sur internet)\ngit pull / fetch : Remote → Repository local (+ Working Dir) (vient d'internet)"
+      },
+      {
+        heading: "Ce que ça implique concrètement",
+        text: "• Si ton PC crashe avant un push, tu perds les commits non pushés — ils n'ont jamais existé ailleurs que sur ce disque.\n• Si Internet est coupé, tu peux quand même committer (aucune étape ne touche le réseau) mais pas push/pull.\n• C'est pour ça qu'un commit régulier + un push en fin de session est une bonne habitude : le commit te protège des erreurs de manipulation, le push te protège de la perte de la machine."
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: "Le workflow du quotidien",
+    level: "🟢 Débutant",
+    summary: "La suite de commandes que tu vas taper presque à chaque fois : status → diff → add → commit → push.",
+    content: [
+      { heading: "Étape 1 — git status", text: "Toujours la première commande à taper. Elle dit ce qui a changé depuis ton dernier commit : fichiers modifiés, nouveaux fichiers non suivis, etc. Ça évite les mauvaises surprises." },
+      { heading: "Étape 2 (optionnelle mais utile) — git diff", text: "Affiche précisément QUELLES LIGNES ont changé, avant de tout mettre en staging. Un bon réflexe pour repérer un console.log ou un commentaire de debug oublié avant qu'il ne parte dans l'historique." },
+      { heading: "Étape 3 — git add", text: "Met tes changements \"en préparation\" (staging) avant de les enregistrer. git add . ajoute tout ; git add nom-du-fichier n'ajoute qu'un fichier précis si tu veux être sélectif." },
+      { heading: "Étape 4 — git commit", text: "git commit -m \"message clair\" enregistre officiellement ce qui est en staging, LOCALEMENT (voir [[Git::Local vs distant : ce qui se passe vraiment à chaque étape]]). Le message doit expliquer le POURQUOI ou le QUOI, pas juste \"update\"." },
+      { heading: "Étape 5 — git push", text: "Envoie tes commits locaux vers le remote (GitHub par ex.), pour les partager ou les sauvegarder en ligne. Sans push, tes commits restent uniquement sur ta machine." },
+      {
+        heading: "Convention de message (optionnelle mais très répandue)",
+        text: "Beaucoup d'équipes préfixent leurs messages par un type :\n\nfix: corrige un bug\nfeat: ajoute une fonctionnalité\nchore: tâche technique sans impact utilisateur (config, dépendances…)\ndocs: documentation uniquement\n\nExemple : feat: ajoute le tri par date sur la liste d'écoute"
+      },
+      {
+        heading: "Exemple concret de bout en bout",
+        text: "Tu viens de corriger un bug d'affichage :\n\ngit status   →  tu vois app/Login.kt modifié\ngit diff     →  tu vérifies que ce sont bien les bonnes lignes\ngit add .\ngit commit -m \"fix: corrige l'alignement du bouton login\"\ngit push"
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: "Les branches : travailler sans tout casser",
+    level: "🟡 Intermédiaire",
+    summary: "Une branche = une version parallèle de ton code, pour expérimenter sans toucher au code qui marche.",
+    content: [
+      {
+        heading: "Pourquoi une branche",
+        text: "La branche \"main\" représente en général la version stable de ton projet. Si tu développes une nouvelle fonctionnalité directement dessus et que ça casse tout, ton projet stable est cassé aussi. En créant une branche, tu travailles à côté : si ça casse, seule ta branche est affectée."
+      },
+      {
+        heading: "Une branche n'est qu'un post-it",
+        text: "Techniquement, une branche n'est qu'un simple pointeur léger vers un commit précis — ce n'est PAS une copie complète du code. C'est pour ça que créer ou supprimer une branche est quasi instantané et ne prend quasiment aucune place, même sur un très gros projet."
+      },
+      {
+        heading: "HEAD, le marque-page",
+        text: "HEAD est un pointeur spécial qui indique où tu te trouves ACTUELLEMENT — en général, le dernier commit de la branche sur laquelle tu es. Changer de branche (checkout/switch) déplace HEAD ailleurs."
+      },
+      {
+        heading: "Le cycle de vie d'une branche",
+        text: "1. git checkout -b ma-feature → tu crées la branche et tu bascules dessus\n2. Tu commits normalement dessus (status/add/commit)\n3. Une fois fini et testé, tu la fusionnes dans main (git merge, ou une Pull Request sur GitHub)\n4. Tu peux ensuite la supprimer : git branch -d ma-feature"
+      },
+      {
+        heading: "Quand créer une branche",
+        text: "Dès que tu commences quelque chose qui prend plus de quelques minutes, ou qui pourrait casser ce qui marche : une nouvelle fonctionnalité, un gros refactor, un test risqué."
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: "Annuler une erreur sans paniquer",
+    level: "🟡 Intermédiaire",
+    summary: "reset, restore, revert, stash : lequel utiliser selon la situation, et surtout selon si c'est déjà pushé.",
+    content: [
+      {
+        heading: "J'ai modifié un fichier et je veux annuler (pas encore commité)",
+        text: "git restore nom-du-fichier remet le fichier comme au dernier commit. Tes modifications non commitées sont perdues définitivement — vérifie avec git status ou git diff avant."
+      },
+      {
+        heading: "J'ai commité mais pas encore pushé, je veux annuler le dernier commit",
+        text: "git reset --soft HEAD~1 annule le commit mais garde tes changements prêts à être re-commités (staging). C'est l'option sûre.\n\ngit reset --hard HEAD~1 supprime TOUT, changements compris. Irréversible, à utiliser seulement si tu es sûr."
+      },
+      {
+        heading: "J'ai DÉJÀ pushé ce commit — git revert, l'option sûre",
+        text: "Une fois pushé, d'autres personnes (ou d'autres machines) ont pu récupérer ce commit : le réécrire avec reset devient dangereux et source de conflits pour tout le monde.\n\ngit revert crée à la place un NOUVEAU commit qui annule les changements d'un ancien commit, SANS effacer l'historique existant. Règle simple : reset avant push, revert après push sur du code partagé."
+      },
+      {
+        heading: "Je veux juste mettre mon travail de côté temporairement",
+        text: "git stash range tes changements en cours sans les commiter, et te remet un dossier propre (utile pour changer de branche vite fait sans avoir à committer du travail inachevé). git stash pop les fait revenir plus tard."
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: ".gitignore : ne pas tout versionner",
+    level: "🟢 Débutant",
+    summary: "Certains fichiers ne doivent jamais entrer dans l'historique Git — voici lesquels et pourquoi.",
+    content: [
+      {
+        heading: "Pourquoi certains fichiers ne doivent PAS être commités",
+        text: "• Les fichiers générés automatiquement (node_modules/, build/, dist/) — ils se régénèrent à partir du code source, inutile de les versionner.\n• Les secrets (clés API, mots de passe, fichiers .env) — les committer les rend visibles à quiconque a accès au dépôt, y compris dans l'historique même si tu les supprimes plus tard.\n• Les fichiers de config propres à ton éditeur/IDE.\n\nLes committer par erreur gonfle inutilement l'historique et peut carrément faire fuiter des secrets."
+      },
+      {
+        heading: "Comment ça marche",
+        text: "Un fichier .gitignore à la racine du projet liste des motifs (patterns) à ignorer, un par ligne :\n\nnode_modules/\nbuild/\n*.apk\n.env\n\nGit ignore alors automatiquement ces fichiers — ils n'apparaissent même plus dans git status."
+      },
+      {
+        heading: "Piège fréquent",
+        text: "Si un fichier était déjà commité AVANT d'être ajouté au .gitignore, Git continue de le suivre — l'ajouter au .gitignore seul ne suffit pas. Il faut d'abord le retirer explicitement du suivi avec git rm --cached nom-du-fichier, puis commit ce retrait."
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: "Les conflits de fusion (merge conflicts)",
+    level: "🔴 Avancé",
+    summary: "Le moment qui panique le plus les débutants — en réalité, une procédure simple à suivre calmement.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Git fusionne automatiquement deux versions tant qu'elles ne touchent pas aux mêmes lignes. Un conflit survient quand une modification que tu apportes (ta branche, ou tes changements locaux) et une modification d'ailleurs (un pull, une autre branche) ont changé la MÊME ligne différemment — Git ne peut objectivement pas deviner laquelle des deux garder."
+      },
+      {
+        heading: "À quoi ça ressemble dans le fichier",
+        text: "Git insère des marqueurs directement dans le fichier concerné :\n\n<<<<<<< HEAD\nta version à toi\n=======\nl'autre version\n>>>>>>> nom-de-la-branche"
+      },
+      {
+        heading: "Comment le résoudre, étape par étape",
+        text: "1. Ouvre le fichier en conflit dans ton éditeur.\n2. Décide quelle version garder — ou combine manuellement les deux.\n3. Supprime complètement les lignes de marqueurs (<<<<<<<, =======, >>>>>>>).\n4. git add nom-du-fichier pour marquer le conflit comme résolu.\n5. git commit (souvent un message déjà pré-rempli par Git) pour finaliser la fusion."
+      },
+      {
+        heading: "Comment en avoir moins",
+        text: "Fais des git pull ou merge fréquents plutôt que de laisser ta branche diverger pendant des semaines. Et si vous travaillez à plusieurs sur le même fichier, communiquez — les conflits sont normaux en équipe, pas un signe d'échec."
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: "Lire l'historique : git log, HEAD, SHA",
+    level: "🟡 Intermédiaire",
+    summary: "Décrypter ce qu'affiche git log --oneline --graph --all, et comprendre HEAD~1.",
+    content: [
+      {
+        heading: "Le SHA, l'identité unique d'un commit",
+        text: "Chaque commit a un identifiant unique (ex: a3f9c2e18b4d…), calculé à partir de son contenu — deux commits différents ne peuvent jamais avoir le même SHA. En pratique, on s'y réfère souvent avec seulement les 7 premiers caractères, largement suffisants pour être uniques."
+      },
+      {
+        heading: "git log --oneline --graph --all, décrypté",
+        text: "Chaque ligne = un commit (SHA court + message). Les caractères ASCII (|, /, \\, *) dessinent un graphique montrant les branches et où elles divergent ou fusionnent — précieux pour visualiser l'histoire d'un projet en un coup d'oeil."
+      },
+      {
+        heading: "HEAD, HEAD~1, HEAD~2…",
+        text: "HEAD désigne le commit sur lequel tu te trouves actuellement. HEAD~1 désigne le commit juste AVANT lui, HEAD~2 celui d'encore avant, etc. C'est cette notation qu'on utilise dans git reset --soft HEAD~1 : \"reviens à l'état d'avant le dernier commit\"."
+      }
+    ]
+  },
+  {
+    category: "Git",
+    title: "Pull Request : la collaboration sur GitHub",
+    level: "🟢 Débutant",
+    summary: "Une PR n'est pas une commande Git — c'est une fonctionnalité de GitHub construite par-dessus.",
+    content: [
+      {
+        heading: "Le principe",
+        text: "Une Pull Request (PR) est une demande : \"j'ai fait des changements sur ma branche, merci de les relire et de les fusionner dans main si c'est bon.\" Ce n'est pas une commande Git — c'est une fonctionnalité offerte par GitHub/GitLab par-dessus Git."
+      },
+      {
+        heading: "Le flow typique",
+        text: "1. Tu crées une branche et tu y commites ton travail.\n2. Tu la pushes : git push -u origin ma-branche\n3. Sur GitHub, tu ouvres une Pull Request depuis cette branche vers main.\n4. Quelqu'un (ou toi-même) relit le diff, commente, demande éventuellement des changements.\n5. Une fois approuvée, elle est fusionnée — souvent en un clic \"Merge\" sur l'interface GitHub."
+      },
+      {
+        heading: "Pourquoi c'est utile même en travaillant seul",
+        text: "Ouvrir une PR force à relire son propre diff avec du recul avant de fusionner dans main, et garde une trace claire et cherchable de POURQUOI chaque changement a été fait — précieux quand tu reviens sur un vieux projet des mois plus tard."
+      }
+    ]
+  },
+
+  // --- Expo / React Native ---------------------------------------
+  {
+    category: "Expo / React Native",
+    title: "Dev, Build, Submit, Update : qui fait quoi ?",
+    level: "🟢 Débutant",
+    summary: "4 mots que tu vois partout dans la doc Expo, expliqués simplement — et ce qui se passe concrètement pour chacun.",
+    content: [
+      {
+        heading: "Dev — npx expo start",
+        text: "Lance un serveur de développement sur ta machine. Ton téléphone (via l'app Expo Go ou un dev client) se connecte à ce serveur et recharge l'app à chaud à chaque sauvegarde de code. Aucun fichier installable n'est créé — c'est juste pour développer et tester vite."
+      },
+      {
+        heading: "Build — eas build",
+        text: "Fabrique un vrai fichier installable : un .apk/.aab pour Android, un .ipa pour iOS. C'est ce qu'il te faut pour tester une version \"proche du réel\" sur un appareil sans passer par Expo Go, ou pour la publier sur un store."
+      },
+      {
+        heading: "Submit — eas submit",
+        text: "Prend le dernier build et l'envoie vers le Google Play Store ou l'App Store. C'est l'étape finale de publication."
+      },
+      {
+        heading: "Update — eas update",
+        text: "Pousse un changement de code JavaScript directement aux utilisateurs qui ont déjà l'app installée, SANS repasser par le store (donc sans attendre la validation Apple/Google). Ça ne marche que pour du JS/assets — si tu ajoutes une librairie native, il faut un nouveau build."
+      },
+      {
+        heading: "Ce qui vit où, concrètement",
+        text: "Dev : ton code tourne sur TON PC ; le téléphone ne fait qu'afficher le résultat via le réseau — sans ton PC allumé, rien ne marche.\n\nBuild : le code JS est empaqueté DIRECTEMENT dans le fichier .apk/.ipa ; l'app n'a plus jamais besoin de ton PC pour fonctionner.\n\nUpdate (OTA) : remplace le bundle JS déjà empaqueté dans une app déjà installée, sans regénérer de nouveau fichier .apk/.ipa."
+      },
+      {
+        heading: "Résumé en une phrase",
+        text: "Je code → expo start. Je veux un fichier à installer → eas build. Je veux le publier → eas submit. Je veux corriger un bug vite sans repasser par le store → eas update."
+      }
+    ]
+  },
+  {
+    category: "Expo / React Native",
+    title: "Pourquoi ça plante après avoir installé une lib",
+    level: "🟡 Intermédiaire",
+    summary: "Le piège classique du débutant Expo : installer une librairie et ne rien comprendre à l'erreur qui suit.",
+    content: [
+      {
+        heading: "Le problème",
+        text: "Certaines librairies contiennent du code natif (Kotlin/Swift), pas seulement du JavaScript. Le serveur de dev (expo start) ne peut pas \"ajouter\" ce code natif à chaud — il faut reconstruire l'app."
+      },
+      {
+        heading: "Managed workflow vs Bare/prebuild",
+        text: "Par défaut (\"managed workflow\"), Expo gère pour toi toute la partie native — pas de dossiers android/ios visibles dans ton projet. Si tu as besoin d'un accès direct au code natif (lib très spécifique, config custom), npx expo prebuild génère ces dossiers android/ios — c'est le passage en mode \"bare\"."
+      },
+      {
+        heading: "La checklist de dépannage",
+        text: "1. As-tu utilisé npx expo install (pas npm install) ? Il choisit la version compatible avec ton SDK.\n2. Relance avec le cache vidé : npx expo start -c\n3. Si la lib a du code natif et que tu es en dev client / bare workflow : npx expo prebuild --clean puis un nouveau build.\n4. En cas de doute sur la config générale : npx expo-doctor te dit ce qui cloche."
+      }
+    ]
+  },
+  {
+    category: "Expo / React Native",
+    title: "Comprendre app.json et eas.json",
+    level: "🟡 Intermédiaire",
+    summary: "Deux fichiers de config qu'on modifie sans toujours comprendre à quoi ils servent vraiment.",
+    content: [
+      {
+        heading: "app.json / app.config.js : l'identité de ton app",
+        text: "Nom affiché, identifiant unique (package Android / bundle identifier iOS), icône, numéro de version, permissions déclarées (caméra, localisation…)… Expo régénère automatiquement la configuration native à partir de ce fichier au moment du build."
+      },
+      {
+        heading: "eas.json : les recettes de build",
+        text: "Définit des \"profils\" (typiquement development, preview, production), chacun avec ses propres réglages : type de build, variables d'environnement, canal de distribution.\n\neas build --profile preview dit concrètement à EAS \"utilise la recette nommée preview\"."
+      },
+      {
+        heading: "Pourquoi plusieurs profils",
+        text: "Tu veux souvent un build \"preview\" installable directement sans passer par un store (pour toi ou tes testeurs), et un build \"production\" optimisé destiné au store — parfois avec des URLs d'API différentes entre les deux (serveur de test vs serveur réel)."
+      }
+    ]
+  },
+  {
+    category: "Expo / React Native",
+    title: "Metro, le serveur qui recharge ton app",
+    level: "🟢 Débutant",
+    summary: "Comprendre ce que fait vraiment expo start en coulisses, et pourquoi -c résout tant de bugs bizarres.",
+    content: [
+      {
+        heading: "Ce que fait Metro concrètement",
+        text: "Metro est le bundler JavaScript utilisé par Expo/React Native. Il prend tous tes fichiers .js/.ts, les assemble en un seul \"bundle\", et le sert à l'application via le réseau (ou l'USB) pendant le développement."
+      },
+      {
+        heading: "Pourquoi vider le cache (-c) résout tant de problèmes",
+        text: "Metro garde en cache une version déjà compilée de tes fichiers pour aller plus vite. Après un changement de config (babel.config.js, metro.config.js) ou un bug incompréhensible, ce cache peut contenir une version périmée → npx expo start -c le force à tout recompiler depuis zéro."
+      },
+      {
+        heading: "Le QR code, comment ça marche",
+        text: "Il encode l'adresse (IP + port) du serveur Metro sur ton réseau local. Le téléphone le scanne, s'y connecte, et télécharge le bundle JS. C'est pour ça qu'il faut être sur le MÊME réseau wifi que ton PC — sinon, utilise npx expo start --tunnel."
+      }
+    ]
+  },
+  {
+    category: "Expo / React Native",
+    title: "Expo Go vs Dev Client vs Build standalone",
+    level: "🟡 Intermédiaire",
+    summary: "Trois façons différentes de faire tourner ton app pendant qu'elle grandit, avec leurs limites respectives.",
+    content: [
+      {
+        heading: "Expo Go",
+        text: "L'app générique installable depuis le store, capable de lancer N'IMPORTE QUEL projet Expo en scannant un QR code. Rapide pour démarrer un premier projet, mais limitée aux librairies déjà incluses dedans — impossible d'y ajouter du code natif custom."
+      },
+      {
+        heading: "Dev Client",
+        text: "Une version d'Expo Go personnalisée et compilée SPÉCIFIQUEMENT pour ton projet, avec tes propres librairies natives incluses. Il faut la reconstruire (build) à chaque fois que tu ajoutes une NOUVELLE librairie native — mais pas à chaque changement de code JS, qui continue de se recharger à chaud comme avec Expo Go."
+      },
+      {
+        heading: "Build standalone",
+        text: "Le fichier final (.apk/.aab/.ipa), totalement autonome, sans aucun lien avec un serveur de développement. C'est ce que les utilisateurs finaux installent depuis le store — ou que tu installes toi-même via adb install pour un test final proche du réel."
+      }
+    ]
+  },
+
+  // --- Kotlin / Android ---------------------------------------
+  {
+    category: "Kotlin / Android",
+    title: "Gradle, le chef d'orchestre de ton build",
+    level: "🟢 Débutant",
+    summary: "Comprendre ce que fait ./gradlew avant de taper des commandes au hasard.",
+    content: [
+      {
+        heading: "C'est quoi Gradle",
+        text: "Gradle est l'outil qui transforme ton code Kotlin/Java en application installable. ./gradlew (le \"wrapper\") est un script qui télécharge et utilise automatiquement la bonne version de Gradle pour ton projet — c'est pour ça qu'on tape ./gradlew et pas juste gradle."
+      },
+      {
+        heading: "Debug vs Release",
+        text: "Un build \"debug\" (assembleDebug) est rapide à générer, non optimisé, et facile à débugger — c'est celui que tu utilises au quotidien pendant le développement.\n\nUn build \"release\" (assembleRelease) est optimisé, minifié, et signé numériquement — c'est celui que tu envoies aux utilisateurs/au store."
+      },
+      {
+        heading: "assemble vs install",
+        text: "assembleDebug fabrique juste le fichier .apk dans le dossier build/. installDebug fait la même chose ET l'installe directement sur l'appareil/émulateur connecté — c'est celle que tu utilises le plus souvent pour tester."
+      },
+      {
+        heading: "Les variantes de build (flavors)",
+        text: "Au-delà de debug/release, un projet peut définir des \"flavors\" (ex: free/paid, staging/prod), combinés avec debug/release pour donner des tâches comme assembleFreeDebug ou assembleProdRelease. Consulte le fichier build.gradle du module pour voir ceux définis sur ton projet — ./gradlew tasks les liste aussi."
+      }
+    ]
+  },
+  {
+    category: "Kotlin / Android",
+    title: "ADB, le pont entre ton PC et ton téléphone",
+    level: "🟢 Débutant",
+    summary: "Le couteau suisse pour communiquer avec un appareil Android depuis le terminal.",
+    content: [
+      {
+        heading: "À quoi ça sert",
+        text: "ADB (Android Debug Bridge) permet d'installer des apps, de voir les logs, de copier des fichiers, ou d'ouvrir un shell sur un appareil Android connecté (par USB ou sur un émulateur), directement depuis ton terminal."
+      },
+      {
+        heading: "Le flow de débug classique",
+        text: "1. adb devices → vérifie que ton appareil est bien détecté\n2. Tu reproduis le bug sur l'app\n3. adb logcat *:E → tu regardes les erreurs qui remontent au moment du crash\n4. Une fois corrigé, tu réinstalles avec ./gradlew installDebug et tu retestes"
+      },
+      {
+        heading: "logcat, filtrer intelligemment",
+        text: "*:E = uniquement les erreurs, tous tags confondus — utile pour un premier repérage.\n\nMonTag:D *:S = affiche seulement les logs de niveau debug et plus du tag \"MonTag\", et masque tout le reste (*:S = silent). Très utile pour isoler UNIQUEMENT les logs que TU as ajoutés toi-même dans le code avec Log.d(\"MonTag\", \"message\")."
+      },
+      {
+        heading: "Pourquoi \"device not found\" ou \"unauthorized\"",
+        text: "Vérifie que le débogage USB est activé sur le téléphone (Options développeur), et accepte la popup d'autorisation qui apparaît sur l'écran du téléphone la première fois que tu le connectes."
+      }
+    ]
+  },
+  {
+    category: "Kotlin / Android",
+    title: "Émulateur ou vrai téléphone ?",
+    level: "🟢 Débutant",
+    summary: "Les deux ont leur usage, voici quand choisir l'un ou l'autre.",
+    content: [
+      {
+        heading: "L'émulateur",
+        text: "Pratique pour développer sans avoir de téléphone Android sous la main, ou tester différentes versions d'Android/tailles d'écran facilement. Mais plus lent, et certaines fonctionnalités (caméra, capteurs, vraies performances) sont moins fiables à tester."
+      },
+      {
+        heading: "Le vrai téléphone",
+        text: "Indispensable avant de publier une app : les performances réelles, la caméra, le GPS, les notifications se comportent différemment sur un vrai appareil. Connecte-le en USB avec le débogage activé, vérifie avec adb devices."
+      }
+    ]
+  },
+  {
+    category: "Kotlin / Android",
+    title: "APK vs AAB, et le keystore de signature",
+    level: "🟡 Intermédiaire",
+    summary: "Deux formats de fichier, et le mécanisme de signature qui protège l'identité de ton app.",
+    content: [
+      {
+        heading: "APK : le format installable classique",
+        text: "Un fichier .apk contient tout le nécessaire pour tourner sur un appareil précis — c'est ce que tu installes directement via adb install ou en le transférant sur un téléphone."
+      },
+      {
+        heading: "AAB (Android App Bundle) : le format attendu par le Play Store",
+        text: "Contient TOUT (toutes les langues, toutes les architectures de processeur), et c'est Google Play qui génère ensuite, pour chaque appareil qui télécharge l'app, un APK optimisé et allégé rien que pour lui. Résultat : l'utilisateur télécharge moins de Mo.\n\nDepuis 2021, le Play Store exige l'AAB (bundleRelease) pour toute nouvelle app."
+      },
+      {
+        heading: "Le keystore, la carte d'identité de ton app",
+        text: "Un build release doit être signé avec un keystore (un fichier .jks/.keystore contenant une clé privée). Cette signature prouve que les mises à jour proviennent bien du même développeur — Android refuse d'installer une mise à jour signée avec une clé différente.\n\n⚠️ Si tu perds ce fichier ou son mot de passe, tu ne pourras plus JAMAIS mettre à jour ton app sur le Play Store sous le même identifiant. Sauvegarde-le précieusement, et ne le commite JAMAIS dans Git."
+      }
+    ]
+  },
+  {
+    category: "Kotlin / Android",
+    title: "Le cycle de vie d'une Activity (les bases)",
+    level: "🔴 Avancé",
+    summary: "Pourquoi ton app peut perdre des données à la rotation de l'écran si tu ne comprends pas ce mécanisme.",
+    content: [
+      {
+        heading: "Pourquoi ça compte",
+        text: "Android peut mettre en pause, détruire, ou recréer ton écran (Activity) à tout moment — un appel entrant, une rotation d'écran, le système qui manque de RAM et ferme des apps en arrière-plan. Comprendre ce cycle évite des bugs classiques (données perdues, crash au retour en arrière)."
+      },
+      {
+        heading: "Les méthodes clés, dans l'ordre",
+        text: "onCreate() → l'écran est créé (en théorie une seule fois, sauf si le système le détruit et le recrée).\nonStart() / onResume() → l'écran devient visible puis interactif.\nonPause() / onStop() → l'utilisateur quitte l'écran, mais peut potentiellement y revenir.\nonDestroy() → l'écran est définitivement fermé."
+      },
+      {
+        heading: "Le piège classique",
+        text: "Une simple rotation d'écran DÉTRUIT et RECRÉE l'Activity par défaut. Si une donnée était stockée dans une simple variable locale, elle est perdue au moment de la recréation. C'est pour ça qu'on utilise un ViewModel (qui survit aux rotations) ou onSaveInstanceState pour préserver l'état à travers ces recréations."
+      }
+    ]
+  },
+  {
+    category: "Kotlin / Android",
+    title: "Coroutines Kotlin : l'async côté Android",
+    level: "🟡 Intermédiaire",
+    summary: "L'équivalent Kotlin d'async/await en JS — indispensable dès qu'on parle réseau ou base de données sur Android.",
+    content: [
+      {
+        heading: "Le problème : ne jamais bloquer le thread principal",
+        text: "Android exécute l'interface (affichage, boutons, animations) sur un seul thread, le \"thread principal\" (UI thread). Une opération longue (appel réseau, accès disque/base de données) lancée directement dessus le BLOQUE — résultat : l'app freeze, et au-delà de quelques secondes, Android affiche carrément \"L'application ne répond pas\" (ANR).\n\nLes coroutines permettent de lancer ce travail long AILLEURS, sans geler l'interface, puis de revenir facilement sur le thread principal pour afficher le résultat."
+      },
+      {
+        heading: "suspend fun, la fonction qui peut être \"mise en pause\"",
+        text: "Le mot-clé suspend marque une fonction comme pouvant être suspendue (mise en pause) sans bloquer le thread qui l'a appelée — un peu comme await en JavaScript. Une fonction suspend ne peut être appelée que depuis une coroutine ou une autre fonction suspend, jamais depuis du code \"normal\" directement."
+      },
+      {
+        heading: "lifecycleScope / viewModelScope : où lancer une coroutine",
+        text: "lifecycleScope.launch { ... } lance une coroutine automatiquement liée au cycle de vie de l'Activity/Fragment — si l'écran est détruit, la coroutine est annulée automatiquement, évitant fuites mémoire et crashs (\"tentative de mise à jour d'une vue qui n'existe plus\").\n\nviewModelScope fait pareil mais lié à la durée de vie du ViewModel — pratique pour survivre à une rotation d'écran tout en étant nettoyé quand l'écran est vraiment fermé."
+      },
+      {
+        heading: "Dispatchers : choisir où ça s'exécute",
+        text: "Dispatchers.Main → sur le thread principal (pour toucher à l'UI).\nDispatchers.IO → optimisé pour les opérations bloquantes (réseau, fichiers, base de données).\nDispatchers.Default → optimisé pour du calcul intensif en CPU.\n\nwithContext(Dispatchers.IO) { ... } permet de basculer temporairement une portion de code sur le bon thread avant de revenir automatiquement là où on était."
+      }
+    ]
+  },
+
+  // --- Linux Mint ---------------------------------------
+  {
+    category: "Linux Mint",
+    title: "sudo et les permissions, sans y laisser des plumes",
+    level: "🟢 Débutant",
+    summary: "Le minimum à savoir avant de taper sudo devant une commande.",
+    content: [
+      {
+        heading: "Utilisateur normal vs root",
+        text: "Ton compte utilisateur normal n'a pas le droit de modifier les fichiers système ou d'installer des logiciels par défaut — c'est une protection. \"root\" est le super-utilisateur qui peut tout faire. sudo te donne temporairement les pouvoirs de root pour UNE commande."
+      },
+      {
+        heading: "Les règles de prudence",
+        text: "• Ne tape jamais une commande sudo trouvée sur internet sans comprendre ce qu'elle fait.\n• Sois particulièrement prudent avec sudo rm (suppression) : il n'y a pas de corbeille, c'est définitif.\n• Si une commande normale (sans sudo) échoue avec \"Permission denied\", c'est probablement volontaire — demande-toi si tu as vraiment besoin d'y toucher avant de rajouter sudo."
+      },
+      {
+        heading: "chmod et chown, brièvement",
+        text: "chmod change qui a le droit de lire/écrire/exécuter un fichier. chown change à qui appartient le fichier. Tu en auras besoin par exemple pour rendre un script exécutable (chmod +x) ou récupérer un fichier appartenant à root. Le détail complet des rwx/octal est dans la fiche \"Les permissions de fichiers en détail\" (Bases du terminal)."
+      }
+    ]
+  },
+  {
+    category: "Linux Mint",
+    title: "apt : installer et gérer des logiciels",
+    level: "🟢 Débutant",
+    summary: "Le gestionnaire de paquets de Linux Mint, l'équivalent d'un store mais en ligne de commande.",
+    content: [
+      {
+        heading: "Le concept",
+        text: "Plutôt que de télécharger des .exe sur des sites douteux comme sur Windows, Linux Mint utilise des \"dépôts\" (repositories) : des serveurs qui hébergent des logiciels vérifiés. apt est l'outil qui va chercher, installe, met à jour ou supprime ces logiciels."
+      },
+      {
+        heading: "Le cycle de base",
+        text: "sudo apt update → rafraîchit la LISTE des paquets disponibles (ne met rien à jour, juste la liste)\nsudo apt upgrade → installe réellement les mises à jour disponibles\nsudo apt install nom-du-logiciel → installe un logiciel\nsudo apt remove nom-du-logiciel → le désinstalle"
+      },
+      {
+        heading: "Pourquoi \"update\" avant \"upgrade\"",
+        text: "Si tu ne fais pas update d'abord, apt ne sait pas qu'une nouvelle version existe — c'est comme rafraîchir la page d'un store avant d'y chercher une mise à jour."
+      },
+      {
+        heading: "D'où viennent les paquets : les dépôts (sources.list)",
+        text: "apt cherche dans une liste de dépôts configurés (/etc/apt/sources.list et /etc/apt/sources.list.d/). La commande add-apt-repository ppa:... ajoute une source tierce à cette liste — ce qui revient à faire confiance à quelqu'un d'autre pour exécuter du code avec tes droits. À faire seulement pour des sources reconnues."
+      }
+    ]
+  },
+  {
+    category: "Linux Mint",
+    title: "Processus, ports, RAM : pourquoi ça rame",
+    level: "🟡 Intermédiaire",
+    summary: "De quoi diagnostiquer un ordi lent ou un port déjà utilisé.",
+    content: [
+      {
+        heading: "Un processus, c'est quoi",
+        text: "Chaque programme lancé (même en arrière-plan) est un \"processus\", identifié par un numéro unique (PID). htop montre tous les processus actifs, triés par consommation CPU/RAM en temps réel — utile pour repérer ce qui ralentit ta machine."
+      },
+      {
+        heading: "Tuer un processus bloqué",
+        text: "Si une app ne répond plus : trouve son PID (avec ps aux | grep nom, ou visuellement dans htop), puis kill -9 PID pour le forcer à s'arrêter."
+      },
+      {
+        heading: "\"Port déjà utilisé\" (ex: Metro, un serveur local)",
+        text: "Cette erreur veut dire qu'un autre programme écoute déjà sur ce port. sudo ss -tulpn | grep :8081 (par exemple) montre quel processus l'occupe, pour pouvoir le tuer ou changer de port."
+      },
+      {
+        heading: "Le %CPU qui dépasse 100, ce n'est pas un bug",
+        text: "Sur une machine multi-coeurs, un processus peut utiliser plusieurs coeurs simultanément à 100% chacun — top/htop additionnent ces pourcentages. Donc 350% sur une machine à 4 coeurs veut dire environ 87% de la puissance TOTALE de la machine utilisée par ce seul processus."
+      }
+    ]
+  },
+  {
+    category: "Linux Mint",
+    title: "L'arborescence du système de fichiers",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi Linux n'a pas de 'C:\\', et où trouver quoi.",
+    content: [
+      {
+        heading: "Pourquoi ce n'est pas comme Windows",
+        text: "Contrairement à Windows, Linux n'a qu'UNE seule arborescence de fichiers, qui part de / (la racine). Les disques, partitions et clés USB sont \"montés\" (rattachés) à des dossiers de cette arborescence unique, plutôt que d'avoir chacun leur propre lettre (C:, D:…)."
+      },
+      {
+        heading: "Les dossiers importants à connaître",
+        text: "/home/ton-nom → tes fichiers personnels (équivalent du dossier utilisateur Windows).\n/etc → fichiers de configuration système.\n/usr → programmes et librairies installés.\n/var → données qui changent souvent, notamment les logs dans /var/log.\n/tmp → fichiers temporaires, effacés au redémarrage."
+      },
+      {
+        heading: "Où sont mes logiciels installés",
+        text: "Contrairement à Windows où tout un logiciel tient dans un seul dossier (Program Files), sous Linux les fichiers d'un logiciel sont répartis PAR TYPE dans ces dossiers standards : le binaire exécutable dans /usr/bin, sa config dans /etc, ses données partagées dans /usr/share… C'est apt qui range tout au bon endroit automatiquement à l'installation."
+      }
+    ]
+  },
+  {
+    category: "Linux Mint",
+    title: "Réseau pour les nuls : IP, port, DNS",
+    level: "🟡 Intermédiaire",
+    summary: "De quoi enfin comprendre ce que veut dire localhost:8081.",
+    content: [
+      {
+        heading: "L'adresse IP, le numéro de téléphone de ta machine",
+        text: "Chaque appareil sur un réseau a une adresse (ex: 192.168.1.42) qui permet de le joindre. 127.0.0.1 (aussi appelé \"localhost\") désigne toujours TA PROPRE machine, quel que soit le réseau sur lequel tu es connecté."
+      },
+      {
+        heading: "Le port, l'extension du numéro",
+        text: "Une machine peut faire tourner plusieurs services en même temps (un serveur web, une base de données…). Le port (un nombre de 0 à 65535) précise AUQUEL de ces services on s'adresse.\n\nEx: localhost:8081 = le service qui écoute sur le port 8081 de ta PROPRE machine (souvent Metro pour un projet Expo)."
+      },
+      {
+        heading: "Le DNS, l'annuaire qui traduit les noms",
+        text: "Tu tapes google.com dans ton navigateur, mais le réseau ne comprend que des adresses IP. Le DNS traduit google.com en une IP (ex: 142.250.x.x) avant de s'y connecter réellement — exactement comme chercher un numéro dans un annuaire à partir d'un nom."
+      }
+    ]
+  },
+  {
+    category: "Linux Mint",
+    title: "SSH et les clés : comment ça marche vraiment",
+    level: "🔴 Avancé",
+    summary: "Pourquoi utiliser une clé plutôt qu'un mot de passe, et ce que représentent vraiment les fichiers générés.",
+    content: [
+      {
+        heading: "Le problème du mot de passe",
+        text: "Se connecter à un serveur distant avec un simple mot de passe est risqué : interceptable, devinable, brute-forçable. L'authentification par clé SSH résout ça avec une PAIRE de clés mathématiquement liées : une clé PRIVÉE (jamais partagée, reste uniquement sur ton PC) et une clé PUBLIQUE (peut être partagée sans risque, ex: collée dans les paramètres GitHub)."
+      },
+      {
+        heading: "Le principe, simplifié",
+        text: "Le serveur (ou GitHub) connaît ta clé publique. Quand tu te connectes, il te met au défi de prouver mathématiquement que tu possèdes la clé privée correspondante — SANS que cette clé privée ne quitte jamais ta machine. Si la preuve est valide, tu es authentifié."
+      },
+      {
+        heading: "ssh-keygen, concrètement",
+        text: "Génère deux fichiers, par défaut dans ~/.ssh/ : id_ed25519 (la clé PRIVÉE) et id_ed25519.pub (la clé PUBLIQUE).\n\nLe fichier .pub est celui que tu colles dans les paramètres GitHub ou d'un serveur distant. Le fichier SANS .pub ne doit JAMAIS être partagé, ni commité dans un dépôt Git."
+      }
+    ]
+  },
+  {
+    category: "Linux Mint",
+    title: "systemd et les services",
+    level: "🟡 Intermédiaire",
+    summary: "Comment Linux Mint démarre, surveille et redémarre les programmes qui tournent en arrière-plan.",
+    content: [
+      {
+        heading: "C'est quoi un service",
+        text: "Un programme qui tourne en arrière-plan en continu, souvent démarré automatiquement avec la machine (ex: le wifi, le bluetooth, un serveur local). systemd est le système qui gère le démarrage, l'arrêt et la surveillance de ces services sous Linux Mint."
+      },
+      {
+        heading: "Les commandes de base",
+        text: "systemctl status nom-du-service → son état actuel (actif, arrêté, en erreur…) et ses derniers logs.\nsystemctl start / stop / restart nom-du-service → agir dessus MAINTENANT, pour la session en cours.\nsystemctl enable / disable nom-du-service → décider s'il démarre automatiquement au prochain redémarrage de la machine (enable ne le lance PAS immédiatement, seulement au prochain boot)."
+      },
+      {
+        heading: "Où chercher pourquoi un service ne démarre pas",
+        text: "journalctl -u nom-du-service donne les logs spécifiques à ce service précis — généralement le premier réflexe à avoir pour comprendre une panne, plutôt que de fouiller dans les logs système généraux."
+      }
+    ]
+  },
+  {
+    category: "Linux Mint",
+    title: "cron : exécuter des tâches automatiquement",
+    level: "🟡 Intermédiaire",
+    summary: "Programmer une commande pour qu'elle se lance toute seule, à heure fixe, sans intervention.",
+    content: [
+      {
+        heading: "Le principe",
+        text: "cron exécute des commandes à des horaires programmés à l'avance, même quand tu n'es pas devant l'ordinateur (tant qu'il reste allumé) — utile pour des sauvegardes automatiques, un nettoyage régulier de fichiers, etc."
+      },
+      {
+        heading: "La syntaxe (les 5 étoiles)",
+        text: "minute heure jour-du-mois mois jour-de-semaine commande\n\nExemple : 0 3 * * * /home/evan/backup.sh\n→ exécute backup.sh tous les jours à 3h00 du matin (chaque * signifie \"à chaque valeur possible\" pour cette position)."
+      },
+      {
+        heading: "Tester avant de programmer",
+        text: "Lance TOUJOURS la commande manuellement dans le terminal avant de la programmer dans cron, pour vérifier qu'elle fonctionne correctement. Si elle échoue une fois programmée, cron ne t'avertit pas visiblement — l'échec passe facilement inaperçu pendant des semaines."
+      }
+    ]
+  },
+
+  // --- Docker ---------------------------------------
+  {
+    category: "Docker",
+    title: "Docker, à quoi ça sert",
+    level: "🟢 Débutant",
+    summary: "Le problème du 'ça marche sur ma machine', et pourquoi un conteneur est bien plus léger qu'une machine virtuelle.",
+    content: [
+      {
+        heading: "Le problème que ça résout : \"ça marche sur ma machine\"",
+        text: "Une application a souvent besoin d'un environnement précis (une version de Node, une base de données, des variables système…). Sans Docker, reproduire EXACTEMENT le même environnement sur une autre machine (celle d'un collègue, un serveur de production) est une source classique et interminable de bugs de configuration."
+      },
+      {
+        heading: "Le conteneur : une boîte isolée et reproductible",
+        text: "Un conteneur empaquette une application ET tout son environnement (dépendances, configuration) dans une unité qui tourne de façon IDENTIQUE sur n'importe quelle machine disposant de Docker."
+      },
+      {
+        heading: "Conteneur ≠ machine virtuelle",
+        text: "Contrairement à une machine virtuelle qui simule un ordinateur entier (avec son propre noyau, très lourde et lente à démarrer), un conteneur PARTAGE le noyau Linux de la machine hôte. Résultat : beaucoup plus léger, et un démarrage qui se compte en secondes plutôt qu'en minutes."
+      }
+    ]
+  },
+  {
+    category: "Docker",
+    title: "Image vs conteneur, la différence",
+    level: "🟢 Débutant",
+    summary: "La confusion la plus fréquente chez les débutants Docker, clarifiée avec une analogie simple.",
+    content: [
+      {
+        heading: "L'image : la recette / le plan",
+        text: "Un fichier figé qui décrit tout ce dont l'application a besoin (système de base, dépendances, code, commande de démarrage). Elle est définie dans un Dockerfile, et elle est IMMUABLE : on ne la modifie jamais directement, on en construit une nouvelle (docker build) si quelque chose change."
+      },
+      {
+        heading: "Le conteneur : l'instance en cours d'exécution",
+        text: "Quand tu lances une image (docker run), Docker crée un conteneur — une instance VIVANTE de cette image. Tu peux lancer PLUSIEURS conteneurs à partir de la MÊME image, exactement comme on peut créer plusieurs objets à partir d'une seule classe en programmation."
+      },
+      {
+        heading: "Ce qui se perd quand un conteneur s'arrête",
+        text: "Par défaut, tout ce qui est écrit À L'INTÉRIEUR d'un conteneur (fichiers créés, données de base de données…) disparaît définitivement quand ce conteneur est supprimé (docker rm). C'est pour ça qu'on utilise des volumes pour les données qu'on veut conserver durablement."
+      }
+    ]
+  },
+  {
+    category: "Docker",
+    title: "Docker Compose, orchestrer plusieurs conteneurs",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi une vraie app a rarement UN SEUL conteneur, et comment Compose les fait cohabiter.",
+    content: [
+      {
+        heading: "Pourquoi Compose",
+        text: "Une vraie application a souvent besoin de plusieurs conteneurs qui communiquent entre eux (ex : un backend + une base de données + un cache Redis). Lancer chaque docker run à la main, avec tous les bons réglages, devient vite ingérable dès que ça dépasse un seul conteneur."
+      },
+      {
+        heading: "docker-compose.yml : décrire toute la stack en un fichier",
+        text: "Liste chaque service, son image, ses ports, ses variables d'environnement, ses volumes — et surtout, Compose crée automatiquement un réseau privé pour que les conteneurs se parlent entre eux PAR LEUR NOM (ex: le backend peut appeler directement http://db:5432 sans connaître d'adresse IP)."
+      },
+      {
+        heading: "up -d vs down",
+        text: "docker compose up -d démarre toute la stack décrite dans le fichier, en arrière-plan.\ndocker compose down l'arrête ET supprime les conteneurs — mais conserve les volumes nommés (donc les données), sauf si tu ajoutes explicitement l'option -v."
+      }
+    ]
+  },
+
+  // --- FAQ : erreurs fréquentes ---------------------------------------
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"Permission denied\"",
+    level: "🟢 Débutant",
+    summary: "Le message d'erreur le plus courant sous Linux — presque toujours une question de droits, pas un bug.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Soit tu essaies d'exécuter un fichier qui n'a pas le droit x (souvent un script ./nom.sh), soit tu essaies de modifier/lire un fichier appartenant à un autre utilisateur (souvent root)."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux Mint::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"Port already in use\" / \"Address already in use\"",
+    level: "🟢 Débutant",
+    summary: "Un autre programme occupe déjà le port que ton serveur (Metro, Docker…) essaie d'utiliser.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Deux programmes ne peuvent pas écouter sur le même port en même temps sur la même machine. Souvent : un ancien npx expo start ou docker run n'a pas été vraiment arrêté (processus zombie, terminal fermé sans Ctrl+C propre)."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. kill -9 PID pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] et [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"command not found\"",
+    level: "🟢 Débutant",
+    summary: "Le shell ne trouve aucun programme portant ce nom.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Trois causes possibles : une faute de frappe, un logiciel qui n'est simplement pas installé, ou un logiciel installé mais dont le dossier n'est pas dans ton PATH."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. which nom-de-la-commande confirme si le shell le trouve ou non.\n\nVoir aussi : [[Bases du terminal::Variables d'environnement et PATH]]."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "adb : \"device not found\" / \"unauthorized\"",
+    level: "🟢 Débutant",
+    summary: "Ton PC ne voit pas ton téléphone/émulateur Android, ou le voit sans y avoir accès.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "\"device not found\" : le débogage USB n'est pas activé sur le téléphone, ou le câble/port USB ne transmet pas les données (certains câbles ne sont que pour charger).\n\n\"unauthorized\" : le téléphone a détecté la connexion mais attend que tu acceptes la popup d'autorisation affichée sur SON écran."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. Active le débogage USB (Paramètres → Options développeur).\n2. Débranche/rebranche le câble.\n3. Regarde l'ÉCRAN DU TÉLÉPHONE pour une popup à accepter.\n4. adb devices pour vérifier que le statut passe à \"device\".\n5. En dernier recours : adb kill-server && adb start-server."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Expo : comportement bizarre après un changement de config",
+    level: "🟢 Débutant",
+    summary: "L'app ne reflète pas tes derniers changements, ou une erreur incompréhensible apparaît après avoir touché babel.config.js/metro.config.js.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Metro garde en cache une version déjà compilée de ton code pour aller plus vite. Après un changement de configuration, ce cache peut contenir une version périmée qui ne correspond plus à ta config actuelle."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "npx expo start -c relance le serveur en vidant complètement le cache. Si ça ne suffit pas : npx expo-doctor pour vérifier la cohérence générale du projet.\n\nVoir aussi : [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "git push : \"rejected\" / \"non-fast-forward\"",
+    level: "🟡 Intermédiaire",
+    summary: "Git refuse ton push car le remote a des commits que tu n'as pas encore en local.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Quelqu'un (ou toi, depuis une autre machine) a pushé des commits sur cette branche après ton dernier pull. Git refuse par sécurité d'écraser ces commits que tu ne connais pas encore."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "git pull (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir [[Git::Les conflits de fusion (merge conflicts)]]). Une fois à jour, git push repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Des symboles <<<<<<< ======= >>>>>>> apparaissent dans un fichier",
+    level: "🟡 Intermédiaire",
+    summary: "Ce n'est pas une corruption de fichier — c'est un conflit de fusion Git en cours de résolution.",
+    content: [
+      {
+        heading: "Ce qu'il se passe",
+        text: "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier, et a inséré des marqueurs à l'endroit exact du désaccord pour que tu choisisses manuellement quoi garder."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Voir la fiche complète [[Git::Les conflits de fusion (merge conflicts)]] — résumé : choisis/combine le bon contenu, supprime les marqueurs, git add le fichier, puis git commit."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "npm : conflit de versions / peer dependency",
+    level: "🟡 Intermédiaire",
+    summary: "npm install refuse d'installer, ou affiche un avertissement de dépendances incompatibles entre elles.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Une librairie que tu installes s'attend à une version précise d'une autre librairie (souvent React ou Expo) déjà présente dans ton projet, mais ce n'est pas celle installée."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Dans un projet Expo, npx expo install --fix aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : [[Bases du terminal::npm & npx, et package.json en détail]]."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Docker : \"Cannot connect to the Docker daemon\"",
+    level: "🟢 Débutant",
+    summary: "Docker refuse toutes tes commandes avec ce message.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Le service Docker (le \"daemon\", qui tourne en arrière-plan) n'est tout simplement pas démarré sur ta machine."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux Mint::systemd et les services]]."
+      }
+    ]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Gradle : \"SDK location not found\"",
+    level: "🟡 Intermédiaire",
+    summary: "Le build Android échoue immédiatement, avant même de compiler quoi que ce soit.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Gradle ne trouve pas où est installé l'Android SDK sur ta machine — souvent après une réinstallation d'Android Studio, un déplacement de dossier, ou sur une machine neuve où la variable n'a jamais été configurée."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/evan/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
+      }
+    ]
+  }
+];
+
+</script>
+<script>
+  const searchInput = document.getElementById("search");
+  const chipsEl = document.getElementById("chips");
+  const subchipsEl = document.getElementById("subchips");
+  const chipsWrapEl = document.getElementById("chipsWrap");
+  const searchHintEl = document.getElementById("searchHint");
+  const topRowEl = document.getElementById("topRow");
+  const searchBarEl = document.getElementById("searchBar");
+  const resultsEl = document.getElementById("results");
+  const modeTabsEl = document.getElementById("modeTabs");
+  const favToggleEl = document.getElementById("favToggle");
+  const favToggleLabelEl = document.getElementById("favToggleLabel");
+  const statsLineEl = document.getElementById("statsLine");
+  const themeToggleEl = document.getElementById("themeToggle");
+
+  const LEVEL_ORDER = ["🟢 Débutant", "🟡 Intermédiaire", "🔴 Avancé"];
+  const STATE_KEY = "cmdhub_state_v1";
+  const FAV_KEY = "cmdhub_favorites_v1";
+  const THEME_KEY = "cmdhub_theme_v1";
+
+  // --- Thème (auto / clair / sombre) ------------------------------------
+  const THEME_CYCLE = ["auto", "light", "dark"];
+  const THEME_LABEL = { auto: "🖥️ Auto", light: "☀️ Clair", dark: "🌙 Sombre" };
+  let theme = "auto";
+  try {
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    if (THEME_CYCLE.includes(savedTheme)) theme = savedTheme;
+  } catch (e) {}
+
+  function applyTheme() {
+    if (theme === "auto") {
+      delete document.documentElement.dataset.theme;
+    } else {
+      document.documentElement.dataset.theme = theme;
+    }
+    themeToggleEl.textContent = THEME_LABEL[theme];
+  }
+
+  themeToggleEl.addEventListener("click", () => {
+    theme = THEME_CYCLE[(THEME_CYCLE.indexOf(theme) + 1) % THEME_CYCLE.length];
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    applyTheme();
+  });
+
+  applyTheme();
+  statsLineEl.textContent = `${COMMANDS.length} commandes · ${GUIDES.length} fiches de formation`;
+
+  let mode = "commands"; // "commands" | "formation"
+  let activeCategory = "Toutes";
+  let activeSubcategory = "Toutes";
+  let activeLevel = "Toutes";
+  let query = "";
+  let showFavoritesOnly = false;
+
+  // Page "cours" plein écran d'une fiche Formation : null = liste normale,
+  // sinon la fiche GUIDES actuellement ouverte. Volontairement PAS persisté
+  // (on ne rouvre pas un cours en plein milieu au rechargement).
+  let openGuide = null;
+  let guideStep = "theory"; // "theory" | "exercises"
+
+  // --- Favoris (persistés dans localStorage) ---------------------------
+  let favorites = loadFavorites();
+
+  function loadFavorites() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(FAV_KEY));
+      return {
+        commands: Array.isArray(raw && raw.commands) ? raw.commands : [],
+        formation: Array.isArray(raw && raw.formation) ? raw.formation : []
+      };
+    } catch (e) {
+      return { commands: [], formation: [] };
+    }
+  }
+
+  function saveFavorites() {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(favorites)); } catch (e) {}
+  }
+
+  function favKeyFor(type, item) {
+    return type === "formation"
+      ? `${item.category}|${item.title}`
+      : `${item.category}|${item.subcategory || ""}|${item.title}`;
+  }
+
+  function isFavoriteFor(type, item) {
+    return favorites[type].includes(favKeyFor(type, item));
+  }
+
+  function toggleFavoriteFor(type, key) {
+    const list = favorites[type];
+    const i = list.indexOf(key);
+    if (i === -1) list.push(key); else list.splice(i, 1);
+    saveFavorites();
+  }
+
+  // Raccourcis liés au mode actif (pratique pour le parcours par onglet)
+  function favKey(item) { return favKeyFor(mode, item); }
+  function isFavorite(item) { return isFavoriteFor(mode, item); }
+
+  function favCountForCurrentMode() {
+    return dataset().filter(item => isFavorite(item)).length;
+  }
+
+  // --- Mémorisation du dernier état (localStorage) ----------------------
+  function saveState() {
+    try {
+      localStorage.setItem(STATE_KEY, JSON.stringify({
+        mode, activeCategory, activeSubcategory, activeLevel, query, showFavoritesOnly
+      }));
+    } catch (e) {}
+  }
+
+  function restoreState() {
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem(STATE_KEY)); } catch (e) { saved = null; }
+    if (!saved) return;
+
+    if (saved.mode === "commands" || saved.mode === "formation") mode = saved.mode;
+
+    const cats = categoriesFor(dataset());
+    if (typeof saved.activeCategory === "string" && cats.includes(saved.activeCategory)) {
+      activeCategory = saved.activeCategory;
+    }
+    if (typeof saved.activeSubcategory === "string") {
+      const subs = ["Toutes", ...subcategoriesFor(activeCategory)];
+      if (subs.includes(saved.activeSubcategory)) activeSubcategory = saved.activeSubcategory;
+    }
+    if (typeof saved.activeLevel === "string") {
+      activeLevel = saved.activeLevel; // validé implicitement par le filtre (aucun résultat sinon, sans casser l'UI)
+    }
+    if (typeof saved.query === "string") query = saved.query;
+    if (typeof saved.showFavoritesOnly === "boolean") showFavoritesOnly = saved.showFavoritesOnly;
+  }
+
+  function levelClass(level) {
+    if (!level) return "";
+    if (level.includes("🟢")) return "lvl-green";
+    if (level.includes("🟡")) return "lvl-yellow";
+    if (level.includes("🔴")) return "lvl-red";
+    return "";
+  }
+
+  // Enlève l'emoji devant le niveau ("🟢 Débutant" → "Débutant") : on affiche
+  // la couleur nous-mêmes via une pastille CSS (levelClass), pour ne pas
+  // dépendre du vert/jaune/rouge propre à la police d'emoji du système —
+  // qui ne correspond jamais exactement à nos couleurs personnalisées.
+  function levelText(level) {
+    return (level || "").replace(/^\S+\s*/, "");
+  }
+
+  function dataset() {
+    return mode === "formation" ? GUIDES : COMMANDS;
+  }
+
+  function categoriesFor(list) {
+    return ["Toutes", ...Array.from(new Set(list.map(c => c.category)))];
+  }
+
+  function subcategoriesFor(cat) {
+    if (mode === "formation" || cat === "Toutes") return [];
+    return Array.from(new Set(
+      COMMANDS.filter(c => c.category === cat && c.subcategory).map(c => c.subcategory)
+    ));
+  }
+
+  function renderModeTabs() {
+    modeTabsEl.querySelectorAll(".mode-tab").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.mode === mode);
+    });
+    searchInput.placeholder = mode === "formation"
+      ? "Rechercher une notion, un thème… (touche /)"
+      : "Rechercher une commande, un tag, une description… (touche /)";
+  }
+
+  function renderFavToggle() {
+    favToggleEl.classList.toggle("active", showFavoritesOnly);
+    favToggleLabelEl.textContent = `Favoris (${favCountForCurrentMode()})`;
+  }
+
+  function renderChips() {
+    const categories = categoriesFor(dataset());
+    chipsEl.innerHTML = categories.map(cat => {
+      const n = cat === "Toutes" ? dataset().length : dataset().filter(c => c.category === cat).length;
+      const active = cat === activeCategory ? "active" : "";
+      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(cat)}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    chipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        activeCategory = el.dataset.cat;
+        activeSubcategory = "Toutes";
+        activeLevel = "Toutes";
+        saveState();
+        renderChips();
+        renderSubchips();
+        renderResults();
+      });
+    });
+  }
+
+  function renderSubchips() {
+    if (mode === "formation") {
+      renderLevelChips();
+      return;
+    }
+    const subs = subcategoriesFor(activeCategory);
+    if (subs.length < 2) {
+      subchipsEl.style.display = "none";
+      subchipsEl.innerHTML = "";
+      return;
+    }
+    subchipsEl.style.display = "flex";
+    const options = ["Toutes", ...subs];
+    subchipsEl.innerHTML = options.map(sub => {
+      const n = sub === "Toutes"
+        ? COMMANDS.filter(c => c.category === activeCategory).length
+        : COMMANDS.filter(c => c.category === activeCategory && c.subcategory === sub).length;
+      const active = sub === activeSubcategory ? "active" : "";
+      return `<span class="chip ${active}" data-sub="${escapeAttr(sub)}">${escapeHtml(sub)}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    subchipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        activeSubcategory = el.dataset.sub;
+        saveState();
+        renderSubchips();
+        renderResults();
+      });
+    });
+  }
+
+  function renderLevelChips() {
+    const relevant = GUIDES.filter(g => activeCategory === "Toutes" || g.category === activeCategory);
+    const present = LEVEL_ORDER.filter(lvl => relevant.some(g => g.level === lvl));
+    if (present.length < 2) {
+      subchipsEl.style.display = "none";
+      subchipsEl.innerHTML = "";
+      return;
+    }
+    subchipsEl.style.display = "flex";
+    subchipsEl.innerHTML = present.map(lvl => {
+      const n = relevant.filter(g => g.level === lvl).length;
+      const active = lvl === activeLevel ? "active" : "";
+      return `<span class="chip ${active}" data-level="${escapeAttr(lvl)}"><span class="guide-dot ${levelClass(lvl)}"></span>${escapeHtml(levelText(lvl))}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    subchipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        // re-cliquer sur le niveau déjà actif désélectionne (retour à "tous")
+        activeLevel = (el.dataset.level === activeLevel) ? "Toutes" : el.dataset.level;
+        saveState();
+        renderLevelChips();
+        renderResults();
+      });
+    });
+  }
+
+  function matchesCommand(item, q) {
+    if (!q) return true;
+    const haystack = [item.title, item.cmd, item.desc, item.category, item.subcategory, ...(item.tags || [])]
+      .join(" ")
+      .toLowerCase();
+    return q.toLowerCase().split(/\s+/).every(part => haystack.includes(part));
+  }
+
+  function matchesGuide(item, q) {
+    if (!q) return true;
+    const contentText = (item.content || []).map(s => `${s.heading} ${s.text}`).join(" ");
+    const haystack = [item.title, item.summary, item.category, item.level, contentText]
+      .join(" ")
+      .toLowerCase();
+    return q.toLowerCase().split(/\s+/).every(part => haystack.includes(part));
+  }
+
+  function renderResults() {
+    if (openGuide) {
+      topRowEl.style.display = "none";
+      searchBarEl.style.display = "none";
+      renderGuideDetail();
+      return;
+    }
+    topRowEl.style.display = "";
+    searchBarEl.style.display = "";
+
+    renderFavToggle();
+    const searching = query.trim() !== "";
+    chipsWrapEl.style.display = searching ? "none" : "";
+    searchHintEl.style.display = searching ? "block" : "none";
+
+    if (searching) {
+      renderTransversalResults();
+    } else if (mode === "formation") {
+      renderGuideResults();
+    } else {
+      renderCommandResults();
+    }
+  }
+
+  function openGuideDetail(item) {
+    openGuide = item;
+    guideStep = "theory";
+    renderModeTabs();
+    renderResults();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function closeGuideDetail() {
+    openGuide = null;
+    renderResults();
+  }
+
+  function renderGuideDetail() {
+    const item = openGuide;
+    const fav = isFavoriteFor("formation", item);
+    const hasExercises = item.exercises && item.exercises.length > 0;
+    const onTheory = guideStep === "theory" || !hasExercises;
+
+    let html = `<div class="guide-detail">`;
+    html += `<button class="back-btn" data-action="back-to-list">← Retour à la liste</button>`;
+    html += `
+      <div class="detail-head">
+        <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
+        <h2 class="detail-title">${escapeHtml(item.title)}</h2>
+        <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+      </div>
+      <p class="detail-summary">${escapeHtml(item.summary)}</p>`;
+
+    if (hasExercises) {
+      html += `
+        <div class="detail-steps">
+          <span class="detail-step ${onTheory ? "active" : ""}">1. Théorie</span>
+          <span class="detail-step ${!onTheory ? "active" : ""}">2. Exercices</span>
+        </div>`;
+    }
+
+    if (onTheory) {
+      html += (item.content || []).map(s => `
+        <div class="guide-section">
+          <h4>${escapeHtml(s.heading)}</h4>
+          <p>${renderGuideParagraph(s.text)}</p>
+        </div>`).join("");
+      html += hasExercises
+        ? `<button class="next-step-btn" data-action="go-exercises">Passer aux exercices →</button>`
+        : `<p class="no-exercises-note">Pas encore d'exercices pratiques pour cette fiche.</p>`;
+    } else {
+      TERMINAL_REGISTRY = {};
+      html += exercisesHtml(item.exercises, guideDomId(item));
+      html += `<button class="next-step-btn secondary" data-action="back-to-theory">← Retour à la théorie</button>`;
+    }
+
+    html += `</div>`;
+    resultsEl.innerHTML = html;
+    if (!onTheory) initTerminals();
+  }
+
+  // --- Gabarits de carte réutilisés par le parcours par onglet ET la recherche transversale ---
+  function renderRelatedLinks(item) {
+    if (!item.related) return "";
+    const list = Array.isArray(item.related) ? item.related : [item.related];
+    const links = list.map(r => {
+      const sep = r.indexOf("::");
+      if (sep === -1) return "";
+      const cat = r.slice(0, sep), title = r.slice(sep + 2);
+      return `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(title)}</a>`;
+    }).filter(Boolean).join(", ");
+    return links ? `<div class="related-line">📘 Pour comprendre : ${links}</div>` : "";
+  }
+
+  function commandCardHtml(item, id) {
+    const fav = isFavoriteFor("commands", item);
+    return `
+      <div class="card">
+        <div class="card-top">
+          <div class="card-title-row">
+            <button class="fav-btn ${fav ? "active" : ""}" data-favtype="commands" data-favkey="${escapeAttr(favKeyFor("commands", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+            <div class="card-title">${escapeHtml(item.title)}</div>
+          </div>
+          <button class="copy-btn" data-id="${escapeAttr(id)}">Copier</button>
+        </div>
+        <pre class="cmd" id="cmd-${escapeAttr(id)}">${escapeHtml(item.cmd)}</pre>
+        ${item.desc ? `<div class="desc">${escapeHtml(item.desc)}</div>` : ""}
+        ${item.tags && item.tags.length ? `<div class="tags">${item.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+        ${renderRelatedLinks(item)}
+      </div>`;
+  }
+
+  // --- Terminal simulé pour les exercices pratiques ------------------------
+  // Registre reconstruit à chaque rendu : id de l'encadré terminal → état
+  // (les commandes attendues, l'indice, et où on en est).
+  let TERMINAL_REGISTRY = {};
+
+  function terminalHtml(ex, termId) {
+    if (ex.type !== "terminal" || !ex.terminal) return "";
+    TERMINAL_REGISTRY[termId] = { steps: ex.terminal.steps || [], stepIndex: 0, hint: ex.hint || "" };
+    return `
+      <div class="fterm" id="${escapeAttr(termId)}">
+        <div class="fterm-output"></div>
+        <div class="fterm-inputline">
+          <span class="fterm-prompt">${escapeHtml(ex.terminal.prompt || "evan@mint:~$")}</span>
+          <input type="text" class="fterm-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="tape une commande…">
+        </div>
+      </div>`;
+  }
+
+  function exercisesHtml(exercises, ownerId) {
+    if (!exercises || !exercises.length) return "";
+    const items = exercises.map((ex, idx) => `
+      <div class="exercise">
+        <p class="exercise-instruction">📝 ${escapeHtml(ex.instruction)}</p>
+        ${terminalHtml(ex, `fterm-${ownerId}-${idx}`)}
+        <details class="exercise-reveal">
+          <summary>Voir la correction</summary>
+          <div class="exercise-correction-body">${escapeHtml(ex.correction)}</div>
+        </details>
+      </div>`).join("");
+    return `
+      <div class="exercises-block">
+        ${items}
+      </div>`;
+  }
+
+  // Attache les écouteurs clavier sur chaque terminal fraîchement rendu.
+  // Appelée après chaque resultsEl.innerHTML = ... qui peut contenir des fiches.
+  function initTerminals() {
+    Object.keys(TERMINAL_REGISTRY).forEach(termId => {
+      const root = document.getElementById(termId);
+      if (!root) return;
+      const inputEl = root.querySelector(".fterm-input");
+      const outputEl = root.querySelector(".fterm-output");
+      if (!inputEl || !outputEl || inputEl.dataset.wired) return;
+      inputEl.dataset.wired = "1";
+      const state = TERMINAL_REGISTRY[termId];
+
+      const appendLine = (text, cls) => {
+        const line = document.createElement("div");
+        line.className = "fterm-line" + (cls ? " " + cls : "");
+        line.textContent = text;
+        outputEl.appendChild(line);
+        outputEl.scrollTop = outputEl.scrollHeight;
+      };
+
+      inputEl.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        const raw = inputEl.value.trim();
+        if (!raw) return;
+        appendLine("$ " + raw, "fterm-cmd");
+        inputEl.value = "";
+        if (state.stepIndex >= state.steps.length) return;
+
+        const normalize = s => s.replace(/\s+/g, " ").trim();
+        const cmd = normalize(raw);
+        const step = state.steps[state.stepIndex];
+        const expected = Array.isArray(step.expect) ? step.expect : [step.expect];
+        const ok = expected.some(e => normalize(e) === cmd);
+
+        if (ok) {
+          if (step.output) appendLine(step.output, "fterm-out");
+          state.stepIndex++;
+          if (state.stepIndex >= state.steps.length) {
+            appendLine("✅ Exercice réussi !", "fterm-success");
+            root.classList.add("fterm-done");
+          }
+        } else {
+          appendLine(
+            state.hint ? `Pas tout à fait — indice : ${state.hint}` : "Commande non reconnue pour cet exercice, réessaie.",
+            "fterm-error"
+          );
+        }
+      });
+    });
+  }
+
+  // Ligne cliquable dans la liste — ouvre la page dédiée de la fiche
+  // (théorie puis, le cas échéant, exercices), plutôt qu'un accordéon.
+  function guideCardHtml(item) {
+    const fav = isFavoriteFor("formation", item);
+    const hasExercises = item.exercises && item.exercises.length > 0;
+    return `
+      <div class="guide-card guide-card-row" data-cat="${escapeAttr(item.category)}" data-title="${escapeAttr(item.title)}">
+        <div class="guide-row-top">
+          <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
+          <span class="guide-title">${escapeHtml(item.title)}</span>
+          ${hasExercises ? `<span class="exercise-flag" title="Contient des exercices pratiques">🧪</span>` : ""}
+          <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? "Retirer des favoris" : "Ajouter aux favoris"}">${fav ? "★" : "☆"}</button>
+        </div>
+        <p class="guide-row-summary">${escapeHtml(item.summary)}</p>
+      </div>`;
+  }
+
+  function renderCommandResults() {
+    const filtered = COMMANDS.filter(item =>
+      (activeCategory === "Toutes" || item.category === activeCategory) &&
+      (activeSubcategory === "Toutes" || item.subcategory === activeSubcategory) &&
+      (!showFavoritesOnly || isFavoriteFor("commands", item)) &&
+      matchesCommand(item, query)
+    );
+
+    if (filtered.length === 0) {
+      resultsEl.innerHTML = showFavoritesOnly
+        ? `<div class="empty">Aucun favori ici — clique sur ☆ à côté d'une commande pour l'ajouter ⭐</div>`
+        : `<div class="empty">Aucune commande ne correspond 🤷</div>`;
+      return;
+    }
+
+    // group by category, then by subcategory (if present), in the order they first appear
+    const grouped = {};
+    filtered.forEach(item => {
+      const catBucket = (grouped[item.category] = grouped[item.category] || { __order: [], subs: {} });
+      const subKey = item.subcategory || "__none";
+      if (!catBucket.subs[subKey]) {
+        catBucket.subs[subKey] = [];
+        catBucket.__order.push(subKey);
+      }
+      catBucket.subs[subKey].push(item);
+    });
+
+    let html = "";
+    Object.keys(grouped).forEach(cat => {
+      html += `<div class="group-title">${escapeHtml(cat)}</div>`;
+      const catBucket = grouped[cat];
+      catBucket.__order.forEach(subKey => {
+        if (subKey !== "__none") {
+          html += `<div class="subgroup-title">${escapeHtml(subKey)}</div>`;
+        }
+        catBucket.subs[subKey].forEach((item, idx) => {
+          html += commandCardHtml(item, `${cat}-${subKey}-${idx}`);
+        });
+      });
+    });
+    resultsEl.innerHTML = html;
+  }
+
+  function renderGuideResults() {
+    TERMINAL_REGISTRY = {};
+    const filtered = GUIDES.filter(item =>
+      (activeCategory === "Toutes" || item.category === activeCategory) &&
+      (activeLevel === "Toutes" || item.level === activeLevel) &&
+      (!showFavoritesOnly || isFavoriteFor("formation", item)) &&
+      matchesGuide(item, query)
+    );
+
+    if (filtered.length === 0) {
+      resultsEl.innerHTML = showFavoritesOnly
+        ? `<div class="empty">Aucun favori ici — clique sur ☆ à côté d'une fiche pour l'ajouter ⭐</div>`
+        : `<div class="empty">Aucune fiche ne correspond 🤷</div>`;
+      return;
+    }
+
+    // groupé par niveau (vert → jaune → rouge), puis par thème à l'intérieur
+    const levelsPresent = LEVEL_ORDER.filter(lvl => filtered.some(g => g.level === lvl));
+    const grouped = {};
+    levelsPresent.forEach(lvl => {
+      grouped[lvl] = {};
+      filtered.filter(g => g.level === lvl).forEach(item => {
+        (grouped[lvl][item.category] = grouped[lvl][item.category] || []).push(item);
+      });
+    });
+
+    let html = "";
+    levelsPresent.forEach(lvl => {
+      html += `<div class="level-title ${levelClass(lvl)}">${escapeHtml(levelText(lvl))}</div>`;
+      Object.keys(grouped[lvl]).forEach(cat => {
+        html += `<div class="subgroup-title">${escapeHtml(cat)}</div>`;
+        grouped[lvl][cat].forEach(item => {
+          html += guideCardHtml(item);
+        });
+      });
+    });
+    resultsEl.innerHTML = html;
+    initTerminals();
+  }
+
+  function renderTransversalResults() {
+    TERMINAL_REGISTRY = {};
+    const cmdMatches = COMMANDS.filter(item => (!showFavoritesOnly || isFavoriteFor("commands", item)) && matchesCommand(item, query));
+    const guideMatches = GUIDES.filter(item => (!showFavoritesOnly || isFavoriteFor("formation", item)) && matchesGuide(item, query));
+
+    if (cmdMatches.length === 0 && guideMatches.length === 0) {
+      resultsEl.innerHTML = `<div class="empty">Rien ne correspond, ni dans les commandes ni dans la formation 🤷</div>`;
+      return;
+    }
+
+    let html = "";
+    if (cmdMatches.length > 0) {
+      html += `<div class="group-title">🧰 Commandes (${cmdMatches.length})</div>`;
+      cmdMatches.forEach((item, idx) => {
+        html += commandCardHtml(item, `search-cmd-${idx}`);
+      });
+    }
+    if (guideMatches.length > 0) {
+      html += `<div class="group-title">📘 Formation (${guideMatches.length})</div>`;
+      guideMatches.forEach(item => {
+        html += guideCardHtml(item);
+      });
+    }
+    resultsEl.innerHTML = html;
+    initTerminals();
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    }
+    return fallbackCopy(text);
+  }
+
+  function fallbackCopy(text) {
+    return new Promise((resolve) => {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      resolve();
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[s]));
+  }
+  function escapeAttr(str) { return escapeHtml(str); }
+
+  // --- Liens internes entre fiches Formation : [[Catégorie::Titre]] ------
+  function renderGuideParagraph(text) {
+    const re = /\[\[([^:\]]+)::([^\]]+)\]\]/g;
+    let out = "";
+    let last = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      out += escapeHtml(text.slice(last, m.index));
+      const cat = m[1], title = m[2];
+      out += `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(title)}</a>`;
+      last = re.lastIndex;
+    }
+    out += escapeHtml(text.slice(last));
+    return out;
+  }
+
+  function hashStr(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0;
+    return (h >>> 0).toString(36);
+  }
+  function guideDomId(item) {
+    return "guide-" + hashStr(`${item.category}|${item.title}`);
+  }
+
+  function navigateToGuide(cat, title) {
+    const target = GUIDES.find(g => g.category === cat && g.title === title);
+    if (!target) return;
+    mode = "formation";
+    openGuideDetail(target);
+  }
+
+  // Délégation unique : marche pour toutes les cartes, quel que soit
+  // l'endroit où elles sont rendues (parcours par onglet ou recherche
+  // transversale), sans avoir à ré-attacher des écouteurs à chaque rendu.
+  resultsEl.addEventListener("click", (e) => {
+    const link = e.target.closest(".guide-link");
+    if (link) {
+      e.preventDefault();
+      navigateToGuide(link.dataset.cat, link.dataset.title);
+      return;
+    }
+
+    const favBtn = e.target.closest(".fav-btn");
+    if (favBtn) {
+      e.preventDefault();
+      e.stopPropagation(); // évite de (dé)plier une fiche Formation au clic sur son étoile
+      toggleFavoriteFor(favBtn.dataset.favtype, favBtn.dataset.favkey);
+      renderResults();
+      return;
+    }
+
+    const copyBtn = e.target.closest(".copy-btn");
+    if (copyBtn) {
+      const id = copyBtn.dataset.id;
+      const text = document.getElementById(`cmd-${id}`).textContent;
+      copyToClipboard(text).then(() => {
+        const original = copyBtn.textContent;
+        copyBtn.textContent = "Copié ✓";
+        copyBtn.classList.add("copied");
+        setTimeout(() => {
+          copyBtn.textContent = original;
+          copyBtn.classList.remove("copied");
+        }, 1200);
+      });
+      return;
+    }
+
+    const actionBtn = e.target.closest("[data-action]");
+    if (actionBtn) {
+      const action = actionBtn.dataset.action;
+      if (action === "back-to-list") closeGuideDetail();
+      else if (action === "go-exercises") { guideStep = "exercises"; renderResults(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+      else if (action === "back-to-theory") { guideStep = "theory"; renderResults(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+      return;
+    }
+
+    const guideRow = e.target.closest(".guide-card-row");
+    if (guideRow) {
+      const target = GUIDES.find(g => g.category === guideRow.dataset.cat && g.title === guideRow.dataset.title);
+      if (target) openGuideDetail(target);
+    }
+  });
+
+  searchInput.addEventListener("input", (e) => {
+    query = e.target.value;
+    saveState();
+    renderResults();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (openGuide) {
+      if (e.key === "Escape") closeGuideDetail();
+      return;
+    }
+    if (e.key === "/" && document.activeElement !== searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+    if (e.key === "Escape") {
+      searchInput.value = "";
+      query = "";
+      saveState();
+      searchInput.blur();
+      renderResults();
+    }
+  });
+
+  favToggleEl.addEventListener("click", () => {
+    showFavoritesOnly = !showFavoritesOnly;
+    saveState();
+    renderResults();
+  });
+
+  modeTabsEl.querySelectorAll(".mode-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.mode === mode) return;
+      mode = btn.dataset.mode;
+      activeCategory = "Toutes";
+      activeSubcategory = "Toutes";
+      activeLevel = "Toutes";
+      query = "";
+      searchInput.value = "";
+      saveState();
+      renderModeTabs();
+      renderChips();
+      renderSubchips();
+      renderResults();
+    });
+  });
+
+  // --- Restauration du dernier état avant le tout premier rendu ---
+  restoreState();
+  searchInput.value = query;
+  renderModeTabs();
+  renderChips();
+  renderSubchips();
+  renderResults();
+</script>
