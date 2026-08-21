@@ -741,6 +741,36 @@
     cursor: pointer;
   }
   .guide-link:hover { text-decoration-color: var(--accent); }
+  /* Commande citée dans le texte d'une fiche Formation : même design que
+     pre.cmd dans les cartes Commandes, en version inline. */
+  .inline-cmd {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.9em;
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1px 6px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  /* Variante cliquable : la commande citée existe aussi comme carte dans
+     Commandes — clic = y sauter directement, plutôt qu'un simple style. */
+  a.inline-cmd {
+    cursor: pointer;
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  a.inline-cmd:hover {
+    border-color: var(--accent);
+  }
+  /* Brève mise en évidence de la carte visée après un clic sur un lien
+     de commande depuis une fiche Formation. */
+  .card.landed {
+    animation: card-landed-flash 1.6s ease-out;
+  }
+  @keyframes card-landed-flash {
+    0% { box-shadow: 0 0 0 2px var(--accent); }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
   .level-title {
     display: flex;
     align-items: center;
@@ -832,6 +862,48 @@
   const modeTabFormationLabelEl = document.getElementById("modeTabFormationLabel");
 
   const LEVEL_ORDER = ["🟢 Débutant", "🟡 Intermédiaire", "🔴 Avancé"];
+
+  // --- Lien direct commande citée dans une fiche Formation -> carte Commandes ---
+  // Clé = texte exact du champ cmd (identique FR/EN, jamais traduit) -> commande.
+  // Alimente le rendu des `commandes citées` en texte de fiche (voir
+  // renderGuideParagraph) : stylées comme dans Commandes, et cliquables
+  // uniquement quand la commande existe réellement comme carte.
+  const COMMAND_BY_CMD = new Map();
+  COMMANDS.forEach(c => { if (!COMMAND_BY_CMD.has(c.cmd)) COMMAND_BY_CMD.set(c.cmd, c); });
+  // Du plus long au plus court, pour faire correspondre en priorité la
+  // commande la plus spécifique (évite qu'une sous-chaîne courte "gagne"
+  // avant la commande complète qui la contient).
+  const COMMAND_CMD_LIST = Array.from(COMMAND_BY_CMD.keys()).sort((a, b) => b.length - a.length);
+
+  function navigateToCommand(category, title) {
+    const target = COMMANDS.find(c => c.category === category && c.title === title);
+    if (!target) return;
+    mode = "commands";
+    openGuide = null;
+    query = "";
+    searchInput.value = "";
+    activeGroup = groupOf(category);
+    activeCategory = category;
+    activeSubcategory = "Toutes";
+    saveState();
+    renderModeTabs();
+    renderGroupChips();
+    renderChips();
+    renderSubchips();
+    renderResults();
+    requestAnimationFrame(() => {
+      const el = resultsEl.querySelector(`.card[data-command-category="${cssEscape(category)}"][data-command-title="${cssEscape(title)}"]`);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.remove("landed");
+      void el.offsetWidth; // force le redémarrage de l'animation si déjà jouée
+      el.classList.add("landed");
+    });
+  }
+
+  function cssEscape(s) {
+    return (window.CSS && CSS.escape) ? CSS.escape(s) : String(s).replace(/["\\\]]/g, "\\$&");
+  }
   const STATE_KEY = "cmdhub_state_v1";
   const FAV_KEY = "cmdhub_favorites_v1";
   const THEME_KEY = "cmdhub_theme_v1";
@@ -1500,7 +1572,7 @@
     const fav = isFavoriteFor("commands", item);
     const loc = localizedCommand(item);
     return `
-      <div class="card">
+      <div class="card" data-command-category="${escapeAttr(item.category)}" data-command-title="${escapeAttr(item.title)}">
         <div class="card-top">
           <div class="card-title-row">
             <button class="fav-btn ${fav ? "active" : ""}" data-favtype="commands" data-favkey="${escapeAttr(favKeyFor("commands", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
@@ -1863,13 +1935,34 @@
   function escapeAttr(str) { return escapeHtml(str); }
 
   // --- Liens internes entre fiches Formation : [[Catégorie::Titre]] ------
+  // Commande entre backticks dans le texte d'une fiche : toujours stylée
+  // comme dans Commandes ; cliquable et menant directement à la carte
+  // uniquement quand cette commande exacte y existe (COMMAND_BY_CMD).
+  function renderInlineCode(segment) {
+    const re = /`([^`]+)`/g;
+    let out = "";
+    let last = 0;
+    let m;
+    while ((m = re.exec(segment)) !== null) {
+      out += escapeHtml(segment.slice(last, m.index));
+      const code = m[1];
+      const cmd = COMMAND_BY_CMD.get(code);
+      out += cmd
+        ? `<a href="#" class="inline-cmd" data-command-category="${escapeAttr(cmd.category)}" data-command-title="${escapeAttr(cmd.title)}">${escapeHtml(code)}</a>`
+        : `<code class="inline-cmd">${escapeHtml(code)}</code>`;
+      last = re.lastIndex;
+    }
+    out += escapeHtml(segment.slice(last));
+    return out;
+  }
+
   function renderGuideParagraph(text) {
     const re = /\[\[([^:\]]+)::([^\]]+)\]\]/g;
     let out = "";
     let last = 0;
     let m;
     while ((m = re.exec(text)) !== null) {
-      out += escapeHtml(text.slice(last, m.index));
+      out += renderInlineCode(text.slice(last, m.index));
       const cat = m[1], title = m[2];
       // data-cat/data-title restent le titre FRANÇAIS canonique (identité de
       // la fiche, sert à la navigation) ; seul le texte affiché du lien est
@@ -1879,7 +1972,7 @@
       out += `<a href="#" class="guide-link" data-cat="${escapeAttr(cat)}" data-title="${escapeAttr(title)}">${escapeHtml(label)}</a>`;
       last = re.lastIndex;
     }
-    out += escapeHtml(text.slice(last));
+    out += renderInlineCode(text.slice(last));
     return out;
   }
 
@@ -1907,6 +2000,13 @@
     if (link) {
       e.preventDefault();
       navigateToGuide(link.dataset.cat, link.dataset.title);
+      return;
+    }
+
+    const cmdLink = e.target.closest("a.inline-cmd");
+    if (cmdLink) {
+      e.preventDefault();
+      navigateToCommand(cmdLink.dataset.commandCategory, cmdLink.dataset.commandTitle);
       return;
     }
 

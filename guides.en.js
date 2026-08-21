@@ -60,11 +60,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Moving around",
-        "text": "cd folder-name enters a folder.\ncd .. goes up one level.\ncd (alone) or cd ~ takes you back to your home folder.\ncd - takes you back to the previous folder — handy for going back and forth."
+        "text": "cd folder-name enters a folder.\ncd .. goes up one level.\ncd (alone) or cd ~ takes you back to your home folder.\n`cd -` takes you back to the previous folder — handy for going back and forth."
       },
       {
         "heading": "Seeing what's there",
-        "text": "ls lists the current folder's contents.\nls -la shows it in detail (permissions, size, date) and also shows hidden files (the ones starting with a dot, like .bashrc)."
+        "text": "ls lists the current folder's contents.\n`ls -la` shows it in detail (permissions, size, date) and also shows hidden files (the ones starting with a dot, like .bashrc)."
       },
       {
         "heading": "Relative vs absolute path",
@@ -116,7 +116,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Common error",
-        "text": "./script.sh: Permission denied → the file doesn't have the x right. Fix it with chmod +x script.sh (adds just the execute right, without touching the rest)."
+        "text": "./script.sh: Permission denied → the file doesn't have the x right. Fix it with `chmod +x script.sh` (adds just the execute right, without touching the rest)."
       }
     ],
     "exercises": [
@@ -152,7 +152,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Concrete example",
-        "text": "When you install software like VS Code or Android Studio, its installer automatically adds its own folder to the PATH. That's why typing code . works directly in any folder, without giving the full path to the executable."
+        "text": "When you install software like VS Code or Android Studio, its installer automatically adds its own folder to the PATH. That's why typing `code .` works directly in any folder, without giving the full path to the executable."
       },
       {
         "heading": ".env files: centralizing config without hardcoding it",
@@ -260,7 +260,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "> and >>: redirecting to a file",
-        "text": "> sends the result into a file, OVERWRITING its existing content.\n>> does the same but APPENDS at the end, without erasing anything.\n\nExample: ls -la > list.txt saves ls's result into a file instead of displaying it on screen."
+        "text": "> sends the result into a file, OVERWRITING its existing content.\n>> does the same but APPENDS at the end, without erasing anything.\n\nExample: `ls -la` > list.txt saves ls's result into a file instead of displaying it on screen."
       },
       {
         "heading": "&&: run the next one only if it succeeded",
@@ -456,7 +456,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The local repo vs the remote",
-        "text": "The local repository is the complete commit history stored only on your machine. The remote (e.g. GitHub) is a COPY of that history hosted on a server elsewhere.\n\ngit push copies your local commits TO the remote. git pull brings the remote's commits back TO your local repository. Until you've pushed, a commit remains a strictly local save — even if a remote is configured on the project."
+        "text": "The local repository is the complete commit history stored only on your machine. The remote (e.g. GitHub) is a COPY of that history hosted on a server elsewhere.\n\n`git push` copies your local commits TO the remote. `git pull` brings the remote's commits back TO your local repository. Until you've pushed, a commit remains a strictly local save — even if a remote is configured on the project."
       },
       {
         "heading": "Why commit often, even without pushing",
@@ -493,11 +493,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "And the remote, a 4th zone — but elsewhere",
-        "text": "The remote (GitHub, GitLab…) is a copy of this repository, but hosted on a server, potentially on the other side of the world. Nothing reaches it until you explicitly run git push."
+        "text": "The remote (GitHub, GitLab…) is a copy of this repository, but hosted on a server, potentially on the other side of the world. Nothing reaches it until you explicitly run `git push`."
       },
       {
         "heading": "Summary table",
-        "text": "git add          : Working Directory → Staging          (stays local)\ngit commit       : Staging → Local Repository              (stays local)\ngit push         : Local Repository → Remote                (goes onto the internet)\ngit pull / fetch : Remote → Local Repository (+ Working Dir) (comes from the internet)"
+        "text": "git add          : Working Directory → Staging          (stays local)\ngit commit       : Staging → Local Repository              (stays local)\n`git push`         : Local Repository → Remote                (goes onto the internet)\n`git pull` / fetch : Remote → Local Repository (+ Working Dir) (comes from the internet)"
       },
       {
         "heading": "What this actually means",
@@ -544,7 +544,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Step 3 — git add",
-        "text": "Puts your changes \"in preparation\" (staging) before recording them. git add . adds everything; git add file-name only adds one specific file if you want to be selective."
+        "text": "Puts your changes \"in preparation\" (staging) before recording them. `git add .` adds everything; git add file-name only adds one specific file if you want to be selective."
       },
       {
         "heading": "Step 4 — git commit",
@@ -560,7 +560,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Concrete end-to-end example",
-        "text": "You've just fixed a display bug:\n\ngit status   →  you see app/Login.kt modified\ngit diff     →  you check these are indeed the right lines\ngit add .\ngit commit -m \"fix: fix the login button alignment\"\ngit push"
+        "text": "You've just fixed a display bug:\n\n`git status`   →  you see app/Login.kt modified\n`git diff`     →  you check these are indeed the right lines\n`git add .`\ngit commit -m \"fix: fix the login button alignment\"\n`git push`"
       }
     ],
     "exercises": [
@@ -645,11 +645,11 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "I modified a file and want to undo it (not committed yet)",
-        "text": "git restore file-name resets the file to its state at the last commit. Your uncommitted changes are lost for good — check with git status or git diff first."
+        "text": "git restore file-name resets the file to its state at the last commit. Your uncommitted changes are lost for good — check with `git status` or `git diff` first."
       },
       {
         "heading": "I committed but haven't pushed yet, I want to undo the last commit",
-        "text": "git reset --soft HEAD~1 undoes the commit but keeps your changes ready to be re-committed (staged). This is the safe option.\n\ngit reset --hard HEAD~1 deletes EVERYTHING, changes included. Irreversible, only use it if you're sure."
+        "text": "`git reset --soft HEAD~1` undoes the commit but keeps your changes ready to be re-committed (staged). This is the safe option.\n\n`git reset --hard HEAD~1` deletes EVERYTHING, changes included. Irreversible, only use it if you're sure."
       },
       {
         "heading": "I've ALREADY pushed this commit — git revert, the safe option",
@@ -657,7 +657,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "I just want to set my work aside temporarily",
-        "text": "git stash puts your current changes away without committing them, and gives you back a clean folder (useful to quickly switch branches without having to commit unfinished work). git stash pop brings them back later."
+        "text": "`git stash` puts your current changes away without committing them, and gives you back a clean folder (useful to quickly switch branches without having to commit unfinished work). `git stash pop` brings them back later."
       }
     ],
     "exercises": [
@@ -689,7 +689,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How it works",
-        "text": "A .gitignore file at the project root lists patterns to ignore, one per line:\n\nnode_modules/\nbuild/\n*.apk\n.env\n\nGit then automatically ignores these files — they don't even show up in git status anymore."
+        "text": "A .gitignore file at the project root lists patterns to ignore, one per line:\n\nnode_modules/\nbuild/\n*.apk\n.env\n\nGit then automatically ignores these files — they don't even show up in `git status` anymore."
       },
       {
         "heading": "Common trap",
@@ -729,7 +729,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to get fewer of them",
-        "text": "Do frequent git pulls or merges rather than letting your branch diverge for weeks. And if several of you are working on the same file, communicate — conflicts are normal in a team, not a sign of failure."
+        "text": "Do frequent `git pull`s or merges rather than letting your branch diverge for weeks. And if several of you are working on the same file, communicate — conflicts are normal in a team, not a sign of failure."
       }
     ],
     "exercises": [
@@ -761,7 +761,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "HEAD, HEAD~1, HEAD~2…",
-        "text": "HEAD refers to the commit you're currently on. HEAD~1 refers to the commit right BEFORE it, HEAD~2 the one before that, etc. This is the notation used in git reset --soft HEAD~1: \"go back to the state before the last commit\"."
+        "text": "HEAD refers to the commit you're currently on. HEAD~1 refers to the commit right BEFORE it, HEAD~2 the one before that, etc. This is the notation used in `git reset --soft HEAD~1`: \"go back to the state before the last commit\"."
       }
     ],
     "exercises": [
@@ -793,7 +793,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The typical flow",
-        "text": "1. You create a branch and commit your work on it.\n2. You push it: git push -u origin my-branch\n3. On GitHub, you open a Pull Request from this branch into main.\n4. Someone (or yourself) reviews the diff, comments, possibly asks for changes.\n5. Once approved, it's merged — often with one \"Merge\" click on the GitHub interface."
+        "text": "1. You create a branch and commit your work on it.\n2. You push it: `git push` -u origin my-branch\n3. On GitHub, you open a Pull Request from this branch into main.\n4. Someone (or yourself) reviews the diff, comments, possibly asks for changes.\n5. Once approved, it's merged — often with one \"Merge\" click on the GitHub interface."
       },
       {
         "heading": "Why it's useful even when working alone",
@@ -873,7 +873,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The troubleshooting checklist",
-        "text": "1. Did you use npx expo install (not npm install)? It picks the version compatible with your SDK.\n2. Restart with the cache cleared: npx expo start -c\n3. If the library has native code and you're on a dev client / bare workflow: npx expo prebuild --clean then a new build.\n4. If in doubt about the overall config: npx expo-doctor tells you what's off."
+        "text": "1. Did you use npx expo install (not npm install)? It picks the version compatible with your SDK.\n2. Restart with the cache cleared: `npx expo start -c`\n3. If the library has native code and you're on a dev client / bare workflow: `npx expo prebuild --clean` then a new build.\n4. If in doubt about the overall config: `npx expo-doctor` tells you what's off."
       }
     ],
     "exercises": [
@@ -937,11 +937,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Why clearing the cache (-c) fixes so many problems",
-        "text": "Metro caches an already-compiled version of your files to go faster. After a config change (babel.config.js, metro.config.js) or a confusing bug, this cache might hold an outdated version → npx expo start -c forces it to recompile everything from scratch."
+        "text": "Metro caches an already-compiled version of your files to go faster. After a config change (babel.config.js, metro.config.js) or a confusing bug, this cache might hold an outdated version → `npx expo start -c` forces it to recompile everything from scratch."
       },
       {
         "heading": "The QR code, how it works",
-        "text": "It encodes the address (IP + port) of the Metro server on your local network. The phone scans it, connects to it, and downloads the JS bundle. That's why you need to be on the SAME wifi network as your computer — otherwise, use npx expo start --tunnel."
+        "text": "It encodes the address (IP + port) of the Metro server on your local network. The phone scans it, connects to it, and downloads the JS bundle. That's why you need to be on the SAME wifi network as your computer — otherwise, use `npx expo start --tunnel`."
       }
     ],
     "exercises": [
@@ -1013,7 +1013,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Build variants (flavors)",
-        "text": "Beyond debug/release, a project can define \"flavors\" (e.g. free/paid, staging/prod), combined with debug/release to give tasks like assembleFreeDebug or assembleProdRelease. Check the module's build.gradle file to see which ones are defined on your project — ./gradlew tasks also lists them."
+        "text": "Beyond debug/release, a project can define \"flavors\" (e.g. free/paid, staging/prod), combined with debug/release to give tasks like assembleFreeDebug or assembleProdRelease. Check the module's build.gradle file to see which ones are defined on your project — `./gradlew tasks` also lists them."
       }
     ],
     "exercises": [
@@ -1045,7 +1045,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The classic debug flow",
-        "text": "1. adb devices → checks that your device is properly detected\n2. You reproduce the bug in the app\n3. adb logcat *:E → you look at the errors that come up at the moment of the crash\n4. Once fixed, you reinstall with ./gradlew installDebug and retest"
+        "text": "1. `adb devices` → checks that your device is properly detected\n2. You reproduce the bug in the app\n3. `adb logcat *:E` → you look at the errors that come up at the moment of the crash\n4. Once fixed, you reinstall with `./gradlew installDebug` and retest"
       },
       {
         "heading": "logcat, filtering smartly",
@@ -1085,7 +1085,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The real phone",
-        "text": "Essential before publishing an app: real performance, the camera, GPS, and notifications behave differently on a real device. Connect it via USB with debugging enabled, check with adb devices."
+        "text": "Essential before publishing an app: real performance, the camera, GPS, and notifications behave differently on a real device. Connect it via USB with debugging enabled, check with `adb devices`."
       }
     ],
     "exercises": [
@@ -1285,11 +1285,11 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "What's a process",
-        "text": "Every launched program (even in the background) is a \"process\", identified by a unique number (PID). htop shows all active processes, sorted by real-time CPU/RAM usage — useful to spot what's slowing down your machine."
+        "text": "Every launched program (even in the background) is a \"process\", identified by a unique number (PID). `htop` shows all active processes, sorted by real-time CPU/RAM usage — useful to spot what's slowing down your machine."
       },
       {
         "heading": "Killing a stuck process",
-        "text": "If an app stops responding: find its PID (with ps aux | grep name, or visually in htop), then kill -9 PID to force it to stop."
+        "text": "If an app stops responding: find its PID (with ps aux | grep name, or visually in `htop`), then `kill -9 PID` to force it to stop."
       },
       {
         "heading": "\"Port already in use\" (e.g. Metro, a local server)",
@@ -1297,7 +1297,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "%CPU going over 100 isn't a bug",
-        "text": "On a multi-core machine, a process can use several cores simultaneously at 100% each — top/htop add up these percentages. So 350% on a 4-core machine means around 87% of the machine's TOTAL power used by that single process."
+        "text": "On a multi-core machine, a process can use several cores simultaneously at 100% each — top/`htop` add up these percentages. So 350% on a 4-core machine means around 87% of the machine's TOTAL power used by that single process."
       }
     ],
     "exercises": [
@@ -1626,11 +1626,11 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Why it happens",
-        "text": "Two programs can't listen on the same port at the same time on the same machine. Often: an old npx expo start or docker run wasn't actually stopped (zombie process, terminal closed without a proper Ctrl+C)."
+        "text": "Two programs can't listen on the same port at the same time on the same machine. Often: an old `npx expo start` or docker run wasn't actually stopped (zombie process, terminal closed without a proper Ctrl+C)."
       },
       {
         "heading": "How to fix it",
-        "text": "1. sudo ss -tulpn | grep :8081 (replace 8081 with your port) → finds the PID occupying the port.\n2. kill -9 PID to free it up.\n3. Rerun your command.\n\nSee also: [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] and [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
+        "text": "1. sudo ss -tulpn | grep :8081 (replace 8081 with your port) → finds the PID occupying the port.\n2. `kill -9 PID` to free it up.\n3. Rerun your command.\n\nSee also: [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] and [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
       }
     ],
     "exercises": [
@@ -1694,7 +1694,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "1. Enable USB debugging (Settings → Developer Options).\n2. Unplug/replug the cable.\n3. Look at the PHONE'S SCREEN for a popup to accept.\n4. adb devices to check the status switches to \"device\".\n5. As a last resort: adb kill-server && adb start-server."
+        "text": "1. Enable USB debugging (Settings → Developer Options).\n2. Unplug/replug the cable.\n3. Look at the PHONE'S SCREEN for a popup to accept.\n4. `adb devices` to check the status switches to \"device\".\n5. As a last resort: `adb kill-server && adb start-server`."
       }
     ],
     "exercises": [
@@ -1726,7 +1726,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "npx expo start -c restarts the server while fully clearing the cache. If that's not enough: npx expo-doctor to check the project's overall consistency.\n\nSee also: [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
+        "text": "`npx expo start -c` restarts the server while fully clearing the cache. If that's not enough: `npx expo-doctor` to check the project's overall consistency.\n\nSee also: [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
       }
     ],
     "exercises": [
@@ -1758,7 +1758,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "git pull (or git pull --rebase for a cleaner history) first brings in the missing commits, possibly with a conflict to resolve (see [[Git::Les conflits de fusion (merge conflicts)]]). Once up to date, git push goes through normally.\n\n⚠️ NEVER use git push --force on a shared branch unless you're sure what it's overwriting — it can erase someone else's work."
+        "text": "`git pull` (or git pull --rebase for a cleaner history) first brings in the missing commits, possibly with a conflict to resolve (see [[Git::Les conflits de fusion (merge conflicts)]]). Once up to date, `git push` goes through normally.\n\n⚠️ NEVER use git push --force on a shared branch unless you're sure what it's overwriting — it can erase someone else's work."
       }
     ],
     "exercises": [
@@ -1818,7 +1818,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "In an Expo project, npx expo install --fix automatically aligns versions with what the SDK expects — often enough. Otherwise, manually check the error message for WHICH version is expected vs installed, and adjust it in package.json.\n\nSee also: [[Bases du terminal::npm & npx, et package.json en détail]]."
+        "text": "In an Expo project, `npx expo install --fix` automatically aligns versions with what the SDK expects — often enough. Otherwise, manually check the error message for WHICH version is expected vs installed, and adjust it in package.json.\n\nSee also: [[Bases du terminal::npm & npx, et package.json en détail]]."
       }
     ],
     "exercises": [
@@ -1934,19 +1934,19 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "claude -c: pick up where you left off",
-        "text": "Automatically reloads this folder's most recent conversation. The most common use case: you close your terminal at the end of the day, come back the next day, claude -c puts you right back into the context where you stopped."
+        "text": "Automatically reloads this folder's most recent conversation. The most common use case: you close your terminal at the end of the day, come back the next day, `claude -c` puts you right back into the context where you stopped."
       },
       {
         "heading": "claude -r: choosing a specific session",
-        "text": "If you worked on several topics in the same folder (a feature on Monday, a bugfix on Tuesday), claude -c only resumes the LATEST one. claude -r shows a picker of all your past sessions so you can pick exactly which one to resume."
+        "text": "If you worked on several topics in the same folder (a feature on Monday, a bugfix on Tuesday), `claude -c` only resumes the LATEST one. `claude -r` shows a picker of all your past sessions so you can pick exactly which one to resume."
       },
       {
         "heading": "/clear: wiping without leaving",
-        "text": "Unlike -c and -r, which are typed BEFORE launching Claude Code, /clear is used INSIDE an already-open session. Useful when you completely switch topics mid-session and the old context no longer helps (or even slows down/muddies the responses)."
+        "text": "Unlike -c and -r, which are typed BEFORE launching Claude Code, `/clear` is used INSIDE an already-open session. Useful when you completely switch topics mid-session and the old context no longer helps (or even slows down/muddies the responses)."
       },
       {
         "heading": "When NOT to resume a session",
-        "text": "If the topic is completely different (you were switching from frontend work to debugging a server), starting fresh without -c/-r (just claude on its own) avoids mixing two unrelated contexts — often more effective than a mid-session /clear."
+        "text": "If the topic is completely different (you were switching from frontend work to debugging a server), starting fresh without -c/-r (just claude on its own) avoids mixing two unrelated contexts — often more effective than a mid-session `/clear`."
       }
     ],
     "exercises": [
@@ -1982,7 +1982,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "/init to get started",
-        "text": "Rather than writing this file by hand from scratch, /init asks Claude to analyze the project (structure, dependencies, scripts) and generate a first CLAUDE.md for you to complete/adjust afterwards."
+        "text": "Rather than writing this file by hand from scratch, `/init` asks Claude to analyze the project (structure, dependencies, scripts) and generate a first CLAUDE.md for you to complete/adjust afterwards."
       },
       {
         "heading": "Don't put in it what the code already says",
@@ -2018,7 +2018,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Plan mode: think before acting",
-        "text": "claude --permission-mode plan (or switching to plan mode mid-session) forces Claude to first PROPOSE a detailed plan, without touching anything, for you to approve or adjust before a single action gets executed. Ideal for a complex task where you want to validate the approach before execution."
+        "text": "`claude --permission-mode plan` (or switching to plan mode mid-session) forces Claude to first PROPOSE a detailed plan, without touching anything, for you to approve or adjust before a single action gets executed. Ideal for a complex task where you want to validate the approach before execution."
       },
       {
         "heading": "--dangerously-skip-permissions: the no-net mode",
@@ -2026,7 +2026,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "/permissions to fine-tune",
-        "text": "Rather than accepting everything or confirming everything, /permissions lets you specify exactly which tools/actions Claude can run automatically (e.g. always allow reading files, but always ask before a git push)."
+        "text": "Rather than accepting everything or confirming everything, `/permissions` lets you specify exactly which tools/actions Claude can run automatically (e.g. always allow reading files, but always ask before a `git push`)."
       }
     ],
     "exercises": [
@@ -2054,15 +2054,15 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "/compact: summarizing without starting from scratch",
-        "text": "Condenses the current conversation into a shorter summary, keeping the essentials (decisions made, progress so far), freeing up room — WITHOUT completely losing the thread the way /clear would."
+        "text": "Condenses the current conversation into a shorter summary, keeping the essentials (decisions made, progress so far), freeing up room — WITHOUT completely losing the thread the way `/clear` would."
       },
       {
         "heading": "Steering the summary",
-        "text": "/compact accepts an instruction to specify what absolutely must be kept: /compact keep the implementation plan and already-modified files in detail — useful to avoid losing a specific piece of information during compression."
+        "text": "`/compact` accepts an instruction to specify what absolutely must be kept: /compact keep the implementation plan and already-modified files in detail — useful to avoid losing a specific piece of information during compression."
       },
       {
         "heading": "/compact vs /clear",
-        "text": "/compact keeps a summarized trace of everything before it. /clear wipes completely — reserve it for a total change of topic, where the old context no longer brings anything (see [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]])."
+        "text": "`/compact` keeps a summarized trace of everything before it. `/clear` wipes completely — reserve it for a total change of topic, where the old context no longer brings anything (see [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]])."
       }
     ],
     "exercises": [
@@ -2134,7 +2134,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Adding and managing servers",
-        "text": "claude mcp add connects a new MCP server to the project or globally. /mcp (mid-session) lets you see the currently connected servers and their status."
+        "text": "claude mcp add connects a new MCP server to the project or globally. `/mcp` (mid-session) lets you see the currently connected servers and their status."
       }
     ],
     "exercises": [
@@ -2166,7 +2166,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "On an existing project: generate a CLAUDE.md before coding",
-        "text": "Before asking for the first real task, /init lets Claude analyze the structure, dependencies, and available scripts to generate a first CLAUDE.md — this saves you from re-explaining the project by hand, and future sessions start with this context already in place. See [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]]."
+        "text": "Before asking for the first real task, `/init` lets Claude analyze the structure, dependencies, and available scripts to generate a first CLAUDE.md — this saves you from re-explaining the project by hand, and future sessions start with this context already in place. See [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]]."
       },
       {
         "heading": "Start small, check, then widen the scope",
@@ -2174,7 +2174,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Plan mode for a first substantial task",
-        "text": "If the first task touches many files or a sensitive part of the project, starting in plan mode (claude --permission-mode plan) lets you validate the approach before anything gets modified. See [[Claude Code::Les modes de permission : plan, auto-accept, manuel]]."
+        "text": "If the first task touches many files or a sensitive part of the project, starting in plan mode (`claude --permission-mode plan`) lets you validate the approach before anything gets modified. See [[Claude Code::Les modes de permission : plan, auto-accept, manuel]]."
       }
     ],
     "exercises": [
@@ -2210,7 +2210,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Custom agents: for a recurring role",
-        "text": "If the same specialty comes up regularly in your project (security review, style review, generating a status line), creating a dedicated agent via /agents avoids re-explaining its role every time — see [[Claude Code::Sous-agents : déléguer des tâches spécialisées]] for the general delegation principle."
+        "text": "If the same specialty comes up regularly in your project (security review, style review, generating a status line), creating a dedicated agent via `/agents` avoids re-explaining its role every time — see [[Claude Code::Sous-agents : déléguer des tâches spécialisées]] for the general delegation principle."
       }
     ],
     "exercises": [
@@ -2270,7 +2270,7 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "What's already on your machine",
-        "text": "Before looking elsewhere, check what already exists: personal agents in ~/.claude/agents (usable across all your projects), project agents in .claude/agents/ at the repo root — same logic for skills (~/.claude/skills and .claude/skills/). /agents lists the agents available for the current project."
+        "text": "Before looking elsewhere, check what already exists: personal agents in ~/.claude`/agents` (usable across all your projects), project agents in .claude/agents/ at the repo root — same logic for skills (~/.claude/skills and .claude/skills/). /agents lists the agents available for the current project."
       },
       {
         "heading": "Plugins: ready-made packs",
@@ -2526,15 +2526,15 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The global install",
-        "text": "npm install -g @anthropic-ai/claude-code installs Claude Code globally on the machine — the claude command then becomes available from any folder in the terminal."
+        "text": "`npm install -g @anthropic-ai/claude-code` installs Claude Code globally on the machine — the claude command then becomes available from any folder in the terminal."
       },
       {
         "heading": "Checking that everything works",
-        "text": "claude --version shows the installed version. claude doctor goes further, checking dependencies, PATH, and configuration, and pinpoints exactly what's wrong if the install has a problem."
+        "text": "`claude --version` shows the installed version. `claude doctor` goes further, checking dependencies, PATH, and configuration, and pinpoints exactly what's wrong if the install has a problem."
       },
       {
         "heading": "Staying up to date",
-        "text": "claude update fetches the latest available version — useful to benefit from new features and fixes over time."
+        "text": "`claude update` fetches the latest available version — useful to benefit from new features and fixes over time."
       }
     ],
     "exercises": [
@@ -2602,7 +2602,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Connecting from an existing terminal session",
-        "text": "If a Claude Code session is already running in a separate terminal (not necessarily the editor's integrated one), /ide connects it to the open editor to share the active file and selection."
+        "text": "If a Claude Code session is already running in a separate terminal (not necessarily the editor's integrated one), `/ide` connects it to the open editor to share the active file and selection."
       },
       {
         "heading": "What it actually changes",
@@ -2674,7 +2674,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Once installed, it behaves as if it were your own",
-        "text": "The commands, agents, and skills from an installed plugin work exactly like ones you'd have created yourself — /agents lists them, a plugin skill gets picked automatically just like a personal one, the only difference being where it came from."
+        "text": "The commands, agents, and skills from an installed plugin work exactly like ones you'd have created yourself — `/agents` lists them, a plugin skill gets picked automatically just like a personal one, the only difference being where it came from."
       },
       {
         "heading": "A plugin skill is marked with a prefix",
@@ -2782,7 +2782,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Both coexist, without fully replacing one another",
-        "text": "Some historical cmd commands (like ipconfig or systeminfo) also work fine in PowerShell — no need to strictly pick one over the other, PowerShell runs most old cmd commands in addition to its own."
+        "text": "Some historical cmd commands (like `ipconfig` or `systeminfo`) also work fine in PowerShell — no need to strictly pick one over the other, PowerShell runs most old cmd commands in addition to its own."
       },
       {
         "heading": "Windows Terminal: the app that hosts both",
@@ -2814,7 +2814,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Opening an already-elevated terminal",
-        "text": "Start-Process powershell -Verb RunAs (or right-click → \"Run as administrator\" in the interface) opens a NEW window with full rights — everything typed there afterward runs as administrator, with no further prompt."
+        "text": "`Start-Process powershell -Verb RunAs` (or right-click → \"Run as administrator\" in the interface) opens a NEW window with full rights — everything typed there afterward runs as administrator, with no further prompt."
       },
       {
         "heading": "The UAC prompt, the safeguard",
@@ -2858,7 +2858,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Updating everything at once",
-        "text": "winget upgrade --all updates, in a single command, every piece of software installed via winget that has a new version available — no need to go back through each official site."
+        "text": "`winget upgrade --all` updates, in a single command, every piece of software installed via winget that has a new version available — no need to go back through each official site."
       },
       {
         "heading": "When winget isn't enough",
@@ -2922,7 +2922,7 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Task Manager, for a quick glance",
-        "text": "taskmgr opens the classic graphical interface — real-time CPU/RAM usage, the ability to force-stop a program that's stopped responding, with no command typed at all."
+        "text": "`taskmgr` opens the classic graphical interface — real-time CPU/RAM usage, the ability to force-stop a program that's stopped responding, with no command typed at all."
       },
       {
         "heading": "Get-Process, the scriptable version",
@@ -2958,15 +2958,15 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Viewing your network configuration",
-        "text": "ipconfig shows the IP address, mask, and gateway for each network interface — see [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] for the same concepts explained on the Linux side."
+        "text": "`ipconfig` shows the IP address, mask, and gateway for each network interface — see [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] for the same concepts explained on the Linux side."
       },
       {
         "heading": "Testing that a host responds",
-        "text": "ping site.com works almost identically to Linux — sends packets and measures the response time."
+        "text": "`ping site.com` works almost identically to Linux — sends packets and measures the response time."
       },
       {
         "heading": "Finding what's occupying a port",
-        "text": "netstat -ano | findstr :8080 shows the PID of the process listening on port 8080; Get-Process -Id <PID> next to identify it by name."
+        "text": "`netstat -ano | findstr :8080` shows the PID of the process listening on port 8080; Get-Process -Id <PID> next to identify it by name."
       },
       {
         "heading": "Testing a remote port with no browser or client",
@@ -2974,7 +2974,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Flushing the DNS cache after a change",
-        "text": "ipconfig /flushdns forces the system to forget cached DNS resolutions — useful right after changing a DNS record or server."
+        "text": "`ipconfig /flushdns` forces the system to forget cached DNS resolutions — useful right after changing a DNS record or server."
       }
     ],
     "exercises": [
@@ -3038,11 +3038,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "$PROFILE, the automatically loaded file",
-        "text": "notepad $PROFILE opens (or creates) this file — everything written there runs automatically at every new PowerShell session, the equivalent of .bashrc on Linux."
+        "text": "`notepad $PROFILE` opens (or creates) this file — everything written there runs automatically at every new PowerShell session, the equivalent of .bashrc on Linux."
       },
       {
         "heading": "Making an alias permanent",
-        "text": "Set-Alias ll Get-ChildItem typed directly in the terminal only lasts the session. The same line added to $PROFILE makes it permanent for every future session."
+        "text": "`Set-Alias ll Get-ChildItem` typed directly in the terminal only lasts the session. The same line added to $PROFILE makes it permanent for every future session."
       },
       {
         "heading": "A different profile per context",
@@ -3142,19 +3142,19 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Three ways to install",
-        "text": "The official script (curl -fsSL https://chatgpt.com/codex/install.sh | sh) on macOS/Linux, npm install -g @openai/codex cross-platform, or brew install --cask codex on macOS — see [[Bases du terminal::Comprendre les gestionnaires de paquets]] for the general principle behind npm/Homebrew."
+        "text": "The official script (`curl -fsSL https://chatgpt.com/codex/install.sh | sh`) on macOS/Linux, `npm install -g @openai/codex` cross-platform, or `brew install --cask codex` on macOS — see [[Bases du terminal::Comprendre les gestionnaires de paquets]] for the general principle behind npm/Homebrew."
       },
       {
         "heading": "Logging in with ChatGPT",
-        "text": "codex login offers to sign in with a ChatGPT account — the simplest way if a ChatGPT subscription already exists."
+        "text": "`codex login` offers to sign in with a ChatGPT account — the simplest way if a ChatGPT subscription already exists."
       },
       {
         "heading": "Logging in with an API key",
-        "text": "codex login --with-api-key authenticates with an OpenAI API key instead of a ChatGPT account — useful for scripted/server use with no graphical interface."
+        "text": "`codex login --with-api-key` authenticates with an OpenAI API key instead of a ChatGPT account — useful for scripted/server use with no graphical interface."
       },
       {
         "heading": "Checking and revoking access",
-        "text": "codex login status confirms whether Codex is properly authenticated; codex logout removes locally stored credentials, for example before lending the machine to someone."
+        "text": "`codex login status` confirms whether Codex is properly authenticated; `codex logout` removes locally stored credentials, for example before lending the machine to someone."
       }
     ],
     "exercises": [
@@ -3222,7 +3222,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Combining them for supervised automation",
-        "text": "codex --sandbox workspace-write --ask-for-approval on-request \"task\" lets Codex work on its own inside the project, while keeping a safety net on the most sensitive actions."
+        "text": "`codex --sandbox workspace-write` --ask-for-approval on-request \"task\" lets Codex work on its own inside the project, while keeping a safety net on the most sensitive actions."
       },
       {
         "heading": "--yolo, the no-safety-net mode",
@@ -3430,11 +3430,11 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Searching for an action instead of finding it in a menu",
-        "text": "Rather than navigating nested menus, Ctrl+Shift+P opens a search where typing a few words of the wanted action (\"format\", \"reload\", \"settings\"…) is enough to find it."
+        "text": "Rather than navigating nested menus, `Ctrl+Shift+P` opens a search where typing a few words of the wanted action (\"format\", \"reload\", \"settings\"…) is enough to find it."
       },
       {
         "heading": "A dedicated cousin for files: Ctrl+P",
-        "text": "Ctrl+P (without Shift) opens a similar search but dedicated to the project's FILES — the two complement each other: Ctrl+P to open a file, Ctrl+Shift+P to run an action."
+        "text": "`Ctrl+P` (without Shift) opens a similar search but dedicated to the project's FILES — the two complement each other: Ctrl+P to open a file, `Ctrl+Shift+P` to run an action."
       },
       {
         "heading": "Shortcuts show up next to the name",
@@ -3470,11 +3470,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Ctrl+D: occurrence by occurrence",
-        "text": "Selecting a word then pressing Ctrl+D adds the next identical occurrence to the selection — repeating Ctrl+D adds one more each time, keeping control over what's affected."
+        "text": "Selecting a word then pressing `Ctrl+D` adds the next identical occurrence to the selection — repeating Ctrl+D adds one more each time, keeping control over what's affected."
       },
       {
         "heading": "Alt+Click: a cursor exactly where you want",
-        "text": "Alt+Click places an extra cursor at the clicked spot, with no dependency on a word or a specific occurrence — useful for positions that don't textually resemble each other."
+        "text": "`Alt+Clic`k places an extra cursor at the clicked spot, with no dependency on a word or a specific occurrence — useful for positions that don't textually resemble each other."
       },
       {
         "heading": "Difference from find-and-replace",
@@ -3510,7 +3510,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Recommending extensions to your team",
-        "text": "A .vscode/extensions.json file at the project root lists the extensions recommended for THIS project — VS Code automatically offers to install them on open, handy for standardizing a team's tools."
+        "text": "A `.vscode/extensions.json` file at the project root lists the extensions recommended for THIS project — VS Code automatically offers to install them on open, handy for standardizing a team's tools."
       },
       {
         "heading": "Too many extensions can slow things down",
@@ -3538,7 +3538,7 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "The integrated terminal, one shortcut away",
-        "text": "Ctrl+` toggles a terminal directly inside VS Code, already positioned in the project's folder — this is in fact where tools like Claude Code run from, see [[Claude Code::Utiliser Claude Code dans VS Code / Cursor]]."
+        "text": "Ctrl+\` toggles a terminal directly inside VS Code, already positioned in the project's folder — this is in fact where tools like Claude Code run from, see [[Claude Code::Utiliser Claude Code dans VS Code / Cursor]]."
       },
       {
         "heading": "Several terminals side by side",
@@ -3546,11 +3546,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The Source Control panel, without leaving the editor",
-        "text": "Ctrl+Shift+G shows modified files, lets you view a diff, stage, and commit — for everyday actions, no need to go back to the terminal for every git add/commit."
+        "text": "`Ctrl+Shift+G` shows modified files, lets you view a diff, stage, and commit — for everyday actions, no need to go back to the terminal for every git add/commit."
       },
       {
         "heading": "The indicators in the gutter",
-        "text": "A colored bar appears in the left margin of lines modified, added, or removed compared to the last commit — an immediate visual cue of what changed in the open file, with no git diff to run."
+        "text": "A colored bar appears in the left margin of lines modified, added, or removed compared to the last commit — an immediate visual cue of what changed in the open file, with no `git diff` to run."
       }
     ],
     "exercises": [
@@ -3578,11 +3578,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "A breakpoint, to pause execution",
-        "text": "F9 on a line sets a breakpoint — when execution reaches it (F5 to launch), the program pauses right there, with every variable visible in its current state."
+        "text": "`F9` on a line sets a breakpoint — when execution reaches it (`F5` to launch), the program pauses right there, with every variable visible in its current state."
       },
       {
         "heading": "Stepping through",
-        "text": "Once paused, F10 runs the current line without stepping into the functions it calls; F11 instead steps into the function to follow it line by line, from the inside."
+        "text": "Once paused, `F10` runs the current line without stepping into the functions it calls; `F11` instead steps into the function to follow it line by line, from the inside."
       },
       {
         "heading": "launch.json: how VS Code knows what to run",
@@ -3610,7 +3610,7 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Two ways to reach the same settings",
-        "text": "Ctrl+, opens the graphical settings interface, with search and descriptions. The same configuration exists as a JSON file (settings.json), reachable via the palette (Preferences: Open User Settings (JSON))."
+        "text": "`Ctrl+,` opens the graphical settings interface, with search and descriptions. The same configuration exists as a JSON file (settings.json), reachable via the palette (`Preferences: Open User Settings (JSON)`)."
       },
       {
         "heading": "Why go through JSON despite the interface",
@@ -3622,7 +3622,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Sharing team settings",
-        "text": "Like .vscode/extensions.json for extensions, a .vscode/settings.json committed to Git lets a whole team share the same project settings (indent size, default formatter…) with no one having to configure them by hand."
+        "text": "Like `.vscode/extensions.json` for extensions, a .vscode/settings.json committed to Git lets a whole team share the same project settings (indent size, default formatter…) with no one having to configure them by hand."
       }
     ],
     "exercises": [
@@ -3694,7 +3694,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "/ide to connect an already-open session",
-        "text": "If Claude Code is running in a terminal separate from VS Code's integrated one, /ide (typed in the session) connects it to the open editor — see [[Claude Code::Installer l'extension dans VS Code ou Cursor]] for the extension's initial install."
+        "text": "If Claude Code is running in a terminal separate from VS Code's integrated one, `/ide` (typed in the session) connects it to the open editor — see [[Claude Code::Installer l'extension dans VS Code ou Cursor]] for the extension's initial install."
       }
     ],
     "exercises": [
@@ -3718,11 +3718,11 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "On Windows: winget",
-        "text": "winget install Microsoft.VisualStudioCode installs VS Code via Windows's official package manager, built in since Windows 10/11 — the command-line alternative to the installer downloaded from the website."
+        "text": "`winget install Microsoft.VisualStudioCode` installs VS Code via Windows's official package manager, built in since Windows 10/11 — the command-line alternative to the installer downloaded from the website."
       },
       {
         "heading": "On Linux: Snap, the simplest option",
-        "text": "sudo snap install --classic code installs VS Code in one command on Ubuntu/Debian and Snap-compatible distributions, with automatic background updates."
+        "text": "`sudo snap install --classic code` installs VS Code in one command on Ubuntu/Debian and Snap-compatible distributions, with automatic background updates."
       },
       {
         "heading": "On Linux: the official apt repository, to stay within the apt ecosystem",
@@ -3730,7 +3730,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Checking the install worked",
-        "text": "code --version shows the installed version — a quick check, whichever install method was chosen."
+        "text": "`code --version` shows the installed version — a quick check, whichever install method was chosen."
       }
     ],
     "exercises": [
@@ -3762,7 +3762,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "What that actually changes",
-        "text": "Cursor's AI features (Ctrl+K, Ctrl+L, Tab) are available with nothing more to install beyond the editor itself — no separate extension to connect, unlike Claude Code inside VS Code."
+        "text": "Cursor's AI features (`Ctrl+K`, `Ctrl+L`, Tab) are available with nothing more to install beyond the editor itself — no separate extension to connect, unlike Claude Code inside VS Code."
       },
       {
         "heading": "Not a full replacement for VS Code + extension",
@@ -3794,7 +3794,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Ctrl+K, right where you are",
-        "text": "Placing the cursor (or selecting a block) then pressing Ctrl+K opens a field right below to describe the wanted change — the change applies directly at that exact spot."
+        "text": "Placing the cursor (or selecting a block) then pressing `Ctrl+K` opens a field right below to describe the wanted change — the change applies directly at that exact spot."
       },
       {
         "heading": "A question rather than a change",
@@ -3838,7 +3838,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The mode menu to choose explicitly",
-        "text": "Ctrl+. shows the Agent / Plan / Ask menu — see [[Cursor::Les modes Agent / Plan / Ask : garder la main sur ce que l'IA fait]] for the detail of each."
+        "text": "`Ctrl+.` shows the Agent / Plan / Ask menu — see [[Cursor::Les modes Agent / Plan / Ask : garder la main sur ce que l'IA fait]] for the detail of each."
       }
     ],
     "exercises": [
@@ -3866,7 +3866,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Accepting all at once or word by word",
-        "text": "Tab approves the entire suggestion shown. Ctrl+→ only accepts the next word — useful when only the start of the suggestion matches what's wanted."
+        "text": "Tab approves the entire suggestion shown. `Ctrl+→` only accepts the next word — useful when only the start of the suggestion matches what's wanted."
       },
       {
         "heading": "The suggestion can jump elsewhere",
@@ -3910,7 +3910,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Switching modes along the way",
-        "text": "Ctrl+. opens the mode menu at any time — nothing stops you from starting in Ask to understand, then switching to Agent once the approach is clear."
+        "text": "`Ctrl+.` opens the mode menu at any time — nothing stops you from starting in Ask to understand, then switching to Agent once the approach is clear."
       }
     ],
     "exercises": [
@@ -4042,7 +4042,7 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "The editor on Windows: winget or the .exe installer",
-        "text": "winget install --id=Anysphere.Cursor -e installs the editor via Windows's package manager — an alternative to the .exe installer downloaded from cursor.com."
+        "text": "`winget install --id=Anysphere.Cursor -e` installs the editor via Windows's package manager — an alternative to the .exe installer downloaded from cursor.com."
       },
       {
         "heading": "The editor on Linux: the AppImage",
@@ -4054,7 +4054,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Checking everything is in place",
-        "text": "cursor-agent --version confirms the CLI agent is properly installed and reachable, independently of the graphical editor."
+        "text": "`cursor-agent --version` confirms the CLI agent is properly installed and reachable, independently of the graphical editor."
       }
     ],
     "exercises": [
