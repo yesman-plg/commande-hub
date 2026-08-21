@@ -17,6 +17,48 @@ const GUIDES = [
   // --- Bases du terminal ---------------------------------------
   {
     category: "Bases du terminal",
+    title: "Ouvrir un terminal sur Windows ou Linux",
+    level: "🟢 Débutant",
+    summary: "Le point de passage obligé avant toute commande — où le trouver et à quoi reconnaître qu'il est prêt à recevoir des instructions.",
+    content: [
+      {
+        heading: "Un terminal, c'est quoi concrètement",
+        text: "Une fenêtre où taper du texte pour donner des instructions à l'ordinateur, plutôt que cliquer sur des icônes — le point de passage obligé pour installer et utiliser des outils en ligne de commande (Claude Code, Codex, winget…). Rien d'installé par défaut ne se lance tout seul : il faut d'abord l'ouvrir."
+      },
+      {
+        heading: "Sur Windows : chercher \"PowerShell\" ou \"Terminal\"",
+        text: "Clic sur le menu Démarrer, taper \"PowerShell\" (ou \"Terminal\"), puis lancer l'application qui apparaît dans les résultats — voir [[Windows::PowerShell vs invite de commandes (cmd) : lequel utiliser]] pour la différence entre les deux."
+      },
+      {
+        heading: "Sur Windows : le raccourci Win+X",
+        text: "Le raccourci Windows+X ouvre un menu rapide avec un accès direct à \"Terminal\" ou \"Windows PowerShell\", sans passer par le menu Démarrer ni taper quoi que ce soit."
+      },
+      {
+        heading: "Sur Linux : chercher \"Terminal\" dans les applications",
+        text: "Comme sur Windows, chercher \"Terminal\" dans le menu des applications suffit généralement. Le raccourci Ctrl+Alt+T ouvre aussi directement un terminal sur la plupart des distributions, dont Linux Mint."
+      },
+      {
+        heading: "Une fois ouvert, comment savoir que ça marche",
+        text: "Une fenêtre sombre avec du texte et un curseur clignotant apparaît, prête à recevoir une commande — c'est normal si rien ne se passe tant qu'aucune commande n'a été tapée et validée avec Entrée."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu es sur Windows et tu veux ouvrir un terminal pour la première fois, sans savoir où chercher. Que fais-tu ?",
+        options: [
+          "Chercher \"PowerShell\" ou \"Terminal\" dans le menu Démarrer",
+          "Cliquer sur l'icône de la corbeille",
+          "Ce n'est possible qu'en réinstallant Windows",
+          "Ouvrir Word"
+        ],
+        correctIndex: 0,
+        correction: "Taper \"PowerShell\" ou \"Terminal\" dans la recherche du menu Démarrer fait apparaître l'application à lancer — le raccourci Win+X propose aussi un accès direct sans rien taper."
+      }
+    ]
+  },
+  {
+    category: "Bases du terminal",
     title: "Comment lire une commande",
     level: "🟢 Débutant",
     summary: "Avant de copier-coller n'importe quoi, comprends ce que veut dire chaque partie d'une commande.",
@@ -1671,6 +1713,48 @@ const GUIDES = [
   // --- Claude Code ---------------------------------------
   {
     category: "Claude Code",
+    title: "Installer Claude Code dans un terminal",
+    level: "🟢 Débutant",
+    summary: "Une installation globale via npm, un prérequis (Node.js), et une vérification en une commande.",
+    content: [
+      {
+        heading: "D'abord, ouvrir un terminal",
+        text: "Toutes les commandes de cette fiche se tapent dans un terminal, pas dans une fenêtre de recherche ni un navigateur — voir [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]] si ce n'est pas encore fait."
+      },
+      {
+        heading: "Le prérequis : Node.js",
+        text: "Claude Code s'installe via npm, le gestionnaire de paquets de Node.js — il faut donc avoir Node.js installé au préalable sur la machine avant de pouvoir l'installer. Sur Windows, `winget install OpenJS.NodeJS.LTS` s'en charge ; sur Linux, il s'installe via le gestionnaire de paquets habituel (apt, snap…)."
+      },
+      {
+        heading: "L'installation globale",
+        text: "`npm install -g @anthropic-ai/claude-code` installe Claude Code globalement sur la machine — la commande claude devient alors disponible depuis n'importe quel dossier du terminal."
+      },
+      {
+        heading: "Vérifier que tout fonctionne",
+        text: "`claude --version` affiche la version installée. `claude doctor` va plus loin en vérifiant les dépendances, le PATH et la configuration, et signale précisément ce qui cloche si l'installation a un problème."
+      },
+      {
+        heading: "Rester à jour",
+        text: "`claude update` récupère la dernière version disponible — utile pour profiter des nouvelles fonctionnalités et corrections au fil du temps."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu viens d'installer Claude Code mais la commande claude ne se lance pas correctement. Comment identifier ce qui cloche ?",
+        options: [
+          "claude doctor",
+          "claude --version",
+          "Réinstaller avec npm install -g @anthropic-ai/claude-code sans chercher la cause",
+          "Redémarrer l'ordinateur sans rien vérifier"
+        ],
+        correctIndex: 0,
+        correction: "claude doctor vérifie les dépendances, le PATH et la configuration, et signale précisément ce qui pose problème — plus efficace qu'une réinstallation à l'aveugle ou un simple redémarrage."
+      }
+    ]
+  },
+  {
+    category: "Claude Code",
     title: "Claude Code, à quoi ça sert vraiment ?",
     level: "🟢 Débutant",
     summary: "La différence avec le chat web : Claude Code lit ton code, exécute des commandes, et agit directement dans ton projet.",
@@ -2305,44 +2389,6 @@ const GUIDES = [
   },
   {
     category: "Claude Code",
-    title: "Installer Claude Code dans un terminal",
-    level: "🟢 Débutant",
-    summary: "Une installation globale via npm, un prérequis (Node.js), et une vérification en une commande.",
-    content: [
-      {
-        heading: "Le prérequis : Node.js",
-        text: "Claude Code s'installe via npm, le gestionnaire de paquets de Node.js — il faut donc avoir Node.js installé au préalable sur la machine avant de pouvoir l'installer."
-      },
-      {
-        heading: "L'installation globale",
-        text: "`npm install -g @anthropic-ai/claude-code` installe Claude Code globalement sur la machine — la commande claude devient alors disponible depuis n'importe quel dossier du terminal."
-      },
-      {
-        heading: "Vérifier que tout fonctionne",
-        text: "`claude --version` affiche la version installée. `claude doctor` va plus loin en vérifiant les dépendances, le PATH et la configuration, et signale précisément ce qui cloche si l'installation a un problème."
-      },
-      {
-        heading: "Rester à jour",
-        text: "`claude update` récupère la dernière version disponible — utile pour profiter des nouvelles fonctionnalités et corrections au fil du temps."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu viens d'installer Claude Code mais la commande claude ne se lance pas correctement. Comment identifier ce qui cloche ?",
-        options: [
-          "claude doctor",
-          "claude --version",
-          "Réinstaller avec npm install -g @anthropic-ai/claude-code sans chercher la cause",
-          "Redémarrer l'ordinateur sans rien vérifier"
-        ],
-        correctIndex: 0,
-        correction: "claude doctor vérifie les dépendances, le PATH et la configuration, et signale précisément ce qui pose problème — plus efficace qu'une réinstallation à l'aveugle ou un simple redémarrage."
-      }
-    ]
-  },
-  {
-    category: "Claude Code",
     title: "Utiliser Claude Code dans un terminal : les premiers pas",
     level: "🟢 Débutant",
     summary: "Se placer dans le bon dossier, lancer une session, et les tout premiers réflexes.",
@@ -2925,6 +2971,48 @@ const GUIDES = [
   // --- Codex (OpenAI) ---------------------------------------
   {
     category: "Codex",
+    title: "Installer et se connecter à Codex",
+    level: "🟢 Débutant",
+    summary: "Trois façons d'installer Codex CLI, et deux façons de s'authentifier selon ce que tu as déjà (compte ChatGPT ou clé API).",
+    content: [
+      {
+        heading: "D'abord, ouvrir un terminal",
+        text: "Toutes les commandes de cette fiche se tapent dans un terminal (PowerShell sur Windows, Terminal sur Linux), pas dans une fenêtre de recherche ni un navigateur — voir [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]] si ce n'est pas encore fait."
+      },
+      {
+        heading: "Trois façons d'installer",
+        text: "Le script officiel (`curl -fsSL https://chatgpt.com/codex/install.sh | sh`) sur macOS/Linux, `npm install -g @openai/codex` sur les trois OS (dont Windows), ou `brew install --cask codex` sur macOS — voir [[Bases du terminal::Comprendre les gestionnaires de paquets]] pour le principe général derrière npm/Homebrew."
+      },
+      {
+        heading: "Se connecter avec ChatGPT",
+        text: "`codex login` propose de se connecter avec un compte ChatGPT — la manière la plus simple si un abonnement ChatGPT existe déjà."
+      },
+      {
+        heading: "Se connecter avec une clé API",
+        text: "`codex login --with-api-key` authentifie avec une clé API OpenAI plutôt qu'un compte ChatGPT — utile pour un usage scripté/serveur sans interface graphique."
+      },
+      {
+        heading: "Vérifier et révoquer l'accès",
+        text: "`codex login status` confirme si Codex est bien authentifié ; `codex logout` supprime les identifiants enregistrés localement, par exemple avant de prêter la machine."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux utiliser Codex dans un script automatisé sur un serveur, sans jamais ouvrir d'interface graphique. Quelle méthode de connexion choisir ?",
+        options: [
+          "codex login --with-api-key, avec une clé API OpenAI",
+          "codex login, en se connectant avec un compte ChatGPT à chaque exécution",
+          "Ce n'est pas possible d'utiliser Codex sur un serveur",
+          "codex logout"
+        ],
+        correctIndex: 0,
+        correction: "codex login --with-api-key authentifie directement avec une clé API, sans passer par un compte ChatGPT ni une interface graphique — le choix adapté pour un serveur ou un script automatisé."
+      }
+    ]
+  },
+  {
+    category: "Codex",
     title: "Codex, à quoi ça sert et en quoi il diffère de Claude Code",
     level: "🟢 Débutant",
     summary: "L'agent de codage en ligne de commande d'OpenAI — la même idée que Claude Code, avec ses propres réglages et son propre vocabulaire.",
@@ -2958,44 +3046,6 @@ const GUIDES = [
         ],
         correctIndex: 0,
         correction: "Codex et Claude Code partagent le même principe d'agent de codage en ligne de commande (lire, modifier, exécuter dans le terminal) — mais chacun a son propre vocabulaire et ses propres réglages précis."
-      }
-    ]
-  },
-  {
-    category: "Codex",
-    title: "Installer et se connecter à Codex",
-    level: "🟢 Débutant",
-    summary: "Trois façons d'installer Codex CLI, et deux façons de s'authentifier selon ce que tu as déjà (compte ChatGPT ou clé API).",
-    content: [
-      {
-        heading: "Trois façons d'installer",
-        text: "Le script officiel (`curl -fsSL https://chatgpt.com/codex/install.sh | sh`) sur macOS/Linux, `npm install -g @openai/codex` en multiplateforme, ou `brew install --cask codex` sur macOS — voir [[Bases du terminal::Comprendre les gestionnaires de paquets]] pour le principe général derrière npm/Homebrew."
-      },
-      {
-        heading: "Se connecter avec ChatGPT",
-        text: "`codex login` propose de se connecter avec un compte ChatGPT — la manière la plus simple si un abonnement ChatGPT existe déjà."
-      },
-      {
-        heading: "Se connecter avec une clé API",
-        text: "`codex login --with-api-key` authentifie avec une clé API OpenAI plutôt qu'un compte ChatGPT — utile pour un usage scripté/serveur sans interface graphique."
-      },
-      {
-        heading: "Vérifier et révoquer l'accès",
-        text: "`codex login status` confirme si Codex est bien authentifié ; `codex logout` supprime les identifiants enregistrés localement, par exemple avant de prêter la machine."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu veux utiliser Codex dans un script automatisé sur un serveur, sans jamais ouvrir d'interface graphique. Quelle méthode de connexion choisir ?",
-        options: [
-          "codex login --with-api-key, avec une clé API OpenAI",
-          "codex login, en se connectant avec un compte ChatGPT à chaque exécution",
-          "Ce n'est pas possible d'utiliser Codex sur un serveur",
-          "codex logout"
-        ],
-        correctIndex: 0,
-        correction: "codex login --with-api-key authentifie directement avec une clé API, sans passer par un compte ChatGPT ni une interface graphique — le choix adapté pour un serveur ou un script automatisé."
       }
     ]
   },
@@ -3229,6 +3279,48 @@ const GUIDES = [
   },
 
   // --- VS Code ---------------------------------------
+  {
+    category: "VS Code",
+    title: "Installer VS Code sur Windows ou Linux",
+    level: "🟢 Débutant",
+    summary: "Un installeur graphique, ou une ligne de commande via le gestionnaire de paquets du système — au choix selon l'OS.",
+    content: [
+      {
+        heading: "Sur Windows : l'installeur du site, la méthode la plus courante",
+        text: "La plupart des utilisateurs Windows installent leurs logiciels en téléchargeant directement l'installeur depuis `https://code.visualstudio.com/download` et en suivant l'assistant — pas besoin de terminal ni de gestionnaire de paquets pour ça."
+      },
+      {
+        heading: "Sur Windows : winget, l'alternative en ligne de commande",
+        text: "`winget install Microsoft.VisualStudioCode` installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — pratique pour scripter une installation ou équiper une machine sans repasser par un navigateur. Ça se tape dans un terminal (PowerShell) : voir [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]] si ce n'est pas encore ouvert."
+      },
+      {
+        heading: "Sur Linux : Snap, le plus simple",
+        text: "`sudo snap install --classic code` installe VS Code en une commande sur Ubuntu/Debian et les distributions compatibles Snap, avec des mises à jour automatiques en arrière-plan — tapée dans un terminal, comme toute commande commençant par sudo."
+      },
+      {
+        heading: "Sur Linux : le dépôt officiel apt, pour rester dans l'écosystème apt",
+        text: "Ajouter le dépôt Microsoft (clé GPG + source apt, une seule fois) permet ensuite d'installer et de mettre à jour VS Code avec sudo apt install code, comme n'importe quel autre paquet du système."
+      },
+      {
+        heading: "Vérifier que l'installation a fonctionné",
+        text: "`code --version` affiche la version installée — tapée dans le même terminal, une vérification rapide quelle que soit la méthode d'installation choisie (y compris après l'installeur graphique)."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu es sur Ubuntu et tu veux que VS Code se mette à jour tout seul, sans y penser. Quelle méthode d'installation choisir ?",
+        options: [
+          "sudo snap install --classic code",
+          "Télécharger un .deb et ne plus jamais le mettre à jour",
+          "Ce n'est pas possible d'avoir des mises à jour automatiques sur Linux",
+          "Compiler VS Code depuis les sources"
+        ],
+        correctIndex: 0,
+        correction: "Le paquet Snap se met à jour automatiquement en arrière-plan — la méthode la plus simple sur Ubuntu/Debian pour ne pas avoir à s'en soucier."
+      }
+    ]
+  },
   {
     category: "VS Code",
     title: "VS Code, à quoi ça sert et comment il s'organise",
@@ -3571,50 +3663,46 @@ const GUIDES = [
       }
     ]
   },
+
+  // --- Cursor ---------------------------------------
   {
-    category: "VS Code",
-    title: "Installer VS Code sur Windows ou Linux",
+    category: "Cursor",
+    title: "Installer Cursor sur Windows ou Linux",
     level: "🟢 Débutant",
-    summary: "Un installeur graphique, ou une ligne de commande via le gestionnaire de paquets du système — au choix selon l'OS.",
+    summary: "L'éditeur graphique et l'agent en ligne de commande (cursor-agent) s'installent séparément, chacun à sa façon.",
     content: [
       {
-        heading: "Sur Windows : l'installeur du site, la méthode la plus courante",
-        text: "La plupart des utilisateurs Windows installent leurs logiciels en téléchargeant directement l'installeur depuis `https://code.visualstudio.com/download` et en suivant l'assistant — pas besoin de terminal ni de gestionnaire de paquets pour ça."
+        heading: "L'éditeur sur Windows : l'installeur du site, la méthode la plus courante",
+        text: "La plupart des utilisateurs Windows téléchargent directement l'installeur depuis `https://cursor.com/download` et suivent l'assistant — pas besoin de terminal pour ça. `winget install --id=Anysphere.Cursor -e` installe l'éditeur via le gestionnaire de paquets de Windows (à taper dans PowerShell, voir [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]]), une alternative en ligne de commande pratique pour scripter une installation."
       },
       {
-        heading: "Sur Windows : winget, l'alternative en ligne de commande",
-        text: "`winget install Microsoft.VisualStudioCode` installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — pratique pour scripter une installation ou équiper une machine sans repasser par un navigateur."
+        heading: "L'éditeur sur Linux : l'AppImage",
+        text: "Cursor se distribue sur Linux sous forme d'AppImage : la télécharger, la rendre exécutable (chmod +x), puis la lancer directement, depuis un terminal — pas d'installation au sens classique, juste un fichier à exécuter. Sur Debian/Ubuntu, libfuse2 est parfois nécessaire au préalable si le lancement échoue."
       },
       {
-        heading: "Sur Linux : Snap, le plus simple",
-        text: "`sudo snap install --classic code` installe VS Code en une commande sur Ubuntu/Debian et les distributions compatibles Snap, avec des mises à jour automatiques en arrière-plan."
+        heading: "cursor-agent : un second outil à installer à part, dans un terminal",
+        text: "L'agent en ligne de commande (cursor-agent) n'est pas inclus avec l'éditeur — il s'installe séparément via un script officiel à coller dans un terminal, différent selon l'OS : curl ... | bash sur Mac/Linux, une commande PowerShell sur Windows, voir [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
       },
       {
-        heading: "Sur Linux : le dépôt officiel apt, pour rester dans l'écosystème apt",
-        text: "Ajouter le dépôt Microsoft (clé GPG + source apt, une seule fois) permet ensuite d'installer et de mettre à jour VS Code avec sudo apt install code, comme n'importe quel autre paquet du système."
-      },
-      {
-        heading: "Vérifier que l'installation a fonctionné",
-        text: "`code --version` affiche la version installée — une vérification rapide, quelle que soit la méthode d'installation choisie."
+        heading: "Vérifier que tout est en place",
+        text: "`cursor-agent --version` confirme que l'agent CLI est bien installé et accessible, indépendamment de l'éditeur graphique."
       }
     ],
     exercises: [
       {
         type: "quiz",
-        instruction: "Tu es sur Ubuntu et tu veux que VS Code se mette à jour tout seul, sans y penser. Quelle méthode d'installation choisir ?",
+        instruction: "Tu as installé l'éditeur Cursor sur Linux, mais tu veux aussi utiliser l'agent en ligne de commande dans un script. Suffit-il d'avoir installé l'éditeur ?",
         options: [
-          "sudo snap install --classic code",
-          "Télécharger un .deb et ne plus jamais le mettre à jour",
-          "Ce n'est pas possible d'avoir des mises à jour automatiques sur Linux",
-          "Compiler VS Code depuis les sources"
+          "Non, cursor-agent s'installe séparément via son propre script d'installation",
+          "Oui, l'agent CLI est automatiquement inclus avec l'éditeur",
+          "Non, ce n'est possible que sur Windows",
+          "Non, il faut compiler cursor-agent soi-même"
         ],
         correctIndex: 0,
-        correction: "Le paquet Snap se met à jour automatiquement en arrière-plan — la méthode la plus simple sur Ubuntu/Debian pour ne pas avoir à s'en soucier."
+        correction: "L'éditeur graphique et cursor-agent sont deux installations distinctes — installer l'un n'installe pas automatiquement l'autre."
       }
     ]
   },
-
-  // --- Cursor ---------------------------------------
   {
     category: "Cursor",
     title: "Cursor, à quoi ça sert et en quoi il diffère de VS Code",
@@ -3916,44 +4004,6 @@ const GUIDES = [
         ],
         correctIndex: 0,
         correction: "Cursor intègre l'IA nativement dans l'éditeur — le choix le plus direct pour qui travaille surtout dans une interface graphique, sans vouloir connecter un outil externe."
-      }
-    ]
-  },
-  {
-    category: "Cursor",
-    title: "Installer Cursor sur Windows ou Linux",
-    level: "🟢 Débutant",
-    summary: "L'éditeur graphique et l'agent en ligne de commande (cursor-agent) s'installent séparément, chacun à sa façon.",
-    content: [
-      {
-        heading: "L'éditeur sur Windows : l'installeur du site, la méthode la plus courante",
-        text: "La plupart des utilisateurs Windows téléchargent directement l'installeur depuis `https://cursor.com/download` et suivent l'assistant — pas besoin de terminal pour ça. `winget install --id=Anysphere.Cursor -e` installe l'éditeur via le gestionnaire de paquets de Windows, une alternative en ligne de commande pratique pour scripter une installation."
-      },
-      {
-        heading: "L'éditeur sur Linux : l'AppImage",
-        text: "Cursor se distribue sur Linux sous forme d'AppImage : la télécharger, la rendre exécutable (chmod +x), puis la lancer directement — pas d'installation au sens classique, juste un fichier à exécuter. Sur Debian/Ubuntu, libfuse2 est parfois nécessaire au préalable si le lancement échoue."
-      },
-      {
-        heading: "cursor-agent : un second outil à installer à part",
-        text: "L'agent en ligne de commande (cursor-agent) n'est pas inclus avec l'éditeur — il s'installe séparément via un script officiel, différent selon l'OS : curl ... | bash sur Mac/Linux, une commande PowerShell sur Windows, voir [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
-      },
-      {
-        heading: "Vérifier que tout est en place",
-        text: "`cursor-agent --version` confirme que l'agent CLI est bien installé et accessible, indépendamment de l'éditeur graphique."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu as installé l'éditeur Cursor sur Linux, mais tu veux aussi utiliser l'agent en ligne de commande dans un script. Suffit-il d'avoir installé l'éditeur ?",
-        options: [
-          "Non, cursor-agent s'installe séparément via son propre script d'installation",
-          "Oui, l'agent CLI est automatiquement inclus avec l'éditeur",
-          "Non, ce n'est possible que sur Windows",
-          "Non, il faut compiler cursor-agent soi-même"
-        ],
-        correctIndex: 0,
-        correction: "L'éditeur graphique et cursor-agent sont deux installations distinctes — installer l'un n'installe pas automatiquement l'autre."
       }
     ]
   },

@@ -15,6 +15,46 @@
 // ============================================================
 
 const GUIDE_TRANSLATIONS_EN = {
+  "Bases du terminal|Ouvrir un terminal sur Windows ou Linux": {
+    "title": "Opening a terminal on Windows or Linux",
+    "summary": "The mandatory first step before any command — where to find it and how to tell it's ready to receive instructions.",
+    "content": [
+      {
+        "heading": "A terminal, concretely",
+        "text": "A window where you type text to give the computer instructions, rather than clicking icons — the mandatory gateway for installing and using command-line tools (Claude Code, Codex, winget…). Nothing installed launches itself: it has to be opened first."
+      },
+      {
+        "heading": "On Windows: search for \"PowerShell\" or \"Terminal\"",
+        "text": "Click the Start menu, type \"PowerShell\" (or \"Terminal\"), then launch the app that appears in the results — see [[Windows::PowerShell vs invite de commandes (cmd) : lequel utiliser]] for the difference between the two."
+      },
+      {
+        "heading": "On Windows: the Win+X shortcut",
+        "text": "The Windows+X shortcut opens a quick menu with direct access to \"Terminal\" or \"Windows PowerShell\", with no Start menu or typing needed."
+      },
+      {
+        "heading": "On Linux: search for \"Terminal\" in the apps",
+        "text": "Same as Windows, searching \"Terminal\" in the application menu usually works. Ctrl+Alt+T also opens a terminal directly on most distributions, including Linux Mint."
+      },
+      {
+        "heading": "Once open, how to tell it's working",
+        "text": "A dark window with text and a blinking cursor appears, ready to receive a command — it's normal for nothing to happen until a command has been typed and confirmed with Enter."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You're on Windows and want to open a terminal for the first time, with no idea where to look. What do you do?",
+        "options": [
+          "Search for \"PowerShell\" or \"Terminal\" in the Start menu",
+          "Click the recycle bin icon",
+          "It's only possible by reinstalling Windows",
+          "Open Word"
+        ],
+        "correctIndex": 0,
+        "correction": "Typing \"PowerShell\" or \"Terminal\" into the Start menu search brings up the app to launch — the Win+X shortcut also offers direct access with nothing to type."
+      }
+    ]
+  },
   "Bases du terminal|Comment lire une commande": {
     "title": "How to read a command",
     "summary": "Before copy-pasting anything, understand what each part of a command actually means.",
@@ -2521,8 +2561,12 @@ const GUIDE_TRANSLATIONS_EN = {
     "summary": "A global install via npm, one prerequisite (Node.js), and a one-command health check.",
     "content": [
       {
+        "heading": "First, open a terminal",
+        "text": "Every command on this page is typed inside a terminal, not a search box or a browser — see [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]] if that's not done yet."
+      },
+      {
         "heading": "The prerequisite: Node.js",
-        "text": "Claude Code is installed via npm, Node.js's package manager — so Node.js needs to already be installed on the machine before you can install it."
+        "text": "Claude Code is installed via npm, Node.js's package manager — so Node.js needs to already be installed on the machine before you can install it. On Windows, `winget install OpenJS.NodeJS.LTS` takes care of it; on Linux, it installs via the usual package manager (apt, snap…)."
       },
       {
         "heading": "The global install",
@@ -3141,8 +3185,12 @@ const GUIDE_TRANSLATIONS_EN = {
     "summary": "Three ways to install Codex CLI, and two ways to authenticate depending on what you already have (a ChatGPT account or an API key).",
     "content": [
       {
+        "heading": "First, open a terminal",
+        "text": "Every command on this page is typed inside a terminal (PowerShell on Windows, Terminal on Linux), not a search box or a browser — see [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]] if that's not done yet."
+      },
+      {
         "heading": "Three ways to install",
-        "text": "The official script (`curl -fsSL https://chatgpt.com/codex/install.sh | sh`) on macOS/Linux, `npm install -g @openai/codex` cross-platform, or `brew install --cask codex` on macOS — see [[Bases du terminal::Comprendre les gestionnaires de paquets]] for the general principle behind npm/Homebrew."
+        "text": "The official script (`curl -fsSL https://chatgpt.com/codex/install.sh | sh`) on macOS/Linux, `npm install -g @openai/codex` on all three OSes (Windows included), or `brew install --cask codex` on macOS — see [[Bases du terminal::Comprendre les gestionnaires de paquets]] for the general principle behind npm/Homebrew."
       },
       {
         "heading": "Logging in with ChatGPT",
@@ -3722,11 +3770,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "On Windows: winget, the command-line alternative",
-        "text": "`winget install Microsoft.VisualStudioCode` installs VS Code via Windows's official package manager, built in since Windows 10/11 — handy for scripting an install or setting up a machine without a browser."
+        "text": "`winget install Microsoft.VisualStudioCode` installs VS Code via Windows's official package manager, built in since Windows 10/11 — handy for scripting an install or setting up a machine without a browser. It's typed inside a terminal (PowerShell): see [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]] if it's not open yet."
       },
       {
         "heading": "On Linux: Snap, the simplest option",
-        "text": "`sudo snap install --classic code` installs VS Code in one command on Ubuntu/Debian and Snap-compatible distributions, with automatic background updates."
+        "text": "`sudo snap install --classic code` installs VS Code in one command on Ubuntu/Debian and Snap-compatible distributions, with automatic background updates — typed inside a terminal, like any command starting with sudo."
       },
       {
         "heading": "On Linux: the official apt repository, to stay within the apt ecosystem",
@@ -3734,7 +3782,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Checking the install worked",
-        "text": "`code --version` shows the installed version — a quick check, whichever install method was chosen."
+        "text": "`code --version` shows the installed version — typed in the same terminal, a quick check whichever install method was chosen (including after the graphical installer)."
       }
     ],
     "exercises": [
@@ -4046,15 +4094,15 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "The editor on Windows: the site's installer, the most common method",
-        "text": "Most Windows users download the installer directly from `https://cursor.com/download` and follow the wizard — no terminal needed for that. `winget install --id=Anysphere.Cursor -e` installs the editor via Windows's package manager, a command-line alternative handy for scripting an install."
+        "text": "Most Windows users download the installer directly from `https://cursor.com/download` and follow the wizard — no terminal needed for that. `winget install --id=Anysphere.Cursor -e` installs the editor via Windows's package manager (typed inside PowerShell, see [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]]), a command-line alternative handy for scripting an install."
       },
       {
         "heading": "The editor on Linux: the AppImage",
-        "text": "Cursor is distributed on Linux as an AppImage: download it, make it executable (chmod +x), then run it directly — no install in the classic sense, just a file to run. On Debian/Ubuntu, libfuse2 is sometimes needed first if launching fails."
+        "text": "Cursor is distributed on Linux as an AppImage: download it, make it executable (chmod +x), then run it directly, from a terminal — no install in the classic sense, just a file to run. On Debian/Ubuntu, libfuse2 is sometimes needed first if launching fails."
       },
       {
-        "heading": "cursor-agent: a second tool to install separately",
-        "text": "The command-line agent (cursor-agent) isn't bundled with the editor — it installs separately via an official script, different per OS: curl ... | bash on Mac/Linux, a PowerShell command on Windows, see [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
+        "heading": "cursor-agent: a second tool to install separately, in a terminal",
+        "text": "The command-line agent (cursor-agent) isn't bundled with the editor — it installs separately via an official script pasted into a terminal, different per OS: curl ... | bash on Mac/Linux, a PowerShell command on Windows, see [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
       },
       {
         "heading": "Checking everything is in place",
