@@ -2473,5 +2473,193 @@ const COMMANDS = [
     cmd: ".vscode/extensions.json",
     desc: "Fichier listant les extensions recommandées pour ce projet — VS Code propose automatiquement de les installer à l'ouverture, pratique en équipe.",
     tags: ["vscode", "extension", "équipe", "config"]
+  },
+
+  // --- Cursor — Éditeur : raccourcis IA ---------------------------------------
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Édition en ligne (inline edit)",
+    cmd: "Ctrl+K",
+    desc: "Ouvre un champ pour décrire une modification directement dans le code, à l'endroit du curseur ou sur la sélection (⌘+K sur Mac).",
+    tags: ["cursor", "raccourci", "inline edit", "ia"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Ouvrir le chat / envoyer la sélection",
+    cmd: "Ctrl+L",
+    desc: "Ouvre le panneau de discussion avec le fichier ouvert comme contexte — si du texte est sélectionné, l'envoie directement dans un nouveau chat (⌘+L sur Mac).",
+    tags: ["cursor", "raccourci", "chat", "ia"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Ajouter la sélection au chat en cours",
+    cmd: "Ctrl+Shift+L",
+    desc: "Envoie l'extrait sélectionné dans le chat déjà ouvert, comme contexte supplémentaire pour la demande suivante.",
+    tags: ["cursor", "raccourci", "chat", "contexte"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Basculer la disposition Agent",
+    cmd: "Ctrl+E",
+    desc: "Affiche l'agent en plein layout dédié, pratique pour suivre des tâches multi-fichiers plus conséquentes.",
+    tags: ["cursor", "raccourci", "agent", "layout"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Accepter toutes les modifications proposées",
+    cmd: "Ctrl+Entrée",
+    desc: "Valide en un coup toutes les modifications suggérées par l'agent, sans les parcourir fichier par fichier.",
+    tags: ["cursor", "raccourci", "accepter", "diff"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Rejeter toutes les modifications proposées",
+    cmd: "Ctrl+Retour arrière",
+    desc: "Annule en un coup toutes les modifications suggérées par l'agent.",
+    tags: ["cursor", "raccourci", "rejeter", "diff"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Changer de modèle IA",
+    cmd: "Ctrl+/",
+    desc: "Fait défiler les modèles IA disponibles sans ouvrir de menu déroulant.",
+    tags: ["cursor", "raccourci", "modèle"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Le menu des modes",
+    cmd: "Ctrl+.",
+    desc: "Bascule entre les modes Agent, Plan et Ask (lecture seule).",
+    tags: ["cursor", "raccourci", "mode", "agent"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Accepter la suggestion Tab",
+    cmd: "Tab",
+    desc: "Valide la suggestion d'autocomplétion proposée par Cursor Tab.",
+    tags: ["cursor", "raccourci", "tab", "autocomplétion"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Accepter seulement le mot suivant",
+    cmd: "Ctrl+→",
+    desc: "Accepte uniquement le prochain mot d'une suggestion Tab, plutôt que la ligne entière.",
+    tags: ["cursor", "raccourci", "tab", "autocomplétion"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Générer une commande dans le terminal",
+    cmd: "Ctrl+K",
+    desc: "Depuis le terminal intégré, ouvre une barre pour décrire en langage naturel la commande shell voulue, que Cursor génère à ta place.",
+    tags: ["cursor", "raccourci", "terminal", "génération"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Poser une question rapide sans ouvrir le chat",
+    cmd: "Alt+Entrée",
+    desc: "Depuis l'édition en ligne (Ctrl+K), pose une question ponctuelle sans modifier le code ni ouvrir tout le panneau chat.",
+    tags: ["cursor", "raccourci", "question", "inline"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Éditeur : raccourcis IA",
+    title: "Activer le mode vocal",
+    cmd: "Ctrl+Shift+Espace",
+    desc: "Dicte une demande à l'oral plutôt que de la taper au clavier.",
+    tags: ["cursor", "raccourci", "vocal", "dictée"]
+  },
+
+  // --- Cursor — CLI (agent) ---------------------------------------
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Lancer l'agent",
+    cmd: "agent",
+    desc: "Ouvre une session interactive de l'agent Cursor directement dans le terminal, hors de l'éditeur.",
+    tags: ["cursor", "cli", "agent", "start"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Démarrer avec une tâche précise",
+    cmd: 'agent "refactor le module d\'authentification pour utiliser des JWT"',
+    desc: "Lance directement l'agent avec cette tâche déjà posée, sans avoir à la retaper une fois la session ouverte.",
+    tags: ["cursor", "cli", "agent", "prompt"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Exécution non-interactive",
+    cmd: 'agent -p "corrige les problèmes de performance"',
+    desc: "Mode 'print' : exécute la tâche, affiche le résultat, puis quitte — sans laisser de session ouverte à gérer.",
+    tags: ["cursor", "cli", "print", "script"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Choisir un modèle",
+    cmd: 'agent -p "..." --model "gpt-5"',
+    desc: "Précise quel modèle utiliser pour cette exécution, plutôt que celui par défaut.",
+    tags: ["cursor", "cli", "modèle"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Mode Plan",
+    cmd: "agent --mode=plan",
+    desc: "Force l'agent à proposer un plan détaillé avant toute modification, à valider avant exécution.",
+    tags: ["cursor", "cli", "plan", "permissions"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Mode Ask (lecture seule)",
+    cmd: "agent --mode=ask",
+    desc: "L'agent répond aux questions sur le projet sans jamais modifier le moindre fichier.",
+    tags: ["cursor", "cli", "ask", "lecture seule"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Régler le bac à sable",
+    cmd: "agent --sandbox enabled",
+    desc: "Active un bac à sable limitant ce que l'agent peut toucher sur le système, pour une exécution plus prudente.",
+    tags: ["cursor", "cli", "sandbox", "sécurité"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Reprendre la dernière session",
+    cmd: "agent resume",
+    desc: "Reprend la conversation la plus récente avec l'agent.",
+    tags: ["cursor", "cli", "resume", "session"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Lister les sessions précédentes",
+    cmd: "agent ls",
+    desc: "Affiche l'historique des sessions passées avec l'agent.",
+    tags: ["cursor", "cli", "liste", "session"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "CLI (agent)",
+    title: "Continuer la session active",
+    cmd: "agent --continue",
+    desc: "Poursuit la session en cours sans repartir de zéro, pratique dans un script qui enchaîne plusieurs étapes.",
+    tags: ["cursor", "cli", "continue", "session"]
   }
 ];

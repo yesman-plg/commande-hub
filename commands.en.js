@@ -2196,5 +2196,120 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Recommend extensions for a project",
     "desc": "A file listing the extensions recommended for this project — VS Code automatically offers to install them on open, handy for teams.",
     "tags": ["vscode", "extension", "team", "config"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Édition en ligne (inline edit)": {
+    "title": "Inline edit",
+    "desc": "Opens a field to describe a change directly in the code, at the cursor position or on the selection (⌘+K on Mac).",
+    "tags": ["cursor", "shortcut", "inline edit", "ai"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Ouvrir le chat / envoyer la sélection": {
+    "title": "Open chat / send the selection",
+    "desc": "Opens the chat panel with the open file as context — if text is selected, sends it directly into a new chat (⌘+L on Mac).",
+    "tags": ["cursor", "shortcut", "chat", "ai"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Ajouter la sélection au chat en cours": {
+    "title": "Add the selection to the current chat",
+    "desc": "Sends the selected snippet into the already-open chat, as extra context for the next request.",
+    "tags": ["cursor", "shortcut", "chat", "context"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Basculer la disposition Agent": {
+    "title": "Toggle the Agent layout",
+    "desc": "Shows the agent in a full dedicated layout, handy for following larger multi-file tasks.",
+    "tags": ["cursor", "shortcut", "agent", "layout"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Accepter toutes les modifications proposées": {
+    "title": "Accept all proposed changes",
+    "desc": "Approves every change suggested by the agent in one go, without going through them file by file.",
+    "tags": ["cursor", "shortcut", "accept", "diff"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Rejeter toutes les modifications proposées": {
+    "title": "Reject all proposed changes",
+    "desc": "Cancels every change suggested by the agent in one go.",
+    "tags": ["cursor", "shortcut", "reject", "diff"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Changer de modèle IA": {
+    "title": "Switch AI model",
+    "desc": "Cycles through the available AI models without opening a dropdown menu.",
+    "tags": ["cursor", "shortcut", "model"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Le menu des modes": {
+    "title": "The mode menu",
+    "desc": "Switches between Agent, Plan, and Ask (read-only) modes.",
+    "tags": ["cursor", "shortcut", "mode", "agent"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Accepter la suggestion Tab": {
+    "title": "Accept the Tab suggestion",
+    "desc": "Approves the autocomplete suggestion offered by Cursor Tab.",
+    "tags": ["cursor", "shortcut", "tab", "autocomplete"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Accepter seulement le mot suivant": {
+    "title": "Accept only the next word",
+    "desc": "Accepts only the next word of a Tab suggestion, rather than the whole line.",
+    "tags": ["cursor", "shortcut", "tab", "autocomplete"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Générer une commande dans le terminal": {
+    "title": "Generate a terminal command",
+    "desc": "From the integrated terminal, opens a bar to describe in natural language the shell command wanted, which Cursor generates for you.",
+    "tags": ["cursor", "shortcut", "terminal", "generation"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Poser une question rapide sans ouvrir le chat": {
+    "title": "Ask a quick question without opening chat",
+    "desc": "From inline edit (Ctrl+K), asks a one-off question without modifying the code or opening the full chat panel.",
+    "tags": ["cursor", "shortcut", "question", "inline"]
+  },
+  "Cursor|Éditeur : raccourcis IA|Activer le mode vocal": {
+    "title": "Enable voice mode",
+    "desc": "Dictates a request out loud instead of typing it.",
+    "tags": ["cursor", "shortcut", "voice", "dictation"]
+  },
+  "Cursor|CLI (agent)|Lancer l'agent": {
+    "title": "Launch the agent",
+    "desc": "Opens an interactive Cursor agent session directly in the terminal, outside the editor.",
+    "tags": ["cursor", "cli", "agent", "start"]
+  },
+  "Cursor|CLI (agent)|Démarrer avec une tâche précise": {
+    "title": "Start with a specific task",
+    "desc": "Launches the agent directly with this task already given, with no need to retype it once the session is open.",
+    "tags": ["cursor", "cli", "agent", "prompt"]
+  },
+  "Cursor|CLI (agent)|Exécution non-interactive": {
+    "title": "Non-interactive run",
+    "desc": "'Print' mode: runs the task, shows the result, then quits — with no session left open to manage.",
+    "tags": ["cursor", "cli", "print", "script"]
+  },
+  "Cursor|CLI (agent)|Choisir un modèle": {
+    "title": "Choose a model",
+    "desc": "Specifies which model to use for this run, instead of the default one.",
+    "tags": ["cursor", "cli", "model"]
+  },
+  "Cursor|CLI (agent)|Mode Plan": {
+    "title": "Plan mode",
+    "desc": "Forces the agent to propose a detailed plan before any change, to be approved before execution.",
+    "tags": ["cursor", "cli", "plan", "permissions"]
+  },
+  "Cursor|CLI (agent)|Mode Ask (lecture seule)": {
+    "title": "Ask mode (read-only)",
+    "desc": "The agent answers questions about the project without ever modifying a single file.",
+    "tags": ["cursor", "cli", "ask", "read-only"]
+  },
+  "Cursor|CLI (agent)|Régler le bac à sable": {
+    "title": "Set the sandbox",
+    "desc": "Enables a sandbox limiting what the agent can touch on the system, for a more cautious run.",
+    "tags": ["cursor", "cli", "sandbox", "security"]
+  },
+  "Cursor|CLI (agent)|Reprendre la dernière session": {
+    "title": "Resume the last session",
+    "desc": "Resumes the most recent conversation with the agent.",
+    "tags": ["cursor", "cli", "resume", "session"]
+  },
+  "Cursor|CLI (agent)|Lister les sessions précédentes": {
+    "title": "List previous sessions",
+    "desc": "Shows the history of past sessions with the agent.",
+    "tags": ["cursor", "cli", "list", "session"]
+  },
+  "Cursor|CLI (agent)|Continuer la session active": {
+    "title": "Continue the active session",
+    "desc": "Continues the current session without starting over — handy in a script that chains several steps.",
+    "tags": ["cursor", "cli", "continue", "session"]
   }
 };
