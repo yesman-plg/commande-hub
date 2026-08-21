@@ -3936,5 +3936,270 @@ const GUIDE_TRANSLATIONS_EN = {
         "text": "`cursor-agent --version` confirms the CLI agent is properly installed and reachable, independently of the graphical editor."
       }
     ]
+  },
+  "FAQ : questions fréquentes|Claude Code, Codex ou Cursor : lequel choisir pour commencer ?": {
+    "title": "Claude Code, Codex, or Cursor: which one to start with?",
+    "summary": "All three do roughly the same thing — the choice mostly comes down to where you prefer to work.",
+    "content": [
+      {
+        "heading": "If you prefer a graphical editor",
+        "text": "Cursor builds AI natively into the editor — the most direct choice if you don't want to juggle between a terminal and your editor, see [[Cursor::Cursor, à quoi ça sert et en quoi il diffère de VS Code]]."
+      },
+      {
+        "heading": "If you prefer the terminal",
+        "text": "Claude Code and Codex both run natively on the command line, with an optional extension to connect to an editor afterward — see [[Cursor::Choisir le bon outil : Cursor, Claude Code ou Codex ?]] for a more detailed comparison of the three."
+      },
+      {
+        "heading": "The model behind it matters too",
+        "text": "Claude Code uses Anthropic's models (Claude), Codex uses OpenAI's (GPT), Cursor generally lets you pick among several — if you already have a model preference or an existing subscription, that can settle the choice."
+      },
+      {
+        "heading": "Nothing stops you from trying all three",
+        "text": "All three install in a few minutes and can coexist on the same machine — the simplest approach is often to try each on a small task before settling on one."
+      }
+    ]
+  },
+  "FAQ : questions fréquentes|Faut-il être un développeur expérimenté pour utiliser ces outils ?": {
+    "title": "Do you need to be an experienced developer to use these tools?",
+    "summary": "No, but understanding the basics (terminal, Git) helps a lot with understanding what's happening.",
+    "content": [
+      {
+        "heading": "These tools don't replace understanding the code",
+        "text": "Claude Code, Codex, and Cursor can write code for you, but reading and understanding what was done is still necessary to spot a mistake or make an informed choice."
+      },
+      {
+        "heading": "Terminal basics help a lot",
+        "text": "Knowing how to open a terminal, read a command, understand folders — see [[Bases du terminal::Ouvrir un terminal sur Windows ou Linux]] — makes the experience much smoother, even if it's not strictly required."
+      },
+      {
+        "heading": "Start small",
+        "text": "On a first project, prefer a precise, checkable task over a broad request — see [[Claude Code::Bien démarrer un nouveau projet]] for the same idea detailed on the Claude Code side."
+      }
+    ]
+  },
+  "FAQ : questions fréquentes|Est-ce risqué de laisser un agent IA modifier mes fichiers ?": {
+    "title": "Is it risky to let an AI agent modify your files?",
+    "summary": "By default, these tools ask for confirmation before every action that changes something — the risk stays under control as long as that safeguard isn't disabled.",
+    "content": [
+      {
+        "heading": "The default confirmation, the real safety net",
+        "text": "Claude Code, Codex, and Cursor all ask for confirmation by default before writing a file or running a command — nothing happens without explicit approval, unless that setting is deliberately turned off."
+      },
+      {
+        "heading": "\"Allow everything\" modes exist, but should be reserved",
+        "text": "Options like `--dangerously-skip-permissions` (Claude Code) or `--yolo` (Codex) disable those confirmations — only to be used in an isolated, disposable environment (container, CI), never on a machine with important data."
+      },
+      {
+        "heading": "A Git repository is an extra safety net",
+        "text": "Working in a project under Git version control lets you roll back if a change doesn't work out — see [[Git::Annuler une erreur sans paniquer]]."
+      },
+      {
+        "heading": "Checking before approving a substantial change",
+        "text": "For a task that touches many files, starting in plan mode lets you see the approach before anything gets modified — see [[Claude Code::Les modes de permission : plan, auto-accept, manuel]]."
+      }
+    ]
+  },
+  "FAQ : questions fréquentes|Ces outils fonctionnent-ils sans connexion internet ?": {
+    "title": "Do these tools work without an internet connection?",
+    "summary": "No, with one exception — they send your requests to a model hosted online, so an active connection is needed.",
+    "content": [
+      {
+        "heading": "A connection is needed in the vast majority of cases",
+        "text": "Claude Code, Codex, and Cursor send every request to a model hosted on Anthropic's/OpenAI's/Cursor's servers — with no internet connection, nothing works."
+      },
+      {
+        "heading": "The exception: local models",
+        "text": "Codex offers an option to use a model running locally (via Ollama or LM Studio) instead of the online API — see [[Codex::Configuration avancée de Codex : profils, modèles locaux, MCP]] — but that's an advanced setup, not the default behavior."
+      },
+      {
+        "heading": "A disconnection mid-task",
+        "text": "If the connection drops mid-task, the current command simply fails — resuming the session once the connection is back is usually enough, see [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]]."
+      }
+    ]
+  },
+  "FAQ : questions fréquentes|Quelle est la différence entre le chat web (claude.ai, chatgpt.com) et ces outils ?": {
+    "title": "What's the difference between the web chat (claude.ai, chatgpt.com) and these tools?",
+    "summary": "The web chat replies to messages with no access to your files — these tools read, modify, and run things directly inside your project.",
+    "content": [
+      {
+        "heading": "The web chat: manual copy-paste",
+        "text": "On claude.ai or chatgpt.com, you have to paste your code into the conversation, and copy the answer back into your files yourself — no direct access to the project."
+      },
+      {
+        "heading": "These tools: direct access to the project",
+        "text": "Claude Code, Codex, and Cursor directly read and modify the project's files, run commands, and can chain several actions to accomplish a task — see [[Claude Code::Claude Code, à quoi ça sert vraiment ?]] for the detail of what that changes."
+      },
+      {
+        "heading": "The same model, a different use",
+        "text": "The AI model behind it can be the same as the web chat's — the difference is in the direct access to the filesystem and terminal, not in the model's intelligence itself."
+      }
+    ]
+  },
+  "FAQ : erreurs fréquentes|npm install -g : \"EACCES: permission denied\"": {
+    "title": "npm install -g: \"EACCES: permission denied\"",
+    "summary": "A very classic permissions error when npm tries to install a global package without rights on the configured folder.",
+    "content": [
+      {
+        "heading": "Why it happens",
+        "text": "By default on some systems, the folder where npm installs global packages (often /usr/lib or /usr/local) is owned by the root user — a plain `npm install -g` doesn't have write access there."
+      },
+      {
+        "heading": "The wrong fix: sudo in front of npm",
+        "text": "Adding sudo in front of npm install -g works, but can create files owned by root inside a folder used afterward without sudo — a source of new permission problems later on."
+      },
+      {
+        "heading": "The right fix: changing npm's global folder",
+        "text": "Configuring npm to install global packages into a folder owned by the user (`npm config set prefix ~/.npm-global`, then adding that folder to PATH) fixes the problem once and for all, with no more need for sudo on an npm install -g."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "Configure npm to install its global packages into a folder you own, at ~/.npm-global.",
+        "terminal": {
+          "prompt": "user@mint:~$",
+          "steps": [
+            { "expect": ["npm config set prefix ~/.npm-global"], "output": "(future npm install -g runs will install into ~/.npm-global, with no need for sudo)" }
+          ]
+        },
+        "correction": "npm config set prefix ~/.npm-global changes npm's global install folder once and for all to one owned by the user — no more sudo needed, and no more risk of root-owned files blocking future installs."
+      }
+    ]
+  },
+  "FAQ : erreurs fréquentes|\"claude\"/\"codex\"/\"code\" : command not found juste après l'installation": {
+    "title": "\"claude\"/\"codex\"/\"code\": command not found right after installing",
+    "summary": "The install succeeded, but the terminal doesn't know the command yet — a PATH issue, not an install failure.",
+    "content": [
+      {
+        "heading": "It's (often) not a failed install",
+        "text": "If the install finished with no error but the command isn't recognized right after, the program is probably installed fine — it's the already-open terminal that hasn't reloaded the updated PATH yet."
+      },
+      {
+        "heading": "The simplest reflex: close and reopen the terminal",
+        "text": "A new terminal window reloads the current PATH — in most cases, that alone fixes the problem with nothing to reconfigure."
+      },
+      {
+        "heading": "If it persists: check where the program was installed",
+        "text": "which command-name (Linux) or Get-Command command-name (Windows) confirms whether the program can be found — see [[Bases du terminal::Variables d'environnement et PATH]] to understand why PATH determines that."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You just installed Claude Code, but the claude command isn't recognized. What's the simplest thing to try first?",
+        "options": [
+          "Close and reopen the terminal",
+          "Reinstall the operating system",
+          "Wait 24 hours",
+          "It can't be fixed"
+        ],
+        "correctIndex": 0,
+        "correction": "A terminal already open before the install has no knowledge of the updated PATH — a new window reloads it, and fixes the problem in most cases."
+      }
+    ]
+  },
+  "FAQ : erreurs fréquentes|Windows : \"... n'est pas reconnu en tant que commande interne\"": {
+    "title": "Windows: \"... is not recognized as an internal or external command\"",
+    "summary": "The Windows equivalent of \"command not found\" — same cause, same reflexes.",
+    "content": [
+      {
+        "heading": "The same principle as on Linux",
+        "text": "This message means PowerShell (or cmd) couldn't find any program by that name in its PATH — see [[Windows::PowerShell vs invite de commandes (cmd) : lequel utiliser]]."
+      },
+      {
+        "heading": "Check the spelling first",
+        "text": "A typo remains the most common cause — double-check the command's exact name before looking further."
+      },
+      {
+        "heading": "Reopen the terminal after a recent install",
+        "text": "Just like on Linux, a terminal already open before a program's install has no knowledge of the updated PATH — closing and reopening PowerShell often fixes it."
+      },
+      {
+        "heading": "Check the program is actually installed",
+        "text": "`Get-Command command-name` confirms whether PowerShell can locate it — otherwise the program probably isn't installed, or isn't on the PATH."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "PowerShell shows \"... is not recognized\" for a command you installed 2 minutes ago. What's the first thing to try?",
+        "options": [
+          "Close and reopen PowerShell",
+          "Reinstall Windows",
+          "Switch user accounts",
+          "This message means the command doesn't exist and never will"
+        ],
+        "correctIndex": 0,
+        "correction": "Just like on Linux, a terminal already open before the install has no knowledge of the updated PATH — reopening PowerShell reloads it and fixes the problem in most cases."
+      }
+    ]
+  },
+  "FAQ : erreurs fréquentes|Claude Code / Codex / Cursor : erreur d'authentification ou session expirée": {
+    "title": "Claude Code / Codex / Cursor: authentication error or expired session",
+    "summary": "An account connection issue, not a bug in the tool itself — logging back in almost always fixes it.",
+    "content": [
+      {
+        "heading": "An expiring session is normal",
+        "text": "Like any online service, authentication can expire after some time or a password change — it's not a sign of a problem with the tool."
+      },
+      {
+        "heading": "Logging back in, the fix for almost everything",
+        "text": "`/login` inside Claude Code, `codex login` for Codex, or Cursor's sign-in prompt restart the authentication process from scratch."
+      },
+      {
+        "heading": "Checking status before reinstalling everything",
+        "text": "`codex login status` confirms whether Codex is properly authenticated — a quick check before looking further."
+      },
+      {
+        "heading": "If the problem persists after logging back in",
+        "text": "Check that the subscription/account used is actually active, and that the machine's system clock is correct — a clock mismatch can sometimes make authentication fail."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Codex rejects your commands with an authentication error, even though it worked yesterday. What do you try first?",
+        "options": [
+          "codex login to sign back in",
+          "Fully reinstall Codex",
+          "Switch to a different computer",
+          "Wait for it to resolve on its own without doing anything"
+        ],
+        "correctIndex": 0,
+        "correction": "An expired session is fixed by logging back in (codex login) — no need to reinstall anything, the problem is on the authentication side, not the installation."
+      }
+    ]
+  },
+  "FAQ : erreurs fréquentes|VS Code / Cursor : l'extension Claude Code ne détecte pas ma session": {
+    "title": "VS Code / Cursor: the Claude Code extension doesn't detect my session",
+    "summary": "The session is running in a terminal outside the editor — a connection issue, not a configuration one.",
+    "content": [
+      {
+        "heading": "The most common case: an external terminal",
+        "text": "If Claude Code was launched from a separate terminal (not the editor's integrated one), the extension doesn't see it automatically."
+      },
+      {
+        "heading": "The command that fixes it: /ide",
+        "text": "Typed inside the already-running Claude Code session, /ide connects it to the open editor — see [[Claude Code::Utiliser Claude Code dans VS Code / Cursor]]."
+      },
+      {
+        "heading": "Starting over from the integrated terminal, the alternative",
+        "text": "Closing the session and launching a new one directly from the editor's integrated terminal (Ctrl+\\`) avoids the problem from the start."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Your Claude Code session is running in an external terminal, and the editor detects nothing. How do you connect them without relaunching everything?",
+        "options": [
+          "Type /ide inside the already-open Claude Code session",
+          "Reinstall the extension",
+          "It's not possible, everything has to be relaunched",
+          "Restart the computer"
+        ],
+        "correctIndex": 0,
+        "correction": "/ide connects an already-running Claude Code session to the open editor, even one launched from a separate terminal — no need to relaunch anything."
+      }
+    ]
   }
 };
