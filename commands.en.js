@@ -1671,5 +1671,25 @@ const COMMAND_TRANSLATIONS_EN = {
       "doctor",
       "diagnostic"
     ]
+  },
+  "Claude Code|Slash commands|Relancer une tâche à intervalle régulier": {
+    "title": "Rerun a task on a recurring interval",
+    "desc": "Reruns a prompt or command on a recurring interval (here every 5 minutes) until the loop is stopped. Omit the interval to let Claude choose the pace itself.",
+    "tags": [
+      "claude",
+      "loop",
+      "interval",
+      "automation"
+    ]
+  },
+  "Claude Code|Slash commands|Invoquer une commande personnalisée": {
+    "title": "Invoke a custom command",
+    "desc": "Replays the prompt stored in .claude/commands/your-command-name.md (or ~/.claude/commands/ for personal use).",
+    "tags": [
+      "claude",
+      "custom command",
+      "prompt",
+      "reusable"
+    ]
   }
 };

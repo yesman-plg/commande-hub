@@ -1895,5 +1895,769 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "sdk.dir=/home/user/Android/Sdk\n\nThis file isn't versioned in Git (the path is specific to each machine) — you need to recreate it yourself on a new machine or after a reinstall."
       }
     ]
+  },
+  "Claude Code|Claude Code, à quoi ça sert vraiment ?": {
+    "title": "What is Claude Code actually for?",
+    "summary": "The difference from the web chat: Claude Code reads your code, runs commands, and acts directly inside your project.",
+    "content": [
+      {
+        "heading": "Classic chat vs Claude Code",
+        "text": "On claude.ai, you copy-paste code into a conversation, Claude replies, and you copy its answer back yourself. Claude Code flips this: it runs INSIDE your terminal, at the root of your project, and can directly read your files, write new ones, run commands (git, npm, tests…) and see the result — without you having to copy-paste anything."
+      },
+      {
+        "heading": "What \"agentic\" means",
+        "text": "Claude Code doesn't just answer a question: it can decide on its own to use tools (read a file, search the code, run a command) to accomplish a task, observe the result, then decide what to do next — several back-and-forth steps chained automatically before it replies to you. This is what's called an agent."
+      },
+      {
+        "heading": "It does nothing without your approval (by default)",
+        "text": "By default, Claude Code asks for confirmation before every action that changes something (writing a file, running a command). You stay in control of what actually happens on your machine — see [[Claude Code::Les modes de permission : plan, auto-accept, manuel]] for the nuances."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "What's the fundamental difference between claude.ai (the web chat) and Claude Code?",
+        "options": [
+          "Claude Code can read/write files and run commands directly in your project",
+          "Claude Code is simply a faster version of the chat",
+          "There's no difference, it's the same thing",
+          "Claude Code only works offline"
+        ],
+        "correctIndex": 0,
+        "correction": "The web chat replies to messages, with no access to your files. Claude Code runs in your terminal and can directly interact with your project (read, write, execute) — that's what makes it an agent rather than a simple chatbot."
+      }
+    ]
+  },
+  "Claude Code|Sessions : continuer, reprendre, repartir de zéro": {
+    "title": "Sessions: continuing, resuming, starting fresh",
+    "summary": "claude -c, claude -r, /clear: three different ways to manage a session's history, for three different needs.",
+    "content": [
+      {
+        "heading": "claude -c: pick up where you left off",
+        "text": "Automatically reloads this folder's most recent conversation. The most common use case: you close your terminal at the end of the day, come back the next day, claude -c puts you right back into the context where you stopped."
+      },
+      {
+        "heading": "claude -r: choosing a specific session",
+        "text": "If you worked on several topics in the same folder (a feature on Monday, a bugfix on Tuesday), claude -c only resumes the LATEST one. claude -r shows a picker of all your past sessions so you can pick exactly which one to resume."
+      },
+      {
+        "heading": "/clear: wiping without leaving",
+        "text": "Unlike -c and -r, which are typed BEFORE launching Claude Code, /clear is used INSIDE an already-open session. Useful when you completely switch topics mid-session and the old context no longer helps (or even slows down/muddies the responses)."
+      },
+      {
+        "heading": "When NOT to resume a session",
+        "text": "If the topic is completely different (you were switching from frontend work to debugging a server), starting fresh without -c/-r (just claude on its own) avoids mixing two unrelated contexts — often more effective than a mid-session /clear."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "You closed your terminal yesterday in the middle of a task. Resume the conversation where you left it.",
+        "terminal": {
+          "prompt": "user@mint:~/my-project$",
+          "steps": [
+            {
+              "expect": [
+                "claude -c"
+              ],
+              "output": "(this folder's most recent session is reloaded, with all its context)"
+            }
+          ]
+        },
+        "correction": "claude -c automatically resumes this folder's LAST conversation, without asking you anything — the fastest shortcut to continue ongoing work."
+      }
+    ]
+  },
+  "Claude Code|CLAUDE.md : donner du contexte permanent à Claude": {
+    "title": "CLAUDE.md: giving Claude permanent context",
+    "summary": "A file Claude Code reads automatically on every startup, so you don't have to re-explain your project every session.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Without CLAUDE.md, you'd re-explain in every new session: \"this project uses this stack, tests run with this command, never touch this generated folder\"… CLAUDE.md eliminates this repetition: Claude reads it automatically at startup, before even your first message."
+      },
+      {
+        "heading": "Where it lives, and what goes in it",
+        "text": "At the project root (or in .claude/). It typically holds: useful commands (build, test, lint), the project's code conventions, known pitfalls (\"this folder is generated, never edit it by hand\"), and anything that isn't obvious just from reading the code itself."
+      },
+      {
+        "heading": "/init to get started",
+        "text": "Rather than writing this file by hand from scratch, /init asks Claude to analyze the project (structure, dependencies, scripts) and generate a first CLAUDE.md for you to complete/adjust afterwards."
+      },
+      {
+        "heading": "Don't put in it what the code already says",
+        "text": "CLAUDE.md should contain what ISN'T obvious from reading the code (context, decisions, pitfalls) — not a rehash of the file structure or Git history, which Claude can already look up itself."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "You're starting on a new project with no CLAUDE.md. Generate a first one from an analysis of the code.",
+        "terminal": {
+          "prompt": "> ",
+          "steps": [
+            {
+              "expect": [
+                "/init"
+              ],
+              "output": "Analyzing the project…\nCLAUDE.md generated at the project root."
+            }
+          ]
+        },
+        "correction": "/init has Claude analyze the project (structure, dependencies, available scripts) and generate a first CLAUDE.md — a good starting point to adjust afterwards with the context only you know (pitfalls, past decisions, house conventions)."
+      }
+    ]
+  },
+  "Claude Code|Les modes de permission : plan, auto-accept, manuel": {
+    "title": "Permission modes: plan, auto-accept, manual",
+    "summary": "Understanding how much control you keep over what Claude Code actually does on your machine.",
+    "content": [
+      {
+        "heading": "The default mode: confirm every action",
+        "text": "By default, Claude Code asks for confirmation before every action that changes something (writing a file, running a potentially risky command). You see exactly what's about to happen before it happens."
+      },
+      {
+        "heading": "Plan mode: think before acting",
+        "text": "claude --permission-mode plan (or switching to plan mode mid-session) forces Claude to first PROPOSE a detailed plan, without touching anything, for you to approve or adjust before a single action gets executed. Ideal for a complex task where you want to validate the approach before execution."
+      },
+      {
+        "heading": "--dangerously-skip-permissions: the no-net mode",
+        "text": "Removes ALL confirmations — Claude acts without ever asking. Useful ONLY in a disposable/isolated environment (a Docker container, a CI VM) where a mistake has no real consequence. ⚠️ Never on a machine with important data or sensitive access (credentials, API keys, production)."
+      },
+      {
+        "heading": "/permissions to fine-tune",
+        "text": "Rather than accepting everything or confirming everything, /permissions lets you specify exactly which tools/actions Claude can run automatically (e.g. always allow reading files, but always ask before a git push)."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want Claude to propose a detailed plan BEFORE touching anything, for a complex task. Which option do you use?",
+        "options": [
+          "claude --dangerously-skip-permissions",
+          "claude --permission-mode plan",
+          "/clear",
+          "claude -c"
+        ],
+        "correctIndex": 1,
+        "correction": "Plan mode forces Claude to think through and present a full approach before any execution — nothing is changed until you approve the plan. --dangerously-skip-permissions does the opposite: no confirmation, ever."
+      }
+    ]
+  },
+  "Claude Code|Gérer le contexte : pourquoi et quand utiliser /compact": {
+    "title": "Managing context: why and when to use /compact",
+    "summary": "A conversation that runs too long eventually saturates the context window — /compact summarizes it without losing everything.",
+    "content": [
+      {
+        "heading": "The context window, in short",
+        "text": "Claude only \"sees\" a limited amount of text at a time (the whole conversation, including files read). The longer a session runs, the more this context fills up — eventually becoming a limiting factor: less room to read new files, potentially less precise answers."
+      },
+      {
+        "heading": "/compact: summarizing without starting from scratch",
+        "text": "Condenses the current conversation into a shorter summary, keeping the essentials (decisions made, progress so far), freeing up room — WITHOUT completely losing the thread the way /clear would."
+      },
+      {
+        "heading": "Steering the summary",
+        "text": "/compact accepts an instruction to specify what absolutely must be kept: /compact keep the implementation plan and already-modified files in detail — useful to avoid losing a specific piece of information during compression."
+      },
+      {
+        "heading": "/compact vs /clear",
+        "text": "/compact keeps a summarized trace of everything before it. /clear wipes completely — reserve it for a total change of topic, where the old context no longer brings anything (see [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]])."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Your session has been running for hours on the SAME topic, and you feel Claude is starting to run low on available context. You want to keep the thread without losing everything. What do you do?",
+        "options": [
+          "/clear",
+          "/compact",
+          "claude -r",
+          "Nothing, it's not a problem"
+        ],
+        "correctIndex": 1,
+        "correction": "/compact summarizes the conversation to free up room while keeping the essentials — unlike /clear, which wipes the history completely and should be reserved for a total change of topic."
+      }
+    ]
+  },
+  "Claude Code|Sous-agents : déléguer des tâches spécialisées": {
+    "title": "Subagents: delegating specialized tasks",
+    "summary": "Handing off a subtask to a dedicated agent with its own isolated context, rather than doing everything in the main conversation.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Some tasks (exploring a large codebase looking for a specific pattern, doing an exhaustive code review) consume a huge amount of context if done directly in the main conversation — at the expense of the rest of the ongoing task."
+      },
+      {
+        "heading": "A subagent, concretely",
+        "text": "A subagent is a separate instance of Claude, with its OWN isolated context and often a specialized prompt/role (e.g. an agent dedicated to security review, another to code exploration). The main conversation delegates a specific task to it, and only gets back the final result — not all the intermediate reasoning it took to get there."
+      },
+      {
+        "heading": "/agents to manage them",
+        "text": "Lists, creates or edits the subagents available for the project. Each agent can have its own allowed tools and its own instructions, tailored to its specialty."
+      },
+      {
+        "heading": "When it's worth it",
+        "text": "For a simple one-off task, delegating to a subagent adds complexity for nothing. It becomes useful for large-scale research/analysis where only the final result matters, or for repeated tasks that benefit from a dedicated, reusable role/prompt."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Why delegate a massive code exploration to a subagent rather than doing it in the main conversation?",
+        "options": [
+          "It's faster in every case",
+          "It isolates that search's heavy context, without cluttering the main conversation",
+          "Subagents are free unlike the main conversation",
+          "It's never useful, might as well do everything in the main conversation"
+        ],
+        "correctIndex": 1,
+        "correction": "A subagent has its own isolated context: all the intermediate work (files read, attempts, reasoning) stays with it, and only the final result flows back to the main conversation — which keeps room for the rest of the task."
+      }
+    ]
+  },
+  "Claude Code|MCP : connecter Claude à d'autres outils": {
+    "title": "MCP: connecting Claude to other tools",
+    "summary": "Model Context Protocol: the standard that lets Claude Code connect to external services (databases, APIs, other tools).",
+    "content": [
+      {
+        "heading": "The problem MCP solves",
+        "text": "By default, Claude Code knows how to read/write files and run shell commands. But to interact directly with an external service (a database, a third-party tool's API, an internal company service), you'd normally need a connector built specifically for each one."
+      },
+      {
+        "heading": "MCP, a standard rather than custom work",
+        "text": "MCP (Model Context Protocol) is an open protocol: any tool can expose an \"MCP server\" that Claude Code (or other compatible AI assistants) knows how to use directly, with no specific integration to write each time."
+      },
+      {
+        "heading": "An MCP server, concretely",
+        "text": "An MCP server exposes a set of possible actions (e.g. \"search a file in Google Drive\", \"create a GitHub issue\") that Claude can call like any other tool, whenever it's relevant to the task at hand."
+      },
+      {
+        "heading": "Adding and managing servers",
+        "text": "claude mcp add connects a new MCP server to the project or globally. /mcp (mid-session) lets you see the currently connected servers and their status."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "Check which MCP servers are currently configured.",
+        "terminal": {
+          "prompt": "user@mint:~/my-project$",
+          "steps": [
+            {
+              "expect": [
+                "claude mcp list"
+              ],
+              "output": "Configured MCP servers:\n  github    connected\n  filesystem connected"
+            }
+          ]
+        },
+        "correction": "claude mcp list shows the currently connected MCP servers from the terminal (outside a session). Once inside a session, /mcp gives the same information without having to leave it."
+      }
+    ]
+  },
+  "Claude Code|Bien démarrer un nouveau projet": {
+    "title": "Starting a new project on the right foot",
+    "summary": "The first reflexes to have when arriving on a project, new or existing, so Claude Code starts off well.",
+    "content": [
+      {
+        "heading": "Launch from the project root",
+        "text": "Always launch claude from the project root (where .git, package.json, etc. live), never from a subfolder — Claude explores the project starting from its launch folder, so a bad starting point limits what it sees without that being obvious."
+      },
+      {
+        "heading": "On an existing project: generate a CLAUDE.md before coding",
+        "text": "Before asking for the first real task, /init lets Claude analyze the structure, dependencies, and available scripts to generate a first CLAUDE.md — this saves you from re-explaining the project by hand, and future sessions start with this context already in place. See [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]]."
+      },
+      {
+        "heading": "Start small, check, then widen the scope",
+        "text": "For the first real task, prefer a precise, checkable request (fix a targeted bug, add a test) over a broad, vague one (\"improve the project\") — time enough to see how Claude works on THIS specific project, before handing it something more ambitious."
+      },
+      {
+        "heading": "Plan mode for a first substantial task",
+        "text": "If the first task touches many files or a sensitive part of the project, starting in plan mode (claude --permission-mode plan) lets you validate the approach before anything gets modified. See [[Claude Code::Les modes de permission : plan, auto-accept, manuel]]."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You arrive on an existing project you don't know yet. What's the first thing to do before asking for a real task?",
+        "options": [
+          "Run /init to generate a CLAUDE.md from an analysis of the project",
+          "Ask directly for a big rewrite to save time",
+          "Copy-paste all the code into the message",
+          "Turn off all confirmations with --dangerously-skip-permissions"
+        ],
+        "correctIndex": 0,
+        "correction": "/init gives Claude a structured view of the project (dependencies, scripts, conventions) before even the first task — it saves you from re-explaining everything by hand and makes future sessions more reliable."
+      }
+    ]
+  },
+  "Claude Code|Choisir le bon agent selon la tâche": {
+    "title": "Choosing the right agent for the task",
+    "summary": "A general-purpose agent doesn't fit everything: read-only exploration, planning, a recurring specialized task — each has its use.",
+    "content": [
+      {
+        "heading": "General-purpose agent: the default choice",
+        "text": "For a task that mixes several kinds of actions (search, modify, test), a versatile general-purpose agent fits most cases — it's the one Claude Code uses by default when you delegate a task without specifying anything else."
+      },
+      {
+        "heading": "Exploration agent: when you just want an answer, not modified files",
+        "text": "For a broad search in code you don't know yet (\"where is authentication handled?\"), an agent dedicated to READ-ONLY exploration avoids any risk of accidental modification, and only reports back the useful conclusion — not the detail of every file it went through."
+      },
+      {
+        "heading": "Planning agent: before an architectural task",
+        "text": "For a task that requires weighing several approaches before writing any code (a rewrite, a new module), an agent dedicated to planning produces a step-by-step plan to validate — without touching the code until the plan is approved."
+      },
+      {
+        "heading": "Custom agents: for a recurring role",
+        "text": "If the same specialty comes up regularly in your project (security review, style review, generating a status line), creating a dedicated agent via /agents avoids re-explaining its role every time — see [[Claude Code::Sous-agents : déléguer des tâches spécialisées]] for the general delegation principle."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to know where authentication logic lives in a project you're discovering, without risking a file being modified by mistake. Which type of agent fits best?",
+        "options": [
+          "A read-only exploration agent",
+          "An agent with access to every tool, including writing files",
+          "--dangerously-skip-permissions",
+          "No agent, you should always do it all yourself"
+        ],
+        "correctIndex": 0,
+        "correction": "A read-only exploration agent can search and read broadly through the code with zero risk of modification — ideal for a question whose answer is \"where / how\", with no action to perform afterward."
+      }
+    ]
+  },
+  "Claude Code|Skills : des instructions prêtes à l'emploi": {
+    "title": "Skills: ready-made instructions",
+    "summary": "A skill packages a way of doing a recurring task — Claude uses it on its own when relevant, without you having to re-explain everything.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "For a recurring task with precise rules (a code review checklist, a deployment procedure, a report format), re-explaining the procedure every time is repetitive and error-prone. A skill locks in that procedure once and for all."
+      },
+      {
+        "heading": "A skill, concretely",
+        "text": "A skill is a set of instructions written in advance (possibly with associated scripts or examples), stored in a dedicated folder, with a short description of when to use it. Claude Code checks this description to decide on its own whether a skill is relevant to the current request."
+      },
+      {
+        "heading": "Automatic or explicit invocation",
+        "text": "Most of the time, Claude picks the right skill itself by comparing your request to each one's description — you don't need to type anything special. You can still force a specific skill by typing its name as a command (/skill-name), useful when several skills look similar or to be explicit."
+      },
+      {
+        "heading": "Personal, project-level, or provided by a plugin",
+        "text": "A skill can be personal (usable across all your projects), specific to a single project (stored in its .claude/ folder), or provided by an installed plugin — the difference doesn't change how Claude uses it, only who has access to it."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Most of the time, how does Claude Code decide which skill to use for a given request?",
+        "options": [
+          "It compares the request to each available skill's description, and picks the best fit on its own",
+          "You always have to type the exact skill name as a command",
+          "Skills only activate randomly",
+          "Only one skill can exist per project"
+        ],
+        "correctIndex": 0,
+        "correction": "Claude Code compares your request to each available skill's description and picks the right one on its own, without you needing to type anything special — you can still force a specific skill by typing its name as a command if needed."
+      }
+    ]
+  },
+  "Claude Code|Où trouver des agents et des skills": {
+    "title": "Where to find agents and skills",
+    "summary": "No need to write everything yourself: what's already on your machine, ready-made plugins, and community resources.",
+    "content": [
+      {
+        "heading": "What's already on your machine",
+        "text": "Before looking elsewhere, check what already exists: personal agents in ~/.claude/agents (usable across all your projects), project agents in .claude/agents/ at the repo root — same logic for skills (~/.claude/skills and .claude/skills/). /agents lists the agents available for the current project."
+      },
+      {
+        "heading": "Plugins: ready-made packs",
+        "text": "A plugin often bundles several agents, skills, and commands around a single theme (a language, a framework, a code review methodology…). /plugin lets you browse the available plugin marketplaces and install one in a few seconds, without having to write anything yourself."
+      },
+      {
+        "heading": "Adding an external marketplace",
+        "text": "By default, only certain marketplaces are known. /plugin marketplace add <repo> adds an external source (often a public GitHub repo) to access its plugins — a common way to benefit from a pack created and maintained by someone else."
+      },
+      {
+        "heading": "Official documentation and the community",
+        "text": "The Claude Code documentation lists official examples of agents and skills. Beyond that, community repositories on GitHub gather agents/skills shared by other users — handy for inspiration before writing your own, see [[Claude Code::Sous-agents : déléguer des tâches spécialisées]] and [[Claude Code::Skills : des instructions prêtes à l'emploi]] to create your own."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to install a ready-made pack bundling several agents and skills around a single theme, without writing them yourself. What do you do?",
+        "options": [
+          "Use /plugin to browse marketplaces and install one",
+          "Copy-paste code from a forum into the terminal",
+          "It's not possible, you always have to write everything yourself",
+          "Reinstall Claude Code entirely"
+        ],
+        "correctIndex": 0,
+        "correction": "/plugin gives access to plugin marketplaces: each can bundle several ready-made agents, skills, and commands around a theme — an install that takes a few seconds rather than writing everything from scratch."
+      }
+    ]
+  },
+  "Claude Code|Les loops : relancer une tâche automatiquement": {
+    "title": "Loops: rerunning a task automatically",
+    "summary": "The /loop skill reruns a prompt or command on a recurring interval, without you having to retype anything.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Without a loop, watching something (a deployment's status, an external task's progress) means retyping the same command yourself every X minutes — repetitive, and easy to forget along the way."
+      },
+      {
+        "heading": "Two ways to launch it",
+        "text": "/loop 5m /my-command reruns /my-command every 5 minutes. /loop on its own, with no interval given, lets Claude choose the pace itself, iteration after iteration, based on what it observes each time."
+      },
+      {
+        "heading": "What Claude does on each iteration",
+        "text": "It reruns the given prompt or command, looks at the result, then decides what's next — keep watching, stop, or flag a notable change rather than staying silent until the end."
+      },
+      {
+        "heading": "How to stop it",
+        "text": "A loop keeps running until it's explicitly stopped (or a stop condition set at the start is reached) — no need to close the whole terminal, just ask for it to stop."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want Claude to rerun your /check-deploy command every 5 minutes until you stop it. What command do you type?",
+        "options": [
+          "/loop 5m /check-deploy",
+          "/check-deploy 5m",
+          "claude --interval 5m",
+          "/compact 5m"
+        ],
+        "correctIndex": 0,
+        "correction": "/loop <interval> <prompt or command> reruns that prompt/command at the given interval, until the loop is stopped — here every 5 minutes for /check-deploy."
+      }
+    ]
+  },
+  "Claude Code|Choisir entre intervalle fixe et rythme automatique": {
+    "title": "Choosing between a fixed interval and automatic pacing",
+    "summary": "A fixed interval (/loop 5m ...) or a pace Claude adjusts itself based on what it observes (/loop on its own) — two different needs.",
+    "content": [
+      {
+        "heading": "Fixed interval: when the pace is known in advance",
+        "text": "If you already know that what you're watching changes at a predictable pace (a build that usually takes about 8 minutes), a fixed interval close to that duration avoids checking too often for nothing, or not often enough."
+      },
+      {
+        "heading": "Automatic pacing: when you don't know in advance",
+        "text": "Without specifying an interval, Claude adjusts the delay before the next check itself, based on what it finds on each iteration — useful when the pace of change is unpredictable or unknown at the start."
+      },
+      {
+        "heading": "Avoiding pointless checks",
+        "text": "Rerunning a check every minute on something that only changes every hour wastes iterations for nothing. The right setting accounts for the actual speed of what's being watched, not a default habit."
+      },
+      {
+        "heading": "A loop isn't always the right option",
+        "text": "For a one-off task with no need for repeated monitoring, a simple direct request fits better than a loop — a loop makes sense when waiting for a state change that won't happen right away."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You know a deployment usually takes about 8 minutes. How do you set the loop that checks its status?",
+        "options": [
+          "A fixed interval close to 8 minutes, not a check every minute",
+          "Check every minute to be sure not to miss anything",
+          "Check just once after 1 hour",
+          "Let it run continuously with no interval at all"
+        ],
+        "correctIndex": 0,
+        "correction": "When the duration is known in advance, a fixed interval close to that duration is the most efficient setting — checking much more often than the actual pace of change wastes iterations without speeding anything up."
+      }
+    ]
+  },
+  "Claude Code|Bien utiliser les loops : bonnes pratiques": {
+    "title": "Using loops well: best practices",
+    "summary": "A badly tuned loop either runs for nothing or misses the right moment — a few reflexes to avoid the pitfalls.",
+    "content": [
+      {
+        "heading": "Don't loop on what already notifies on its own",
+        "text": "If the ongoing work is already tracked and signals its own completion, adding a loop that checks in parallel is redundant — it just burns iterations watching something that will notify anyway."
+      },
+      {
+        "heading": "Prefer a wide interval over checking too often",
+        "text": "A loop that checks much more often than what's actually changing doesn't speed anything up. Without a precise signal to watch for, a wide default interval (several tens of minutes) stays more reasonable than a very tight check out of habit."
+      },
+      {
+        "heading": "Set a clear stop condition",
+        "text": "A loop meant to watch for a specific event (a build finishing, a status change) should stop as soon as that event happens — without a clear condition, it keeps running aimlessly once the event has already passed."
+      },
+      {
+        "heading": "Report what matters, not every single check",
+        "text": "An iteration that changes nothing doesn't need a detailed report every time. What's useful is being notified when something actually moves — not getting a message on every pass of the loop that changes nothing."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Your loop watches an external state that usually only changes every hour, with no precise signal automatically announcing a change. What setting fits best?",
+        "options": [
+          "A wide interval (for example 20 to 30 minutes), not a check every minute",
+          "Check every minute to be sure not to miss anything",
+          "Never use a loop for this kind of case",
+          "Check just once then give up"
+        ],
+        "correctIndex": 0,
+        "correction": "With no precise signal announcing a change, a wide interval matched to the real pace of what's being watched avoids wasting iterations on checks that will mostly change nothing."
+      }
+    ]
+  },
+  "Claude Code|Écrire une bonne demande à Claude Code": {
+    "title": "Writing a good request to Claude Code",
+    "summary": "How clear a request is directly changes the quality of the result — a few simple principles before typing the first message.",
+    "content": [
+      {
+        "heading": "Say WHAT you want, not just the symptom",
+        "text": "\"It doesn't work\" or \"improve this\" leaves the real goal to guess. Stating the expected result (what behavior, what output, what constraint) cuts down the number of back-and-forths needed."
+      },
+      {
+        "heading": "Give the context that matters",
+        "text": "Claude can read the code itself, but not what's written nowhere (a decision made elsewhere, a business constraint, existing behavior not to break). That context needs to be stated explicitly in the request, or live in CLAUDE.md so it doesn't need repeating every time — see [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]]."
+      },
+      {
+        "heading": "One request, one goal",
+        "text": "Mixing several independent goals into a single message (\"fix this bug AND refactor this module AND add tests\") makes it harder to check each part separately — better to split them, especially early in a task."
+      },
+      {
+        "heading": "Give an example when it's ambiguous",
+        "text": "For a precise output format or a particular style, showing a concrete example of the expected result clears up ambiguity much faster than an abstract description."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Which of these requests gives the best chance of getting the right result on the first try?",
+        "options": [
+          "Fix the bug: the \"Submit\" button does nothing when clicked on the payment page, even though it works on the other pages",
+          "It doesn't work, fix it",
+          "Improve the project",
+          "Do better"
+        ],
+        "correctIndex": 0,
+        "correction": "A precise request (which element, what observed behavior, where it works elsewhere) gives Claude something to directly target — vague phrasing forces guessing, or coming back to you for clarification."
+      }
+    ]
+  },
+  "Claude Code|Itérer sur un prompt : préciser plutôt que reformuler": {
+    "title": "Iterating on a prompt: refine rather than rewrite",
+    "summary": "When the first result isn't right, precisely fixing what's off is faster than starting over.",
+    "content": [
+      {
+        "heading": "Fixing a precise gap",
+        "text": "If the result is almost right but misses one detail (a naming convention, a forgotten edge case), stating it precisely (\"the empty-list case isn't handled\") is more effective than rewriting the whole request from scratch."
+      },
+      {
+        "heading": "Telling apart a context problem from a wording problem",
+        "text": "If Claude misread something about the project (a wrongly assumed convention), the fix is about the missing context — often worth adding to CLAUDE.md so it doesn't happen again. If the request itself was ambiguous, clarifying it directly is enough."
+      },
+      {
+        "heading": "Rolling back rather than stacking fixes",
+        "text": "If several correction attempts haven't been enough and the result keeps drifting further from the original need, it's better to roll back and restart from a clean state with a rephrased request, rather than stacking fixes on a shaky base."
+      },
+      {
+        "heading": "Plan mode to check the interpretation before acting",
+        "text": "For a complex or ambiguous request, asking for a plan first (see [[Claude Code::Les modes de permission : plan, auto-accept, manuel]]) lets you catch a misunderstanding before anything gets modified — far cheaper to fix than an already-produced result."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "The result you got is almost right, but ignores the case where the list is empty. What do you do?",
+        "options": [
+          "State exactly the missing case rather than rewriting the whole request",
+          "Start over with a completely different request",
+          "Give up on the task",
+          "Say nothing, it doesn't matter"
+        ],
+        "correctIndex": 0,
+        "correction": "Fixing a precise gap (the missing case) is faster than rewriting the whole request — Claude keeps the rest of the already-correct work, and only has one precise point to adjust."
+      }
+    ]
+  },
+  "Claude Code|Les prompts réutilisables : commandes personnalisées": {
+    "title": "Reusable prompts: custom commands",
+    "summary": "A request that keeps coming back can become your own command, callable in one line instead of retyped every time.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Retyping a long, precise request every time it comes up (a review checklist, a particular commit format) is repetitive and prone to unintentional variations from one time to the next."
+      },
+      {
+        "heading": "A custom command, concretely",
+        "text": "A text file containing the prompt, stored in .claude/commands/ (project-specific) or ~/.claude/commands/ (personal, available everywhere), becomes callable as a command via /file-name — the prompt is replayed identically on every call."
+      },
+      {
+        "heading": "Arguments to adapt it on each call",
+        "text": "A custom command can accept arguments passed at call time (for example /review my-file.js), staying generic while still applying to a precise case each time."
+      },
+      {
+        "heading": "Custom command vs skill",
+        "text": "A custom command is a fixed prompt you choose to invoke yourself explicitly. A skill, on the other hand, can be picked automatically by Claude when relevant, without having to type its name — see [[Claude Code::Skills : des instructions prêtes à l'emploi]] for the difference."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You keep asking for the same code review checklist, with the same text every time. How do you avoid retyping it?",
+        "options": [
+          "Store it as a custom command in .claude/commands/, callable via /command-name",
+          "Copy it by hand every time",
+          "Email it to yourself before each session",
+          "It's not possible with Claude Code"
+        ],
+        "correctIndex": 0,
+        "correction": "A custom command file in .claude/commands/ (or ~/.claude/commands/ for personal use) locks in the prompt once and for all — /command-name replays it identically, without ever retyping it."
+      }
+    ]
+  },
+  "Claude Code|Installer Claude Code dans un terminal": {
+    "title": "Installing Claude Code in a terminal",
+    "summary": "A global install via npm, one prerequisite (Node.js), and a one-command health check.",
+    "content": [
+      {
+        "heading": "The prerequisite: Node.js",
+        "text": "Claude Code is installed via npm, Node.js's package manager — so Node.js needs to already be installed on the machine before you can install it."
+      },
+      {
+        "heading": "The global install",
+        "text": "npm install -g @anthropic-ai/claude-code installs Claude Code globally on the machine — the claude command then becomes available from any folder in the terminal."
+      },
+      {
+        "heading": "Checking that everything works",
+        "text": "claude --version shows the installed version. claude doctor goes further, checking dependencies, PATH, and configuration, and pinpoints exactly what's wrong if the install has a problem."
+      },
+      {
+        "heading": "Staying up to date",
+        "text": "claude update fetches the latest available version — useful to benefit from new features and fixes over time."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You just installed Claude Code but the claude command doesn't launch correctly. How do you find out what's wrong?",
+        "options": [
+          "claude doctor",
+          "claude --version",
+          "Reinstall with npm install -g @anthropic-ai/claude-code without investigating the cause",
+          "Restart the computer without checking anything"
+        ],
+        "correctIndex": 0,
+        "correction": "claude doctor checks dependencies, PATH, and configuration, and pinpoints exactly what's wrong — more effective than a blind reinstall or a plain restart."
+      }
+    ]
+  },
+  "Claude Code|Utiliser Claude Code dans un terminal : les premiers pas": {
+    "title": "Using Claude Code in a terminal: first steps",
+    "summary": "Getting into the right folder, launching a session, and the very first reflexes.",
+    "content": [
+      {
+        "heading": "Get into the project folder",
+        "text": "Before launching claude, cd into the root folder of the relevant project — Claude explores and acts starting from this launch folder. See [[Claude Code::Bien démarrer un nouveau projet]]."
+      },
+      {
+        "heading": "Launching a session",
+        "text": "The claude command, typed on its own, opens an interactive session in the terminal — a prompt where you type your first request directly."
+      },
+      {
+        "heading": "Starting with an initial prompt",
+        "text": "claude \"explain this project to me\" launches a session directly with that first request already given, without having to retype it once the session is open."
+      },
+      {
+        "heading": "A one-off answer with no session",
+        "text": "claude -p \"summarize recent changes\" ('print' mode) runs a request, shows the answer, then quits without opening a session to keep alive — handy for a script or a quick check."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to launch Claude Code directly with your first request already given, without retyping it once the session is open. How do you do it?",
+        "options": [
+          "claude \"your request\"",
+          "claude, then retype the request once the session is open",
+          "claude --request \"your request\"",
+          "claude -p only, with nothing else"
+        ],
+        "correctIndex": 0,
+        "correction": "claude \"your request\" starts the session directly with that first request already given — claude -p answers once then quits, without opening an interactive session to keep alive."
+      }
+    ]
+  },
+  "Claude Code|Installer l'extension dans VS Code ou Cursor": {
+    "title": "Installing the extension in VS Code or Cursor",
+    "summary": "Cursor and VS Code share the same base: the same Claude Code extension installs in both.",
+    "content": [
+      {
+        "heading": "Two ways to get the extension",
+        "text": "From the editor's marketplace (search \"Claude Code\" in the extensions tab), or automatically: running claude in VS Code/Cursor's integrated terminal offers to install the extension if it's not already there."
+      },
+      {
+        "heading": "Cursor works like VS Code",
+        "text": "Cursor is built on VS Code and uses the same extension system — the same Claude Code extension installs and works the same way in both editors."
+      },
+      {
+        "heading": "Connecting from an existing terminal session",
+        "text": "If a Claude Code session is already running in a separate terminal (not necessarily the editor's integrated one), /ide connects it to the open editor to share the active file and selection."
+      },
+      {
+        "heading": "What it actually changes",
+        "text": "Once connected, Claude sees the open file and the text selection in the editor, and can propose its changes directly as a diff in the editor rather than as plain text in the terminal."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You use Cursor rather than VS Code. Which Claude Code extension should you install?",
+        "options": [
+          "The same Claude Code extension as for VS Code — Cursor uses the same extension system",
+          "A Cursor-specific extension, different from the VS Code one",
+          "No extension exists for Cursor",
+          "Claude Code needs to be entirely reinstalled for Cursor"
+        ],
+        "correctIndex": 0,
+        "correction": "Cursor is built on VS Code and shares its extension system — the same Claude Code extension installs and works identically in both editors."
+      }
+    ]
+  },
+  "Claude Code|Utiliser Claude Code dans VS Code / Cursor": {
+    "title": "Using Claude Code in VS Code / Cursor",
+    "summary": "The integrated terminal stays the foundation, but the extension adds diff view, selection context, and dedicated shortcuts.",
+    "content": [
+      {
+        "heading": "The integrated terminal stays the entry point",
+        "text": "The extension doesn't replace the terminal: the Claude Code session keeps running in the editor's integrated terminal — the extension enriches that session with the surrounding editor's information."
+      },
+      {
+        "heading": "Selected code as context",
+        "text": "A code snippet selected in the editor is automatically taken into account as context for the current request — no need to copy-paste it into the terminal anymore."
+      },
+      {
+        "heading": "Seeing changes as a diff before accepting",
+        "text": "Rather than a block of plain text in the terminal, changes proposed by Claude show up as a diff view directly in the editor — the exact change, file by file, is visible before accepting."
+      },
+      {
+        "heading": "Dedicated keyboard shortcuts",
+        "text": "The extension adds shortcuts for common actions (opening/closing Claude Code, sending the current selection as context) directly from the editor, without going through the mouse or the terminal."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You've selected a function in the editor and want Claude to take it into account in your next request. What do you need to do?",
+        "options": [
+          "Nothing more: the selection is automatically taken into account as context",
+          "Copy-paste the function into the terminal",
+          "Open a new file and retype it",
+          "It's not possible with the extension"
+        ],
+        "correctIndex": 0,
+        "correction": "The extension automatically shares the open file and current selection with the Claude Code session — no need to copy-paste anything into the terminal."
+      }
+    ]
   }
 };

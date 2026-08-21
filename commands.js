@@ -1336,7 +1336,8 @@ const COMMANDS = [
     title: "Lancer une session interactive",
     cmd: "claude",
     desc: "Ouvre le REPL interactif de Claude Code dans le dossier courant.",
-    tags: ["claude", "start", "repl"]
+    tags: ["claude", "start", "repl"],
+    related: "Claude Code::Claude Code, à quoi ça sert vraiment ?"
   },
   {
     category: "Claude Code",
@@ -1344,7 +1345,8 @@ const COMMANDS = [
     title: "Démarrer avec un prompt initial",
     cmd: 'claude "explique-moi ce projet"',
     desc: "Lance la session directement avec une première question/instruction, sans avoir à la retaper une fois lancé.",
-    tags: ["claude", "start", "prompt"]
+    tags: ["claude", "start", "prompt"],
+    related: "Claude Code::Utiliser Claude Code dans un terminal : les premiers pas"
   },
   {
     category: "Claude Code",
@@ -1352,7 +1354,8 @@ const COMMANDS = [
     title: "Réponse ponctuelle sans session interactive",
     cmd: 'claude -p "résume les changements récents"',
     desc: "Mode 'print' : exécute une requête, affiche la réponse, puis quitte — pratique pour scripter ou automatiser (CI, hooks, etc.).",
-    tags: ["claude", "print", "script", "automation"]
+    tags: ["claude", "print", "script", "automation"],
+    related: "Claude Code::Utiliser Claude Code dans un terminal : les premiers pas"
   },
   {
     category: "Claude Code",
@@ -1360,7 +1363,8 @@ const COMMANDS = [
     title: "Reprendre la dernière conversation",
     cmd: "claude -c",
     desc: "Recharge le contexte de la session la plus récente dans ce dossier, sans avoir à tout réexpliquer.",
-    tags: ["claude", "continue", "session"]
+    tags: ["claude", "continue", "session"],
+    related: "Claude Code::Sessions : continuer, reprendre, repartir de zéro"
   },
   {
     category: "Claude Code",
@@ -1368,7 +1372,8 @@ const COMMANDS = [
     title: "Reprendre une session précise",
     cmd: "claude -r",
     desc: "Affiche un sélecteur des sessions précédentes de ce dossier. Ajoute un identifiant pour reprendre directement une session précise : claude -r <id>",
-    tags: ["claude", "resume", "session"]
+    tags: ["claude", "resume", "session"],
+    related: "Claude Code::Sessions : continuer, reprendre, repartir de zéro"
   },
 
   // --- Claude Code — Options CLI ---------------------------------------
@@ -1386,7 +1391,8 @@ const COMMANDS = [
     title: "Démarrer en mode plan",
     cmd: "claude --permission-mode plan",
     desc: "Claude réfléchit et propose un plan avant toute action, sans rien modifier tant que le plan n'est pas validé.",
-    tags: ["claude", "plan", "permission"]
+    tags: ["claude", "plan", "permission"],
+    related: "Claude Code::Les modes de permission : plan, auto-accept, manuel"
   },
   {
     category: "Claude Code",
@@ -1402,7 +1408,8 @@ const COMMANDS = [
     title: "Ignorer les confirmations de permission",
     cmd: "claude --dangerously-skip-permissions",
     desc: "⚠️ Exécute toutes les actions sans jamais demander confirmation. Réservé à un environnement isolé/sandboxé (conteneur jetable, CI) — jamais sur une machine avec des données sensibles.",
-    tags: ["claude", "permissions", "danger"]
+    tags: ["claude", "permissions", "danger"],
+    related: "Claude Code::Les modes de permission : plan, auto-accept, manuel"
   },
   {
     category: "Claude Code",
@@ -1428,7 +1435,8 @@ const COMMANDS = [
     title: "Effacer la conversation",
     cmd: "/clear",
     desc: "Efface l'historique de la conversation en cours et repart de zéro (contexte perdu).",
-    tags: ["claude", "clear", "reset"]
+    tags: ["claude", "clear", "reset"],
+    related: "Claude Code::Sessions : continuer, reprendre, repartir de zéro"
   },
   {
     category: "Claude Code",
@@ -1436,7 +1444,8 @@ const COMMANDS = [
     title: "Compacter le contexte",
     cmd: "/compact",
     desc: "Résume la conversation pour libérer du contexte, sans tout perdre. Ajoute une instruction pour orienter le résumé : /compact garde le plan d'implémentation en détail",
-    tags: ["claude", "compact", "context"]
+    tags: ["claude", "compact", "context"],
+    related: "Claude Code::Gérer le contexte : pourquoi et quand utiliser /compact"
   },
   {
     category: "Claude Code",
@@ -1452,7 +1461,8 @@ const COMMANDS = [
     title: "Générer un CLAUDE.md",
     cmd: "/init",
     desc: "Analyse le projet et génère un fichier CLAUDE.md documentant sa structure — lu automatiquement au démarrage des futures sessions.",
-    tags: ["claude", "init", "claude.md", "documentation"]
+    tags: ["claude", "init", "claude.md", "documentation"],
+    related: "Claude Code::CLAUDE.md : donner du contexte permanent à Claude"
   },
   {
     category: "Claude Code",
@@ -1468,7 +1478,8 @@ const COMMANDS = [
     title: "Gérer les permissions",
     cmd: "/permissions",
     desc: "Configure quels outils/actions Claude peut exécuter automatiquement, sans confirmation à chaque fois.",
-    tags: ["claude", "permissions"]
+    tags: ["claude", "permissions"],
+    related: "Claude Code::Les modes de permission : plan, auto-accept, manuel"
   },
   {
     category: "Claude Code",
@@ -1476,7 +1487,8 @@ const COMMANDS = [
     title: "Gérer les sous-agents",
     cmd: "/agents",
     desc: "Crée, modifie ou liste les sous-agents disponibles (agents spécialisés que Claude peut déléguer à eux-mêmes).",
-    tags: ["claude", "agents", "subagent"]
+    tags: ["claude", "agents", "subagent"],
+    related: "Claude Code::Sous-agents : déléguer des tâches spécialisées"
   },
   {
     category: "Claude Code",
@@ -1484,7 +1496,8 @@ const COMMANDS = [
     title: "Gérer les serveurs MCP",
     cmd: "/mcp",
     desc: "Affiche et gère les serveurs MCP connectés à la session en cours.",
-    tags: ["claude", "mcp"]
+    tags: ["claude", "mcp"],
+    related: "Claude Code::MCP : connecter Claude à d'autres outils"
   },
   {
     category: "Claude Code",
@@ -1508,7 +1521,8 @@ const COMMANDS = [
     title: "Connecter un IDE",
     cmd: "/ide",
     desc: "Connecte la session à un IDE ouvert (VS Code, JetBrains…) pour partager le fichier/la sélection actifs.",
-    tags: ["claude", "ide", "vscode"]
+    tags: ["claude", "ide", "vscode"],
+    related: "Claude Code::Installer l'extension dans VS Code ou Cursor"
   },
   {
     category: "Claude Code",
@@ -1550,7 +1564,8 @@ const COMMANDS = [
     title: "Lister les serveurs MCP",
     cmd: "claude mcp list",
     desc: "Affiche les serveurs MCP actuellement configurés (depuis le terminal, hors session).",
-    tags: ["claude", "mcp", "list"]
+    tags: ["claude", "mcp", "list"],
+    related: "Claude Code::MCP : connecter Claude à d'autres outils"
   },
   {
     category: "Claude Code",
@@ -1558,7 +1573,8 @@ const COMMANDS = [
     title: "Ajouter un serveur MCP",
     cmd: "claude mcp add <nom> <commande>",
     desc: "Connecte un nouveau serveur MCP à Claude Code, disponible dans toutes les sessions futures.",
-    tags: ["claude", "mcp", "add"]
+    tags: ["claude", "mcp", "add"],
+    related: "Claude Code::MCP : connecter Claude à d'autres outils"
   },
   {
     category: "Claude Code",
@@ -1576,7 +1592,8 @@ const COMMANDS = [
     title: "Installer Claude Code",
     cmd: "npm install -g @anthropic-ai/claude-code",
     desc: "Installation globale via npm (nécessite Node.js installé au préalable).",
-    tags: ["claude", "install", "npm"]
+    tags: ["claude", "install", "npm"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
   },
   {
     category: "Claude Code",
@@ -1584,7 +1601,8 @@ const COMMANDS = [
     title: "Mettre à jour",
     cmd: "claude update",
     desc: "Met à jour Claude Code vers la dernière version disponible.",
-    tags: ["claude", "update"]
+    tags: ["claude", "update"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
   },
   {
     category: "Claude Code",
@@ -1592,7 +1610,8 @@ const COMMANDS = [
     title: "Voir la version installée",
     cmd: "claude --version",
     desc: "Affiche la version actuellement installée.",
-    tags: ["claude", "version"]
+    tags: ["claude", "version"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
   },
   {
     category: "Claude Code",
@@ -1600,6 +1619,25 @@ const COMMANDS = [
     title: "Diagnostiquer l'installation",
     cmd: "claude doctor",
     desc: "Vérifie que l'installation est saine (dépendances, PATH, configuration) et signale ce qui cloche.",
-    tags: ["claude", "doctor", "diagnostic"]
+    tags: ["claude", "doctor", "diagnostic"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Relancer une tâche à intervalle régulier",
+    cmd: "/loop 5m /ta-commande",
+    desc: "Relance un prompt ou une commande à intervalle régulier (ici toutes les 5 minutes) jusqu'à l'arrêt de la boucle. Omettre l'intervalle laisse Claude choisir lui-même le rythme.",
+    tags: ["claude", "loop", "boucle", "intervalle", "automatisation"],
+    related: "Claude Code::Les loops : relancer une tâche automatiquement"
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Invoquer une commande personnalisée",
+    cmd: "/nom-de-ta-commande",
+    desc: "Rejoue le prompt enregistré dans .claude/commands/nom-de-ta-commande.md (ou ~/.claude/commands/ pour un usage personnel).",
+    tags: ["claude", "commande personnalisée", "prompt", "réutilisable"],
+    related: "Claude Code::Les prompts réutilisables : commandes personnalisées"
   }
 ];
