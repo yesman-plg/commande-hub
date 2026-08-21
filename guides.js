@@ -4168,6 +4168,58 @@ const GUIDES = [
       }
     ]
   },
+  {
+    category: "Skills & Agents",
+    subcategory: "Skills",
+    title: "anthropics/skills : le catalogue officiel à explorer",
+    summary: "Le dépôt central derrière les packs document-skills et example-skills — utile aussi comme référence pour comprendre le format d'un skill.",
+    content: [
+      {
+        heading: "Ce que c'est",
+        text: "Le dépôt officiel Anthropic qui héberge tous les skills de démonstration et documentaires, dont ceux déjà couverts ici ([[Skills & Agents::document-skills : créer et modifier des documents Office]] et [[Skills & Agents::example-skills : le pack d'exemples officiel]]) — mais aussi la spécification du format Agent Skills et un template pour en créer un nouveau."
+      },
+      {
+        heading: "Explorer avant d'installer",
+        text: "Chaque skill vit dans son propre dossier avec un fichier SKILL.md — parcourir le dépôt permet de voir exactement ce qu'un skill contient avant de l'installer, ou de s'en inspirer pour créer le sien avec [[Skills & Agents::skill-creator : créer ses propres skills]]."
+      },
+      {
+        heading: "Comment l'installer",
+        text: "`/plugin marketplace add anthropics/skills` rend le dépôt disponible, puis `/plugin install document-skills@anthropic-agent-skills` ou `/plugin install example-skills@anthropic-agent-skills` installent l'un des deux packs qu'il propose."
+      },
+      {
+        heading: "Le dépôt",
+        text: "[anthropics/skills](https://github.com/anthropics/skills)"
+      }
+    ]
+  },
+  {
+    category: "Skills & Agents",
+    subcategory: "Agents",
+    title: "claude-mem : une mémoire persistante entre les sessions",
+    summary: "Compresse et retrouve le contexte des sessions précédentes automatiquement, pour ne pas repartir de zéro à chaque nouvelle conversation.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Une session Claude Code reste isolée — tout le contexte disparaît une fois la session terminée. claude-mem maintient une base de connaissances consultable de l'historique du projet, pour retrouver le fil sans tout réexpliquer, voir [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]] pour les mécanismes natifs déjà existants."
+      },
+      {
+        heading: "Comment ça marche",
+        text: "Capture automatiquement les observations d'usage des outils, génère des résumés, puis les retrouve dans les sessions suivantes via des outils MCP qui interrogent une base locale — une approche par \"divulgation progressive\" qui limite la quantité de contexte rechargée d'un coup."
+      },
+      {
+        heading: "Comment l'installer",
+        text: "`npx claude-mem install` (méthode principale), ou via le système de plugins : `/plugin marketplace add thedotmack/claude-mem` puis `/plugin install claude-mem`. Un redémarrage de Claude Code active le tout."
+      },
+      {
+        heading: "Un projet communautaire, pas officiel",
+        text: "Comme graphify, claude-mem est maintenu par un développeur indépendant, pas par Anthropic — à garder en tête avant de l'utiliser sur un projet sensible, voir [[Skills & Agents::graphify : transformer des fichiers en graphe de connaissances]] pour la même remarque."
+      },
+      {
+        heading: "Le dépôt",
+        text: "[thedotmack/claude-mem](https://github.com/thedotmack/claude-mem)"
+      }
+    ]
+  },
 
   // --- FAQ : questions fréquentes ---------------------------------------
   {

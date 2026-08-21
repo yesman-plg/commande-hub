@@ -4242,6 +4242,56 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "Skills & Agents|anthropics/skills : le catalogue officiel à explorer": {
+    "subcategory": "Skills",
+    "title": "anthropics/skills: the official catalog to explore",
+    "summary": "The central repository behind the document-skills and example-skills packs — also handy as a reference for understanding a skill's format.",
+    "content": [
+      {
+        "heading": "What it is",
+        "text": "The official Anthropic repository hosting all the demo and documentation skills, including the ones already covered here ([[Skills & Agents::document-skills : créer et modifier des documents Office]] and [[Skills & Agents::example-skills : le pack d'exemples officiel]]) — but also the Agent Skills format specification and a template for creating a new one."
+      },
+      {
+        "heading": "Exploring before installing",
+        "text": "Each skill lives in its own folder with a SKILL.md file — browsing the repo lets you see exactly what a skill contains before installing it, or use it as inspiration to build your own with [[Skills & Agents::skill-creator : créer ses propres skills]]."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/skills` makes the repository available, then `/plugin install document-skills@anthropic-agent-skills` or `/plugin install example-skills@anthropic-agent-skills` install one of the two packs it offers."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/skills](https://github.com/anthropics/skills)"
+      }
+    ]
+  },
+  "Skills & Agents|claude-mem : une mémoire persistante entre les sessions": {
+    "subcategory": "Agents",
+    "title": "claude-mem: persistent memory across sessions",
+    "summary": "Automatically compresses and retrieves context from previous sessions, so you don't start from scratch in every new conversation.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "A Claude Code session stays isolated — all context disappears once the session ends. claude-mem maintains a searchable knowledge base of the project's history, to pick up the thread without re-explaining everything, see [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]] for the native mechanisms that already exist."
+      },
+      {
+        "heading": "How it works",
+        "text": "Automatically captures tool-usage observations, generates summaries, then retrieves them in future sessions through MCP tools that query a local database — a \"progressive disclosure\" approach that limits how much context gets reloaded at once."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`npx claude-mem install` (main method), or through the plugin system: `/plugin marketplace add thedotmack/claude-mem` then `/plugin install claude-mem`. Restarting Claude Code activates it."
+      },
+      {
+        "heading": "A community project, not official",
+        "text": "Like graphify, claude-mem is maintained by an independent developer, not Anthropic — worth keeping in mind before using it on a sensitive project, see [[Skills & Agents::graphify : transformer des fichiers en graphe de connaissances]] for the same note."
+      },
+      {
+        "heading": "The repository",
+        "text": "[thedotmack/claude-mem](https://github.com/thedotmack/claude-mem)"
+      }
+    ]
+  },
   "Cursor|Installer Cursor sur Windows ou Linux": {
     "title": "Installing Cursor on Windows or Linux",
     "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",
