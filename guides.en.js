@@ -468,6 +468,78 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "Programmation|Regex : reconnaître un motif dans du texte": {
+    "title": "Regex: recognizing a pattern in text",
+    "summary": "A mini-language for describing a text pattern rather than an exact string — essential for validating or extracting data.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Searching for an EXACT text is easy with a classic search — but validating \"does this look like an email\" or extracting every phone number from a text requires describing a PATTERN, not a precise string."
+      },
+      {
+        "heading": "The basic building blocks",
+        "text": ". (any character), * (zero or more times), + (one or more), ? (zero or one time), [abc] (one of the listed characters), \\d (a digit) — combined, they describe increasingly precise patterns."
+      },
+      {
+        "heading": "A concrete example",
+        "text": "^\\d{2}/\\d{2}/\\d{4}$ describes a date in DD/MM/YYYY format: exactly 2 digits, a /, 2 digits, a /, 4 digits, from the start (^) to the end ($) of the string."
+      },
+      {
+        "heading": "Testing before using in production",
+        "text": "A poorly written regex can match more or less than intended — testing it against several examples (both valid AND invalid) before trusting it, with an online testing tool for instance, avoids bad surprises."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to validate that a string contains exactly 4 digits, no more, no less. Which pattern do you use?",
+        "options": [
+          "^\\d{4}$",
+          "\\d+",
+          "[0-9]",
+          "d4"
+        ],
+        "correctIndex": 0,
+        "correction": "^\\d{4}$ anchors the pattern to the start and end of the string (^ and $) and requires exactly 4 digits ({4}) — \\d+ would accept any number of digits, not necessarily 4."
+      }
+    ]
+  },
+  "Programmation|Gérer les erreurs : try/catch et ne pas les ignorer": {
+    "title": "Handling errors: try/catch and not ignoring them",
+    "summary": "An unhandled error crashes the program — try/catch lets you react instead of letting everything stop.",
+    "content": [
+      {
+        "heading": "The problem",
+        "text": "An operation that can fail (a missing file, a network request that times out) crashes the whole program if the error isn't explicitly handled."
+      },
+      {
+        "heading": "try/catch, intercepting the error",
+        "text": "Code inside try runs normally; if an error occurs, execution jumps straight into catch instead of crashing the program — see [[Programmation::Async/await & Promises en JavaScript]] for using it with asynchronous code."
+      },
+      {
+        "heading": "Not catching an error just to ignore it",
+        "text": "An empty catch (that does nothing) hides the problem instead of solving it — at the very least, logging the error so you know it happened, even if the program keeps going."
+      },
+      {
+        "heading": "finally, what always runs",
+        "text": "The finally block runs whether the operation succeeded or failed — useful for cleanup that must always happen (closing a file, a connection)."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "An empty catch that does nothing when an error occurs. What's the problem?",
+        "options": [
+          "The error is silently hidden, with no way to know it happened",
+          "The program crashes anyway",
+          "It's the recommended best practice",
+          "It has no effect, positive or negative"
+        ],
+        "correctIndex": 0,
+        "correction": "An empty catch prevents the crash, but also hides the problem — with no log or trace, there's no way to know an error occurred, which makes debugging harder later on."
+      }
+    ]
+  },
   "Git|Git, à quoi ça sert vraiment ?": {
     "title": "What is Git actually for?",
     "summary": "Understand the concept before the commands: Git keeps a history of every version of your code, first and foremost locally.",
@@ -1491,6 +1563,112 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "Linux|Trouver ce qui prend de la place sur le disque": {
+    "title": "Finding what's taking up disk space",
+    "summary": "df and du answer two different questions — how much is left on the disk overall, and how much does THIS folder take up specifically.",
+    "content": [
+      {
+        "heading": "df: space at the whole-disk level",
+        "text": "`df -h` shows the used and free space of each mounted partition — the big picture, not folder-by-folder detail."
+      },
+      {
+        "heading": "du: the space used by a specific folder",
+        "text": "`du -sh folder-name` shows a single folder's total size — handy for finding out what's taking up the space, once df has shown a disk is nearly full."
+      },
+      {
+        "heading": "Finding the biggest culprit",
+        "text": "du -sh */ | sort -rh | head sorts the current folder's subfolders by decreasing size — one of the most useful reflexes for freeing up space quickly."
+      },
+      {
+        "heading": "A symlink doesn't count the target's size",
+        "text": "A symbolic link pointing to a large file elsewhere barely takes up space itself — du can give a misleading impression that a folder is bigger than it really is if many links point into it."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "Show the used and free disk space of each partition, in a readable format (GB rather than raw blocks).",
+        "terminal": {
+          "prompt": "user@mint:~$",
+          "steps": [
+            { "expect": ["df -h"], "output": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        50G   32G   16G  67% /" }
+          ]
+        },
+        "correction": "df -h shows each mounted partition's space in readable units (GB/MB) rather than raw blocks — the -h stands for \"human-readable\"."
+      }
+    ]
+  },
+  "Linux|Archiver et compresser : tar vs zip": {
+    "title": "Archiving and compressing: tar vs zip",
+    "summary": "Two different formats for two different uses — tar.gz stays the Linux standard, zip for interoperability with Windows/Mac.",
+    "content": [
+      {
+        "heading": "tar.gz: the Linux standard",
+        "text": "tar czf archive.tar.gz folder/ creates a compressed archive — czf breaks down into Create, Compress (gZip), to a File. tar xzf archive.tar.gz does the reverse (eXtract)."
+      },
+      {
+        "heading": "zip: for interoperability",
+        "text": "zip -r archive.zip folder/ creates a .zip archive, a format natively understood by Windows and Mac with no extra tool — preferable when the archive needs sharing with someone on a different OS."
+      },
+      {
+        "heading": "What the letters in tar mean",
+        "text": "c (create), x (extract), t (list contents without extracting), z (via gzip), f (the filename follows) — combined in whichever order fits the wanted action."
+      },
+      {
+        "heading": "Checking before extracting",
+        "text": "`tar tzf archive.tar.gz` lists the contents without extracting anything — useful for checking what an archive contains before opening it, especially one from somewhere else."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "List the contents of archive.tar.gz without extracting it.",
+        "terminal": {
+          "prompt": "user@mint:~$",
+          "steps": [
+            { "expect": ["tar tzf archive.tar.gz"], "output": "dossier/\ndossier/fichier1.txt\ndossier/fichier2.txt" }
+          ]
+        },
+        "correction": "tar tzf lists a .tar.gz archive's contents without extracting a single file — a safe way to check what it contains before opening it for real."
+      }
+    ]
+  },
+  "Linux|Alias, historique, man : les raccourcis qu'on oublie": {
+    "title": "Aliases, history, man: the shortcuts people forget",
+    "summary": "Three simple reflexes that save time every day, once you know they exist.",
+    "content": [
+      {
+        "heading": "An alias, to shorten a long command",
+        "text": "alias ll='ls -la' creates a shortcut valid for the session — adding it to ~/.bashrc makes it permanent, see [[Bases du terminal::Variables d'environnement et PATH]] for the same principle of a file loaded every session."
+      },
+      {
+        "heading": "Searching history instead of retyping",
+        "text": "Ctrl+R then a few letters of an already-typed command finds it instantly in history — much faster than retyping it or scrolling up with the arrow keys."
+      },
+      {
+        "heading": "man, the documentation already installed",
+        "text": "`man command-name` shows a command's full manual, right in the terminal — often more reliable than a web search for a standard system command."
+      },
+      {
+        "heading": "Quitting man without panicking",
+        "text": "q closes the manual and returns to the terminal — the one shortcut truly worth knowing so you don't get stuck inside it."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You typed a complicated command 10 minutes ago and don't want to retype it entirely. What do you do?",
+        "options": [
+          "Ctrl+R then a few letters of the command",
+          "Retype it entirely from scratch",
+          "Restart the terminal",
+          "Search the internet"
+        ],
+        "correctIndex": 0,
+        "correction": "Ctrl+R launches a history search — typing a few letters is enough to find an already-used command, with no need to retype it in full."
+      }
+    ]
+  },
   "Docker|Docker, à quoi ça sert": {
     "title": "Docker, what it's for",
     "summary": "The 'it works on my machine' problem, and why a container is much lighter than a virtual machine.",
@@ -1578,6 +1756,112 @@ const GUIDE_TRANSLATIONS_EN = {
           ]
         },
         "correction": "up -d starts ALL the services described in the file in a single command, in the background (-d = detached), with a private network automatically created so they can talk to each other by name."
+      }
+    ]
+  },
+  "Docker|Dockerfile : la recette pour construire une image": {
+    "title": "Dockerfile: the recipe for building an image",
+    "summary": "A text file that describes, step by step, how to build an image — the recipe rather than the already-cooked dish.",
+    "content": [
+      {
+        "heading": "The principle",
+        "text": "A Dockerfile lists the steps for building an image: which base image to start from, which files to copy, which commands to run, which command to launch when the container starts."
+      },
+      {
+        "heading": "FROM, the starting point",
+        "text": "Every Dockerfile starts with FROM base-image:tag — rather than building everything from nothing, you usually start from an existing image already set up for a given language or use case (node, python, ubuntu…)."
+      },
+      {
+        "heading": "COPY and RUN, building on top",
+        "text": "COPY adds project files into the image; RUN runs a command while the image is being BUILT (installing dependencies, for example) — not to be confused with CMD, which defines what runs when the CONTAINER starts."
+      },
+      {
+        "heading": "Building the image from the Dockerfile",
+        "text": "`docker build -t my-app .` builds an image from the Dockerfile in the current folder."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "Build an image named my-app from the Dockerfile in the current folder.",
+        "terminal": {
+          "prompt": "user@mint:~/my-project$",
+          "steps": [
+            { "expect": ["docker build -t my-app ."], "output": "[+] Building 12.3s\n => [1/4] FROM node:20\n => [2/4] COPY . .\n => [3/4] RUN npm install\n => exporting to image\n => naming to docker.io/library/my-app" }
+          ]
+        },
+        "correction": "docker build -t my-app . builds an image named my-app from the current folder's Dockerfile (the trailing . is the build context)."
+      }
+    ]
+  },
+  "Docker|Les volumes : faire survivre les données à un conteneur": {
+    "title": "Volumes: making data outlive a container",
+    "summary": "A deleted container loses everything it holds — volumes keep data outside the container itself.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "By default, everything a container writes disappears along with it — for a database or uploaded files, that's not acceptable."
+      },
+      {
+        "heading": "A volume, a separate storage space",
+        "text": "docker run -v my-volume:/path/in/container ... mounts a named volume, managed by Docker, at a specific spot inside the container — the data survives even if the container is deleted and recreated."
+      },
+      {
+        "heading": "Bind mount: linking directly to a machine folder",
+        "text": "docker run -v /path/on/machine:/path/in/container ... directly links a real folder on the host machine, handy in development to see code changes without rebuilding the image."
+      },
+      {
+        "heading": "Listing and cleaning up volumes",
+        "text": "`docker volume ls` shows existing volumes; docker volume prune removes those no longer used by any container."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want a PostgreSQL database in a container to keep its data even if you delete and recreate the container. What do you do?",
+        "options": [
+          "Mount a Docker volume on the database's data folder",
+          "Nothing, data always stays by default",
+          "Never delete the container",
+          "Manually copy the files before every deletion"
+        ],
+        "correctIndex": 0,
+        "correction": "A volume mounted on the database's data folder keeps that data outside the container itself — it survives the container's deletion, unlike what's left inside the container by default."
+      }
+    ]
+  },
+  "Docker|Nettoyer : reprendre de la place disque": {
+    "title": "Cleaning up: reclaiming disk space",
+    "summary": "Images, stopped containers, and build caches pile up fast — a few commands to keep only what's useful.",
+    "content": [
+      {
+        "heading": "The problem",
+        "text": "Every build, every container run leaves traces — intermediate images, stopped containers, unused networks — that quietly pile up and take space."
+      },
+      {
+        "heading": "docker system prune, the big cleanup",
+        "text": "`docker system prune` removes everything no longer in use (stopped containers, orphaned networks, images with no associated container) — asks for confirmation before acting."
+      },
+      {
+        "heading": "Including volumes in the cleanup",
+        "text": "By default, prune leaves volumes alone (to avoid accidentally losing data) — docker system prune --volumes includes them too, to use knowingly."
+      },
+      {
+        "heading": "Checking usage before cleaning",
+        "text": "`docker system df` shows the space used by images, containers, and volumes — to know what's actually worth cleaning up before deleting everything blindly."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "Check how much disk space Docker is using before deciding what to clean up.",
+        "terminal": {
+          "prompt": "user@mint:~$",
+          "steps": [
+            { "expect": ["docker system df"], "output": "TYPE            TOTAL   ACTIVE   SIZE      RECLAIMABLE\nImages          12      3        4.2GB     3.1GB (73%)\nContainers      5       2        180MB     95MB (52%)\nVolumes         4       2        1.1GB     400MB (36%)" }
+          ]
+        },
+        "correction": "docker system df shows space used by category (images, containers, volumes) — a useful overview before running a blind cleanup."
       }
     ]
   },
