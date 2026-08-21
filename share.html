@@ -585,12 +585,6 @@
     border: 1px solid var(--border);
   }
   .next-step-btn:hover { opacity: .9; }
-  .no-exercises-note {
-    margin: 22px 0 0;
-    font-size: 13px;
-    color: var(--text-dim);
-    font-style: italic;
-  }
   .exercises-block {
     margin-top: 0;
   }
@@ -14181,7 +14175,6 @@ const GUIDE_TRANSLATIONS_EN = {
       stepTheory: "1. Théorie",
       stepExercises: "2. Exercices",
       goExercises: "Passer aux exercices →",
-      noExercisesNote: "Cette fiche est théorique — pas d'exercice pratique associé.",
       backToTheory: "← Retour à la théorie",
       seeCorrection: "Voir la correction",
       terminalPlaceholder: "tape une commande…",
@@ -14223,7 +14216,6 @@ const GUIDE_TRANSLATIONS_EN = {
       stepTheory: "1. Theory",
       stepExercises: "2. Exercises",
       goExercises: "Go to exercises →",
-      noExercisesNote: "This guide is theory-only — no practice exercise attached.",
       backToTheory: "← Back to theory",
       seeCorrection: "See the answer",
       terminalPlaceholder: "type a command…",
@@ -14783,9 +14775,9 @@ const GUIDE_TRANSLATIONS_EN = {
           <h4>${escapeHtml(s.heading)}</h4>
           <p>${renderGuideParagraph(s.text)}</p>
         </div>`).join("");
-      html += hasExercises
-        ? `<button class="next-step-btn" data-action="go-exercises">${t("goExercises")}</button>`
-        : `<p class="no-exercises-note">${t("noExercisesNote")}</p>`;
+      if (hasExercises) {
+        html += `<button class="next-step-btn" data-action="go-exercises">${t("goExercises")}</button>`;
+      }
     } else {
       TERMINAL_REGISTRY = {};
       QUIZ_REGISTRY = {};
