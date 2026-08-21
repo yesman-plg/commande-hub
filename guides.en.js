@@ -39,20 +39,6 @@ const GUIDE_TRANSLATIONS_EN = {
         "heading": "Once open, how to tell it's working",
         "text": "A dark window with text and a blinking cursor appears, ready to receive a command — it's normal for nothing to happen until a command has been typed and confirmed with Enter."
       }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You're on Windows and want to open a terminal for the first time, with no idea where to look. What do you do?",
-        "options": [
-          "Search for \"PowerShell\" or \"Terminal\" in the Start menu",
-          "Click the recycle bin icon",
-          "It's only possible by reinstalling Windows",
-          "Open Word"
-        ],
-        "correctIndex": 0,
-        "correction": "Typing \"PowerShell\" or \"Terminal\" into the Start menu search brings up the app to launch — the Win+X shortcut also offers direct access with nothing to type."
-      }
     ]
   },
   "Bases du terminal|Comment lire une commande": {
@@ -501,25 +487,6 @@ const GUIDE_TRANSLATIONS_EN = {
       {
         "heading": "Why commit often, even without pushing",
         "text": "Since committing is local and costs nothing, don't hesitate to commit often: it gives you fine-grained restore points to go back to. A common practice: committing several times throughout the afternoon as you work, and only pushing once at the end of the day, once everything is stable and tested."
-      }
-    ],
-    "exercises": [
-      {
-        "type": "terminal",
-        "instruction": "In the terminal below, initialize a brand new Git repository in the current folder.",
-        "hint": "The command starts with git init",
-        "terminal": {
-          "prompt": "user@mint:~/my-project$",
-          "steps": [
-            {
-              "expect": [
-                "git init"
-              ],
-              "output": "Initialized empty Git repository in /home/user/my-project/.git/"
-            }
-          ]
-        },
-        "correction": "git init\n\nCreates a hidden .git/ folder in the current folder: THIS is what will store the entire history of commits to come, purely locally. Nothing gets sent anywhere — it's a 100% local operation, as seen in the theory."
       }
     ]
   },
@@ -1540,20 +1507,6 @@ const GUIDE_TRANSLATIONS_EN = {
         "heading": "Container ≠ virtual machine",
         "text": "Unlike a virtual machine, which simulates an entire computer (with its own kernel, very heavy and slow to start), a container SHARES the host machine's Linux kernel. Result: much lighter, and a startup time measured in seconds rather than minutes."
       }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "A colleague tells you \"it works on my machine but not on the server\". How could Docker have prevented this problem?",
-        "options": [
-          "By simply being faster than regular code",
-          "By replacing the server",
-          "Docker doesn't change anything about this kind of problem",
-          "By packaging the app AND its environment into one identical image everywhere"
-        ],
-        "correctIndex": 3,
-        "correction": "Docker packages the app with its ENTIRE environment (versions, dependencies, config) into an image — guaranteeing it runs identically on any machine that has Docker, with no possible divergence between \"your machine\" and the server."
-      }
     ]
   },
   "Docker|Image vs conteneur, la différence": {
@@ -1952,20 +1905,6 @@ const GUIDE_TRANSLATIONS_EN = {
         "heading": "It does nothing without your approval (by default)",
         "text": "By default, Claude Code asks for confirmation before every action that changes something (writing a file, running a command). You stay in control of what actually happens on your machine — see [[Claude Code::Les modes de permission : plan, auto-accept, manuel]] for the nuances."
       }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "What's the fundamental difference between claude.ai (the web chat) and Claude Code?",
-        "options": [
-          "Claude Code can read/write files and run commands directly in your project",
-          "Claude Code is simply a faster version of the chat",
-          "There's no difference, it's the same thing",
-          "Claude Code only works offline"
-        ],
-        "correctIndex": 0,
-        "correction": "The web chat replies to messages, with no access to your files. Claude Code runs in your terminal and can directly interact with your project (read, write, execute) — that's what makes it an agent rather than a simple chatbot."
-      }
     ]
   },
   "Claude Code|Sessions : continuer, reprendre, repartir de zéro": {
@@ -2251,20 +2190,6 @@ const GUIDE_TRANSLATIONS_EN = {
       {
         "heading": "Custom agents: for a recurring role",
         "text": "If the same specialty comes up regularly in your project (security review, style review, generating a status line), creating a dedicated agent via `/agents` avoids re-explaining its role every time — see [[Claude Code::Sous-agents : déléguer des tâches spécialisées]] for the general delegation principle."
-      }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You want to know where authentication logic lives in a project you're discovering, without risking a file being modified by mistake. Which type of agent fits best?",
-        "options": [
-          "A read-only exploration agent",
-          "An agent with access to every tool, including writing files",
-          "--dangerously-skip-permissions",
-          "No agent, you should always do it all yourself"
-        ],
-        "correctIndex": 0,
-        "correction": "A read-only exploration agent can search and read broadly through the code with zero risk of modification — ideal for a question whose answer is \"where / how\", with no action to perform afterward."
       }
     ]
   },
@@ -2579,20 +2504,6 @@ const GUIDE_TRANSLATIONS_EN = {
       {
         "heading": "Staying up to date",
         "text": "`claude update` fetches the latest available version — useful to benefit from new features and fixes over time."
-      }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You just installed Claude Code but the claude command doesn't launch correctly. How do you find out what's wrong?",
-        "options": [
-          "claude doctor",
-          "claude --version",
-          "Reinstall with npm install -g @anthropic-ai/claude-code without investigating the cause",
-          "Restart the computer without checking anything"
-        ],
-        "correctIndex": 0,
-        "correction": "claude doctor checks dependencies, PATH, and configuration, and pinpoints exactly what's wrong — more effective than a blind reinstall or a plain restart."
       }
     ]
   },
@@ -3164,20 +3075,6 @@ const GUIDE_TRANSLATIONS_EN = {
         "heading": "No need to pick a side",
         "text": "Both tools can coexist on the same machine, including on the same project — nothing stops you from using one for a task and the other for a different one, whichever fits best at the time."
       }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You already know Claude Code and want to quickly understand Codex. Which statement is correct?",
-        "options": [
-          "Both rely on the same command-line coding agent principle, each with its own vocabulary and settings",
-          "Codex only works in a graphical interface, never in a terminal",
-          "Claude Code has to be uninstalled to use Codex",
-          "Both tools are strictly identical, only the name changes"
-        ],
-        "correctIndex": 0,
-        "correction": "Codex and Claude Code share the same command-line coding agent principle (read, modify, run in the terminal) — but each has its own vocabulary and its own precise settings."
-      }
     ]
   },
   "Codex|Installer et se connecter à Codex": {
@@ -3203,20 +3100,6 @@ const GUIDE_TRANSLATIONS_EN = {
       {
         "heading": "Checking and revoking access",
         "text": "`codex login status` confirms whether Codex is properly authenticated; `codex logout` removes locally stored credentials, for example before lending the machine to someone."
-      }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You want to use Codex inside an automated script on a server, with no graphical interface ever opened. Which login method do you choose?",
-        "options": [
-          "codex login --with-api-key, with an OpenAI API key",
-          "codex login, signing in with a ChatGPT account on every run",
-          "It's not possible to use Codex on a server",
-          "codex logout"
-        ],
-        "correctIndex": 0,
-        "correction": "codex login --with-api-key authenticates directly with an API key, with no ChatGPT account or graphical interface involved — the right fit for a server or automated script."
       }
     ]
   },
@@ -3455,20 +3338,6 @@ const GUIDE_TRANSLATIONS_EN = {
       {
         "heading": "Almost everything goes through a shortcut",
         "text": "VS Code is designed to be used from the keyboard — most actions have a shortcut, and the ones that don't stay reachable through the command palette."
-      }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You want project-wide search and settings specific to this folder. What should you do when opening VS Code?",
-        "options": [
-          "Open the project FOLDER (not just a single file)",
-          "Open only the main file",
-          "Install every available extension",
-          "It's not possible, VS Code only handles one file at a time"
-        ],
-        "correctIndex": 0,
-        "correction": "Opening the project folder (rather than a single file) gives access to the explorer, project-wide search, and settings specific to that folder (workspace)."
       }
     ]
   },
@@ -3784,20 +3653,6 @@ const GUIDE_TRANSLATIONS_EN = {
         "heading": "Checking the install worked",
         "text": "`code --version` shows the installed version — typed in the same terminal, a quick check whichever install method was chosen (including after the graphical installer)."
       }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You're on Ubuntu and want VS Code to update itself without thinking about it. Which install method do you choose?",
-        "options": [
-          "sudo snap install --classic code",
-          "Download a .deb and never update it again",
-          "It's not possible to get automatic updates on Linux",
-          "Compile VS Code from source"
-        ],
-        "correctIndex": 0,
-        "correction": "The Snap package updates itself automatically in the background — the simplest method on Ubuntu/Debian to not have to think about it."
-      }
     ]
   },
   "Cursor|Cursor, à quoi ça sert et en quoi il diffère de VS Code": {
@@ -3819,20 +3674,6 @@ const GUIDE_TRANSLATIONS_EN = {
       {
         "heading": "Not a full replacement for VS Code + extension",
         "text": "Both approaches remain valid: Cursor for an AI experience designed into the editor from the start, or VS Code/Cursor + the Claude Code extension to use Claude Code specifically from a VS Code-based editor, see [[Claude Code::Installer l'extension dans VS Code ou Cursor]]."
-      }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "What's the fundamental difference between Cursor and VS Code + the Claude Code extension?",
-        "options": [
-          "Cursor builds AI natively into the editor; the extension connects an external tool (Claude Code) to VS Code",
-          "Cursor has no relation to VS Code",
-          "There's no difference, they're the same tools",
-          "The Claude Code extension only works on Cursor"
-        ],
-        "correctIndex": 0,
-        "correction": "Cursor builds AI directly into the editor's core, while the Claude Code extension connects an external tool (running in the terminal) to VS Code — two different approaches to the same goal."
       }
     ]
   },
@@ -4072,20 +3913,6 @@ const GUIDE_TRANSLATIONS_EN = {
         "heading": "Nothing stops you from combining all three",
         "text": "Nothing forces picking a single tool forever — using Cursor for everyday editing and Claude Code or Codex for a scripted task remains entirely possible, each with its strengths depending on the context."
       }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You work almost exclusively in a graphical editor and want AI built in directly, with no external tool to connect. Which choice is most natural?",
-        "options": [
-          "Cursor",
-          "A forced combination of all three at once",
-          "None of the three fits this case",
-          "A custom shell script"
-        ],
-        "correctIndex": 0,
-        "correction": "Cursor builds AI natively into the editor — the most direct choice for someone working mostly in a graphical interface who doesn't want to connect an external tool."
-      }
     ]
   },
   "Cursor|Installer Cursor sur Windows ou Linux": {
@@ -4107,20 +3934,6 @@ const GUIDE_TRANSLATIONS_EN = {
       {
         "heading": "Checking everything is in place",
         "text": "`cursor-agent --version` confirms the CLI agent is properly installed and reachable, independently of the graphical editor."
-      }
-    ],
-    "exercises": [
-      {
-        "type": "quiz",
-        "instruction": "You installed the Cursor editor on Linux, but also want to use the command-line agent in a script. Is having the editor installed enough?",
-        "options": [
-          "No, cursor-agent installs separately via its own install script",
-          "Yes, the CLI agent is automatically bundled with the editor",
-          "No, that's only possible on Windows",
-          "No, cursor-agent has to be compiled by hand"
-        ],
-        "correctIndex": 0,
-        "correction": "The graphical editor and cursor-agent are two separate installs — installing one doesn't automatically install the other."
       }
     ]
   }
