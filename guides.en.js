@@ -3099,5 +3099,293 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser allows local scripts (while requiring a signature for downloaded ones), and -Scope CurrentUser limits the change to your account alone."
       }
     ]
+  },
+  "Programmation|Codex, à quoi ça sert et en quoi il diffère de Claude Code": {
+    "title": "Codex: what it's for and how it differs from Claude Code",
+    "summary": "OpenAI's command-line coding agent — the same idea as Claude Code, with its own settings and its own vocabulary.",
+    "content": [
+      {
+        "heading": "The same principle as Claude Code",
+        "text": "Like Claude Code, Codex runs in the terminal, directly reads and modifies the project's files, runs commands, and can chain several actions to accomplish a task — see [[Claude Code::Claude Code, à quoi ça sert vraiment ?]] for the general principle of a coding agent."
+      },
+      {
+        "heading": "Built by OpenAI, not Anthropic",
+        "text": "Codex uses OpenAI's models (GPT) rather than Claude — the choice between the two often comes down to which model you prefer, or which subscription you already have (ChatGPT vs Claude)."
+      },
+      {
+        "heading": "A close but not identical vocabulary",
+        "text": "Where Claude Code has permission modes and a CLAUDE.md, Codex has sandbox/approval policies and an AGENTS.md — the concepts overlap a lot, but the exact names and settings differ."
+      },
+      {
+        "heading": "No need to pick a side",
+        "text": "Both tools can coexist on the same machine, including on the same project — nothing stops you from using one for a task and the other for a different one, whichever fits best at the time."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You already know Claude Code and want to quickly understand Codex. Which statement is correct?",
+        "options": [
+          "Both rely on the same command-line coding agent principle, each with its own vocabulary and settings",
+          "Codex only works in a graphical interface, never in a terminal",
+          "Claude Code has to be uninstalled to use Codex",
+          "Both tools are strictly identical, only the name changes"
+        ],
+        "correctIndex": 0,
+        "correction": "Codex and Claude Code share the same command-line coding agent principle (read, modify, run in the terminal) — but each has its own vocabulary and its own precise settings."
+      }
+    ]
+  },
+  "Programmation|Installer et se connecter à Codex": {
+    "title": "Installing and logging in to Codex",
+    "summary": "Three ways to install Codex CLI, and two ways to authenticate depending on what you already have (a ChatGPT account or an API key).",
+    "content": [
+      {
+        "heading": "Three ways to install",
+        "text": "The official script (curl -fsSL https://chatgpt.com/codex/install.sh | sh) on macOS/Linux, npm install -g @openai/codex cross-platform, or brew install --cask codex on macOS — see [[Bases du terminal::Comprendre les gestionnaires de paquets]] for the general principle behind npm/Homebrew."
+      },
+      {
+        "heading": "Logging in with ChatGPT",
+        "text": "codex login offers to sign in with a ChatGPT account — the simplest way if a ChatGPT subscription already exists."
+      },
+      {
+        "heading": "Logging in with an API key",
+        "text": "codex login --with-api-key authenticates with an OpenAI API key instead of a ChatGPT account — useful for scripted/server use with no graphical interface."
+      },
+      {
+        "heading": "Checking and revoking access",
+        "text": "codex login status confirms whether Codex is properly authenticated; codex logout removes locally stored credentials, for example before lending the machine to someone."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to use Codex inside an automated script on a server, with no graphical interface ever opened. Which login method do you choose?",
+        "options": [
+          "codex login --with-api-key, with an OpenAI API key",
+          "codex login, signing in with a ChatGPT account on every run",
+          "It's not possible to use Codex on a server",
+          "codex logout"
+        ],
+        "correctIndex": 0,
+        "correction": "codex login --with-api-key authenticates directly with an API key, with no ChatGPT account or graphical interface involved — the right fit for a server or automated script."
+      }
+    ]
+  },
+  "Programmation|Premiers pas avec Codex : session interactive et exécution one-shot": {
+    "title": "First steps with Codex: interactive session and one-shot execution",
+    "summary": "codex for a session that lasts, codex exec for a one-off task that answers then hands back control.",
+    "content": [
+      {
+        "heading": "codex, the interactive session",
+        "text": "Typed on its own in the project's folder, the codex command opens an interactive session — the same principle as claude for Claude Code, see [[Claude Code::Utiliser Claude Code dans un terminal : les premiers pas]]."
+      },
+      {
+        "heading": "codex exec, for a one-off task",
+        "text": "codex exec \"summarize recent changes\" runs a single task, shows the result, then quits — with no session left open to manage."
+      },
+      {
+        "heading": "Why prefer one over the other",
+        "text": "An interactive session fits a task that needs back-and-forth (clarifying, fixing, iterating). codex exec fits a task that's well-defined ahead of time, especially in a script or automation."
+      },
+      {
+        "heading": "Combining with other commands",
+        "text": "codex exec's output can be redirected to a file or another command (codex exec \"...\" | tee result.md) just like any classic shell command."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to run a Codex task inside an unsupervised script, with no session left open afterward. Which command do you use?",
+        "options": [
+          "codex exec \"task\"",
+          "codex, then close the window manually",
+          "codex login",
+          "codex resume"
+        ],
+        "correctIndex": 0,
+        "correction": "codex exec runs a single task and hands back control as soon as it's done, with no interactive session left open — the right mode for an unsupervised script."
+      }
+    ]
+  },
+  "Programmation|Sandbox et approbations : le système de permissions de Codex": {
+    "title": "Sandbox and approvals: Codex's permission system",
+    "summary": "Two combined settings define what Codex can do on its own, and when it has to ask for confirmation.",
+    "content": [
+      {
+        "heading": "The sandbox: what Codex is allowed to TOUCH",
+        "text": "--sandbox defines filesystem access: read-only, workspace-write (can write inside the working folder), or danger-full-access (full access to the machine) — see [[Claude Code::Les modes de permission : plan, auto-accept, manuel]] for the equivalent on the Claude Code side."
+      },
+      {
+        "heading": "Approval: when Codex MUST ask",
+        "text": "--ask-for-approval defines when Codex pauses its work to ask for confirmation: untrusted (almost everything), on-request (only truly risky actions), or never (never)."
+      },
+      {
+        "heading": "Combining them for supervised automation",
+        "text": "codex --sandbox workspace-write --ask-for-approval on-request \"task\" lets Codex work on its own inside the project, while keeping a safety net on the most sensitive actions."
+      },
+      {
+        "heading": "--yolo, the no-safety-net mode",
+        "text": "--dangerously-bypass-approvals-and-sandbox (alias --yolo) disables everything — sandbox AND confirmations. Reserved for an isolated, disposable environment (container, CI), never on a machine with important data."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want Codex to work on your project on its own, but ask for confirmation before a truly risky action. Which settings do you use?",
+        "options": [
+          "--sandbox workspace-write --ask-for-approval on-request",
+          "--dangerously-bypass-approvals-and-sandbox",
+          "--sandbox read-only --ask-for-approval never",
+          "No such setting exists"
+        ],
+        "correctIndex": 0,
+        "correction": "workspace-write allows writing inside the project, and on-request only asks for confirmation on truly risky actions — the typical combination for supervised automation."
+      }
+    ]
+  },
+  "Programmation|AGENTS.md : donner du contexte permanent à Codex": {
+    "title": "AGENTS.md: giving Codex permanent context",
+    "summary": "The Codex-side equivalent of CLAUDE.md — with a more developed layering system (global, project, subfolders).",
+    "content": [
+      {
+        "heading": "The same problem CLAUDE.md solves",
+        "text": "Without this file, the project's context (conventions, pitfalls, useful commands) would need re-explaining every session — AGENTS.md removes that repetition, read automatically before starting, see [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]]."
+      },
+      {
+        "heading": "Three levels, from most general to most precise",
+        "text": "An AGENTS.md inside ~/.codex/ applies to EVERY project; an AGENTS.md at the repo root applies to THIS project; an AGENTS.md inside a subfolder narrows it further for that part of the project."
+      },
+      {
+        "heading": "Files stack, they don't exclude each other",
+        "text": "Codex reads every relevant AGENTS.md (from most general to closest to the current folder) and combines them — instructions closest to the working folder take precedence in case of contradiction."
+      },
+      {
+        "heading": "AGENTS.override.md for a one-off exception",
+        "text": "Inside a specific subfolder, AGENTS.override.md lets you temporarily short-circuit broader instructions, without modifying them at the source."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You have an AGENTS.md at your project's root, and want a different rule just for the legacy/ folder. How do you do that without touching the root file?",
+        "options": [
+          "Add an AGENTS.md (or AGENTS.override.md) inside the legacy/ folder",
+          "It's not possible, only one AGENTS.md per project",
+          "Rename the root file",
+          "Delete AGENTS.md entirely"
+        ],
+        "correctIndex": 0,
+        "correction": "AGENTS.md can exist at several levels (global, root, subfolders) and stacks — an AGENTS.md inside legacy/ narrows or overrides the root's instructions for that one subfolder only."
+      }
+    ]
+  },
+  "Programmation|Reprendre, brancher, réviser : gérer ses sessions Codex": {
+    "title": "Resuming, forking, reviewing: managing Codex sessions",
+    "summary": "resume to continue, fork to explore an idea without losing the original, review for a targeted read-through.",
+    "content": [
+      {
+        "heading": "codex resume: picking up a past session",
+        "text": "Shows a picker of the current folder's previous sessions to resume a specific one — see [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]] for the same need on the Claude Code side."
+      },
+      {
+        "heading": "codex exec resume --last: resuming with no interface",
+        "text": "In non-interactive mode, --last resumes the most recent session directly with a new instruction, with no picker involved."
+      },
+      {
+        "heading": "codex fork: exploring without losing the original",
+        "text": "Creates a new conversation that starts from the current history, but in a separate branch — useful for testing a risky idea without altering the starting session if it doesn't pan out."
+      },
+      {
+        "heading": "codex review: a targeted read-through",
+        "text": "Launches Codex in code review mode on the current changes, rather than regular development mode — a different use of the same agentic base."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to try a risky approach on your current session, without losing the ability to go back to the current version if it doesn't work out. What do you do?",
+        "options": [
+          "codex fork, to explore in a separate branch of the conversation",
+          "codex resume --last",
+          "codex logout then codex login",
+          "Nothing, just take the risk directly in the current session"
+        ],
+        "correctIndex": 0,
+        "correction": "codex fork creates a new conversation from the current history, in a separate branch — the original session stays intact if the attempt doesn't lead anywhere good."
+      }
+    ]
+  },
+  "Programmation|Automatiser avec Codex : exec, JSON, scripts": {
+    "title": "Automating with Codex: exec, JSON, scripts",
+    "summary": "codex exec becomes truly useful combined with structured, redirected output — the basis of reliable automation.",
+    "content": [
+      {
+        "heading": "--json: output built to be read by a program",
+        "text": "Streams the response as JSON Lines instead of human-oriented text — essential as soon as another program needs to consume the result rather than just display it."
+      },
+      {
+        "heading": "-o / --output-last-message: isolating the final result",
+        "text": "Writes only the final message to a file, without the noise of intermediate steps — handy for grabbing just what matters in a pipeline."
+      },
+      {
+        "heading": "Chaining with other shell commands",
+        "text": "codex exec \"...\" | tee result.md or curl ... | codex exec \"...\" work like any classic Unix command in a pipeline — Codex fits in with no special handling."
+      },
+      {
+        "heading": "--skip-git-repo-check to run outside a Git repo",
+        "text": "By default, some checks assume a Git repository is present. This flag lets Codex run even outside a repo — useful for a generic script that doesn't always run inside a versioned project."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want another program to reliably grab Codex's response, without having to parse free-form text meant for a human. Which option do you use?",
+        "options": [
+          "--json, for JSON Lines output",
+          "-i, to attach an image",
+          "--oss, for a local model",
+          "--yolo"
+        ],
+        "correctIndex": 0,
+        "correction": "--json streams the response as JSON Lines, a structured format built to be read by a program — far more reliable than parsing free-form text meant for a human."
+      }
+    ]
+  },
+  "Programmation|Configuration avancée de Codex : profils, modèles locaux, MCP": {
+    "title": "Advanced Codex configuration: profiles, local models, MCP",
+    "summary": "Beyond the basic settings: profiles to quickly switch context, local models, and external MCP servers.",
+    "content": [
+      {
+        "heading": "A profile, to avoid retyping the same options",
+        "text": "--profile name layers a predefined set of settings (model, sandbox, approval…) on top of the base config — handy for quickly switching between several work contexts without retyping every flag."
+      },
+      {
+        "heading": "Overriding a value with no file to edit",
+        "text": "-c model=\"gpt-5.1-codex\" changes a configuration value for a single run, without touching the config.toml file — useful for a one-off try."
+      },
+      {
+        "heading": "A local model instead of the OpenAI API",
+        "text": "--oss --local-provider ollama (or lmstudio) runs Codex with a locally hosted model instead of via the API — useful offline or to avoid sending code to an external service."
+      },
+      {
+        "heading": "codex mcp: connecting external tools",
+        "text": "Just like Claude Code, Codex can connect to MCP servers to interact with external services (databases, third-party APIs) beyond files and shell commands — see [[Claude Code::MCP : connecter Claude à d'autres outils]] for the general principle."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to use Codex with a model hosted locally via Ollama, instead of the online OpenAI API. Which option do you use?",
+        "options": [
+          "--oss --local-provider ollama",
+          "--profile ollama",
+          "-c model=\"ollama\"",
+          "It's not possible with Codex"
+        ],
+        "correctIndex": 0,
+        "correction": "--oss enables a locally hosted model, and --local-provider ollama specifies which of the two supported local providers to use (LM Studio or Ollama)."
+      }
+    ]
   }
 };
