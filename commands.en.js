@@ -1380,5 +1380,296 @@ const COMMAND_TRANSLATIONS_EN = {
       "interactive",
       "squash"
     ]
+  },
+  "Claude Code|Démarrage|Lancer une session interactive": {
+    "title": "Start an interactive session",
+    "desc": "Opens Claude Code's interactive REPL in the current folder.",
+    "tags": [
+      "claude",
+      "start",
+      "repl"
+    ]
+  },
+  "Claude Code|Démarrage|Démarrer avec un prompt initial": {
+    "title": "Start with an initial prompt",
+    "desc": "Launches the session directly with a first question/instruction, without having to retype it once started.",
+    "tags": [
+      "claude",
+      "start",
+      "prompt"
+    ]
+  },
+  "Claude Code|Démarrage|Réponse ponctuelle sans session interactive": {
+    "title": "One-off answer without an interactive session",
+    "desc": "'Print' mode: runs a query, shows the response, then exits — handy for scripting or automation (CI, hooks, etc.).",
+    "tags": [
+      "claude",
+      "print",
+      "script",
+      "automation"
+    ]
+  },
+  "Claude Code|Démarrage|Reprendre la dernière conversation": {
+    "title": "Continue the last conversation",
+    "desc": "Reloads the most recent session's context in this folder, without having to re-explain everything.",
+    "tags": [
+      "claude",
+      "continue",
+      "session"
+    ]
+  },
+  "Claude Code|Démarrage|Reprendre une session précise": {
+    "title": "Resume a specific session",
+    "desc": "Shows a picker of this folder's previous sessions. Add an id to resume a specific one directly: claude -r <id>",
+    "tags": [
+      "claude",
+      "resume",
+      "session"
+    ]
+  },
+  "Claude Code|Options CLI|Choisir un modèle": {
+    "title": "Choose a model",
+    "desc": "Forces the model used for this session (e.g. sonnet, opus, haiku).",
+    "tags": [
+      "claude",
+      "model",
+      "flag"
+    ]
+  },
+  "Claude Code|Options CLI|Démarrer en mode plan": {
+    "title": "Start in plan mode",
+    "desc": "Claude thinks through and proposes a plan before taking any action, without changing anything until the plan is approved.",
+    "tags": [
+      "claude",
+      "plan",
+      "permission"
+    ]
+  },
+  "Claude Code|Options CLI|Autoriser un dossier supplémentaire": {
+    "title": "Allow an extra folder",
+    "desc": "Grants read/write access to a folder outside the current working directory.",
+    "tags": [
+      "claude",
+      "add-dir",
+      "workspace"
+    ]
+  },
+  "Claude Code|Options CLI|Ignorer les confirmations de permission": {
+    "title": "Skip permission confirmations",
+    "desc": "⚠️ Runs every action without ever asking for confirmation. Reserved for an isolated/sandboxed environment (disposable container, CI) — never on a machine with sensitive data.",
+    "tags": [
+      "claude",
+      "permissions",
+      "danger"
+    ]
+  },
+  "Claude Code|Options CLI|Sortie au format JSON": {
+    "title": "JSON output",
+    "desc": "Useful for scripting: gets the response as JSON usable by another program instead of plain text.",
+    "tags": [
+      "claude",
+      "json",
+      "script"
+    ]
+  },
+  "Claude Code|Slash commands|Afficher l'aide": {
+    "title": "Show help",
+    "desc": "Lists the commands available in the current session.",
+    "tags": [
+      "claude",
+      "help"
+    ]
+  },
+  "Claude Code|Slash commands|Effacer la conversation": {
+    "title": "Clear the conversation",
+    "desc": "Clears the current conversation history and starts fresh (context lost).",
+    "tags": [
+      "claude",
+      "clear",
+      "reset"
+    ]
+  },
+  "Claude Code|Slash commands|Compacter le contexte": {
+    "title": "Compact the context",
+    "desc": "Summarizes the conversation to free up context, without losing everything. Add an instruction to steer the summary: /compact keep the implementation plan in detail",
+    "tags": [
+      "claude",
+      "compact",
+      "context"
+    ]
+  },
+  "Claude Code|Slash commands|Voir le coût de la session": {
+    "title": "View the session's cost",
+    "desc": "Shows an estimate of the current session's usage/cost.",
+    "tags": [
+      "claude",
+      "cost",
+      "usage"
+    ]
+  },
+  "Claude Code|Slash commands|Générer un CLAUDE.md": {
+    "title": "Generate a CLAUDE.md",
+    "desc": "Analyzes the project and generates a CLAUDE.md file documenting its structure — automatically read at the start of future sessions.",
+    "tags": [
+      "claude",
+      "init",
+      "claude.md",
+      "documentation"
+    ]
+  },
+  "Claude Code|Slash commands|Changer de modèle en cours de session": {
+    "title": "Switch model mid-session",
+    "desc": "Switches to another model without having to restart the session.",
+    "tags": [
+      "claude",
+      "model"
+    ]
+  },
+  "Claude Code|Slash commands|Gérer les permissions": {
+    "title": "Manage permissions",
+    "desc": "Configures which tools/actions Claude can run automatically, without asking for confirmation every time.",
+    "tags": [
+      "claude",
+      "permissions"
+    ]
+  },
+  "Claude Code|Slash commands|Gérer les sous-agents": {
+    "title": "Manage subagents",
+    "desc": "Creates, edits or lists the available subagents (specialized agents Claude can delegate to).",
+    "tags": [
+      "claude",
+      "agents",
+      "subagent"
+    ]
+  },
+  "Claude Code|Slash commands|Gérer les serveurs MCP": {
+    "title": "Manage MCP servers",
+    "desc": "Shows and manages the MCP servers connected to the current session.",
+    "tags": [
+      "claude",
+      "mcp"
+    ]
+  },
+  "Claude Code|Slash commands|Ouvrir la configuration": {
+    "title": "Open the configuration",
+    "desc": "Opens the interactive configuration (theme, default model, etc.).",
+    "tags": [
+      "claude",
+      "config"
+    ]
+  },
+  "Claude Code|Slash commands|Activer les raccourcis Vim": {
+    "title": "Enable Vim keybindings",
+    "desc": "Enables Vim-style keyboard shortcuts for editing the text typed in the prompt.",
+    "tags": [
+      "claude",
+      "vim",
+      "keybindings"
+    ]
+  },
+  "Claude Code|Slash commands|Connecter un IDE": {
+    "title": "Connect an IDE",
+    "desc": "Connects the session to an open IDE (VS Code, JetBrains…) to share the active file/selection.",
+    "tags": [
+      "claude",
+      "ide",
+      "vscode"
+    ]
+  },
+  "Claude Code|Slash commands|Signaler un bug": {
+    "title": "Report a bug",
+    "desc": "Sends a bug report directly to Anthropic from the session.",
+    "tags": [
+      "claude",
+      "bug",
+      "feedback"
+    ]
+  },
+  "Claude Code|Slash commands|Voir le statut de la session": {
+    "title": "View the session's status",
+    "desc": "Shows the session's state: logged-in account, active model, ongoing connections.",
+    "tags": [
+      "claude",
+      "status"
+    ]
+  },
+  "Claude Code|Slash commands|Se connecter": {
+    "title": "Log in",
+    "desc": "Logs in (or switches) the account used by Claude Code.",
+    "tags": [
+      "claude",
+      "login",
+      "account"
+    ]
+  },
+  "Claude Code|Slash commands|Se déconnecter": {
+    "title": "Log out",
+    "desc": "Logs out the currently used account.",
+    "tags": [
+      "claude",
+      "logout",
+      "account"
+    ]
+  },
+  "Claude Code|MCP & config|Lister les serveurs MCP": {
+    "title": "List MCP servers",
+    "desc": "Shows the currently configured MCP servers (from the terminal, outside a session).",
+    "tags": [
+      "claude",
+      "mcp",
+      "list"
+    ]
+  },
+  "Claude Code|MCP & config|Ajouter un serveur MCP": {
+    "title": "Add an MCP server",
+    "desc": "Connects a new MCP server to Claude Code, available in every future session.",
+    "tags": [
+      "claude",
+      "mcp",
+      "add"
+    ]
+  },
+  "Claude Code|MCP & config|Voir la configuration": {
+    "title": "View the configuration",
+    "desc": "Shows the current settings (global and project-specific), from the terminal.",
+    "tags": [
+      "claude",
+      "config",
+      "list"
+    ]
+  },
+  "Claude Code|Installation & mise à jour|Installer Claude Code": {
+    "title": "Install Claude Code",
+    "desc": "Global install via npm (requires Node.js to be installed beforehand).",
+    "tags": [
+      "claude",
+      "install",
+      "npm"
+    ]
+  },
+  "Claude Code|Installation & mise à jour|Mettre à jour": {
+    "title": "Update",
+    "desc": "Updates Claude Code to the latest available version.",
+    "tags": [
+      "claude",
+      "update"
+    ]
+  },
+  "Claude Code|Installation & mise à jour|Voir la version installée": {
+    "title": "View the installed version",
+    "desc": "Shows the currently installed version.",
+    "tags": [
+      "claude",
+      "version"
+    ]
+  },
+  "Claude Code|Installation & mise à jour|Diagnostiquer l'installation": {
+    "title": "Diagnose the installation",
+    "desc": "Checks that the install is healthy (dependencies, PATH, configuration) and reports what's wrong.",
+    "tags": [
+      "claude",
+      "doctor",
+      "diagnostic"
+    ]
   }
 };

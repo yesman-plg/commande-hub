@@ -1327,5 +1327,279 @@ const COMMANDS = [
     cmd: "git rebase -i HEAD~5",
     desc: "Permet de squash / reword / réordonner les 5 derniers commits.",
     tags: ["rebase", "interactive", "squash"]
+  },
+
+  // --- Claude Code — Démarrage ---------------------------------------
+  {
+    category: "Claude Code",
+    subcategory: "Démarrage",
+    title: "Lancer une session interactive",
+    cmd: "claude",
+    desc: "Ouvre le REPL interactif de Claude Code dans le dossier courant.",
+    tags: ["claude", "start", "repl"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Démarrage",
+    title: "Démarrer avec un prompt initial",
+    cmd: 'claude "explique-moi ce projet"',
+    desc: "Lance la session directement avec une première question/instruction, sans avoir à la retaper une fois lancé.",
+    tags: ["claude", "start", "prompt"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Démarrage",
+    title: "Réponse ponctuelle sans session interactive",
+    cmd: 'claude -p "résume les changements récents"',
+    desc: "Mode 'print' : exécute une requête, affiche la réponse, puis quitte — pratique pour scripter ou automatiser (CI, hooks, etc.).",
+    tags: ["claude", "print", "script", "automation"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Démarrage",
+    title: "Reprendre la dernière conversation",
+    cmd: "claude -c",
+    desc: "Recharge le contexte de la session la plus récente dans ce dossier, sans avoir à tout réexpliquer.",
+    tags: ["claude", "continue", "session"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Démarrage",
+    title: "Reprendre une session précise",
+    cmd: "claude -r",
+    desc: "Affiche un sélecteur des sessions précédentes de ce dossier. Ajoute un identifiant pour reprendre directement une session précise : claude -r <id>",
+    tags: ["claude", "resume", "session"]
+  },
+
+  // --- Claude Code — Options CLI ---------------------------------------
+  {
+    category: "Claude Code",
+    subcategory: "Options CLI",
+    title: "Choisir un modèle",
+    cmd: "claude --model sonnet",
+    desc: "Force le modèle utilisé pour cette session (ex: sonnet, opus, haiku).",
+    tags: ["claude", "model", "flag"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Options CLI",
+    title: "Démarrer en mode plan",
+    cmd: "claude --permission-mode plan",
+    desc: "Claude réfléchit et propose un plan avant toute action, sans rien modifier tant que le plan n'est pas validé.",
+    tags: ["claude", "plan", "permission"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Options CLI",
+    title: "Autoriser un dossier supplémentaire",
+    cmd: "claude --add-dir ../autre-projet",
+    desc: "Donne accès en lecture/écriture à un dossier situé en dehors du répertoire de travail courant.",
+    tags: ["claude", "add-dir", "workspace"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Options CLI",
+    title: "Ignorer les confirmations de permission",
+    cmd: "claude --dangerously-skip-permissions",
+    desc: "⚠️ Exécute toutes les actions sans jamais demander confirmation. Réservé à un environnement isolé/sandboxé (conteneur jetable, CI) — jamais sur une machine avec des données sensibles.",
+    tags: ["claude", "permissions", "danger"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Options CLI",
+    title: "Sortie au format JSON",
+    cmd: 'claude -p "..." --output-format json',
+    desc: "Utile pour scripter : récupère la réponse en JSON exploitable par un autre programme plutôt qu'en texte brut.",
+    tags: ["claude", "json", "script"]
+  },
+
+  // --- Claude Code — Slash commands ---------------------------------------
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Afficher l'aide",
+    cmd: "/help",
+    desc: "Liste les commandes disponibles dans la session en cours.",
+    tags: ["claude", "help", "aide"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Effacer la conversation",
+    cmd: "/clear",
+    desc: "Efface l'historique de la conversation en cours et repart de zéro (contexte perdu).",
+    tags: ["claude", "clear", "reset"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Compacter le contexte",
+    cmd: "/compact",
+    desc: "Résume la conversation pour libérer du contexte, sans tout perdre. Ajoute une instruction pour orienter le résumé : /compact garde le plan d'implémentation en détail",
+    tags: ["claude", "compact", "context"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Voir le coût de la session",
+    cmd: "/cost",
+    desc: "Affiche une estimation de l'usage/du coût de la session en cours.",
+    tags: ["claude", "cost", "usage"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Générer un CLAUDE.md",
+    cmd: "/init",
+    desc: "Analyse le projet et génère un fichier CLAUDE.md documentant sa structure — lu automatiquement au démarrage des futures sessions.",
+    tags: ["claude", "init", "claude.md", "documentation"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Changer de modèle en cours de session",
+    cmd: "/model",
+    desc: "Bascule vers un autre modèle sans avoir à relancer la session.",
+    tags: ["claude", "model"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Gérer les permissions",
+    cmd: "/permissions",
+    desc: "Configure quels outils/actions Claude peut exécuter automatiquement, sans confirmation à chaque fois.",
+    tags: ["claude", "permissions"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Gérer les sous-agents",
+    cmd: "/agents",
+    desc: "Crée, modifie ou liste les sous-agents disponibles (agents spécialisés que Claude peut déléguer à eux-mêmes).",
+    tags: ["claude", "agents", "subagent"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Gérer les serveurs MCP",
+    cmd: "/mcp",
+    desc: "Affiche et gère les serveurs MCP connectés à la session en cours.",
+    tags: ["claude", "mcp"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Ouvrir la configuration",
+    cmd: "/config",
+    desc: "Ouvre la configuration interactive (thème, modèle par défaut, etc.).",
+    tags: ["claude", "config"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Activer les raccourcis Vim",
+    cmd: "/vim",
+    desc: "Active les raccourcis clavier façon Vim pour éditer le texte tapé dans le prompt.",
+    tags: ["claude", "vim", "keybindings"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Connecter un IDE",
+    cmd: "/ide",
+    desc: "Connecte la session à un IDE ouvert (VS Code, JetBrains…) pour partager le fichier/la sélection actifs.",
+    tags: ["claude", "ide", "vscode"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Signaler un bug",
+    cmd: "/bug",
+    desc: "Envoie un rapport de bug directement à Anthropic depuis la session.",
+    tags: ["claude", "bug", "feedback"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Voir le statut de la session",
+    cmd: "/status",
+    desc: "Affiche l'état de la session : compte connecté, modèle actif, connexions en cours.",
+    tags: ["claude", "status"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Se connecter",
+    cmd: "/login",
+    desc: "Connecte (ou change) le compte utilisé par Claude Code.",
+    tags: ["claude", "login", "compte"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Slash commands",
+    title: "Se déconnecter",
+    cmd: "/logout",
+    desc: "Déconnecte le compte actuellement utilisé.",
+    tags: ["claude", "logout", "compte"]
+  },
+
+  // --- Claude Code — MCP & config ---------------------------------------
+  {
+    category: "Claude Code",
+    subcategory: "MCP & config",
+    title: "Lister les serveurs MCP",
+    cmd: "claude mcp list",
+    desc: "Affiche les serveurs MCP actuellement configurés (depuis le terminal, hors session).",
+    tags: ["claude", "mcp", "list"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "MCP & config",
+    title: "Ajouter un serveur MCP",
+    cmd: "claude mcp add <nom> <commande>",
+    desc: "Connecte un nouveau serveur MCP à Claude Code, disponible dans toutes les sessions futures.",
+    tags: ["claude", "mcp", "add"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "MCP & config",
+    title: "Voir la configuration",
+    cmd: "claude config list",
+    desc: "Affiche les réglages actuels (globaux et propres au projet), depuis le terminal.",
+    tags: ["claude", "config", "list"]
+  },
+
+  // --- Claude Code — Installation & mise à jour ---------------------------------------
+  {
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Installer Claude Code",
+    cmd: "npm install -g @anthropic-ai/claude-code",
+    desc: "Installation globale via npm (nécessite Node.js installé au préalable).",
+    tags: ["claude", "install", "npm"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Mettre à jour",
+    cmd: "claude update",
+    desc: "Met à jour Claude Code vers la dernière version disponible.",
+    tags: ["claude", "update"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Voir la version installée",
+    cmd: "claude --version",
+    desc: "Affiche la version actuellement installée.",
+    tags: ["claude", "version"]
+  },
+  {
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Diagnostiquer l'installation",
+    cmd: "claude doctor",
+    desc: "Vérifie que l'installation est saine (dépendances, PATH, configuration) et signale ce qui cloche.",
+    tags: ["claude", "doctor", "diagnostic"]
   }
 ];
