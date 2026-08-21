@@ -6719,336 +6719,6 @@ const GUIDES = [
 ]
   },
 
-  // --- FAQ : erreurs fréquentes ---------------------------------------
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "\"Permission denied\"",
-    level: "🟢 Débutant",
-    summary: "Le message d'erreur le plus courant sous Linux — presque toujours une question de droits, pas un bug.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Soit tu essaies d'exécuter un fichier qui n'a pas le droit x (souvent un script ./nom.sh), soit tu essaies de modifier/lire un fichier appartenant à un autre utilisateur (souvent root)."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux Mint::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Rends le script deploy.sh exécutable pour pouvoir le lancer.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "chmod +x deploy.sh"
-                              ],
-                              "output": "(le script est maintenant exécutable)"
-                        }
-                  ]
-            },
-            "correction": "chmod +x ajoute uniquement le droit d'exécution, sans toucher aux autres permissions du fichier — le correctif standard pour ./script.sh: Permission denied."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "\"Port already in use\" / \"Address already in use\"",
-    level: "🟢 Débutant",
-    summary: "Un autre programme occupe déjà le port que ton serveur (Metro, Docker…) essaie d'utiliser.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Deux programmes ne peuvent pas écouter sur le même port en même temps sur la même machine. Souvent : un ancien npx expo start ou docker run n'a pas été vraiment arrêté (processus zombie, terminal fermé sans Ctrl+C propre)."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. kill -9 PID pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] et [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Le port 8081 est occupé par un vieux processus (PID 48213). Libère-le.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "kill -9 48213"
-                              ],
-                              "output": "(le processus 48213 est arrêté, le port 8081 est libéré)"
-                        }
-                  ]
-            },
-            "correction": "kill -9 PID force l'arrêt immédiat du processus identifié précédemment (via sudo ss -tulpn | grep :8081), libérant le port pour ton propre serveur."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "\"command not found\"",
-    level: "🟢 Débutant",
-    summary: "Le shell ne trouve aucun programme portant ce nom.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Trois causes possibles : une faute de frappe, un logiciel qui n'est simplement pas installé, ou un logiciel installé mais dont le dossier n'est pas dans ton PATH."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. which nom-de-la-commande confirme si le shell le trouve ou non.\n\nVoir aussi : [[Bases du terminal::Variables d'environnement et PATH]]."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Vérifie si node est réellement installé et trouvable par le shell.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "which node"
-                              ],
-                              "output": "/usr/bin/node"
-                        }
-                  ]
-            },
-            "correction": "which confirme immédiatement si le programme existe et est dans le PATH. Une absence de résultat confirmerait qu'il faut l'installer (souvent via apt ou un gestionnaire de versions Node)."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "adb : \"device not found\" / \"unauthorized\"",
-    level: "🟢 Débutant",
-    summary: "Ton PC ne voit pas ton téléphone/émulateur Android, ou le voit sans y avoir accès.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "\"device not found\" : le débogage USB n'est pas activé sur le téléphone, ou le câble/port USB ne transmet pas les données (certains câbles ne sont que pour charger).\n\n\"unauthorized\" : le téléphone a détecté la connexion mais attend que tu acceptes la popup d'autorisation affichée sur SON écran."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "1. Active le débogage USB (Paramètres → Options développeur).\n2. Débranche/rebranche le câble.\n3. Regarde l'ÉCRAN DU TÉLÉPHONE pour une popup à accepter.\n4. adb devices pour vérifier que le statut passe à \"device\".\n5. En dernier recours : adb kill-server && adb start-server."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "adb ne détecte plus ton téléphone correctement. Redémarre le serveur adb.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "adb kill-server && adb start-server"
-                              ],
-                              "output": "* daemon stopped successfully *\n* daemon started successfully *"
-                        }
-                  ]
-            },
-            "correction": "Ce redémarrage corrige la grande majorité des soucis de détection (\"device offline\", appareil qui n'apparaît plus) sans avoir besoin de redémarrer le téléphone ou le PC."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "Expo : comportement bizarre après un changement de config",
-    level: "🟢 Débutant",
-    summary: "L'app ne reflète pas tes derniers changements, ou une erreur incompréhensible apparaît après avoir touché babel.config.js/metro.config.js.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Metro garde en cache une version déjà compilée de ton code pour aller plus vite. Après un changement de configuration, ce cache peut contenir une version périmée qui ne correspond plus à ta config actuelle."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "npx expo start -c relance le serveur en vidant complètement le cache. Si ça ne suffit pas : npx expo-doctor pour vérifier la cohérence générale du projet.\n\nVoir aussi : [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Tu viens de modifier metro.config.js et l'app se comporte bizarrement. Relance le serveur en vidant le cache.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "npx expo start -c"
-                              ],
-                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
-                        }
-                  ]
-            },
-            "correction": "Le cache de Metro peut contenir une version compilée AVANT ton changement de config — -c force à tout recompiler depuis zéro en tenant compte de la nouvelle configuration."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "git push : \"rejected\" / \"non-fast-forward\"",
-    level: "🟡 Intermédiaire",
-    summary: "Git refuse ton push car le remote a des commits que tu n'as pas encore en local.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Quelqu'un (ou toi, depuis une autre machine) a pushé des commits sur cette branche après ton dernier pull. Git refuse par sécurité d'écraser ces commits que tu ne connais pas encore."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "git pull (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir [[Git::Les conflits de fusion (merge conflicts)]]). Une fois à jour, git push repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Ton push est rejeté car le remote a des commits que tu n'as pas. Récupère-les proprement.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "git pull --rebase"
-                              ],
-                              "output": "Rebasing (1/1)\nSuccessfully rebased and updated refs/heads/master."
-                        }
-                  ]
-            },
-            "correction": "git pull --rebase rapatrie les commits manquants et rejoue les tiens par-dessus, donnant un historique linéaire (plutôt qu'un commit de merge). Une fois à jour, git push repasse normalement."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "Des symboles <<<<<<< ======= >>>>>>> apparaissent dans un fichier",
-    level: "🟡 Intermédiaire",
-    summary: "Ce n'est pas une corruption de fichier — c'est un conflit de fusion Git en cours de résolution.",
-    content: [
-      {
-        heading: "Ce qu'il se passe",
-        text: "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier, et a inséré des marqueurs à l'endroit exact du désaccord pour que tu choisisses manuellement quoi garder."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "Voir la fiche complète [[Git::Les conflits de fusion (merge conflicts)]] — résumé : choisis/combine le bon contenu, supprime les marqueurs, git add le fichier, puis git commit."
-      }
-    ],
-    exercises: [
-      {
-            "type": "quiz",
-            "instruction": "Ces symboles apparaissent dans un fichier après un git pull. De quoi s'agit-il ?",
-            "options": [
-            "Un conflit de fusion Git à résoudre manuellement",
-            "Une corruption du fichier",
-            "Un virus",
-            "Un format de fichier inconnu"
-      ],
-            "correctIndex": 0,
-            "correction": "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier et insère ces marqueurs à l'endroit exact du désaccord, pour que tu choisisses manuellement quoi garder avant de supprimer les marqueurs et de committer."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "npm : conflit de versions / peer dependency",
-    level: "🟡 Intermédiaire",
-    summary: "npm install refuse d'installer, ou affiche un avertissement de dépendances incompatibles entre elles.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Une librairie que tu installes s'attend à une version précise d'une autre librairie (souvent React ou Expo) déjà présente dans ton projet, mais ce n'est pas celle installée."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "Dans un projet Expo, npx expo install --fix aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : [[Bases du terminal::npm & npx, et package.json en détail]]."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Un projet Expo a des versions de dépendances incompatibles avec le SDK. Corrige ça automatiquement.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "npx expo install --fix"
-                              ],
-                              "output": "Certaines dépendances ne correspondent pas au SDK installé :\n  react-native@0.72.0 - attendu : 0.73.6\nCorrection en cours…"
-                        }
-                  ]
-            },
-            "correction": "npx expo install --fix aligne automatiquement les versions installées sur ce qu'attend le SDK Expo du projet — souvent suffisant sans avoir à modifier package.json à la main."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "Docker : \"Cannot connect to the Docker daemon\"",
-    level: "🟢 Débutant",
-    summary: "Docker refuse toutes tes commandes avec ce message.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Le service Docker (le \"daemon\", qui tourne en arrière-plan) n'est tout simplement pas démarré sur ta machine."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux Mint::systemd et les services]]."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Le service Docker n'est pas démarré. Démarre-le.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "sudo systemctl start docker"
-                              ],
-                              "output": "(le service docker est démarré)"
-                        }
-                  ]
-            },
-            "correction": "Le \"daemon\" Docker est le service en arrière-plan sans lequel AUCUNE commande docker ne peut fonctionner — sudo systemctl start docker le lance."
-      }
-]
-  },
-  {
-    category: "FAQ : erreurs fréquentes",
-    title: "Gradle : \"SDK location not found\"",
-    level: "🟡 Intermédiaire",
-    summary: "Le build Android échoue immédiatement, avant même de compiler quoi que ce soit.",
-    content: [
-      {
-        heading: "Pourquoi ça arrive",
-        text: "Gradle ne trouve pas où est installé l'Android SDK sur ta machine — souvent après une réinstallation d'Android Studio, un déplacement de dossier, ou sur une machine neuve où la variable n'a jamais été configurée."
-      },
-      {
-        heading: "Comment le résoudre",
-        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/user/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
-      }
-    ],
-    exercises: [
-      {
-            "type": "fillin",
-            "instruction": "Ton SDK Android est installé dans /home/user/Android/Sdk. Quelle ligne dois-tu ajouter dans android/local.properties pour corriger l'erreur ?",
-            "accept": [
-                  "sdk.dir=/home/user/Android/Sdk"
-            ],
-            "correction": "sdk.dir=/home/user/Android/Sdk\n\nCe fichier n'est pas versionné dans Git (le chemin est propre à chaque machine) — il faut le recréer soi-même sur une nouvelle machine ou après une réinstallation."
-      }
-]
-  },
-
   // --- Claude Code ---------------------------------------
   {
     category: "Claude Code",
@@ -8607,7 +8277,338 @@ const GUIDES = [
         correction: "--oss active un modèle hébergé localement, et --local-provider ollama précise lequel des deux fournisseurs locaux supportés utiliser (LM Studio ou Ollama)."
       }
     ]
-  }
+  },
+
+  // --- FAQ : erreurs fréquentes ---------------------------------------
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"Permission denied\"",
+    level: "🟢 Débutant",
+    summary: "Le message d'erreur le plus courant sous Linux — presque toujours une question de droits, pas un bug.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Soit tu essaies d'exécuter un fichier qui n'a pas le droit x (souvent un script ./nom.sh), soit tu essaies de modifier/lire un fichier appartenant à un autre utilisateur (souvent root)."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux Mint::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Rends le script deploy.sh exécutable pour pouvoir le lancer.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "chmod +x deploy.sh"
+                              ],
+                              "output": "(le script est maintenant exécutable)"
+                        }
+                  ]
+            },
+            "correction": "chmod +x ajoute uniquement le droit d'exécution, sans toucher aux autres permissions du fichier — le correctif standard pour ./script.sh: Permission denied."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"Port already in use\" / \"Address already in use\"",
+    level: "🟢 Débutant",
+    summary: "Un autre programme occupe déjà le port que ton serveur (Metro, Docker…) essaie d'utiliser.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Deux programmes ne peuvent pas écouter sur le même port en même temps sur la même machine. Souvent : un ancien npx expo start ou docker run n'a pas été vraiment arrêté (processus zombie, terminal fermé sans Ctrl+C propre)."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. kill -9 PID pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] et [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Le port 8081 est occupé par un vieux processus (PID 48213). Libère-le.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "kill -9 48213"
+                              ],
+                              "output": "(le processus 48213 est arrêté, le port 8081 est libéré)"
+                        }
+                  ]
+            },
+            "correction": "kill -9 PID force l'arrêt immédiat du processus identifié précédemment (via sudo ss -tulpn | grep :8081), libérant le port pour ton propre serveur."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "\"command not found\"",
+    level: "🟢 Débutant",
+    summary: "Le shell ne trouve aucun programme portant ce nom.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Trois causes possibles : une faute de frappe, un logiciel qui n'est simplement pas installé, ou un logiciel installé mais dont le dossier n'est pas dans ton PATH."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. which nom-de-la-commande confirme si le shell le trouve ou non.\n\nVoir aussi : [[Bases du terminal::Variables d'environnement et PATH]]."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Vérifie si node est réellement installé et trouvable par le shell.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "which node"
+                              ],
+                              "output": "/usr/bin/node"
+                        }
+                  ]
+            },
+            "correction": "which confirme immédiatement si le programme existe et est dans le PATH. Une absence de résultat confirmerait qu'il faut l'installer (souvent via apt ou un gestionnaire de versions Node)."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "adb : \"device not found\" / \"unauthorized\"",
+    level: "🟢 Débutant",
+    summary: "Ton PC ne voit pas ton téléphone/émulateur Android, ou le voit sans y avoir accès.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "\"device not found\" : le débogage USB n'est pas activé sur le téléphone, ou le câble/port USB ne transmet pas les données (certains câbles ne sont que pour charger).\n\n\"unauthorized\" : le téléphone a détecté la connexion mais attend que tu acceptes la popup d'autorisation affichée sur SON écran."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "1. Active le débogage USB (Paramètres → Options développeur).\n2. Débranche/rebranche le câble.\n3. Regarde l'ÉCRAN DU TÉLÉPHONE pour une popup à accepter.\n4. adb devices pour vérifier que le statut passe à \"device\".\n5. En dernier recours : adb kill-server && adb start-server."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "adb ne détecte plus ton téléphone correctement. Redémarre le serveur adb.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "adb kill-server && adb start-server"
+                              ],
+                              "output": "* daemon stopped successfully *\n* daemon started successfully *"
+                        }
+                  ]
+            },
+            "correction": "Ce redémarrage corrige la grande majorité des soucis de détection (\"device offline\", appareil qui n'apparaît plus) sans avoir besoin de redémarrer le téléphone ou le PC."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Expo : comportement bizarre après un changement de config",
+    level: "🟢 Débutant",
+    summary: "L'app ne reflète pas tes derniers changements, ou une erreur incompréhensible apparaît après avoir touché babel.config.js/metro.config.js.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Metro garde en cache une version déjà compilée de ton code pour aller plus vite. Après un changement de configuration, ce cache peut contenir une version périmée qui ne correspond plus à ta config actuelle."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "npx expo start -c relance le serveur en vidant complètement le cache. Si ça ne suffit pas : npx expo-doctor pour vérifier la cohérence générale du projet.\n\nVoir aussi : [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Tu viens de modifier metro.config.js et l'app se comporte bizarrement. Relance le serveur en vidant le cache.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo start -c"
+                              ],
+                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
+                        }
+                  ]
+            },
+            "correction": "Le cache de Metro peut contenir une version compilée AVANT ton changement de config — -c force à tout recompiler depuis zéro en tenant compte de la nouvelle configuration."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "git push : \"rejected\" / \"non-fast-forward\"",
+    level: "🟡 Intermédiaire",
+    summary: "Git refuse ton push car le remote a des commits que tu n'as pas encore en local.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Quelqu'un (ou toi, depuis une autre machine) a pushé des commits sur cette branche après ton dernier pull. Git refuse par sécurité d'écraser ces commits que tu ne connais pas encore."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "git pull (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir [[Git::Les conflits de fusion (merge conflicts)]]). Une fois à jour, git push repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Ton push est rejeté car le remote a des commits que tu n'as pas. Récupère-les proprement.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "git pull --rebase"
+                              ],
+                              "output": "Rebasing (1/1)\nSuccessfully rebased and updated refs/heads/master."
+                        }
+                  ]
+            },
+            "correction": "git pull --rebase rapatrie les commits manquants et rejoue les tiens par-dessus, donnant un historique linéaire (plutôt qu'un commit de merge). Une fois à jour, git push repasse normalement."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Des symboles <<<<<<< ======= >>>>>>> apparaissent dans un fichier",
+    level: "🟡 Intermédiaire",
+    summary: "Ce n'est pas une corruption de fichier — c'est un conflit de fusion Git en cours de résolution.",
+    content: [
+      {
+        heading: "Ce qu'il se passe",
+        text: "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier, et a inséré des marqueurs à l'endroit exact du désaccord pour que tu choisisses manuellement quoi garder."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Voir la fiche complète [[Git::Les conflits de fusion (merge conflicts)]] — résumé : choisis/combine le bon contenu, supprime les marqueurs, git add le fichier, puis git commit."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Ces symboles apparaissent dans un fichier après un git pull. De quoi s'agit-il ?",
+            "options": [
+            "Un conflit de fusion Git à résoudre manuellement",
+            "Une corruption du fichier",
+            "Un virus",
+            "Un format de fichier inconnu"
+      ],
+            "correctIndex": 0,
+            "correction": "Git n'a pas réussi à fusionner automatiquement deux versions d'un même fichier et insère ces marqueurs à l'endroit exact du désaccord, pour que tu choisisses manuellement quoi garder avant de supprimer les marqueurs et de committer."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "npm : conflit de versions / peer dependency",
+    level: "🟡 Intermédiaire",
+    summary: "npm install refuse d'installer, ou affiche un avertissement de dépendances incompatibles entre elles.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Une librairie que tu installes s'attend à une version précise d'une autre librairie (souvent React ou Expo) déjà présente dans ton projet, mais ce n'est pas celle installée."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Dans un projet Expo, npx expo install --fix aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : [[Bases du terminal::npm & npx, et package.json en détail]]."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Un projet Expo a des versions de dépendances incompatibles avec le SDK. Corrige ça automatiquement.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo install --fix"
+                              ],
+                              "output": "Certaines dépendances ne correspondent pas au SDK installé :\n  react-native@0.72.0 - attendu : 0.73.6\nCorrection en cours…"
+                        }
+                  ]
+            },
+            "correction": "npx expo install --fix aligne automatiquement les versions installées sur ce qu'attend le SDK Expo du projet — souvent suffisant sans avoir à modifier package.json à la main."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Docker : \"Cannot connect to the Docker daemon\"",
+    level: "🟢 Débutant",
+    summary: "Docker refuse toutes tes commandes avec ce message.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Le service Docker (le \"daemon\", qui tourne en arrière-plan) n'est tout simplement pas démarré sur ta machine."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux Mint::systemd et les services]]."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Le service Docker n'est pas démarré. Démarre-le.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo systemctl start docker"
+                              ],
+                              "output": "(le service docker est démarré)"
+                        }
+                  ]
+            },
+            "correction": "Le \"daemon\" Docker est le service en arrière-plan sans lequel AUCUNE commande docker ne peut fonctionner — sudo systemctl start docker le lance."
+      }
+]
+  },
+  {
+    category: "FAQ : erreurs fréquentes",
+    title: "Gradle : \"SDK location not found\"",
+    level: "🟡 Intermédiaire",
+    summary: "Le build Android échoue immédiatement, avant même de compiler quoi que ce soit.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Gradle ne trouve pas où est installé l'Android SDK sur ta machine — souvent après une réinstallation d'Android Studio, un déplacement de dossier, ou sur une machine neuve où la variable n'a jamais été configurée."
+      },
+      {
+        heading: "Comment le résoudre",
+        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/user/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
+      }
+    ],
+    exercises: [
+      {
+            "type": "fillin",
+            "instruction": "Ton SDK Android est installé dans /home/user/Android/Sdk. Quelle ligne dois-tu ajouter dans android/local.properties pour corriger l'erreur ?",
+            "accept": [
+                  "sdk.dir=/home/user/Android/Sdk"
+            ],
+            "correction": "sdk.dir=/home/user/Android/Sdk\n\nCe fichier n'est pas versionné dans Git (le chemin est propre à chaque machine) — il faut le recréer soi-même sur une nouvelle machine ou après une réinstallation."
+      }
+]
+  },
+
 ];
 
 </script>
@@ -12035,7 +12036,7 @@ const GUIDE_TRANSLATIONS_EN = {
   // --- Langue (FR / EN) ---------------------------------------------------
   const UI_STRINGS = {
     fr: {
-      tagline: "Toutes tes commandes Expo, Kotlin/Android, Linux Mint & Git au même endroit. Tape pour chercher, clique pour copier.",
+      tagline: "Toutes tes commandes et fiches de formation — Claude Code, Codex, Linux, Windows, Git, Kotlin/Android, Expo/React Native — au même endroit. Tape pour chercher, clique pour copier.",
       statsLine: (n, m) => `${n} commandes · ${m} fiches de formation`,
       modeCommands: "Commandes",
       modeFormation: "Formation",
@@ -12077,7 +12078,7 @@ const GUIDE_TRANSLATIONS_EN = {
       hasExercisesTitle: "Contient des exercices pratiques"
     },
     en: {
-      tagline: "All your Expo, Kotlin/Android, Linux Mint & Git commands in one place. Type to search, click to copy.",
+      tagline: "All your commands and learning guides — Claude Code, Codex, Linux, Windows, Git, Kotlin/Android, Expo/React Native — in one place. Type to search, click to copy.",
       statsLine: (n, m) => `${n} commands · ${m} learning guides`,
       modeCommands: "Commands",
       modeFormation: "Learn",
