@@ -2197,6 +2197,31 @@ const COMMAND_TRANSLATIONS_EN = {
     "desc": "A file listing the extensions recommended for this project — VS Code automatically offers to install them on open, handy for teams.",
     "tags": ["vscode", "extension", "team", "config"]
   },
+  "VS Code|Installation|Installer sur Windows (winget)": {
+    "title": "Install on Windows (winget)",
+    "desc": "Install via Windows's official package manager, built in since Windows 10/11.",
+    "tags": ["vscode", "install", "windows", "winget"]
+  },
+  "VS Code|Installation|Installer sur Linux (Snap)": {
+    "title": "Install on Linux (Snap)",
+    "desc": "The simplest method on Ubuntu/Debian and Snap-compatible distributions — updates itself automatically in the background.",
+    "tags": ["vscode", "install", "linux", "snap"]
+  },
+  "VS Code|Installation|Installer sur Linux (dépôt officiel apt)": {
+    "title": "Install on Linux (official apt repository)",
+    "desc": "Requires adding the Microsoft repository first (GPG key + apt source, see the official docs) — after that, installs and updates like any other apt package.",
+    "tags": ["vscode", "install", "linux", "apt", "debian", "ubuntu"]
+  },
+  "VS Code|Installation|Vérifier la version installée": {
+    "title": "Check the installed version",
+    "desc": "Shows the currently installed version.",
+    "tags": ["vscode", "version", "diagnostic"]
+  },
+  "VS Code|Installation|Vérifier les mises à jour": {
+    "title": "Check for updates",
+    "desc": "Command to search for in the palette (Ctrl+Shift+P) — manually checks whether a new version is available (updates otherwise happen automatically in the background).",
+    "tags": ["vscode", "update", "palette"]
+  },
   "Cursor|Éditeur : raccourcis IA|Édition en ligne (inline edit)": {
     "title": "Inline edit",
     "desc": "Opens a field to describe a change directly in the code, at the cursor position or on the selection (⌘+K on Mac).",
@@ -2311,5 +2336,30 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Continue the active session",
     "desc": "Continues the current session without starting over — handy in a script that chains several steps.",
     "tags": ["cursor", "cli", "continue", "session"]
+  },
+  "Cursor|Installation|Installer l'éditeur sur Windows (winget)": {
+    "title": "Install the editor on Windows (winget)",
+    "desc": "Install via Windows's official package manager — an alternative to the .exe installer downloaded from cursor.com.",
+    "tags": ["cursor", "install", "windows", "winget"]
+  },
+  "Cursor|Installation|Installer l'éditeur sur Linux (AppImage)": {
+    "title": "Install the editor on Linux (AppImage)",
+    "desc": "Downloads the official AppImage and makes it executable — launches afterward with ./cursor.AppImage. On Debian/Ubuntu, install libfuse2 first if launching fails (sudo apt install libfuse2).",
+    "tags": ["cursor", "install", "linux", "appimage"]
+  },
+  "Cursor|Installation|Installer cursor-agent (Mac/Linux)": {
+    "title": "Install cursor-agent (Mac/Linux)",
+    "desc": "Installs Cursor's command-line version (the CLI agent), separate from the graphical editor.",
+    "tags": ["cursor", "cli", "install", "mac", "linux"]
+  },
+  "Cursor|Installation|Installer cursor-agent (Windows)": {
+    "title": "Install cursor-agent (Windows)",
+    "desc": "Installs the CLI agent on Windows via PowerShell — reopen the terminal afterward for the agent command to be recognized.",
+    "tags": ["cursor", "cli", "install", "windows", "powershell"]
+  },
+  "Cursor|Installation|Vérifier la version de cursor-agent": {
+    "title": "Check cursor-agent's version",
+    "desc": "Shows the currently installed version of the CLI agent.",
+    "tags": ["cursor", "cli", "version", "diagnostic"]
   }
 };

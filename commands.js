@@ -2475,6 +2475,48 @@ const COMMANDS = [
     tags: ["vscode", "extension", "équipe", "config"]
   },
 
+  // --- VS Code — Installation ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Windows (winget)",
+    cmd: "winget install Microsoft.VisualStudioCode",
+    desc: "Installation via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
+    tags: ["vscode", "install", "windows", "winget"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Linux (Snap)",
+    cmd: "sudo snap install --classic code",
+    desc: "Méthode la plus simple sur Ubuntu/Debian et distributions compatibles Snap — se met à jour automatiquement en arrière-plan.",
+    tags: ["vscode", "install", "linux", "snap"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Linux (dépôt officiel apt)",
+    cmd: "sudo apt update && sudo apt install code",
+    desc: "Nécessite d'avoir ajouté au préalable le dépôt Microsoft (clé GPG + source apt, voir la doc officielle) — ensuite, s'installe et se met à jour comme n'importe quel paquet apt.",
+    tags: ["vscode", "install", "linux", "apt", "debian", "ubuntu"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Vérifier la version installée",
+    cmd: "code --version",
+    desc: "Affiche la version actuellement installée.",
+    tags: ["vscode", "version", "diagnostic"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Vérifier les mises à jour",
+    cmd: "Check for Updates...",
+    desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — vérifie manuellement si une nouvelle version est disponible (les mises à jour se font sinon automatiquement en arrière-plan).",
+    tags: ["vscode", "update", "palette"]
+  },
+
   // --- Cursor — Éditeur : raccourcis IA ---------------------------------------
   {
     category: "Cursor",
@@ -2661,5 +2703,47 @@ const COMMANDS = [
     cmd: "agent --continue",
     desc: "Poursuit la session en cours sans repartir de zéro, pratique dans un script qui enchaîne plusieurs étapes.",
     tags: ["cursor", "cli", "continue", "session"]
+  },
+
+  // --- Cursor — Installation ---------------------------------------
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer l'éditeur sur Windows (winget)",
+    cmd: "winget install --id=Anysphere.Cursor -e",
+    desc: "Installation via le gestionnaire de paquets officiel de Windows — alternative à l'installeur .exe téléchargé depuis cursor.com.",
+    tags: ["cursor", "install", "windows", "winget"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer l'éditeur sur Linux (AppImage)",
+    cmd: 'curl -L "https://downloader.cursor.sh/linux/appImage/x64" -o cursor.AppImage && chmod +x cursor.AppImage',
+    desc: "Télécharge l'AppImage officielle et la rend exécutable — se lance ensuite avec ./cursor.AppImage. Sur Debian/Ubuntu, installe libfuse2 au préalable si le lancement échoue (sudo apt install libfuse2).",
+    tags: ["cursor", "install", "linux", "appimage"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer cursor-agent (Mac/Linux)",
+    cmd: "curl https://cursor.com/install -fsS | bash",
+    desc: "Installe la version en ligne de commande de Cursor (l'agent CLI), séparée de l'éditeur graphique.",
+    tags: ["cursor", "cli", "install", "mac", "linux"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer cursor-agent (Windows)",
+    cmd: "irm 'https://cursor.com/install?win32=true' | iex",
+    desc: "Installe l'agent CLI sur Windows via PowerShell — rouvrir le terminal ensuite pour que la commande agent soit reconnue.",
+    tags: ["cursor", "cli", "install", "windows", "powershell"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Vérifier la version de cursor-agent",
+    cmd: "cursor-agent --version",
+    desc: "Affiche la version actuellement installée de l'agent CLI.",
+    tags: ["cursor", "cli", "version", "diagnostic"]
   }
 ];

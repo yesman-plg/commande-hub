@@ -3284,6 +3284,48 @@ const COMMANDS = [
     tags: ["vscode", "extension", "équipe", "config"]
   },
 
+  // --- VS Code — Installation ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Windows (winget)",
+    cmd: "winget install Microsoft.VisualStudioCode",
+    desc: "Installation via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
+    tags: ["vscode", "install", "windows", "winget"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Linux (Snap)",
+    cmd: "sudo snap install --classic code",
+    desc: "Méthode la plus simple sur Ubuntu/Debian et distributions compatibles Snap — se met à jour automatiquement en arrière-plan.",
+    tags: ["vscode", "install", "linux", "snap"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Linux (dépôt officiel apt)",
+    cmd: "sudo apt update && sudo apt install code",
+    desc: "Nécessite d'avoir ajouté au préalable le dépôt Microsoft (clé GPG + source apt, voir la doc officielle) — ensuite, s'installe et se met à jour comme n'importe quel paquet apt.",
+    tags: ["vscode", "install", "linux", "apt", "debian", "ubuntu"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Vérifier la version installée",
+    cmd: "code --version",
+    desc: "Affiche la version actuellement installée.",
+    tags: ["vscode", "version", "diagnostic"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Vérifier les mises à jour",
+    cmd: "Check for Updates...",
+    desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — vérifie manuellement si une nouvelle version est disponible (les mises à jour se font sinon automatiquement en arrière-plan).",
+    tags: ["vscode", "update", "palette"]
+  },
+
   // --- Cursor — Éditeur : raccourcis IA ---------------------------------------
   {
     category: "Cursor",
@@ -3470,6 +3512,48 @@ const COMMANDS = [
     cmd: "agent --continue",
     desc: "Poursuit la session en cours sans repartir de zéro, pratique dans un script qui enchaîne plusieurs étapes.",
     tags: ["cursor", "cli", "continue", "session"]
+  },
+
+  // --- Cursor — Installation ---------------------------------------
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer l'éditeur sur Windows (winget)",
+    cmd: "winget install --id=Anysphere.Cursor -e",
+    desc: "Installation via le gestionnaire de paquets officiel de Windows — alternative à l'installeur .exe téléchargé depuis cursor.com.",
+    tags: ["cursor", "install", "windows", "winget"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer l'éditeur sur Linux (AppImage)",
+    cmd: 'curl -L "https://downloader.cursor.sh/linux/appImage/x64" -o cursor.AppImage && chmod +x cursor.AppImage',
+    desc: "Télécharge l'AppImage officielle et la rend exécutable — se lance ensuite avec ./cursor.AppImage. Sur Debian/Ubuntu, installe libfuse2 au préalable si le lancement échoue (sudo apt install libfuse2).",
+    tags: ["cursor", "install", "linux", "appimage"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer cursor-agent (Mac/Linux)",
+    cmd: "curl https://cursor.com/install -fsS | bash",
+    desc: "Installe la version en ligne de commande de Cursor (l'agent CLI), séparée de l'éditeur graphique.",
+    tags: ["cursor", "cli", "install", "mac", "linux"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Installer cursor-agent (Windows)",
+    cmd: "irm 'https://cursor.com/install?win32=true' | iex",
+    desc: "Installe l'agent CLI sur Windows via PowerShell — rouvrir le terminal ensuite pour que la commande agent soit reconnue.",
+    tags: ["cursor", "cli", "install", "windows", "powershell"]
+  },
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Vérifier la version de cursor-agent",
+    cmd: "cursor-agent --version",
+    desc: "Affiche la version actuellement installée de l'agent CLI.",
+    tags: ["cursor", "cli", "version", "diagnostic"]
   }
 ];
 
@@ -5674,6 +5758,31 @@ const COMMAND_TRANSLATIONS_EN = {
     "desc": "A file listing the extensions recommended for this project — VS Code automatically offers to install them on open, handy for teams.",
     "tags": ["vscode", "extension", "team", "config"]
   },
+  "VS Code|Installation|Installer sur Windows (winget)": {
+    "title": "Install on Windows (winget)",
+    "desc": "Install via Windows's official package manager, built in since Windows 10/11.",
+    "tags": ["vscode", "install", "windows", "winget"]
+  },
+  "VS Code|Installation|Installer sur Linux (Snap)": {
+    "title": "Install on Linux (Snap)",
+    "desc": "The simplest method on Ubuntu/Debian and Snap-compatible distributions — updates itself automatically in the background.",
+    "tags": ["vscode", "install", "linux", "snap"]
+  },
+  "VS Code|Installation|Installer sur Linux (dépôt officiel apt)": {
+    "title": "Install on Linux (official apt repository)",
+    "desc": "Requires adding the Microsoft repository first (GPG key + apt source, see the official docs) — after that, installs and updates like any other apt package.",
+    "tags": ["vscode", "install", "linux", "apt", "debian", "ubuntu"]
+  },
+  "VS Code|Installation|Vérifier la version installée": {
+    "title": "Check the installed version",
+    "desc": "Shows the currently installed version.",
+    "tags": ["vscode", "version", "diagnostic"]
+  },
+  "VS Code|Installation|Vérifier les mises à jour": {
+    "title": "Check for updates",
+    "desc": "Command to search for in the palette (Ctrl+Shift+P) — manually checks whether a new version is available (updates otherwise happen automatically in the background).",
+    "tags": ["vscode", "update", "palette"]
+  },
   "Cursor|Éditeur : raccourcis IA|Édition en ligne (inline edit)": {
     "title": "Inline edit",
     "desc": "Opens a field to describe a change directly in the code, at the cursor position or on the selection (⌘+K on Mac).",
@@ -5788,6 +5897,31 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Continue the active session",
     "desc": "Continues the current session without starting over — handy in a script that chains several steps.",
     "tags": ["cursor", "cli", "continue", "session"]
+  },
+  "Cursor|Installation|Installer l'éditeur sur Windows (winget)": {
+    "title": "Install the editor on Windows (winget)",
+    "desc": "Install via Windows's official package manager — an alternative to the .exe installer downloaded from cursor.com.",
+    "tags": ["cursor", "install", "windows", "winget"]
+  },
+  "Cursor|Installation|Installer l'éditeur sur Linux (AppImage)": {
+    "title": "Install the editor on Linux (AppImage)",
+    "desc": "Downloads the official AppImage and makes it executable — launches afterward with ./cursor.AppImage. On Debian/Ubuntu, install libfuse2 first if launching fails (sudo apt install libfuse2).",
+    "tags": ["cursor", "install", "linux", "appimage"]
+  },
+  "Cursor|Installation|Installer cursor-agent (Mac/Linux)": {
+    "title": "Install cursor-agent (Mac/Linux)",
+    "desc": "Installs Cursor's command-line version (the CLI agent), separate from the graphical editor.",
+    "tags": ["cursor", "cli", "install", "mac", "linux"]
+  },
+  "Cursor|Installation|Installer cursor-agent (Windows)": {
+    "title": "Install cursor-agent (Windows)",
+    "desc": "Installs the CLI agent on Windows via PowerShell — reopen the terminal afterward for the agent command to be recognized.",
+    "tags": ["cursor", "cli", "install", "windows", "powershell"]
+  },
+  "Cursor|Installation|Vérifier la version de cursor-agent": {
+    "title": "Check cursor-agent's version",
+    "desc": "Shows the currently installed version of the CLI agent.",
+    "tags": ["cursor", "cli", "version", "diagnostic"]
   }
 };
 
@@ -9366,6 +9500,44 @@ const GUIDES = [
       }
     ]
   },
+  {
+    category: "VS Code",
+    title: "Installer VS Code sur Windows ou Linux",
+    level: "🟢 Débutant",
+    summary: "Un installeur graphique, ou une ligne de commande via le gestionnaire de paquets du système — au choix selon l'OS.",
+    content: [
+      {
+        heading: "Sur Windows : winget",
+        text: "winget install Microsoft.VisualStudioCode installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — l'alternative en ligne de commande à l'installeur téléchargé depuis le site."
+      },
+      {
+        heading: "Sur Linux : Snap, le plus simple",
+        text: "sudo snap install --classic code installe VS Code en une commande sur Ubuntu/Debian et les distributions compatibles Snap, avec des mises à jour automatiques en arrière-plan."
+      },
+      {
+        heading: "Sur Linux : le dépôt officiel apt, pour rester dans l'écosystème apt",
+        text: "Ajouter le dépôt Microsoft (clé GPG + source apt, une seule fois) permet ensuite d'installer et de mettre à jour VS Code avec sudo apt install code, comme n'importe quel autre paquet du système."
+      },
+      {
+        heading: "Vérifier que l'installation a fonctionné",
+        text: "code --version affiche la version installée — une vérification rapide, quelle que soit la méthode d'installation choisie."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu es sur Ubuntu et tu veux que VS Code se mette à jour tout seul, sans y penser. Quelle méthode d'installation choisir ?",
+        options: [
+          "sudo snap install --classic code",
+          "Télécharger un .deb et ne plus jamais le mettre à jour",
+          "Ce n'est pas possible d'avoir des mises à jour automatiques sur Linux",
+          "Compiler VS Code depuis les sources"
+        ],
+        correctIndex: 0,
+        correction: "Le paquet Snap se met à jour automatiquement en arrière-plan — la méthode la plus simple sur Ubuntu/Debian pour ne pas avoir à s'en soucier."
+      }
+    ]
+  },
 
   // --- Cursor ---------------------------------------
   {
@@ -9669,6 +9841,44 @@ const GUIDES = [
         ],
         correctIndex: 0,
         correction: "Cursor intègre l'IA nativement dans l'éditeur — le choix le plus direct pour qui travaille surtout dans une interface graphique, sans vouloir connecter un outil externe."
+      }
+    ]
+  },
+  {
+    category: "Cursor",
+    title: "Installer Cursor sur Windows ou Linux",
+    level: "🟢 Débutant",
+    summary: "L'éditeur graphique et l'agent en ligne de commande (cursor-agent) s'installent séparément, chacun à sa façon.",
+    content: [
+      {
+        heading: "L'éditeur sur Windows : winget ou l'installeur .exe",
+        text: "winget install --id=Anysphere.Cursor -e installe l'éditeur via le gestionnaire de paquets de Windows — une alternative à l'installeur .exe téléchargé depuis cursor.com."
+      },
+      {
+        heading: "L'éditeur sur Linux : l'AppImage",
+        text: "Cursor se distribue sur Linux sous forme d'AppImage : la télécharger, la rendre exécutable (chmod +x), puis la lancer directement — pas d'installation au sens classique, juste un fichier à exécuter. Sur Debian/Ubuntu, libfuse2 est parfois nécessaire au préalable si le lancement échoue."
+      },
+      {
+        heading: "cursor-agent : un second outil à installer à part",
+        text: "L'agent en ligne de commande (cursor-agent) n'est pas inclus avec l'éditeur — il s'installe séparément via un script officiel, différent selon l'OS : curl ... | bash sur Mac/Linux, une commande PowerShell sur Windows, voir [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
+      },
+      {
+        heading: "Vérifier que tout est en place",
+        text: "cursor-agent --version confirme que l'agent CLI est bien installé et accessible, indépendamment de l'éditeur graphique."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu as installé l'éditeur Cursor sur Linux, mais tu veux aussi utiliser l'agent en ligne de commande dans un script. Suffit-il d'avoir installé l'éditeur ?",
+        options: [
+          "Non, cursor-agent s'installe séparément via son propre script d'installation",
+          "Oui, l'agent CLI est automatiquement inclus avec l'éditeur",
+          "Non, ce n'est possible que sur Windows",
+          "Non, il faut compiler cursor-agent soi-même"
+        ],
+        correctIndex: 0,
+        correction: "L'éditeur graphique et cursor-agent sont deux installations distinctes — installer l'un n'installe pas automatiquement l'autre."
       }
     ]
   },
@@ -13721,6 +13931,42 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "VS Code|Installer VS Code sur Windows ou Linux": {
+    "title": "Installing VS Code on Windows or Linux",
+    "summary": "A graphical installer, or a command line via the system's package manager — whichever fits the OS.",
+    "content": [
+      {
+        "heading": "On Windows: winget",
+        "text": "winget install Microsoft.VisualStudioCode installs VS Code via Windows's official package manager, built in since Windows 10/11 — the command-line alternative to the installer downloaded from the website."
+      },
+      {
+        "heading": "On Linux: Snap, the simplest option",
+        "text": "sudo snap install --classic code installs VS Code in one command on Ubuntu/Debian and Snap-compatible distributions, with automatic background updates."
+      },
+      {
+        "heading": "On Linux: the official apt repository, to stay within the apt ecosystem",
+        "text": "Adding the Microsoft repository (GPG key + apt source, a one-time step) then lets you install and update VS Code with sudo apt install code, like any other system package."
+      },
+      {
+        "heading": "Checking the install worked",
+        "text": "code --version shows the installed version — a quick check, whichever install method was chosen."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You're on Ubuntu and want VS Code to update itself without thinking about it. Which install method do you choose?",
+        "options": [
+          "sudo snap install --classic code",
+          "Download a .deb and never update it again",
+          "It's not possible to get automatic updates on Linux",
+          "Compile VS Code from source"
+        ],
+        "correctIndex": 0,
+        "correction": "The Snap package updates itself automatically in the background — the simplest method on Ubuntu/Debian to not have to think about it."
+      }
+    ]
+  },
   "Cursor|Cursor, à quoi ça sert et en quoi il diffère de VS Code": {
     "title": "Cursor: what it's for and how it differs from VS Code",
     "summary": "A VS Code fork with AI built natively into the editor, not bolted on afterward through an extension.",
@@ -14006,6 +14252,42 @@ const GUIDE_TRANSLATIONS_EN = {
         ],
         "correctIndex": 0,
         "correction": "Cursor builds AI natively into the editor — the most direct choice for someone working mostly in a graphical interface who doesn't want to connect an external tool."
+      }
+    ]
+  },
+  "Cursor|Installer Cursor sur Windows ou Linux": {
+    "title": "Installing Cursor on Windows or Linux",
+    "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",
+    "content": [
+      {
+        "heading": "The editor on Windows: winget or the .exe installer",
+        "text": "winget install --id=Anysphere.Cursor -e installs the editor via Windows's package manager — an alternative to the .exe installer downloaded from cursor.com."
+      },
+      {
+        "heading": "The editor on Linux: the AppImage",
+        "text": "Cursor is distributed on Linux as an AppImage: download it, make it executable (chmod +x), then run it directly — no install in the classic sense, just a file to run. On Debian/Ubuntu, libfuse2 is sometimes needed first if launching fails."
+      },
+      {
+        "heading": "cursor-agent: a second tool to install separately",
+        "text": "The command-line agent (cursor-agent) isn't bundled with the editor — it installs separately via an official script, different per OS: curl ... | bash on Mac/Linux, a PowerShell command on Windows, see [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
+      },
+      {
+        "heading": "Checking everything is in place",
+        "text": "cursor-agent --version confirms the CLI agent is properly installed and reachable, independently of the graphical editor."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You installed the Cursor editor on Linux, but also want to use the command-line agent in a script. Is having the editor installed enough?",
+        "options": [
+          "No, cursor-agent installs separately via its own install script",
+          "Yes, the CLI agent is automatically bundled with the editor",
+          "No, that's only possible on Windows",
+          "No, cursor-agent has to be compiled by hand"
+        ],
+        "correctIndex": 0,
+        "correction": "The graphical editor and cursor-agent are two separate installs — installing one doesn't automatically install the other."
       }
     ]
   }

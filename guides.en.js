@@ -3712,6 +3712,42 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "VS Code|Installer VS Code sur Windows ou Linux": {
+    "title": "Installing VS Code on Windows or Linux",
+    "summary": "A graphical installer, or a command line via the system's package manager — whichever fits the OS.",
+    "content": [
+      {
+        "heading": "On Windows: winget",
+        "text": "winget install Microsoft.VisualStudioCode installs VS Code via Windows's official package manager, built in since Windows 10/11 — the command-line alternative to the installer downloaded from the website."
+      },
+      {
+        "heading": "On Linux: Snap, the simplest option",
+        "text": "sudo snap install --classic code installs VS Code in one command on Ubuntu/Debian and Snap-compatible distributions, with automatic background updates."
+      },
+      {
+        "heading": "On Linux: the official apt repository, to stay within the apt ecosystem",
+        "text": "Adding the Microsoft repository (GPG key + apt source, a one-time step) then lets you install and update VS Code with sudo apt install code, like any other system package."
+      },
+      {
+        "heading": "Checking the install worked",
+        "text": "code --version shows the installed version — a quick check, whichever install method was chosen."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You're on Ubuntu and want VS Code to update itself without thinking about it. Which install method do you choose?",
+        "options": [
+          "sudo snap install --classic code",
+          "Download a .deb and never update it again",
+          "It's not possible to get automatic updates on Linux",
+          "Compile VS Code from source"
+        ],
+        "correctIndex": 0,
+        "correction": "The Snap package updates itself automatically in the background — the simplest method on Ubuntu/Debian to not have to think about it."
+      }
+    ]
+  },
   "Cursor|Cursor, à quoi ça sert et en quoi il diffère de VS Code": {
     "title": "Cursor: what it's for and how it differs from VS Code",
     "summary": "A VS Code fork with AI built natively into the editor, not bolted on afterward through an extension.",
@@ -3997,6 +4033,42 @@ const GUIDE_TRANSLATIONS_EN = {
         ],
         "correctIndex": 0,
         "correction": "Cursor builds AI natively into the editor — the most direct choice for someone working mostly in a graphical interface who doesn't want to connect an external tool."
+      }
+    ]
+  },
+  "Cursor|Installer Cursor sur Windows ou Linux": {
+    "title": "Installing Cursor on Windows or Linux",
+    "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",
+    "content": [
+      {
+        "heading": "The editor on Windows: winget or the .exe installer",
+        "text": "winget install --id=Anysphere.Cursor -e installs the editor via Windows's package manager — an alternative to the .exe installer downloaded from cursor.com."
+      },
+      {
+        "heading": "The editor on Linux: the AppImage",
+        "text": "Cursor is distributed on Linux as an AppImage: download it, make it executable (chmod +x), then run it directly — no install in the classic sense, just a file to run. On Debian/Ubuntu, libfuse2 is sometimes needed first if launching fails."
+      },
+      {
+        "heading": "cursor-agent: a second tool to install separately",
+        "text": "The command-line agent (cursor-agent) isn't bundled with the editor — it installs separately via an official script, different per OS: curl ... | bash on Mac/Linux, a PowerShell command on Windows, see [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
+      },
+      {
+        "heading": "Checking everything is in place",
+        "text": "cursor-agent --version confirms the CLI agent is properly installed and reachable, independently of the graphical editor."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You installed the Cursor editor on Linux, but also want to use the command-line agent in a script. Is having the editor installed enough?",
+        "options": [
+          "No, cursor-agent installs separately via its own install script",
+          "Yes, the CLI agent is automatically bundled with the editor",
+          "No, that's only possible on Windows",
+          "No, cursor-agent has to be compiled by hand"
+        ],
+        "correctIndex": 0,
+        "correction": "The graphical editor and cursor-agent are two separate installs — installing one doesn't automatically install the other."
       }
     ]
   }

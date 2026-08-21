@@ -3571,6 +3571,44 @@ const GUIDES = [
       }
     ]
   },
+  {
+    category: "VS Code",
+    title: "Installer VS Code sur Windows ou Linux",
+    level: "🟢 Débutant",
+    summary: "Un installeur graphique, ou une ligne de commande via le gestionnaire de paquets du système — au choix selon l'OS.",
+    content: [
+      {
+        heading: "Sur Windows : winget",
+        text: "winget install Microsoft.VisualStudioCode installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — l'alternative en ligne de commande à l'installeur téléchargé depuis le site."
+      },
+      {
+        heading: "Sur Linux : Snap, le plus simple",
+        text: "sudo snap install --classic code installe VS Code en une commande sur Ubuntu/Debian et les distributions compatibles Snap, avec des mises à jour automatiques en arrière-plan."
+      },
+      {
+        heading: "Sur Linux : le dépôt officiel apt, pour rester dans l'écosystème apt",
+        text: "Ajouter le dépôt Microsoft (clé GPG + source apt, une seule fois) permet ensuite d'installer et de mettre à jour VS Code avec sudo apt install code, comme n'importe quel autre paquet du système."
+      },
+      {
+        heading: "Vérifier que l'installation a fonctionné",
+        text: "code --version affiche la version installée — une vérification rapide, quelle que soit la méthode d'installation choisie."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu es sur Ubuntu et tu veux que VS Code se mette à jour tout seul, sans y penser. Quelle méthode d'installation choisir ?",
+        options: [
+          "sudo snap install --classic code",
+          "Télécharger un .deb et ne plus jamais le mettre à jour",
+          "Ce n'est pas possible d'avoir des mises à jour automatiques sur Linux",
+          "Compiler VS Code depuis les sources"
+        ],
+        correctIndex: 0,
+        correction: "Le paquet Snap se met à jour automatiquement en arrière-plan — la méthode la plus simple sur Ubuntu/Debian pour ne pas avoir à s'en soucier."
+      }
+    ]
+  },
 
   // --- Cursor ---------------------------------------
   {
@@ -3874,6 +3912,44 @@ const GUIDES = [
         ],
         correctIndex: 0,
         correction: "Cursor intègre l'IA nativement dans l'éditeur — le choix le plus direct pour qui travaille surtout dans une interface graphique, sans vouloir connecter un outil externe."
+      }
+    ]
+  },
+  {
+    category: "Cursor",
+    title: "Installer Cursor sur Windows ou Linux",
+    level: "🟢 Débutant",
+    summary: "L'éditeur graphique et l'agent en ligne de commande (cursor-agent) s'installent séparément, chacun à sa façon.",
+    content: [
+      {
+        heading: "L'éditeur sur Windows : winget ou l'installeur .exe",
+        text: "winget install --id=Anysphere.Cursor -e installe l'éditeur via le gestionnaire de paquets de Windows — une alternative à l'installeur .exe téléchargé depuis cursor.com."
+      },
+      {
+        heading: "L'éditeur sur Linux : l'AppImage",
+        text: "Cursor se distribue sur Linux sous forme d'AppImage : la télécharger, la rendre exécutable (chmod +x), puis la lancer directement — pas d'installation au sens classique, juste un fichier à exécuter. Sur Debian/Ubuntu, libfuse2 est parfois nécessaire au préalable si le lancement échoue."
+      },
+      {
+        heading: "cursor-agent : un second outil à installer à part",
+        text: "L'agent en ligne de commande (cursor-agent) n'est pas inclus avec l'éditeur — il s'installe séparément via un script officiel, différent selon l'OS : curl ... | bash sur Mac/Linux, une commande PowerShell sur Windows, voir [[Cursor::cursor-agent : utiliser Cursor sans ouvrir l'éditeur]]."
+      },
+      {
+        heading: "Vérifier que tout est en place",
+        text: "cursor-agent --version confirme que l'agent CLI est bien installé et accessible, indépendamment de l'éditeur graphique."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu as installé l'éditeur Cursor sur Linux, mais tu veux aussi utiliser l'agent en ligne de commande dans un script. Suffit-il d'avoir installé l'éditeur ?",
+        options: [
+          "Non, cursor-agent s'installe séparément via son propre script d'installation",
+          "Oui, l'agent CLI est automatiquement inclus avec l'éditeur",
+          "Non, ce n'est possible que sur Windows",
+          "Non, il faut compiler cursor-agent soi-même"
+        ],
+        correctIndex: 0,
+        correction: "L'éditeur graphique et cursor-agent sont deux installations distinctes — installer l'un n'installe pas automatiquement l'autre."
       }
     ]
   },
