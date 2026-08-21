@@ -4292,6 +4292,33 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "Skills & Agents|andrej-karpathy-skills : des consignes anti-dérive pour Claude Code": {
+    "subcategory": "Skills",
+    "title": "andrej-karpathy-skills: anti-drift guidelines for Claude Code",
+    "summary": "A ready-made CLAUDE.md targeting four classic AI coding pitfalls: unverified assumptions, over-complication, off-topic changes, vague goals.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "A CLAUDE.md file (also usable as a plugin) that sets behavior rules inspired by Andrej Karpathy's observations on recurring AI coding pitfalls — verify before asserting, favor simplicity, only change what's asked, aim for a clear success criterion."
+      },
+      {
+        "heading": "Four concrete principles",
+        "text": "Think before coding, favor simplicity, surgical changes rather than broad ones, execution guided by a precise goal rather than a vague one — four safeguards, each targeting one specific failure mode."
+      },
+      {
+        "heading": "How to install it",
+        "text": "As a plugin: `/plugin marketplace add multica-ai/andrej-karpathy-skills` then `/plugin install andrej-karpathy-skills@karpathy-skills`. Or directly as a file, fetched into a CLAUDE.md at the project root — see [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]] for the general principle behind the file."
+      },
+      {
+        "heading": "A community project, not official",
+        "text": "Like graphify and claude-mem, this isn't maintained by Anthropic — read through the rules before adopting them as-is, they remain one opinion on how to work, not a universal truth."
+      },
+      {
+        "heading": "The repository",
+        "text": "[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)"
+      }
+    ]
+  },
   "Cursor|Installer Cursor sur Windows ou Linux": {
     "title": "Installing Cursor on Windows or Linux",
     "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",

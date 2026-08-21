@@ -4220,6 +4220,34 @@ const GUIDES = [
       }
     ]
   },
+  {
+    category: "Skills & Agents",
+    subcategory: "Skills",
+    title: "andrej-karpathy-skills : des consignes anti-dérive pour Claude Code",
+    summary: "Un CLAUDE.md prêt à l'emploi qui cible quatre pièges classiques des IA de code : suppositions non vérifiées, sur-complexification, changements hors sujet, objectifs flous.",
+    content: [
+      {
+        heading: "Ce que ça fait",
+        text: "Un fichier CLAUDE.md (utilisable aussi comme plugin) qui pose des règles de comportement inspirées des observations d'Andrej Karpathy sur les pièges récurrents des IA de code — vérifier avant d'affirmer, préférer la simplicité, ne modifier que ce qui est demandé, viser un critère de réussite clair."
+      },
+      {
+        heading: "Quatre principes concrets",
+        text: "Réfléchir avant de coder, privilégier la simplicité, des changements chirurgicaux plutôt qu'étendus, une exécution guidée par un objectif précis plutôt que vague — quatre garde-fous, chacun ciblant un mode d'échec précis."
+      },
+      {
+        heading: "Comment l'installer",
+        text: "Comme plugin : `/plugin marketplace add multica-ai/andrej-karpathy-skills` puis `/plugin install andrej-karpathy-skills@karpathy-skills`. Ou directement comme fichier, en le récupérant dans un CLAUDE.md à la racine du projet — voir [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]] pour le principe général du fichier."
+      },
+      {
+        heading: "Un projet communautaire, pas officiel",
+        text: "Comme graphify et claude-mem, ce n'est pas maintenu par Anthropic — relis les règles avant de les adopter telles quelles, elles restent une opinion sur la bonne façon de travailler, pas une vérité universelle."
+      },
+      {
+        heading: "Le dépôt",
+        text: "[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)"
+      }
+    ]
+  },
 
   // --- FAQ : questions fréquentes ---------------------------------------
   {
