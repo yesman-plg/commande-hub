@@ -735,6 +735,18 @@
     cursor: pointer;
   }
   .guide-link:hover { text-decoration-color: var(--accent); }
+  /* Vrai lien externe (dépôt GitHub, etc.) cité dans le texte d'une fiche —
+     visuellement distinct d'un lien interne (icône de sortie). */
+  .external-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .external-link:hover { text-decoration-color: var(--accent); }
+  .external-link::after {
+    content: " ↗";
+    font-size: 0.85em;
+  }
   /* Commande citée dans le texte d'une fiche Formation : même design que
      pre.cmd dans les cartes Commandes, en version inline. */
   .inline-cmd {
@@ -1024,7 +1036,8 @@
       "Claude Code": "Claude Code",
       "Codex": "Codex",
       "VS Code": "VS Code",
-      "Cursor": "Cursor"
+      "Cursor": "Cursor",
+      "Skills & Agents": "Skills & Agents"
     }
   };
 
@@ -1045,6 +1058,7 @@
     "Codex": "Développement",
     "VS Code": "Développement",
     "Cursor": "Développement",
+    "Skills & Agents": "Développement",
     "Git": "Développement",
     "Programmation": "Développement",
     "FAQ : erreurs fréquentes": "Développement",
@@ -1932,18 +1946,25 @@
   // Commande entre backticks dans le texte d'une fiche : toujours stylée
   // comme dans Commandes ; cliquable et menant directement à la carte
   // uniquement quand cette commande exacte y existe (COMMAND_BY_CMD).
+  // Backtick `code` (stylé, lié à une carte Commandes si elle existe) OU
+  // lien markdown [texte](url) (vrai lien externe, nouvel onglet) — les deux
+  // formats coexistent dans le texte d'une fiche, traités en un seul passage.
   function renderInlineCode(segment) {
-    const re = /`([^`]+)`/g;
+    const re = /`([^`]+)`|\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
     let out = "";
     let last = 0;
     let m;
     while ((m = re.exec(segment)) !== null) {
       out += escapeHtml(segment.slice(last, m.index));
-      const code = m[1];
-      const cmd = COMMAND_BY_CMD.get(code);
-      out += cmd
-        ? `<a href="#" class="inline-cmd" data-command-category="${escapeAttr(cmd.category)}" data-command-title="${escapeAttr(cmd.title)}">${escapeHtml(code)}</a>`
-        : `<code class="inline-cmd">${escapeHtml(code)}</code>`;
+      if (m[1] !== undefined) {
+        const code = m[1];
+        const cmd = COMMAND_BY_CMD.get(code);
+        out += cmd
+          ? `<a href="#" class="inline-cmd" data-command-category="${escapeAttr(cmd.category)}" data-command-title="${escapeAttr(cmd.title)}">${escapeHtml(code)}</a>`
+          : `<code class="inline-cmd">${escapeHtml(code)}</code>`;
+      } else {
+        out += `<a href="${escapeAttr(m[3])}" class="external-link" target="_blank" rel="noopener noreferrer">${escapeHtml(m[2])}</a>`;
+      }
       last = re.lastIndex;
     }
     out += escapeHtml(segment.slice(last));

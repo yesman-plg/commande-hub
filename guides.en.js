@@ -3915,6 +3915,294 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "Skills & Agents|claude-code-setup : configurer Claude Code pour ton projet": {
+    "title": "claude-code-setup: configuring Claude Code for your project",
+    "summary": "Analyzes your project and suggests tailored automations (commands, agents, hooks) rather than configuring everything by hand.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "This official Anthropic plugin analyzes your project's structure and recommends tailored Claude Code automations (custom commands, agents, hooks) suited to what you actually use, rather than generic defaults."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install claude-code-setup@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — claude-code-setup](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-code-setup)"
+      }
+    ]
+  },
+  "Skills & Agents|claude-md-management : entretenir son CLAUDE.md": {
+    "title": "claude-md-management: maintaining your CLAUDE.md",
+    "summary": "Tools to maintain and improve a CLAUDE.md file, which tends to go stale or grow too long over time.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Helps keep a CLAUDE.md file up to date and relevant — spotting what's no longer true, what's missing, what could be trimmed — rather than letting the file degrade session after session, see [[Claude Code::CLAUDE.md : donner du contexte permanent à Claude]]."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install claude-md-management@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — claude-md-management](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management)"
+      }
+    ]
+  },
+  "Skills & Agents|skill-creator : créer ses propres skills": {
+    "title": "skill-creator: creating your own skills",
+    "summary": "Create a new skill, improve an existing one, or measure its performance — the official tool for going beyond the skills already available.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Guides you through creating a skill from scratch, improving an existing one, or evaluating its performance (tests, benchmarks) — useful as soon as a recurring need isn't covered by any existing skill, see [[Claude Code::Skills : des instructions prêtes à l'emploi]] for the general principle."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install skill-creator@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — skill-creator](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/skill-creator)"
+      }
+    ]
+  },
+  "Skills & Agents|code-review : revue de code automatisée multi-agents": {
+    "title": "code-review: automated multi-agent code review",
+    "summary": "Several specialized agents review a Pull Request from different angles, rather than a single generic pass.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Runs an automated code review on a Pull Request using several specialized agents, each looking at a different aspect — a complement to a human review, not a replacement."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install code-review@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — code-review](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review)"
+      }
+    ]
+  },
+  "Skills & Agents|pr-review-toolkit : une boîte à outils de revue plus détaillée": {
+    "title": "pr-review-toolkit: a more detailed review toolkit",
+    "summary": "Agents each dedicated to one specific aspect of a review: comments, tests, error handling, type design, quality, simplification.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Bundles specialized review agents, each focused on one specific aspect (comments, test coverage, error handling, type design, overall quality, simplification) — more granular than a single generic review."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install pr-review-toolkit@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — pr-review-toolkit](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/pr-review-toolkit)"
+      }
+    ]
+  },
+  "Skills & Agents|code-simplifier : clarifier du code existant": {
+    "title": "code-simplifier: clarifying existing code",
+    "summary": "An agent dedicated to simplifying and clarifying already-written code, for readability and consistency rather than adding features.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Focuses on the clarity, consistency, and maintainability of already-working code — not to add features, but to make the existing codebase simpler to read and evolve afterward."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install code-simplifier@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — code-simplifier](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-simplifier)"
+      }
+    ]
+  },
+  "Skills & Agents|claude-security : scanner les vulnérabilités de son code": {
+    "title": "claude-security: scanning your code for vulnerabilities",
+    "summary": "An in-depth security scan that runs entirely inside your Claude Code session, with no code sent to a separate third-party service.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Runs an in-depth vulnerability scan on your own code, directly inside the current Claude Code session — handy for a first security pass before a more formal review."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install claude-security@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — claude-security](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-security)"
+      }
+    ]
+  },
+  "Skills & Agents|commit-commands : des commandes pour le workflow Git": {
+    "title": "commit-commands: commands for the Git workflow",
+    "summary": "Ready-made commands for the commit / push / Pull Request cycle, with no need to re-explain the context every time.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Provides custom commands for the everyday git workflow (commit, push, opening a Pull Request) — see [[Git::Le workflow du quotidien]] for the same cycle explained in detail."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install commit-commands@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — commit-commands](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/commit-commands)"
+      }
+    ]
+  },
+  "Skills & Agents|feature-dev : un workflow complet pour développer une fonctionnalité": {
+    "title": "feature-dev: a complete workflow for building a feature",
+    "summary": "Several specialized agents split up the steps of a full feature, rather than one conversation doing everything at once.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Structures feature development around specialized agents for its different steps — useful for a task big enough to benefit from being broken down rather than handled as one block."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install feature-dev@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — feature-dev](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/feature-dev)"
+      }
+    ]
+  },
+  "Skills & Agents|session-report : résumer une session de travail": {
+    "title": "session-report: summarizing a work session",
+    "summary": "Generates a report of what happened during a session — handy for picking up the thread later or briefing a team.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Produces a structured summary of a Claude Code session (what was done, decisions made) — useful for yourself when resuming later, see [[Claude Code::Sessions : continuer, reprendre, repartir de zéro]], or to brief a team without retracing everything by hand."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install session-report@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — session-report](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/session-report)"
+      }
+    ]
+  },
+  "Skills & Agents|frontend-design : des interfaces qui sortent du lot": {
+    "title": "frontend-design: interfaces that stand out",
+    "summary": "Aims for polished, distinctive interfaces, rather than the generic look often associated with AI-generated interfaces.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Helps produce polished, distinctive frontend interfaces, with the explicit goal of avoiding the generic aesthetic often associated with AI-generated code."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install frontend-design@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — frontend-design](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/frontend-design)"
+      }
+    ]
+  },
+  "Skills & Agents|document-skills : créer et modifier des documents Office": {
+    "title": "document-skills: creating and editing Office documents",
+    "summary": "An official Anthropic pack for generating and editing Word, PDF, PowerPoint, and Excel files directly from Claude Code.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Bundles the official skills for creating and editing .docx, .pdf, .pptx, and .xlsx files — useful as soon as a task calls for an office document deliverable rather than code."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/skills` then `/plugin install document-skills@anthropic-agent-skills`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/skills](https://github.com/anthropics/skills)"
+      }
+    ]
+  },
+  "Skills & Agents|example-skills : le pack d'exemples officiel": {
+    "title": "example-skills: the official example pack",
+    "summary": "An official pack bundling several demo skills — generative art, design, web artifacts, app testing, MCP server creation...",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Bundles several official demo skills into one pack: art generation (algorithmic-art), visual design (canvas-design), building complex web artifacts (web-artifacts-builder), testing web apps (webapp-testing), help building MCP servers (mcp-builder), and a few others."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/skills` then `/plugin install example-skills@anthropic-agent-skills`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/skills](https://github.com/anthropics/skills)"
+      }
+    ]
+  },
+  "Skills & Agents|expo : les skills officiels pour Expo / React Native": {
+    "title": "expo: the official skills for Expo / React Native",
+    "summary": "Maintained directly by the Expo team — covers developing, deploying, and debugging an Expo app, from routing to the stores.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Covers development with Expo Router, SwiftUI and Jetpack Compose components, Tailwind CSS setup, API routes, data fetching, CI/CD workflows, App Store and Play Store deployment, SDK upgrades, and dev client distribution — see [[Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?]] for the general context."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install expo@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[expo/skills](https://github.com/expo/skills)"
+      }
+    ]
+  },
+  "Skills & Agents|kotlin-lsp : intelligence de code pour Kotlin": {
+    "title": "kotlin-lsp: code intelligence for Kotlin",
+    "summary": "Connects Claude Code to the Kotlin language server — more precise navigation, autocomplete, and diagnostics.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Wires a real Kotlin language server into Claude Code, for a more precise understanding of the code (jump to definition, error diagnostics) than a plain text read of files — useful on a substantial [[Kotlin / Android::Gradle, le chef d'orchestre de ton build]] project."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install kotlin-lsp@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — kotlin-lsp](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/kotlin-lsp)"
+      }
+    ]
+  },
+  "Skills & Agents|github : gérer GitHub directement depuis Claude Code": {
+    "title": "github: managing GitHub directly from Claude Code",
+    "summary": "GitHub's official MCP server — create issues, manage Pull Requests, search repositories, without leaving the session.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Connects Claude Code to the GitHub API via an official MCP server — create an issue, manage a Pull Request, review code, search repositories, directly from the session, see [[Claude Code::MCP : connecter Claude à d'autres outils]] for the general principle behind MCP."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install github@claude-plugins-official`."
+      },
+      {
+        "heading": "The repository",
+        "text": "[anthropics/claude-plugins-official — github](https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins/github)"
+      }
+    ]
+  },
   "Cursor|Installer Cursor sur Windows ou Linux": {
     "title": "Installing Cursor on Windows or Linux",
     "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",
