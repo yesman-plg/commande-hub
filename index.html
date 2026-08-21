@@ -1330,9 +1330,10 @@
   }
 
   function subcategoriesFor(cat) {
-    if (mode === "formation" || cat === "Toutes") return [];
+    if (cat === "Toutes") return [];
+    const list = mode === "formation" ? GUIDES : COMMANDS;
     return Array.from(new Set(
-      COMMANDS.filter(c => c.category === cat && c.subcategory).map(c => c.subcategory)
+      list.filter(c => c.category === cat && c.subcategory).map(c => c.subcategory)
     ));
   }
 
@@ -1404,7 +1405,15 @@
 
   function renderSubchips() {
     if (mode === "formation") {
-      renderLevelChips();
+      // Une catégorie de fiches peut être classée par sous-catégorie plutôt
+      // que par niveau (ex : Skills & Agents → Skills / Agents) — dans ce
+      // cas, les chips de sous-catégorie remplacent les chips de niveau.
+      const guideSubs = subcategoriesFor(activeCategory);
+      if (guideSubs.length >= 2) {
+        renderGuideSubchips(guideSubs);
+      } else {
+        renderLevelChips();
+      }
       return;
     }
     const subs = subcategoriesFor(activeCategory);
@@ -1453,6 +1462,30 @@
         activeLevel = (el.dataset.level === activeLevel) ? "Toutes" : el.dataset.level;
         saveState();
         renderLevelChips();
+        renderResults();
+      });
+    });
+  }
+
+  // Chips de sous-catégorie pour une catégorie de fiches Formation qui n'est
+  // pas classée par niveau (ex : Skills & Agents) — même interaction que
+  // renderLevelChips, mais sur item.subcategory plutôt que item.level.
+  function renderGuideSubchips(subs) {
+    const relevant = GUIDES.filter(g =>
+      (activeGroup === "Toutes" || groupOf(g.category) === activeGroup) &&
+      (activeCategory === "Toutes" || g.category === activeCategory)
+    );
+    subchipsEl.style.display = "flex";
+    subchipsEl.innerHTML = subs.map(sub => {
+      const n = relevant.filter(g => g.subcategory === sub).length;
+      const active = sub === activeSubcategory ? "active" : "";
+      return `<span class="chip ${active}" data-sub="${escapeAttr(sub)}">${escapeHtml(subcatLabel(sub))}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    subchipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        activeSubcategory = (el.dataset.sub === activeSubcategory) ? "Toutes" : el.dataset.sub;
+        saveState();
+        renderSubchips();
         renderResults();
       });
     });
@@ -1527,7 +1560,7 @@
     if (lang === "en" && !loc.translated) html += `<div class="translation-notice">${t("formationNotice")}</div>`;
     html += `
       <div class="detail-head">
-        <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
+        ${item.level ? `<span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level)}"></span>` : ""}
         <h2 class="detail-title">${escapeHtml(loc.title)}</h2>
         <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
       </div>
@@ -1796,7 +1829,7 @@
     return `
       <div class="guide-card guide-card-row" data-cat="${escapeAttr(item.category)}" data-title="${escapeAttr(item.title)}">
         <div class="guide-row-top">
-          <span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level || "")}"></span>
+          ${item.level ? `<span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level)}"></span>` : ""}
           <span class="guide-title">${escapeHtml(loc.title)}</span>
           ${hasExercises ? `<span class="exercise-flag" title="${escapeAttr(t("hasExercisesTitle"))}">🧪</span>` : ""}
           <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
@@ -1854,6 +1887,7 @@
       (activeGroup === "Toutes" || groupOf(item.category) === activeGroup) &&
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeLevel === "Toutes" || item.level === activeLevel) &&
+      (activeSubcategory === "Toutes" || item.subcategory === activeSubcategory) &&
       (!showFavoritesOnly || isFavoriteFor("formation", item)) &&
       matchesGuide(item, query)
     );
@@ -1865,12 +1899,18 @@
       return;
     }
 
+    // Une fiche sans niveau (ex : Skills & Agents) n'entre pas dans le
+    // classement vert/jaune/rouge — elle est groupée à part, par catégorie
+    // puis sous-catégorie, plutôt que d'être invisible dans ce groupage.
+    const leveled = filtered.filter(g => LEVEL_ORDER.includes(g.level));
+    const unleveled = filtered.filter(g => !LEVEL_ORDER.includes(g.level));
+
     // groupé par niveau (vert → jaune → rouge), puis par thème à l'intérieur
-    const levelsPresent = LEVEL_ORDER.filter(lvl => filtered.some(g => g.level === lvl));
+    const levelsPresent = LEVEL_ORDER.filter(lvl => leveled.some(g => g.level === lvl));
     const grouped = {};
     levelsPresent.forEach(lvl => {
       grouped[lvl] = {};
-      filtered.filter(g => g.level === lvl).forEach(item => {
+      leveled.filter(g => g.level === lvl).forEach(item => {
         (grouped[lvl][item.category] = grouped[lvl][item.category] || []).push(item);
       });
     });
@@ -1885,6 +1925,28 @@
         });
       });
     });
+
+    if (unleveled.length) {
+      const byCat = {};
+      unleveled.forEach(item => {
+        const catBucket = (byCat[item.category] = byCat[item.category] || { __order: [], subs: {} });
+        const subKey = item.subcategory || "__none";
+        if (!catBucket.subs[subKey]) { catBucket.subs[subKey] = []; catBucket.__order.push(subKey); }
+        catBucket.subs[subKey].push(item);
+      });
+      Object.keys(byCat).forEach(cat => {
+        html += `<div class="group-title">${escapeHtml(catLabel(cat))}</div>`;
+        byCat[cat].__order.forEach(subKey => {
+          if (subKey !== "__none") {
+            html += `<div class="subgroup-title">${escapeHtml(subcatLabel(subKey))}</div>`;
+          }
+          byCat[cat].subs[subKey].forEach(item => {
+            html += guideCardHtml(item);
+          });
+        });
+      });
+    }
+
     resultsEl.innerHTML = html;
   }
 

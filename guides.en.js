@@ -3916,6 +3916,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|claude-code-setup : configurer Claude Code pour ton projet": {
+    "subcategory": "Agents",
     "title": "claude-code-setup: configuring Claude Code for your project",
     "summary": "Analyzes your project and suggests tailored automations (commands, agents, hooks) rather than configuring everything by hand.",
     "content": [
@@ -3934,6 +3935,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|claude-md-management : entretenir son CLAUDE.md": {
+    "subcategory": "Agents",
     "title": "claude-md-management: maintaining your CLAUDE.md",
     "summary": "Tools to maintain and improve a CLAUDE.md file, which tends to go stale or grow too long over time.",
     "content": [
@@ -3952,6 +3954,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|skill-creator : créer ses propres skills": {
+    "subcategory": "Agents",
     "title": "skill-creator: creating your own skills",
     "summary": "Create a new skill, improve an existing one, or measure its performance — the official tool for going beyond the skills already available.",
     "content": [
@@ -3970,6 +3973,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|code-review : revue de code automatisée multi-agents": {
+    "subcategory": "Agents",
     "title": "code-review: automated multi-agent code review",
     "summary": "Several specialized agents review a Pull Request from different angles, rather than a single generic pass.",
     "content": [
@@ -3988,6 +3992,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|pr-review-toolkit : une boîte à outils de revue plus détaillée": {
+    "subcategory": "Agents",
     "title": "pr-review-toolkit: a more detailed review toolkit",
     "summary": "Agents each dedicated to one specific aspect of a review: comments, tests, error handling, type design, quality, simplification.",
     "content": [
@@ -4006,6 +4011,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|code-simplifier : clarifier du code existant": {
+    "subcategory": "Agents",
     "title": "code-simplifier: clarifying existing code",
     "summary": "An agent dedicated to simplifying and clarifying already-written code, for readability and consistency rather than adding features.",
     "content": [
@@ -4024,6 +4030,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|claude-security : scanner les vulnérabilités de son code": {
+    "subcategory": "Agents",
     "title": "claude-security: scanning your code for vulnerabilities",
     "summary": "An in-depth security scan that runs entirely inside your Claude Code session, with no code sent to a separate third-party service.",
     "content": [
@@ -4042,6 +4049,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|commit-commands : des commandes pour le workflow Git": {
+    "subcategory": "Agents",
     "title": "commit-commands: commands for the Git workflow",
     "summary": "Ready-made commands for the commit / push / Pull Request cycle, with no need to re-explain the context every time.",
     "content": [
@@ -4060,6 +4068,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|feature-dev : un workflow complet pour développer une fonctionnalité": {
+    "subcategory": "Agents",
     "title": "feature-dev: a complete workflow for building a feature",
     "summary": "Several specialized agents split up the steps of a full feature, rather than one conversation doing everything at once.",
     "content": [
@@ -4078,6 +4087,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|session-report : résumer une session de travail": {
+    "subcategory": "Agents",
     "title": "session-report: summarizing a work session",
     "summary": "Generates a report of what happened during a session — handy for picking up the thread later or briefing a team.",
     "content": [
@@ -4096,6 +4106,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|frontend-design : des interfaces qui sortent du lot": {
+    "subcategory": "Agents",
     "title": "frontend-design: interfaces that stand out",
     "summary": "Aims for polished, distinctive interfaces, rather than the generic look often associated with AI-generated interfaces.",
     "content": [
@@ -4114,6 +4125,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|document-skills : créer et modifier des documents Office": {
+    "subcategory": "Skills",
     "title": "document-skills: creating and editing Office documents",
     "summary": "An official Anthropic pack for generating and editing Word, PDF, PowerPoint, and Excel files directly from Claude Code.",
     "content": [
@@ -4132,6 +4144,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|example-skills : le pack d'exemples officiel": {
+    "subcategory": "Skills",
     "title": "example-skills: the official example pack",
     "summary": "An official pack bundling several demo skills — generative art, design, web artifacts, app testing, MCP server creation...",
     "content": [
@@ -4150,6 +4163,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|expo : les skills officiels pour Expo / React Native": {
+    "subcategory": "Skills",
     "title": "expo: the official skills for Expo / React Native",
     "summary": "Maintained directly by the Expo team — covers developing, deploying, and debugging an Expo app, from routing to the stores.",
     "content": [
@@ -4168,6 +4182,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|kotlin-lsp : intelligence de code pour Kotlin": {
+    "subcategory": "Agents",
     "title": "kotlin-lsp: code intelligence for Kotlin",
     "summary": "Connects Claude Code to the Kotlin language server — more precise navigation, autocomplete, and diagnostics.",
     "content": [
@@ -4186,6 +4201,7 @@ const GUIDE_TRANSLATIONS_EN = {
     ]
   },
   "Skills & Agents|github : gérer GitHub directement depuis Claude Code": {
+    "subcategory": "Agents",
     "title": "github: managing GitHub directly from Claude Code",
     "summary": "GitHub's official MCP server — create issues, manage Pull Requests, search repositories, without leaving the session.",
     "content": [

@@ -3826,8 +3826,8 @@ const GUIDES = [
   // --- Skills & Agents ---------------------------------------
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "claude-code-setup : configurer Claude Code pour ton projet",
-    level: "🟢 Débutant",
     summary: "Analyse ton projet et propose des automatisations adaptées (commandes, agents, hooks) plutôt que de tout configurer à la main.",
     content: [
       {
@@ -3846,8 +3846,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "claude-md-management : entretenir son CLAUDE.md",
-    level: "🟢 Débutant",
     summary: "Des outils pour maintenir et améliorer un fichier CLAUDE.md qui a tendance à devenir périmé ou trop long avec le temps.",
     content: [
       {
@@ -3866,8 +3866,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "skill-creator : créer ses propres skills",
-    level: "🟢 Débutant",
     summary: "Crée un nouveau skill, améliore un skill existant, ou mesure ses performances — l'outil officiel pour aller plus loin que les skills déjà disponibles.",
     content: [
       {
@@ -3886,8 +3886,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "code-review : revue de code automatisée multi-agents",
-    level: "🟡 Intermédiaire",
     summary: "Plusieurs agents spécialisés relisent une Pull Request sous des angles différents, plutôt qu'une seule passe générique.",
     content: [
       {
@@ -3906,8 +3906,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "pr-review-toolkit : une boîte à outils de revue plus détaillée",
-    level: "🟡 Intermédiaire",
     summary: "Des agents dédiés chacun à un aspect précis d'une revue : commentaires, tests, gestion des erreurs, conception des types, qualité, simplification.",
     content: [
       {
@@ -3926,8 +3926,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "code-simplifier : clarifier du code existant",
-    level: "🟡 Intermédiaire",
     summary: "Un agent dédié à simplifier et clarifier du code déjà écrit, pour la lisibilité et la cohérence plutôt que pour ajouter des fonctionnalités.",
     content: [
       {
@@ -3946,8 +3946,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "claude-security : scanner les vulnérabilités de son code",
-    level: "🟡 Intermédiaire",
     summary: "Une analyse de sécurité approfondie qui tourne entièrement dans ta session Claude Code, sans envoyer le code vers un service tiers séparé.",
     content: [
       {
@@ -3966,8 +3966,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "commit-commands : des commandes pour le workflow Git",
-    level: "🟢 Débutant",
     summary: "Des commandes toutes prêtes pour le cycle commit / push / Pull Request, sans avoir à réexpliquer le contexte à chaque fois.",
     content: [
       {
@@ -3986,8 +3986,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "feature-dev : un workflow complet pour développer une fonctionnalité",
-    level: "🟡 Intermédiaire",
     summary: "Plusieurs agents spécialisés se répartissent les étapes d'une fonctionnalité complète, plutôt qu'une seule conversation qui fait tout.",
     content: [
       {
@@ -4006,8 +4006,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "session-report : résumer une session de travail",
-    level: "🟡 Intermédiaire",
     summary: "Génère un compte-rendu de ce qui a été fait pendant une session — pratique pour reprendre le fil plus tard ou informer une équipe.",
     content: [
       {
@@ -4026,8 +4026,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "frontend-design : des interfaces qui sortent du lot",
-    level: "🟡 Intermédiaire",
     summary: "Vise des interfaces soignées et distinctives, plutôt que l'esthétique générique qu'on reconnaît souvent à des interfaces générées par IA.",
     content: [
       {
@@ -4046,8 +4046,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Skills",
     title: "document-skills : créer et modifier des documents Office",
-    level: "🟡 Intermédiaire",
     summary: "Un pack officiel Anthropic pour générer et éditer des fichiers Word, PDF, PowerPoint et Excel directement depuis Claude Code.",
     content: [
       {
@@ -4066,8 +4066,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Skills",
     title: "example-skills : le pack d'exemples officiel",
-    level: "🟡 Intermédiaire",
     summary: "Un pack officiel qui regroupe plusieurs skills de démonstration — art génératif, design, artefacts web, tests d'application, création de serveurs MCP...",
     content: [
       {
@@ -4086,8 +4086,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Skills",
     title: "expo : les skills officiels pour Expo / React Native",
-    level: "🟢 Débutant",
     summary: "Maintenu directement par l'équipe Expo — couvre le développement, le déploiement et le débogage d'une app Expo, du routing aux stores.",
     content: [
       {
@@ -4106,8 +4106,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "kotlin-lsp : intelligence de code pour Kotlin",
-    level: "🟢 Débutant",
     summary: "Connecte Claude Code au serveur de langage Kotlin — navigation dans le code, autocomplétion et diagnostics plus précis.",
     content: [
       {
@@ -4126,8 +4126,8 @@ const GUIDES = [
   },
   {
     category: "Skills & Agents",
+    subcategory: "Agents",
     title: "github : gérer GitHub directement depuis Claude Code",
-    level: "🟢 Débutant",
     summary: "Le serveur MCP officiel de GitHub — créer des issues, gérer des Pull Requests, chercher dans des dépôts, sans quitter la session.",
     content: [
       {
