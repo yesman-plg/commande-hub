@@ -3711,5 +3711,293 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "/ide connects an already-running Claude Code session (even one launched from a separate terminal) to the open editor, to share the active file and selection."
       }
     ]
+  },
+  "Cursor|Cursor, à quoi ça sert et en quoi il diffère de VS Code": {
+    "title": "Cursor: what it's for and how it differs from VS Code",
+    "summary": "A VS Code fork with AI built natively into the editor, not bolted on afterward through an extension.",
+    "content": [
+      {
+        "heading": "The same base as VS Code",
+        "text": "Cursor reuses VS Code's interface, extension system, and most shortcuts — everything covered in the VS Code category works identically in Cursor, see [[VS Code::VS Code, à quoi ça sert et comment il s'organise]]."
+      },
+      {
+        "heading": "Native AI rather than bolted on afterward",
+        "text": "Unlike VS Code + the Claude Code extension (which connects an external tool to the editor), Cursor builds AI directly into its core — inline edit, chat, and advanced autocomplete are part of the editor itself, not a tool plugged into it."
+      },
+      {
+        "heading": "What that actually changes",
+        "text": "Cursor's AI features (Ctrl+K, Ctrl+L, Tab) are available with nothing more to install beyond the editor itself — no separate extension to connect, unlike Claude Code inside VS Code."
+      },
+      {
+        "heading": "Not a full replacement for VS Code + extension",
+        "text": "Both approaches remain valid: Cursor for an AI experience designed into the editor from the start, or VS Code/Cursor + the Claude Code extension to use Claude Code specifically from a VS Code-based editor, see [[Claude Code::Installer l'extension dans VS Code ou Cursor]]."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "What's the fundamental difference between Cursor and VS Code + the Claude Code extension?",
+        "options": [
+          "Cursor builds AI natively into the editor; the extension connects an external tool (Claude Code) to VS Code",
+          "Cursor has no relation to VS Code",
+          "There's no difference, they're the same tools",
+          "The Claude Code extension only works on Cursor"
+        ],
+        "correctIndex": 0,
+        "correction": "Cursor builds AI directly into the editor's core, while the Claude Code extension connects an external tool (running in the terminal) to VS Code — two different approaches to the same goal."
+      }
+    ]
+  },
+  "Cursor|Édition inline (Ctrl+K) : modifier du code sans ouvrir le chat": {
+    "title": "Inline edit (Ctrl+K): changing code without opening chat",
+    "summary": "Describing a change right where it needs to happen, without leaving the line of code in question.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Opening a chat, explaining where the code to change is, copy-pasting the suggested result — for a small, localized change, that detour is slower than it needs to be."
+      },
+      {
+        "heading": "Ctrl+K, right where you are",
+        "text": "Placing the cursor (or selecting a block) then pressing Ctrl+K opens a field right below to describe the wanted change — the change applies directly at that exact spot."
+      },
+      {
+        "heading": "A question rather than a change",
+        "text": "Alt+Enter from that same field asks a one-off question without touching the code — useful for understanding a line before deciding whether to change it."
+      },
+      {
+        "heading": "When to prefer chat instead",
+        "text": "For a change that touches several different spots in the file (or several files), chat or Agent mode fit better — inline edit stays designed for a localized change."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to change a single function, right where it is, without opening a whole chat panel. Which shortcut do you use?",
+        "options": [
+          "Ctrl+K, on the selected function or with the cursor on it",
+          "Ctrl+L",
+          "Ctrl+E",
+          "Ctrl+Shift+P"
+        ],
+        "correctIndex": 0,
+        "correction": "Ctrl+K opens inline edit right where you are — designed for a localized change, with no whole chat panel involved."
+      }
+    ]
+  },
+  "Cursor|Le chat et le mode Agent : deux façons de demander de l'aide": {
+    "title": "Chat and Agent mode: two ways to ask for help",
+    "summary": "Chat to discuss and understand, Agent to delegate a task that touches several files.",
+    "content": [
+      {
+        "heading": "Ctrl+L: asking a question, with the file's context",
+        "text": "Opens a chat panel that has access to the currently open file (and the selection, if text is selected) — for understanding code, asking for an explanation, or a simple change."
+      },
+      {
+        "heading": "Agent mode: for a bigger task",
+        "text": "Unlike chat, which mostly answers with text and one-off suggestions, Agent mode can explore several files, modify several in a row, and run commands — for a task that goes beyond a single file."
+      },
+      {
+        "heading": "Ctrl+E for the dedicated layout",
+        "text": "Switches to a full-screen layout designed for following a longer Agent task, with more room to see the files explored and changed."
+      },
+      {
+        "heading": "The mode menu to choose explicitly",
+        "text": "Ctrl+. shows the Agent / Plan / Ask menu — see [[Cursor::Les modes Agent / Plan / Ask : garder la main sur ce que l'IA fait]] for the detail of each."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want a task that will explore and modify several files in the project, not just answer a question. Which mode fits best?",
+        "options": [
+          "Agent mode",
+          "Chat in question-answer mode only",
+          "Inline edit (Ctrl+K)",
+          "No mode can touch several files"
+        ],
+        "correctIndex": 0,
+        "correction": "Agent mode is designed to explore and modify several files, unlike chat (mostly question-answer) or inline edit (localized to one exact spot)."
+      }
+    ]
+  },
+  "Cursor|Cursor Tab : l'autocomplétion qui devine plusieurs lignes": {
+    "title": "Cursor Tab: autocomplete that guesses several lines ahead",
+    "summary": "More than classic autocomplete: Cursor Tab anticipates whole blocks by taking the file's context into account.",
+    "content": [
+      {
+        "heading": "Beyond classic autocomplete",
+        "text": "Classic autocomplete mostly suggests a word or the end of a line, based on what's already been typed. Cursor Tab sometimes suggests whole lines, even several lines in a row, based on the rest of the file and recent changes."
+      },
+      {
+        "heading": "Accepting all at once or word by word",
+        "text": "Tab approves the entire suggestion shown. Ctrl+→ only accepts the next word — useful when only the start of the suggestion matches what's wanted."
+      },
+      {
+        "heading": "The suggestion can jump elsewhere",
+        "text": "After a change, Cursor Tab can suggest a related change a bit further in the file (for example, the equivalent line in a similar function) — not just a continuation at the cursor."
+      },
+      {
+        "heading": "A suggestion that doesn't fit: just keep typing",
+        "text": "Ignoring the suggestion by typing normally simply makes it disappear — no explicit action is needed to reject it."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Cursor Tab suggests a multi-line completion, but only the first line actually fits. What do you do?",
+        "options": [
+          "Ctrl+→ to accept only the next word/the wanted part, rather than Tab to accept everything",
+          "Accept with Tab then delete everything afterward",
+          "Retype the line by hand without looking at the suggestion",
+          "It's not possible to accept partially"
+        ],
+        "correctIndex": 0,
+        "correction": "Ctrl+→ accepts the suggestion word by word rather than as a block — more precise than accepting everything with Tab and then deleting what doesn't fit."
+      }
+    ]
+  },
+  "Cursor|Les modes Agent / Plan / Ask : garder la main sur ce que l'IA fait": {
+    "title": "Agent / Plan / Ask modes: staying in control of what the AI does",
+    "summary": "Three levels of autonomy, from most cautious to most direct — the same principle seen elsewhere, with Cursor's own vocabulary.",
+    "content": [
+      {
+        "heading": "Ask: read-only",
+        "text": "Ask mode answers questions about the project without ever modifying a file or running a command — the most cautious of the three, suited for understanding before acting."
+      },
+      {
+        "heading": "Plan: thinking before acting",
+        "text": "Plan mode has a detailed approach proposed before any change, to be approved — see [[Claude Code::Les modes de permission : plan, auto-accept, manuel]] for the same principle on the Claude Code side, and [[Codex::Sandbox et approbations : le système de permissions de Codex]] on the Codex side."
+      },
+      {
+        "heading": "Agent: the default mode, which acts",
+        "text": "Agent mode explores, modifies, and runs commands to accomplish the requested task — the most direct of the three, the one used by default with no particular setting."
+      },
+      {
+        "heading": "Switching modes along the way",
+        "text": "Ctrl+. opens the mode menu at any time — nothing stops you from starting in Ask to understand, then switching to Agent once the approach is clear."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to first understand how a feature is implemented, without risking the slightest accidental change. Which mode do you choose?",
+        "options": [
+          "Ask, the read-only mode",
+          "Agent, the default mode",
+          "Plan",
+          "No mode guarantees no changes"
+        ],
+        "correctIndex": 0,
+        "correction": "Ask never modifies a file or runs a command — the mode best suited for understanding before acting, with zero risk of an accidental change."
+      }
+    ]
+  },
+  "Cursor|Cursor Rules : donner du contexte permanent au projet": {
+    "title": "Cursor Rules: giving the project permanent context",
+    "summary": "The Cursor-side equivalent of CLAUDE.md/AGENTS.md — with a more granular rule system, activated based on context.",
+    "content": [
+      {
+        "heading": "The same problem, solved elsewhere too",
+        "text": "Re-explaining project conventions in every conversation is repetitive — like CLAUDE.md for Claude Code or AGENTS.md for Codex, Cursor Rules remove that repetition."
+      },
+      {
+        "heading": "Two possible formats",
+        "text": "Either .mdc files inside .cursor/rules/ (with configuration metadata), or more simply a classic AGENTS.md at the project root — Cursor accepts both, see [[Codex::AGENTS.md : donner du contexte permanent à Codex]] for the same file on the Codex side."
+      },
+      {
+        "heading": "A finer activation than \"always on\"",
+        "text": "A rule can always apply, apply automatically based on the request's topic, apply only to certain files (by name pattern), or be invoked manually via @rule-name — more granular than a single file loaded in full every time."
+      },
+      {
+        "heading": "User rules, beyond the project",
+        "text": "Beyond per-project rules, global preferences (communication style, personal conventions) can be defined once and apply across every project."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want a rule to apply only when the agent works on test files, not the rest of the project. Is that possible with Cursor Rules?",
+        "options": [
+          "Yes, a rule can be limited to files matching a specific pattern",
+          "No, a rule always applies to the entire project",
+          "Only by duplicating the whole project",
+          "Only via AGENTS.md, not .cursor/rules"
+        ],
+        "correctIndex": 0,
+        "correction": "A rule can be limited to files matching a specific pattern (test files, for example) — far more granular than a uniform application across the whole project."
+      }
+    ]
+  },
+  "Cursor|cursor-agent : utiliser Cursor sans ouvrir l'éditeur": {
+    "title": "cursor-agent: using Cursor without opening the editor",
+    "summary": "The same agent, in a terminal — for scripting, automation, or working on a remote server with no graphical interface.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Some contexts (a remote server over SSH, a CI pipeline, a script) have no graphical editor available — cursor-agent brings the same capabilities into a plain terminal."
+      },
+      {
+        "heading": "agent, for an interactive session",
+        "text": "Typed on its own, the agent command opens an interactive session in the terminal — the same principle as claude for Claude Code or codex for Codex, see [[Claude Code::Utiliser Claude Code dans un terminal : les premiers pas]]."
+      },
+      {
+        "heading": "agent -p, for a one-off run",
+        "text": "Print mode (-p) runs a task, shows the result, then quits — with no session to keep alive, handy for a script or automation."
+      },
+      {
+        "heading": "The same modes as elsewhere, on the command line",
+        "text": "--mode=plan and --mode=ask are available directly as flags, for the same control as inside the editor — see [[Cursor::Les modes Agent / Plan / Ask : garder la main sur ce que l'IA fait]]."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to run a Cursor task on a remote server connected over SSH, with no graphical interface available. Which tool do you use?",
+        "options": [
+          "cursor-agent, Cursor's CLI version",
+          "It's not possible without a graphical interface",
+          "Set up a remote desktop to open the graphical editor",
+          "Cursor only works inside the editor"
+        ],
+        "correctIndex": 0,
+        "correction": "cursor-agent brings the same capabilities as the editor into a plain terminal — no graphical interface needed, even on a remote server over SSH."
+      }
+    ]
+  },
+  "Cursor|Choisir le bon outil : Cursor, Claude Code ou Codex ?": {
+    "title": "Choosing the right tool: Cursor, Claude Code, or Codex?",
+    "summary": "Three coding agents, three slightly different philosophies — the same need can have a different answer depending on the tool.",
+    "content": [
+      {
+        "heading": "A common base across all three",
+        "text": "All three read and modify files, run commands, and can chain several actions to accomplish a task — see [[Claude Code::Claude Code, à quoi ça sert vraiment ?]] and [[Codex::Codex, à quoi ça sert et en quoi il diffère de Claude Code]] for the other two."
+      },
+      {
+        "heading": "Cursor: AI designed into the editor from day one",
+        "text": "For anyone working mostly in a graphical editor who wants AI built in natively (inline edit, advanced autocomplete), without juggling between a terminal and the editor."
+      },
+      {
+        "heading": "Claude Code and Codex: terminal-first",
+        "text": "Both run natively on the command line, with an optional extension to connect to an editor — for anyone who prefers driving from the terminal, or automating/scripting tasks."
+      },
+      {
+        "heading": "Nothing stops you from combining all three",
+        "text": "Nothing forces picking a single tool forever — using Cursor for everyday editing and Claude Code or Codex for a scripted task remains entirely possible, each with its strengths depending on the context."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You work almost exclusively in a graphical editor and want AI built in directly, with no external tool to connect. Which choice is most natural?",
+        "options": [
+          "Cursor",
+          "A forced combination of all three at once",
+          "None of the three fits this case",
+          "A custom shell script"
+        ],
+        "correctIndex": 0,
+        "correction": "Cursor builds AI natively into the editor — the most direct choice for someone working mostly in a graphical interface who doesn't want to connect an external tool."
+      }
+    ]
   }
 };
