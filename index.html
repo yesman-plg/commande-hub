@@ -227,6 +227,14 @@
     gap: 8px;
     margin-top: 12px;
   }
+  .groupchips {
+    margin-top: 12px;
+    margin-bottom: -2px;
+  }
+  .group-chip {
+    font-weight: 600;
+    padding: 7px 15px;
+  }
   .subchips {
     display: flex;
     flex-wrap: wrap;
@@ -788,6 +796,7 @@
       <button class="fav-toggle" id="favToggle"><span id="favToggleStar">⭐</span> <span id="favToggleLabel"></span></button>
     </div>
     <div class="chips-wrap" id="chipsWrap">
+      <div class="chips groupchips" id="groupChips"></div>
       <div class="chips" id="chips"></div>
       <div class="subchips" id="subchips" style="display:none;"></div>
     </div>
@@ -803,6 +812,7 @@
 <script src="guides.en.js"></script>
 <script>
   const searchInput = document.getElementById("search");
+  const groupChipsEl = document.getElementById("groupChips");
   const chipsEl = document.getElementById("chips");
   const subchipsEl = document.getElementById("subchips");
   const chipsWrapEl = document.getElementById("chipsWrap");
@@ -943,16 +953,51 @@
       "Kotlin / Android": "Kotlin / Android",
       "Linux Mint": "Linux Mint",
       "Linux": "Linux",
+      "Windows": "Windows",
       "Docker": "Docker",
-      "FAQ : erreurs fréquentes": "FAQ: common errors"
+      "FAQ : erreurs fréquentes": "FAQ: common errors",
+      "Claude Code": "Claude Code"
     }
   };
+
+  // --- Regroupement des catégories en 3 grands groupes ------------------
+  // Chaque catégorie (commands.js ET guides.js) appartient à un seul groupe.
+  // Une catégorie absente de cette table retombe sur "Développement" (filet
+  // de sécurité si une nouvelle catégorie est ajoutée sans être classée).
+  const CATEGORY_GROUPS_ORDER = ["Application", "Système", "Développement"];
+  const CATEGORY_TO_GROUP = {
+    "Kotlin / Android": "Application",
+    "Expo / React Native": "Application",
+    "Linux": "Système",
+    "Linux Mint": "Système",
+    "Bases du terminal": "Système",
+    "Docker": "Système",
+    "Windows": "Système",
+    "Claude Code": "Développement",
+    "Git": "Développement",
+    "Programmation": "Développement",
+    "FAQ : erreurs fréquentes": "Développement"
+  };
+  const GROUP_LABELS = {
+    en: { "Application": "Apps", "Système": "System", "Développement": "Development" }
+  };
+  function groupOf(cat) {
+    return CATEGORY_TO_GROUP[cat] || "Développement";
+  }
+  function groupLabel(g) {
+    return (GROUP_LABELS[lang] && GROUP_LABELS[lang][g]) || g;
+  }
+  function groupsFor(list) {
+    const present = new Set(list.map(c => groupOf(c.category)));
+    return ["Toutes", ...CATEGORY_GROUPS_ORDER.filter(g => present.has(g))];
+  }
   const SUBCATEGORY_LABELS = {
     en: {
       "Fichiers & disque": "Files & disk",
       "Processus & système": "Processes & system",
       "Réseau": "Network",
       "Paquets (apt / snap / flatpak)": "Packages (apt / snap / flatpak)",
+      "Paquets (winget / choco)": "Packages (winget / choco)",
       "Utilisateurs & permissions": "Users & permissions",
       "Outils CLI divers": "Misc CLI tools",
       "Démarrage & Dev": "Getting started & Dev",
@@ -1053,6 +1098,7 @@
     lang = newLang;
     try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
     applyLang();
+    renderGroupChips();
     renderChips();
     renderSubchips();
     renderResults();
@@ -1074,6 +1120,7 @@
   if (!langChosen) langGateEl.style.display = "flex";
 
   let mode = "commands"; // "commands" | "formation"
+  let activeGroup = "Toutes";
   let activeCategory = "Toutes";
   let activeSubcategory = "Toutes";
   let activeLevel = "Toutes";
@@ -1134,7 +1181,7 @@
   function saveState() {
     try {
       localStorage.setItem(STATE_KEY, JSON.stringify({
-        mode, activeCategory, activeSubcategory, activeLevel, query, showFavoritesOnly
+        mode, activeGroup, activeCategory, activeSubcategory, activeLevel, query, showFavoritesOnly
       }));
     } catch (e) {}
   }
@@ -1145,6 +1192,11 @@
     if (!saved) return;
 
     if (saved.mode === "commands" || saved.mode === "formation") mode = saved.mode;
+
+    const groups = groupsFor(dataset());
+    if (typeof saved.activeGroup === "string" && groups.includes(saved.activeGroup)) {
+      activeGroup = saved.activeGroup;
+    }
 
     const cats = categoriesFor(dataset());
     if (typeof saved.activeCategory === "string" && cats.includes(saved.activeCategory)) {
@@ -1182,7 +1234,8 @@
   }
 
   function categoriesFor(list) {
-    return ["Toutes", ...Array.from(new Set(list.map(c => c.category)))];
+    const scoped = activeGroup === "Toutes" ? list : list.filter(c => groupOf(c.category) === activeGroup);
+    return ["Toutes", ...Array.from(new Set(scoped.map(c => c.category)))];
   }
 
   function subcategoriesFor(cat) {
@@ -1204,17 +1257,50 @@
     favToggleLabelEl.textContent = t("favLabel", favCountForCurrentMode());
   }
 
+  function renderGroupChips() {
+    const groups = groupsFor(dataset());
+    if (groups.length <= 2) {
+      // un seul groupe présent dans ce mode : pas la peine d'afficher un filtre
+      groupChipsEl.style.display = "none";
+      groupChipsEl.innerHTML = "";
+      return;
+    }
+    groupChipsEl.style.display = "flex";
+    groupChipsEl.innerHTML = groups.map(g => {
+      const n = g === "Toutes" ? dataset().length : dataset().filter(c => groupOf(c.category) === g).length;
+      const active = g === activeGroup ? "active" : "";
+      const label = g === "Toutes" ? t("allChip") : groupLabel(g);
+      return `<span class="chip group-chip ${active}" data-group="${escapeAttr(g)}">${escapeHtml(label)}<span class="count-badge">${n}</span></span>`;
+    }).join("");
+    groupChipsEl.querySelectorAll(".chip").forEach(el => {
+      el.addEventListener("click", () => {
+        if (el.dataset.group === activeGroup) return;
+        activeGroup = el.dataset.group;
+        activeCategory = "Toutes";
+        activeSubcategory = "Toutes";
+        activeLevel = "Toutes";
+        saveState();
+        renderGroupChips();
+        renderChips();
+        renderSubchips();
+        renderResults();
+      });
+    });
+  }
+
   function renderChips() {
-    const categories = categoriesFor(dataset());
+    // Pas de chip "Toutes" ici : le reset global se fait déjà via le chip
+    // "Toutes" du groupe au-dessus (sinon doublon visuel) — reste à effet
+    // identique en re-cliquant sur la catégorie déjà active (désélection).
+    const categories = categoriesFor(dataset()).filter(cat => cat !== "Toutes");
     chipsEl.innerHTML = categories.map(cat => {
-      const n = cat === "Toutes" ? dataset().length : dataset().filter(c => c.category === cat).length;
+      const n = dataset().filter(c => c.category === cat).length;
       const active = cat === activeCategory ? "active" : "";
-      const label = cat === "Toutes" ? t("allChip") : catLabel(cat);
-      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(label)}<span class="count-badge">${n}</span></span>`;
+      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(catLabel(cat))}<span class="count-badge">${n}</span></span>`;
     }).join("");
     chipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
-        activeCategory = el.dataset.cat;
+        activeCategory = (el.dataset.cat === activeCategory) ? "Toutes" : el.dataset.cat;
         activeSubcategory = "Toutes";
         activeLevel = "Toutes";
         saveState();
@@ -1237,18 +1323,15 @@
       return;
     }
     subchipsEl.style.display = "flex";
-    const options = ["Toutes", ...subs];
-    subchipsEl.innerHTML = options.map(sub => {
-      const n = sub === "Toutes"
-        ? COMMANDS.filter(c => c.category === activeCategory).length
-        : COMMANDS.filter(c => c.category === activeCategory && c.subcategory === sub).length;
+    subchipsEl.innerHTML = subs.map(sub => {
+      const n = COMMANDS.filter(c => c.category === activeCategory && c.subcategory === sub).length;
       const active = sub === activeSubcategory ? "active" : "";
-      const label = sub === "Toutes" ? t("allChip") : subcatLabel(sub);
-      return `<span class="chip ${active}" data-sub="${escapeAttr(sub)}">${escapeHtml(label)}<span class="count-badge">${n}</span></span>`;
+      return `<span class="chip ${active}" data-sub="${escapeAttr(sub)}">${escapeHtml(subcatLabel(sub))}<span class="count-badge">${n}</span></span>`;
     }).join("");
     subchipsEl.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => {
-        activeSubcategory = el.dataset.sub;
+        // re-cliquer sur la sous-catégorie déjà active désélectionne (retour à "toutes")
+        activeSubcategory = (el.dataset.sub === activeSubcategory) ? "Toutes" : el.dataset.sub;
         saveState();
         renderSubchips();
         renderResults();
@@ -1257,7 +1340,10 @@
   }
 
   function renderLevelChips() {
-    const relevant = GUIDES.filter(g => activeCategory === "Toutes" || g.category === activeCategory);
+    const relevant = GUIDES.filter(g =>
+      (activeGroup === "Toutes" || groupOf(g.category) === activeGroup) &&
+      (activeCategory === "Toutes" || g.category === activeCategory)
+    );
     const present = LEVEL_ORDER.filter(lvl => relevant.some(g => g.level === lvl));
     if (present.length < 2) {
       subchipsEl.style.display = "none";
@@ -1630,6 +1716,7 @@
 
   function renderCommandResults() {
     const filtered = COMMANDS.filter(item =>
+      (activeGroup === "Toutes" || groupOf(item.category) === activeGroup) &&
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeSubcategory === "Toutes" || item.subcategory === activeSubcategory) &&
       (!showFavoritesOnly || isFavoriteFor("commands", item)) &&
@@ -1673,6 +1760,7 @@
 
   function renderGuideResults() {
     const filtered = GUIDES.filter(item =>
+      (activeGroup === "Toutes" || groupOf(item.category) === activeGroup) &&
       (activeCategory === "Toutes" || item.category === activeCategory) &&
       (activeLevel === "Toutes" || item.level === activeLevel) &&
       (!showFavoritesOnly || isFavoriteFor("formation", item)) &&
@@ -1893,6 +1981,7 @@
       searchInput.value = "";
       saveState();
       renderModeTabs();
+      renderGroupChips();
       renderChips();
       renderSubchips();
       renderResults();
@@ -1904,6 +1993,7 @@
   searchInput.value = query;
   applyLang();
   renderModeTabs();
+  renderGroupChips();
   renderChips();
   renderSubchips();
   renderResults();

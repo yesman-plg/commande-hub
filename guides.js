@@ -2784,5 +2784,471 @@ const GUIDES = [
         correction: "L'extension partage automatiquement le fichier ouvert et la sélection actuelle avec la session Claude Code — inutile de copier-coller quoi que ce soit dans le terminal."
       }
     ]
+  },
+  {
+    category: "Claude Code",
+    title: "Les plugins : qu'est-ce que c'est et à quoi ça sert",
+    level: "🟢 Débutant",
+    summary: "Un plugin regroupe plusieurs extensions (commandes, agents, skills, hooks) en un seul pack installable en une action.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Installer séparément une commande personnalisée, un agent et un skill qui vont ensemble (par exemple pour un framework ou une méthodologie précise) demande de tout copier à la main, fichier par fichier. Un plugin regroupe tout ça en un seul pack."
+      },
+      {
+        heading: "Ce qu'un plugin peut contenir",
+        text: "Des commandes personnalisées, des agents, des skills, et des hooks (des actions automatiques déclenchées à certains moments) — tout ce qu'on peut créer soi-même à la main peut être empaqueté dans un plugin."
+      },
+      {
+        heading: "Une fois installé, ça se comporte comme si c'était à toi",
+        text: "Les commandes, agents et skills d'un plugin installé fonctionnent exactement comme ceux que tu aurais créés toi-même — /agents les liste, un skill de plugin est choisi automatiquement au même titre qu'un skill perso, la seule différence étant leur origine."
+      },
+      {
+        heading: "Un skill de plugin se distingue par son préfixe",
+        text: "Un skill fourni par un plugin s'identifie avec un préfixe nom-du-plugin: devant son nom (plugin:skill), pour le distinguer d'un skill personnel ou de projet portant le même nom."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Un plugin installé fournit un skill de revue de sécurité. Comment Claude l'utilise-t-il, comparé à un skill que tu aurais écrit toi-même ?",
+        options: [
+          "Exactement pareil : Claude le choisit automatiquement quand c'est pertinent, comme n'importe quel autre skill",
+          "Il faut l'invoquer d'une façon totalement différente",
+          "Les plugins ne peuvent pas contenir de skills",
+          "Il faut le réinstaller à chaque session"
+        ],
+        correctIndex: 0,
+        correction: "Un skill fourni par un plugin fonctionne exactement comme un skill personnel ou de projet — Claude compare ta demande à sa description et le choisit seul quand c'est pertinent, sans traitement particulier."
+      }
+    ]
+  },
+  {
+    category: "Claude Code",
+    title: "Installer et gérer un plugin",
+    level: "🟡 Intermédiaire",
+    summary: "/plugin donne accès aux marketplaces disponibles ; installer, désactiver ou retirer un plugin se fait sans jamais éditer de fichier à la main.",
+    content: [
+      {
+        heading: "Parcourir les marketplaces disponibles",
+        text: "/plugin ouvre un navigateur interactif listant les plugins accessibles depuis les marketplaces déjà connues — pas besoin de connaître le nom exact d'un plugin à l'avance pour le découvrir."
+      },
+      {
+        heading: "Ajouter une marketplace externe",
+        text: "Toutes les marketplaces ne sont pas connues par défaut. /plugin marketplace add <dépôt> ajoute une source externe (souvent un dépôt GitHub public) pour accéder aux plugins qu'elle propose — voir [[Claude Code::Où trouver des agents et des skills]]."
+      },
+      {
+        heading: "Installer, désactiver, retirer",
+        text: "Une fois trouvé, un plugin s'installe en une action depuis ce même navigateur. Il peut ensuite être désactivé temporairement sans le désinstaller complètement, ou retiré si finalement inutile — jamais besoin d'éditer un fichier de config à la main."
+      },
+      {
+        heading: "Un plugin par projet ou pour toute la machine",
+        text: "Un plugin peut être activé uniquement pour un projet précis, ou globalement pour tous tes projets — utile pour garder certains plugins spécifiques à un contexte (un client, une stack précise) sans qu'ils apparaissent partout."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux voir quels plugins sont disponibles sans connaître leur nom exact à l'avance. Que fais-tu ?",
+        options: [
+          "/plugin, pour parcourir les marketplaces déjà connues",
+          "Chercher uniquement sur un moteur de recherche externe",
+          "Éditer un fichier de configuration à la main",
+          "Ce n'est pas possible sans connaître le nom exact"
+        ],
+        correctIndex: 0,
+        correction: "/plugin ouvre un navigateur interactif listant les plugins disponibles depuis les marketplaces connues — inutile de connaître un nom précis à l'avance pour découvrir ce qui existe."
+      }
+    ]
+  },
+  {
+    category: "Claude Code",
+    title: "Créer son propre plugin",
+    level: "🔴 Avancé",
+    summary: "Regrouper ses propres commandes, agents et skills en un pack partageable, plutôt que de les recopier projet par projet.",
+    content: [
+      {
+        heading: "Quand ça vaut le coup",
+        text: "Recopier les mêmes commandes, agents et skills personnalisés d'un projet à l'autre, ou les partager avec une équipe, devient vite répétitif — un plugin centralise tout ça en un seul endroit à maintenir."
+      },
+      {
+        heading: "La structure d'un plugin",
+        text: "Un plugin est un dossier avec un fichier de manifeste qui le décrit (nom, version), et des sous-dossiers pour chacun de ses composants (commandes, agents, skills, hooks) — la même organisation que ce qu'on écrirait à la main dans .claude/, mais rangée pour être publiée."
+      },
+      {
+        heading: "Le publier via une marketplace",
+        text: "Une marketplace est elle-même un dépôt (souvent GitHub) qui référence un ou plusieurs plugins. Publier un plugin revient à l'ajouter à un tel dépôt, que d'autres pourront ensuite ajouter avec /plugin marketplace add."
+      },
+      {
+        heading: "Garder une marketplace privée, en interne",
+        text: "Rien n'oblige une marketplace à être publique — un dépôt privé partagé uniquement avec son équipe permet de diffuser des plugins internes sans les rendre accessibles à l'extérieur."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Ton équipe utilise les mêmes commandes personnalisées et le même agent de revue sur tous ses projets internes, recopiés à la main à chaque fois. Comment centraliser ça proprement ?",
+        options: [
+          "Les empaqueter dans un plugin, publié sur une marketplace privée partagée avec l'équipe",
+          "Continuer à copier-coller les fichiers dans chaque nouveau projet",
+          "Les envoyer par message à chaque nouveau membre de l'équipe",
+          "Ce n'est pas possible de partager ça entre plusieurs projets"
+        ],
+        correctIndex: 0,
+        correction: "Un plugin publié sur une marketplace privée centralise commandes, agents et skills en un seul endroit à maintenir — chaque membre de l'équipe l'installe une fois, sans copier-coller de fichiers d'un projet à l'autre."
+      }
+    ]
+  },
+
+  // --- Windows ---------------------------------------
+  {
+    category: "Windows",
+    title: "PowerShell vs invite de commandes (cmd) : lequel utiliser",
+    level: "🟢 Débutant",
+    summary: "Windows a deux terminaux différents avec des logiques différentes — savoir lequel utiliser évite bien des commandes qui ne marchent que dans l'un des deux.",
+    content: [
+      {
+        heading: "cmd, l'historique",
+        text: "L'invite de commandes (cmd.exe) existe depuis les débuts de Windows — des commandes comme dir, cd ou ping y fonctionnent encore, mais son langage reste limité comparé à un vrai shell de script."
+      },
+      {
+        heading: "PowerShell, le standard actuel",
+        text: "PowerShell est le shell par défaut recommandé depuis plusieurs années — ses commandes (appelées cmdlets) suivent toutes le même schéma Verbe-Nom (Get-Process, Stop-Service, New-Item…), ce qui les rend plus faciles à deviner qu'en cmd."
+      },
+      {
+        heading: "Les deux coexistent, sans se remplacer totalement",
+        text: "Certaines commandes historiques de cmd (comme ipconfig ou systeminfo) fonctionnent aussi bien dans PowerShell — pas besoin de choisir strictement l'un ou l'autre, PowerShell exécute la plupart des vieilles commandes cmd en plus des siennes."
+      },
+      {
+        heading: "Windows Terminal : l'application qui héberge les deux",
+        text: "Windows Terminal (l'application moderne pour ouvrir un terminal) permet de lancer aussi bien un onglet PowerShell qu'un onglet cmd — le choix se fait à l'ouverture de l'onglet, pas au niveau de l'application elle-même."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux lister les processus qui utilisent le plus de mémoire, avec une commande dont le nom se devine facilement. Quel shell est le plus adapté ?",
+        options: [
+          "PowerShell, grâce au schéma Verbe-Nom de ses cmdlets (Get-Process)",
+          "cmd, car il est plus ancien donc plus complet",
+          "Aucun des deux, Windows ne permet pas ça",
+          "Il faut installer un shell tiers"
+        ],
+        correctIndex: 0,
+        correction: "Les cmdlets PowerShell suivent toutes le schéma Verbe-Nom (Get-Process, Get-Service…), ce qui les rend prévisibles à deviner — un avantage net sur les commandes cmd historiques, souvent moins cohérentes entre elles."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "Élévation de privilèges : l'équivalent Windows de sudo",
+    level: "🟢 Débutant",
+    summary: "Windows n'a pas de sudo : l'élévation de privilèges se fait fenêtre par fenêtre, pas commande par commande.",
+    content: [
+      {
+        heading: "Pas de sudo devant chaque commande",
+        text: "Sous Linux, sudo commande élève juste le temps d'une commande. Windows fonctionne différemment : un terminal tourne soit en utilisateur normal, soit entièrement en administrateur — pas de bascule commande par commande dans la même fenêtre."
+      },
+      {
+        heading: "Ouvrir un terminal déjà élevé",
+        text: "Start-Process powershell -Verb RunAs (ou clic droit → \"Exécuter en tant qu'administrateur\" dans l'interface) ouvre une NOUVELLE fenêtre avec tous les droits — tout ce qui s'y tape ensuite est exécuté en administrateur, sans redemander."
+      },
+      {
+        heading: "L'invite UAC, le garde-fou",
+        text: "Que ce soit en lançant un terminal élevé ou un simple programme, Windows affiche une fenêtre de confirmation (UAC) avant d'accorder les droits — le même principe de confirmation explicite que sudo, mais au niveau de toute une fenêtre plutôt que d'une commande isolée."
+      },
+      {
+        heading: "Repérer si on est déjà élevé",
+        text: "Le titre de la fenêtre PowerShell affiche généralement \"Administrateur\" en préfixe quand le terminal tourne avec les droits élevés — le repère visuel le plus rapide, plutôt que de tester une commande pour le découvrir."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu dois modifier un fichier système qui nécessite des droits administrateur, et ton terminal actuel tourne en utilisateur normal. Que fais-tu ?",
+        options: [
+          "Ouvrir une nouvelle fenêtre PowerShell en administrateur (Start-Process powershell -Verb RunAs), puis y taper la commande",
+          "Taper sudo devant la commande dans le terminal actuel",
+          "Ce n'est pas possible sous Windows",
+          "Redémarrer l'ordinateur en mode administrateur"
+        ],
+        correctIndex: 0,
+        correction: "Windows n'a pas de sudo commande par commande : il faut ouvrir une fenêtre entièrement élevée (Start-Process powershell -Verb RunAs) et y exécuter la commande, plutôt que d'élever une seule commande dans la fenêtre actuelle."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "winget : installer et gérer des logiciels",
+    level: "🟢 Débutant",
+    summary: "Le gestionnaire de paquets officiel de Windows — l'équivalent d'apt, intégré nativement depuis Windows 10/11.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Sans gestionnaire de paquets, installer un logiciel veut dire chercher un site officiel, télécharger un installeur, cliquer à travers un assistant — et refaire ça manuellement pour chaque mise à jour."
+      },
+      {
+        heading: "winget, en une commande",
+        text: "winget install nom cherche, télécharge et installe le logiciel automatiquement, sans passer par un navigateur — voir [[Bases du terminal::Comprendre les gestionnaires de paquets]] pour le principe général."
+      },
+      {
+        heading: "Chercher avant d'installer",
+        text: "winget search nom liste les logiciels correspondants disponibles, utile quand on n'est pas sûr du nom exact attendu par winget."
+      },
+      {
+        heading: "Tout mettre à jour d'un coup",
+        text: "winget upgrade --all met à jour en une seule commande tous les logiciels installés via winget qui ont une nouvelle version disponible — pas besoin de repasser par chaque site officiel."
+      },
+      {
+        heading: "Quand winget ne suffit pas",
+        text: "Certains logiciels ne sont pas encore référencés sur winget. Chocolatey (choco install) est un gestionnaire tiers plus ancien qui couvre parfois des logiciels absents de winget — un complément, pas un remplacement."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux mettre à jour tous tes logiciels installés via winget en une seule commande. Laquelle utilises-tu ?",
+        options: [
+          "winget upgrade --all",
+          "winget install --all",
+          "winget update *",
+          "Il faut mettre à jour chaque logiciel un par un manuellement"
+        ],
+        correctIndex: 0,
+        correction: "winget upgrade --all met à jour en une seule commande tous les logiciels installés via winget qui ont une nouvelle version disponible."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "Se repérer dans l'arborescence Windows",
+    level: "🟡 Intermédiaire",
+    summary: "Pas de racine unique comme sous Linux : chaque disque a sa propre lettre, et certains dossiers ont un rôle bien précis.",
+    content: [
+      {
+        heading: "Des lettres de lecteur, pas une racine unique",
+        text: "Là où Linux a une seule arborescence démarrant à /, Windows attribue une lettre à chaque disque/partition (C:\\, D:\\…) — voir [[Linux Mint::L'arborescence du système de fichiers]] pour le principe côté Linux."
+      },
+      {
+        heading: "C:\\Users\\ : l'équivalent de /home",
+        text: "Le dossier personnel de chaque utilisateur, avec ses documents, téléchargements, bureau — l'équivalent direct du /home/utilisateur sous Linux."
+      },
+      {
+        heading: "Program Files : où vivent les logiciels installés",
+        text: "Les logiciels installés pour tous les utilisateurs s'installent généralement dans C:\\Program Files (ou Program Files (x86) pour les logiciels 32 bits) — modifier ce dossier nécessite les droits administrateur."
+      },
+      {
+        heading: "AppData : la configuration cachée",
+        text: "Dans C:\\Users\\toi\\AppData (dossier caché par défaut), chaque application range sa configuration et ses données locales — le rôle que jouent les dossiers cachés .config ou .local sous Linux."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu cherches où un logiciel a rangé sa configuration personnelle sur ta session Windows. Où regarder en premier ?",
+        options: [
+          "Dans le dossier AppData de ton profil utilisateur",
+          "Directement à la racine du disque C:\\",
+          "Dans Program Files",
+          "Windows ne stocke jamais de configuration par utilisateur"
+        ],
+        correctIndex: 0,
+        correction: "AppData (dans le dossier utilisateur) est l'endroit où les applications rangent leur configuration et leurs données locales — le même rôle que jouent les dossiers cachés .config/.local sous Linux."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "Processus et services : Gestionnaire des tâches, Get-Process, Get-Service",
+    level: "🟡 Intermédiaire",
+    summary: "Deux façons de surveiller ce qui tourne : l'interface graphique pour un coup d'œil rapide, PowerShell pour scripter ou automatiser.",
+    content: [
+      {
+        heading: "Le Gestionnaire des tâches, pour un coup d'œil",
+        text: "taskmgr ouvre l'interface graphique classique — utilisation CPU/RAM en temps réel, possibilité de forcer l'arrêt d'un programme qui ne répond plus, sans taper une seule commande."
+      },
+      {
+        heading: "Get-Process, la version scriptable",
+        text: "Get-Process | Sort-Object CPU -Descending liste les processus par consommation CPU directement dans le terminal — pratique pour un script ou une connexion à distance sans interface graphique."
+      },
+      {
+        heading: "Processus vs service : la différence",
+        text: "Un processus est un programme en cours d'exécution, visible et lié à une session utilisateur. Un service tourne en arrière-plan indépendamment de toute session ouverte (souvent démarré avant même la connexion) — Get-Service liste ces services et leur état."
+      },
+      {
+        heading: "Redémarrer un service qui bloque",
+        text: "Restart-Service -Name nom arrête puis relance un service précis — souvent plus rapide que de redémarrer toute la machine pour un service qui a planté."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Un service système semble bloqué et tu veux le relancer sans redémarrer toute la machine. Que fais-tu ?",
+        options: [
+          "Restart-Service -Name nom-du-service",
+          "Redémarrer l'ordinateur entier",
+          "Stop-Process -Name nom-du-service (ça suffit, pas besoin de le relancer)",
+          "Ce n'est pas possible sans redémarrer"
+        ],
+        correctIndex: 0,
+        correction: "Restart-Service cible directement le service concerné (arrêt puis relance) — pas besoin de redémarrer toute la machine pour un service isolé qui a planté."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "Réseau sous Windows : ipconfig, ping, ports",
+    level: "🟡 Intermédiaire",
+    summary: "Les mêmes questions que sous Linux (quelle IP, ça répond, qui utilise ce port) avec des commandes différentes.",
+    content: [
+      {
+        heading: "Voir sa configuration réseau",
+        text: "ipconfig affiche l'adresse IP, le masque et la passerelle de chaque interface réseau — voir [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] pour les mêmes notions expliquées côté Linux."
+      },
+      {
+        heading: "Tester qu'un hôte répond",
+        text: "ping site.com fonctionne de façon quasi identique à Linux — envoie des paquets et mesure le temps de réponse."
+      },
+      {
+        heading: "Trouver ce qui occupe un port",
+        text: "netstat -ano | findstr :8080 affiche le PID du processus qui écoute sur le port 8080 ; Get-Process -Id <PID> ensuite pour l'identifier par son nom."
+      },
+      {
+        heading: "Tester un port distant sans navigateur ni client",
+        text: "Test-NetConnection -ComputerName hote -Port 443 vérifie qu'un port précis répond sur une machine distante, sans avoir à ouvrir une vraie connexion applicative."
+      },
+      {
+        heading: "Vider le cache DNS après un changement",
+        text: "ipconfig /flushdns force le système à oublier les résolutions DNS mises en cache — utile juste après avoir changé un enregistrement DNS ou de serveur."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Un port 8080 semble occupé par un programme inconnu. Comment identifier lequel ?",
+        options: [
+          "netstat -ano | findstr :8080 pour trouver le PID, puis Get-Process -Id pour l'identifier",
+          "ping localhost:8080",
+          "ipconfig /flushdns",
+          "Ce n'est pas possible de savoir quel programme utilise un port"
+        ],
+        correctIndex: 0,
+        correction: "netstat -ano donne le PID du processus qui écoute sur le port recherché ; Get-Process -Id <PID> permet ensuite de retrouver son nom."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "WSL : faire tourner Linux dans Windows",
+    level: "🟡 Intermédiaire",
+    summary: "Un vrai environnement Linux à l'intérieur de Windows, sans machine virtuelle séparée à gérer — pratique pour retrouver les commandes déjà connues.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Certains outils/commandes n'existent que sous Linux, ou se comportent différemment sous Windows (chemins, sensibilité à la casse, scripts bash) — WSL évite d'avoir à choisir entre les deux systèmes."
+      },
+      {
+        heading: "Une vraie distribution Linux, pas une simulation",
+        text: "WSL (Windows Subsystem for Linux) fait tourner une vraie distribution (Ubuntu par défaut) avec son propre terminal — les commandes apt, bash, grep… fonctionnent exactement comme sur une machine Linux, voir [[Linux Mint::apt : installer et gérer des logiciels]]."
+      },
+      {
+        heading: "Installer WSL",
+        text: "wsl --install installe WSL et une distribution par défaut en une seule commande — un redémarrage est généralement nécessaire pour terminer l'installation."
+      },
+      {
+        heading: "Accéder aux fichiers d'un côté depuis l'autre",
+        text: "Les fichiers Windows restent accessibles depuis WSL (sous /mnt/c/...), et les fichiers Linux de WSL sont accessibles depuis l'explorateur Windows via \\\\wsl$\\ — les deux mondes cohabitent sans copie manuelle."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux utiliser une commande bash spécifique à Linux directement sur ta machine Windows, sans passer par une machine virtuelle séparée. Que fais-tu ?",
+        options: [
+          "Installer et utiliser WSL (wsl --install)",
+          "Réinstaller entièrement Windows en Linux",
+          "Ce n'est pas possible sans machine virtuelle",
+          "Utiliser winget pour installer bash directement dans PowerShell"
+        ],
+        correctIndex: 0,
+        correction: "WSL fait tourner une vraie distribution Linux à l'intérieur de Windows, sans machine virtuelle séparée à gérer — wsl --install suffit pour l'installer."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "Le profil PowerShell : personnaliser son shell",
+    level: "🔴 Avancé",
+    summary: "Un fichier chargé à chaque ouverture de PowerShell, pour ne pas redéfinir les mêmes alias et réglages à chaque session.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Sans profil, un alias ou une variable définie dans une session PowerShell disparaît à sa fermeture — il faudrait tout redéfinir à chaque ouverture."
+      },
+      {
+        heading: "$PROFILE, le fichier chargé automatiquement",
+        text: "notepad $PROFILE ouvre (ou crée) ce fichier — tout ce qui y est écrit s'exécute automatiquement à chaque nouvelle session PowerShell, l'équivalent du .bashrc sous Linux."
+      },
+      {
+        heading: "Rendre un alias permanent",
+        text: "Set-Alias ll Get-ChildItem tapé directement dans le terminal ne dure que la session. La même ligne ajoutée dans $PROFILE la rend permanente pour toutes les futures sessions."
+      },
+      {
+        heading: "Un profil différent par contexte",
+        text: "PowerShell distingue plusieurs profils possibles (utilisateur courant, tous les utilisateurs, hôte spécifique…) — dans la plupart des cas, le profil de l'utilisateur courant (celui ouvert par $PROFILE) suffit largement."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu as créé un alias utile avec Set-Alias, mais il disparaît à chaque fois que tu fermes PowerShell. Comment le rendre permanent ?",
+        options: [
+          "Ajouter la même ligne Set-Alias dans le fichier $PROFILE",
+          "Le retaper à chaque ouverture, c'est la seule solution",
+          "Utiliser winget pour l'installer",
+          "Les alias PowerShell sont toujours permanents par défaut"
+        ],
+        correctIndex: 0,
+        correction: "$PROFILE est le fichier exécuté automatiquement à chaque ouverture de PowerShell — y ajouter la ligne Set-Alias la rend permanente, sans avoir à la retaper."
+      }
+    ]
+  },
+  {
+    category: "Windows",
+    title: "Exécuter des scripts PowerShell : la politique d'exécution",
+    level: "🔴 Avancé",
+    summary: "Contrairement à Linux, exécuter un script .ps1 est bloqué par défaut — un réglage de sécurité à comprendre avant de le changer.",
+    content: [
+      {
+        heading: "Pourquoi c'est bloqué par défaut",
+        text: "Windows bloque par défaut l'exécution de scripts .ps1 pour limiter les scripts malveillants récupérés sans le vouloir (pièce jointe, téléchargement) — contrairement à Linux où chmod +x suffit à rendre un script exécutable."
+      },
+      {
+        heading: "Voir la politique actuelle",
+        text: "Get-ExecutionPolicy affiche le réglage en vigueur — par défaut, souvent Restricted (aucun script ne s'exécute)."
+      },
+      {
+        heading: "Autoriser ses propres scripts",
+        text: "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser autorise les scripts écrits localement, tout en exigeant une signature numérique pour les scripts téléchargés depuis internet — un bon compromis entre sécurité et confort."
+      },
+      {
+        heading: "Le -Scope CurrentUser, une précaution utile",
+        text: "Limiter le changement à -Scope CurrentUser (plutôt qu'à toute la machine) évite de modifier ce réglage pour d'autres comptes utilisateurs sur la même machine — une bonne pratique par défaut."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu essaies de lancer ton propre script .ps1 et Windows refuse de l'exécuter. Quelle commande règle ça proprement, pour ton compte uniquement ?",
+        options: [
+          "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser",
+          "Supprimer complètement la politique d'exécution",
+          "Renommer le fichier en .exe",
+          "Ce n'est pas possible d'exécuter des scripts PowerShell"
+        ],
+        correctIndex: 0,
+        correction: "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser autorise les scripts locaux (en exigeant une signature pour ceux téléchargés), et -Scope CurrentUser limite le changement à ton seul compte."
+      }
+    ]
   }
 ];

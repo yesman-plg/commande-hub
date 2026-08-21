@@ -1639,5 +1639,313 @@ const COMMANDS = [
     desc: "Rejoue le prompt enregistré dans .claude/commands/nom-de-ta-commande.md (ou ~/.claude/commands/ pour un usage personnel).",
     tags: ["claude", "commande personnalisée", "prompt", "réutilisable"],
     related: "Claude Code::Les prompts réutilisables : commandes personnalisées"
+  },
+
+  // --- Windows — Fichiers & disque ---------------------------------------
+  {
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Lister en détail (avec cachés)",
+    cmd: "Get-ChildItem -Force",
+    desc: "Liste le contenu du dossier courant avec les détails (taille, date), fichiers cachés/système inclus.",
+    tags: ["windows", "powershell", "ls", "fichiers"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Espace disque par dossier",
+    cmd: "Get-ChildItem -Recurse | Measure-Object -Property Length -Sum",
+    desc: "Additionne la taille de tous les fichiers du dossier courant (et sous-dossiers) — pratique pour repérer ce qui prend de la place.",
+    tags: ["windows", "powershell", "disque", "taille"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Espace disque global",
+    cmd: "Get-Volume",
+    desc: "Affiche l'espace utilisé et libre de chaque disque/partition.",
+    tags: ["windows", "powershell", "disque", "volume"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Trouver un fichier par nom",
+    cmd: 'Get-ChildItem -Recurse -Filter "*motif*"',
+    desc: "Cherche récursivement dans le dossier courant tous les fichiers dont le nom contient \"motif\".",
+    tags: ["windows", "powershell", "recherche", "fichier"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Chercher du texte dans des fichiers",
+    cmd: 'Select-String -Path *.txt -Pattern "motif"',
+    desc: "Équivalent de grep — cherche une chaîne de texte dans un ou plusieurs fichiers.",
+    tags: ["windows", "powershell", "grep", "recherche", "texte"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Copier avec progression et reprise",
+    cmd: "robocopy source destination /E /Z",
+    desc: "Copie robuste d'un dossier entier (récursif avec /E), capable de reprendre une copie interrompue (/Z) — plus fiable qu'un copier-coller classique pour de gros volumes.",
+    tags: ["windows", "robocopy", "copie", "fichiers"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Archiver / dézipper",
+    cmd: "Compress-Archive -Path dossier -DestinationPath archive.zip",
+    desc: "Crée une archive .zip à partir d'un dossier. Expand-Archive -Path archive.zip -DestinationPath dossier fait l'inverse.",
+    tags: ["windows", "powershell", "zip", "archive"]
+  },
+
+  // --- Windows — Processus & système --------------------------------------
+  {
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Ouvrir le gestionnaire des tâches",
+    cmd: "taskmgr",
+    desc: "Lance l'interface graphique de suivi CPU/RAM/disque/réseau en temps réel.",
+    tags: ["windows", "taskmgr", "processus", "moniteur"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Top des processus par CPU",
+    cmd: "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10",
+    desc: "Liste en ligne de commande les 10 processus qui consomment le plus de CPU — utile quand l'interface graphique n'est pas pratique (SSH, script).",
+    tags: ["windows", "powershell", "processus", "cpu"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Tuer un processus",
+    cmd: 'Stop-Process -Name "nom" -Force',
+    desc: "Force l'arrêt d'un processus par son nom — équivalent de kill sous Linux.",
+    tags: ["windows", "powershell", "processus", "kill"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Infos système complètes",
+    cmd: "systeminfo",
+    desc: "Affiche un résumé complet du système (OS, matériel, mémoire, date d'installation, correctifs installés…).",
+    tags: ["windows", "systeminfo", "diagnostic"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Depuis combien de temps le système tourne",
+    cmd: "(Get-Date) - (Get-CimInstance Win32_OperatingSystem).LastBootUpTime",
+    desc: "Calcule la durée écoulée depuis le dernier démarrage.",
+    tags: ["windows", "powershell", "uptime", "système"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Statut d'un service",
+    cmd: 'Get-Service -Name "nom*"',
+    desc: "Affiche l'état (démarré/arrêté) d'un ou plusieurs services système.",
+    tags: ["windows", "powershell", "service"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Voir les logs système récents",
+    cmd: "Get-EventLog -LogName System -Newest 20",
+    desc: "Affiche les 20 dernières entrées du journal d'événements système.",
+    tags: ["windows", "powershell", "logs", "journal"]
+  },
+
+  // --- Windows — Réseau ----------------------------------------------------
+  {
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Adresse IP locale",
+    cmd: "ipconfig",
+    desc: "Affiche la configuration réseau (adresse IP, masque, passerelle) de chaque interface.",
+    tags: ["windows", "ip", "réseau"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Tester une connexion",
+    cmd: "ping site.com",
+    desc: "Vérifie qu'un hôte répond et mesure le temps de réponse.",
+    tags: ["windows", "ping", "réseau"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Quel processus utilise ce port ?",
+    cmd: "netstat -ano | findstr :8080",
+    desc: "Trouve le PID du processus qui écoute sur le port 8080 — Get-Process -Id <PID> ensuite pour identifier le programme.",
+    tags: ["windows", "netstat", "port", "réseau"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Tester si un port distant est ouvert",
+    cmd: "Test-NetConnection -ComputerName hote -Port 443",
+    desc: "Vérifie qu'un port précis est joignable sur une machine distante, sans avoir à ouvrir une vraie connexion applicative.",
+    tags: ["windows", "powershell", "port", "réseau"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Télécharger un fichier",
+    cmd: "Invoke-WebRequest -Uri url -OutFile fichier",
+    desc: "Télécharge le contenu d'une URL vers un fichier local — l'équivalent PowerShell de wget/curl.",
+    tags: ["windows", "powershell", "téléchargement", "http"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Vider le cache DNS",
+    cmd: "ipconfig /flushdns",
+    desc: "Force le système à oublier les résolutions DNS mises en cache — utile après un changement de serveur ou de domaine.",
+    tags: ["windows", "dns", "réseau", "cache"]
+  },
+
+  // --- Windows — Paquets (winget / choco) -----------------------------------
+  {
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Installer un paquet",
+    cmd: "winget install nom",
+    desc: "Installe un logiciel depuis le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
+    tags: ["windows", "winget", "install", "paquet"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Mettre à jour tous les paquets",
+    cmd: "winget upgrade --all",
+    desc: "Met à jour tous les logiciels installés via winget vers leur dernière version disponible.",
+    tags: ["windows", "winget", "update", "paquet"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Chercher un paquet",
+    cmd: "winget search nom",
+    desc: "Recherche un logiciel disponible dans les sources winget par son nom.",
+    tags: ["windows", "winget", "recherche", "paquet"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Lister les paquets installés",
+    cmd: "winget list",
+    desc: "Affiche tous les logiciels installés que winget reconnaît sur la machine.",
+    tags: ["windows", "winget", "liste", "paquet"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Installer via Chocolatey",
+    cmd: "choco install nom -y",
+    desc: "Gestionnaire de paquets alternatif et tiers, utile pour les logiciels pas encore disponibles sur winget — nécessite d'installer Chocolatey au préalable.",
+    tags: ["windows", "chocolatey", "install", "paquet"]
+  },
+
+  // --- Windows — Utilisateurs & permissions --------------------------------
+  {
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Ouvrir un terminal en administrateur",
+    cmd: "Start-Process powershell -Verb RunAs",
+    desc: "Ouvre une nouvelle fenêtre PowerShell avec élévation de privilèges — Windows n'a pas d'équivalent direct à sudo dans le même terminal.",
+    tags: ["windows", "powershell", "admin", "élévation"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Lister les utilisateurs",
+    cmd: "Get-LocalUser",
+    desc: "Affiche tous les comptes utilisateurs locaux de la machine.",
+    tags: ["windows", "powershell", "utilisateurs"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Voir mes groupes / droits",
+    cmd: "whoami /groups",
+    desc: "Affiche l'utilisateur courant et tous les groupes auxquels il appartient (admin local, etc.).",
+    tags: ["windows", "whoami", "permissions", "groupes"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Voir les permissions d'un fichier",
+    cmd: "icacls fichier",
+    desc: "Affiche la liste de contrôle d'accès (ACL) d'un fichier ou dossier — qui a le droit de faire quoi.",
+    tags: ["windows", "icacls", "permissions"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Changer le propriétaire d'un fichier",
+    cmd: "takeown /F fichier",
+    desc: "Reprend la propriété d'un fichier ou dossier — utile quand un fichier système ou d'un autre compte bloque une modification.",
+    tags: ["windows", "takeown", "propriétaire", "permissions"]
+  },
+
+  // --- Windows — Outils CLI divers ------------------------------------------
+  {
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Ouvrir VS Code ici",
+    cmd: "code .",
+    desc: "Ouvre VS Code directement dans le dossier courant.",
+    tags: ["windows", "vscode", "éditeur"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Éditer le profil PowerShell",
+    cmd: "notepad $PROFILE",
+    desc: "Ouvre le fichier de configuration chargé à chaque démarrage de PowerShell — l'équivalent du .bashrc sous Linux.",
+    tags: ["windows", "powershell", "profil", "config"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Créer un alias permanent",
+    cmd: 'Set-Alias ll Get-ChildItem',
+    desc: "Crée un alias pour la session en cours. Pour le rendre permanent, ajoute la même ligne dans le profil PowerShell ($PROFILE).",
+    tags: ["windows", "powershell", "alias"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Définir une variable d'environnement",
+    cmd: '$env:NOM = "valeur"',
+    desc: "Définit une variable d'environnement pour la session en cours. setx NOM \"valeur\" la rend permanente (nouvelles sessions uniquement).",
+    tags: ["windows", "powershell", "variable", "environnement"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Générer une clé SSH",
+    cmd: "ssh-keygen",
+    desc: "Génère une paire de clés SSH — le client OpenSSH est intégré nativement depuis Windows 10.",
+    tags: ["windows", "ssh", "clé", "sécurité"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Se connecter en SSH",
+    cmd: "ssh utilisateur@hote",
+    desc: "Ouvre une connexion SSH vers une machine distante.",
+    tags: ["windows", "ssh", "connexion"]
+  },
+  {
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Localiser un exécutable",
+    cmd: "Get-Command nom",
+    desc: "Trouve le chemin de l'exécutable qui serait lancé en tapant \"nom\" — l'équivalent de which sous Linux.",
+    tags: ["windows", "powershell", "which", "chemin"]
   }
 ];

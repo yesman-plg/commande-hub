@@ -1691,5 +1691,190 @@ const COMMAND_TRANSLATIONS_EN = {
       "prompt",
       "reusable"
     ]
+  },
+  "Windows|Fichiers & disque|Lister en détail (avec cachés)": {
+    "title": "List in detail (including hidden)",
+    "desc": "Lists the current folder's contents with details (size, date), hidden/system files included.",
+    "tags": ["windows", "powershell", "ls", "files"]
+  },
+  "Windows|Fichiers & disque|Espace disque par dossier": {
+    "title": "Disk usage per folder",
+    "desc": "Adds up the size of every file in the current folder (and subfolders) — handy for spotting what's taking up space.",
+    "tags": ["windows", "powershell", "disk", "size"]
+  },
+  "Windows|Fichiers & disque|Espace disque global": {
+    "title": "Overall disk space",
+    "desc": "Shows used and free space for each disk/partition.",
+    "tags": ["windows", "powershell", "disk", "volume"]
+  },
+  "Windows|Fichiers & disque|Trouver un fichier par nom": {
+    "title": "Find a file by name",
+    "desc": "Recursively searches the current folder for every file whose name contains \"pattern\".",
+    "tags": ["windows", "powershell", "search", "file"]
+  },
+  "Windows|Fichiers & disque|Chercher du texte dans des fichiers": {
+    "title": "Search text inside files",
+    "desc": "The grep equivalent — searches for a text string in one or more files.",
+    "tags": ["windows", "powershell", "grep", "search", "text"]
+  },
+  "Windows|Fichiers & disque|Copier avec progression et reprise": {
+    "title": "Copy with progress and resume",
+    "desc": "Robustly copies an entire folder (recursive with /E), able to resume an interrupted copy (/Z) — more reliable than a plain copy-paste for large volumes.",
+    "tags": ["windows", "robocopy", "copy", "files"]
+  },
+  "Windows|Fichiers & disque|Archiver / dézipper": {
+    "title": "Archive / unzip",
+    "desc": "Creates a .zip archive from a folder. Expand-Archive -Path archive.zip -DestinationPath folder does the reverse.",
+    "tags": ["windows", "powershell", "zip", "archive"]
+  },
+  "Windows|Processus & système|Ouvrir le gestionnaire des tâches": {
+    "title": "Open Task Manager",
+    "desc": "Launches the graphical interface for real-time CPU/RAM/disk/network monitoring.",
+    "tags": ["windows", "taskmgr", "process", "monitor"]
+  },
+  "Windows|Processus & système|Top des processus par CPU": {
+    "title": "Top processes by CPU",
+    "desc": "Lists the 10 processes using the most CPU from the command line — handy when the graphical interface isn't practical (SSH, script).",
+    "tags": ["windows", "powershell", "process", "cpu"]
+  },
+  "Windows|Processus & système|Tuer un processus": {
+    "title": "Kill a process",
+    "desc": "Forces a process to stop by name — the equivalent of kill on Linux.",
+    "tags": ["windows", "powershell", "process", "kill"]
+  },
+  "Windows|Processus & système|Infos système complètes": {
+    "title": "Full system info",
+    "desc": "Shows a complete system summary (OS, hardware, memory, install date, installed patches…).",
+    "tags": ["windows", "systeminfo", "diagnostic"]
+  },
+  "Windows|Processus & système|Depuis combien de temps le système tourne": {
+    "title": "How long the system has been running",
+    "desc": "Calculates the time elapsed since the last boot.",
+    "tags": ["windows", "powershell", "uptime", "system"]
+  },
+  "Windows|Processus & système|Statut d'un service": {
+    "title": "A service's status",
+    "desc": "Shows the state (started/stopped) of one or more system services.",
+    "tags": ["windows", "powershell", "service"]
+  },
+  "Windows|Processus & système|Voir les logs système récents": {
+    "title": "View recent system logs",
+    "desc": "Shows the 20 most recent entries in the system event log.",
+    "tags": ["windows", "powershell", "logs", "eventlog"]
+  },
+  "Windows|Réseau|Adresse IP locale": {
+    "title": "Local IP address",
+    "desc": "Shows the network configuration (IP address, mask, gateway) for each interface.",
+    "tags": ["windows", "ip", "network"]
+  },
+  "Windows|Réseau|Tester une connexion": {
+    "title": "Test a connection",
+    "desc": "Checks that a host responds and measures the response time.",
+    "tags": ["windows", "ping", "network"]
+  },
+  "Windows|Réseau|Quel processus utilise ce port ?": {
+    "title": "Which process is using this port?",
+    "desc": "Finds the PID of the process listening on port 8080 — Get-Process -Id <PID> next to identify the program.",
+    "tags": ["windows", "netstat", "port", "network"]
+  },
+  "Windows|Réseau|Tester si un port distant est ouvert": {
+    "title": "Test if a remote port is open",
+    "desc": "Checks that a specific port is reachable on a remote machine, without opening a real application connection.",
+    "tags": ["windows", "powershell", "port", "network"]
+  },
+  "Windows|Réseau|Télécharger un fichier": {
+    "title": "Download a file",
+    "desc": "Downloads a URL's content to a local file — the PowerShell equivalent of wget/curl.",
+    "tags": ["windows", "powershell", "download", "http"]
+  },
+  "Windows|Réseau|Vider le cache DNS": {
+    "title": "Flush the DNS cache",
+    "desc": "Forces the system to forget cached DNS resolutions — useful after a server or domain change.",
+    "tags": ["windows", "dns", "network", "cache"]
+  },
+  "Windows|Paquets (winget / choco)|Installer un paquet": {
+    "title": "Install a package",
+    "desc": "Installs software from Windows's official package manager, built in since Windows 10/11.",
+    "tags": ["windows", "winget", "install", "package"]
+  },
+  "Windows|Paquets (winget / choco)|Mettre à jour tous les paquets": {
+    "title": "Update all packages",
+    "desc": "Updates every piece of software installed via winget to its latest available version.",
+    "tags": ["windows", "winget", "update", "package"]
+  },
+  "Windows|Paquets (winget / choco)|Chercher un paquet": {
+    "title": "Search for a package",
+    "desc": "Searches for available software in winget's sources by name.",
+    "tags": ["windows", "winget", "search", "package"]
+  },
+  "Windows|Paquets (winget / choco)|Lister les paquets installés": {
+    "title": "List installed packages",
+    "desc": "Shows every piece of software installed that winget recognizes on the machine.",
+    "tags": ["windows", "winget", "list", "package"]
+  },
+  "Windows|Paquets (winget / choco)|Installer via Chocolatey": {
+    "title": "Install via Chocolatey",
+    "desc": "An alternative, third-party package manager, useful for software not yet available on winget — requires installing Chocolatey first.",
+    "tags": ["windows", "chocolatey", "install", "package"]
+  },
+  "Windows|Utilisateurs & permissions|Ouvrir un terminal en administrateur": {
+    "title": "Open an administrator terminal",
+    "desc": "Opens a new PowerShell window with elevated privileges — Windows has no direct equivalent to sudo within the same terminal.",
+    "tags": ["windows", "powershell", "admin", "elevation"]
+  },
+  "Windows|Utilisateurs & permissions|Lister les utilisateurs": {
+    "title": "List users",
+    "desc": "Shows every local user account on the machine.",
+    "tags": ["windows", "powershell", "users"]
+  },
+  "Windows|Utilisateurs & permissions|Voir mes groupes / droits": {
+    "title": "See my groups / rights",
+    "desc": "Shows the current user and every group they belong to (local admin, etc.).",
+    "tags": ["windows", "whoami", "permissions", "groups"]
+  },
+  "Windows|Utilisateurs & permissions|Voir les permissions d'un fichier": {
+    "title": "View a file's permissions",
+    "desc": "Shows the access control list (ACL) of a file or folder — who's allowed to do what.",
+    "tags": ["windows", "icacls", "permissions"]
+  },
+  "Windows|Utilisateurs & permissions|Changer le propriétaire d'un fichier": {
+    "title": "Change a file's owner",
+    "desc": "Reclaims ownership of a file or folder — useful when a system file or another account's file blocks a change.",
+    "tags": ["windows", "takeown", "owner", "permissions"]
+  },
+  "Windows|Outils CLI divers|Ouvrir VS Code ici": {
+    "title": "Open VS Code here",
+    "desc": "Opens VS Code directly in the current folder.",
+    "tags": ["windows", "vscode", "editor"]
+  },
+  "Windows|Outils CLI divers|Éditer le profil PowerShell": {
+    "title": "Edit the PowerShell profile",
+    "desc": "Opens the configuration file loaded every time PowerShell starts — the equivalent of .bashrc on Linux.",
+    "tags": ["windows", "powershell", "profile", "config"]
+  },
+  "Windows|Outils CLI divers|Créer un alias permanent": {
+    "title": "Create a permanent alias",
+    "desc": "Creates an alias for the current session. To make it permanent, add the same line to the PowerShell profile ($PROFILE).",
+    "tags": ["windows", "powershell", "alias"]
+  },
+  "Windows|Outils CLI divers|Définir une variable d'environnement": {
+    "title": "Set an environment variable",
+    "desc": "Sets an environment variable for the current session. setx NAME \"value\" makes it permanent (new sessions only).",
+    "tags": ["windows", "powershell", "variable", "environment"]
+  },
+  "Windows|Outils CLI divers|Générer une clé SSH": {
+    "title": "Generate an SSH key",
+    "desc": "Generates an SSH key pair — the OpenSSH client has been built in natively since Windows 10.",
+    "tags": ["windows", "ssh", "key", "security"]
+  },
+  "Windows|Outils CLI divers|Se connecter en SSH": {
+    "title": "Connect over SSH",
+    "desc": "Opens an SSH connection to a remote machine.",
+    "tags": ["windows", "ssh", "connection"]
+  },
+  "Windows|Outils CLI divers|Localiser un exécutable": {
+    "title": "Locate an executable",
+    "desc": "Finds the path of the executable that would run when typing \"name\" — the equivalent of which on Linux.",
+    "tags": ["windows", "powershell", "which", "path"]
   }
 };
