@@ -1949,250 +1949,250 @@ const COMMANDS = [
     tags: ["windows", "powershell", "which", "chemin"]
   },
 
-  // --- Programmation — Codex (OpenAI) ---------------------------------------
+  // --- Codex (OpenAI) ---------------------------------------
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Lancer une session interactive",
     cmd: "codex",
     desc: "Ouvre l'interface interactive de Codex dans le dossier courant.",
     tags: ["codex", "openai", "start"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Exécution non-interactive (one-shot)",
     cmd: 'codex exec "résume les changements récents"',
     desc: "Exécute une tâche sans ouvrir de session interactive, affiche le résultat puis quitte — pratique pour scripter ou automatiser.",
     tags: ["codex", "openai", "exec", "script"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Sortie en JSON Lines",
     cmd: 'codex exec "..." --json',
     desc: "Diffuse la réponse au format JSON Lines, exploitable par un autre programme plutôt qu'en texte brut.",
     tags: ["codex", "openai", "json", "script"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Écrire la réponse finale dans un fichier",
     cmd: 'codex exec "..." -o resultat.txt',
     desc: "Écrit uniquement le message final dans le fichier indiqué, plutôt que de l'afficher dans le terminal.",
     tags: ["codex", "openai", "output", "fichier"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Reprendre la dernière session (non-interactif)",
     cmd: 'codex exec resume --last "continue avec les étapes suivantes"',
     desc: "Reprend la session la plus récente en mode non-interactif, avec une nouvelle instruction.",
     tags: ["codex", "openai", "resume", "session"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Reprendre une session précise",
     cmd: "codex resume",
     desc: "Affiche un sélecteur des sessions précédentes pour en reprendre une précise, en mode interactif.",
     tags: ["codex", "openai", "resume", "session"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Créer une branche de la conversation",
     cmd: "codex fork",
     desc: "Crée une nouvelle conversation qui part de l'historique de la session actuelle, sans modifier l'originale.",
     tags: ["codex", "openai", "fork", "session"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Démarrage",
     title: "Lancer une revue de code",
     cmd: "codex review",
     desc: "Lance Codex en mode revue de code sur les changements en cours dans le projet.",
     tags: ["codex", "openai", "review"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Slash commands",
     title: "Choisir un modèle en cours de session",
     cmd: "/model",
     desc: "Slash command à l'intérieur d'une session interactive pour changer de modèle et de niveau de raisonnement (reasoning effort) sans redémarrer.",
     tags: ["codex", "openai", "modèle", "slash"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Choisir un modèle au lancement",
     cmd: "codex --model gpt-5.1-codex",
     desc: "Démarre directement avec le modèle indiqué plutôt que celui par défaut (alias court : -m).",
     tags: ["codex", "openai", "modèle"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Régler le bac à sable (sandbox)",
     cmd: "codex --sandbox workspace-write",
     desc: "Autorise Codex à écrire dans le dossier de travail mais pas ailleurs sur la machine — read-only et danger-full-access sont les deux autres niveaux disponibles (alias court : -s).",
     tags: ["codex", "openai", "sandbox", "sécurité"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Régler la politique d'approbation",
     cmd: "codex --ask-for-approval on-request",
     desc: "Codex ne demande confirmation que quand une action risquée le justifie — untrusted et never sont les deux autres politiques disponibles (alias court : -a).",
     tags: ["codex", "openai", "permissions", "approbation"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Combiner sandbox et approbation",
     cmd: 'codex --sandbox workspace-write --ask-for-approval on-request "tâche"',
     desc: "Combinaison typique pour une automatisation surveillée : Codex peut écrire dans le projet, mais demande confirmation sur les actions vraiment risquées.",
     tags: ["codex", "openai", "sandbox", "approbation"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Tout autoriser sans confirmation (dangereux)",
     cmd: "codex --dangerously-bypass-approvals-and-sandbox",
     desc: "⚠️ Désactive toutes les vérifications de sécurité (sandbox + confirmations, alias --yolo). Réservé à un environnement isolé/jetable (conteneur, CI) — jamais sur une machine avec des données sensibles.",
     tags: ["codex", "openai", "danger", "yolo"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Changer de dossier de travail",
     cmd: "codex --cd chemin/vers/projet",
     desc: "Lance Codex comme si la commande avait été exécutée depuis ce dossier, sans avoir à s'y déplacer soi-même (alias court : -C).",
     tags: ["codex", "openai", "dossier"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Autoriser l'écriture dans un dossier supplémentaire",
     cmd: "codex --add-dir chemin",
     desc: "Étend l'accès en écriture à un dossier en dehors du projet courant (répétable pour en ajouter plusieurs).",
     tags: ["codex", "openai", "permissions", "dossier"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Joindre une image",
     cmd: 'codex --image capture.png "explique cette erreur"',
     desc: "Ajoute une ou plusieurs images comme contexte de la demande (captures d'écran, maquettes…), alias court : -i.",
     tags: ["codex", "openai", "image", "contexte"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Utiliser un modèle local",
     cmd: "codex --oss --local-provider ollama",
     desc: "Utilise un modèle tournant en local (via LM Studio ou Ollama) plutôt que l'API OpenAI.",
     tags: ["codex", "openai", "local", "ollama", "lmstudio"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Authentification",
     title: "Se connecter",
     cmd: "codex login",
     desc: "Authentifie Codex, avec le choix entre se connecter via ChatGPT ou avec une clé API.",
     tags: ["codex", "openai", "login", "auth"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Authentification",
     title: "Se connecter avec une clé API",
     cmd: "codex login --with-api-key",
     desc: "Authentifie Codex en lisant une clé API depuis l'entrée standard, sans passer par le compte ChatGPT.",
     tags: ["codex", "openai", "login", "api key"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Authentification",
     title: "Vérifier le statut de connexion",
     cmd: "codex login status",
     desc: "Indique si Codex est actuellement authentifié.",
     tags: ["codex", "openai", "login", "statut"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Authentification",
     title: "Se déconnecter",
     cmd: "codex logout",
     desc: "Supprime les identifiants enregistrés localement.",
     tags: ["codex", "openai", "logout", "auth"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "MCP & config",
     title: "Gérer les serveurs MCP",
     cmd: "codex mcp",
     desc: "Liste et gère les serveurs MCP connectés à Codex.",
     tags: ["codex", "openai", "mcp"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "MCP & config",
     title: "Gérer les plugins",
     cmd: "codex plugin",
     desc: "Installe, liste ou retire des plugins Codex.",
     tags: ["codex", "openai", "plugin"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Installation & mise à jour",
     title: "Diagnostiquer l'installation",
     cmd: "codex doctor",
     desc: "Génère un rapport de diagnostic (configuration, connexion, dépendances) pour identifier ce qui cloche.",
     tags: ["codex", "openai", "doctor", "diagnostic"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Installation & mise à jour",
     title: "Vérifier les mises à jour",
     cmd: "codex update",
     desc: "Vérifie si une nouvelle version de Codex CLI est disponible.",
     tags: ["codex", "openai", "update"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Utiliser un profil de configuration",
     cmd: "codex --profile nom",
     desc: "Applique un profil de configuration prédéfini par-dessus la config de base, pour changer rapidement de contexte (projet, réglages), alias court : -p.",
     tags: ["codex", "openai", "profil", "config"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Options CLI",
     title: "Surcharger une valeur de config à la volée",
     cmd: 'codex -c model="gpt-5.1-codex"',
     desc: "Modifie une valeur de configuration pour cette seule exécution, sans éditer le fichier config.toml.",
     tags: ["codex", "openai", "config"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Installation & mise à jour",
     title: "Installer Codex CLI (Mac/Linux)",
     cmd: "curl -fsSL https://chatgpt.com/codex/install.sh | sh",
     desc: "Script d'installation officiel pour macOS et Linux.",
     tags: ["codex", "openai", "install"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Installation & mise à jour",
     title: "Installer via npm",
     cmd: "npm install -g @openai/codex",
     desc: "Installation globale via npm — alternative multiplateforme au script d'installation.",
     tags: ["codex", "openai", "install", "npm"]
   },
   {
-    category: "Programmation",
-    subcategory: "Codex",
+    category: "Codex",
+    subcategory: "Installation & mise à jour",
     title: "Installer via Homebrew (macOS)",
     cmd: "brew install --cask codex",
     desc: "Installation via le gestionnaire de paquets Homebrew, sur macOS.",

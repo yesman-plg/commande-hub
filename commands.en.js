@@ -1877,157 +1877,157 @@ const COMMAND_TRANSLATIONS_EN = {
     "desc": "Finds the path of the executable that would run when typing \"name\" — the equivalent of which on Linux.",
     "tags": ["windows", "powershell", "which", "path"]
   },
-  "Programmation|Codex|Lancer une session interactive": {
+  "Codex|Démarrage|Lancer une session interactive": {
     "title": "Launch an interactive session",
     "desc": "Opens Codex's interactive interface in the current folder.",
     "tags": ["codex", "openai", "start"]
   },
-  "Programmation|Codex|Exécution non-interactive (one-shot)": {
+  "Codex|Démarrage|Exécution non-interactive (one-shot)": {
     "title": "Non-interactive (one-shot) run",
     "desc": "Runs a task without opening an interactive session, shows the result, then quits — handy for scripting or automation.",
     "tags": ["codex", "openai", "exec", "script"]
   },
-  "Programmation|Codex|Sortie en JSON Lines": {
+  "Codex|Démarrage|Sortie en JSON Lines": {
     "title": "JSON Lines output",
     "desc": "Streams the response as JSON Lines, usable by another program instead of plain text.",
     "tags": ["codex", "openai", "json", "script"]
   },
-  "Programmation|Codex|Écrire la réponse finale dans un fichier": {
+  "Codex|Démarrage|Écrire la réponse finale dans un fichier": {
     "title": "Write the final answer to a file",
     "desc": "Writes only the final message to the given file, instead of printing it in the terminal.",
     "tags": ["codex", "openai", "output", "file"]
   },
-  "Programmation|Codex|Reprendre la dernière session (non-interactif)": {
+  "Codex|Démarrage|Reprendre la dernière session (non-interactif)": {
     "title": "Resume the last session (non-interactive)",
     "desc": "Resumes the most recent session in non-interactive mode, with a new instruction.",
     "tags": ["codex", "openai", "resume", "session"]
   },
-  "Programmation|Codex|Reprendre une session précise": {
+  "Codex|Démarrage|Reprendre une session précise": {
     "title": "Resume a specific session",
     "desc": "Shows a picker of previous sessions to resume a specific one, interactively.",
     "tags": ["codex", "openai", "resume", "session"]
   },
-  "Programmation|Codex|Créer une branche de la conversation": {
+  "Codex|Démarrage|Créer une branche de la conversation": {
     "title": "Fork the conversation",
     "desc": "Creates a new conversation starting from the current session's history, without changing the original.",
     "tags": ["codex", "openai", "fork", "session"]
   },
-  "Programmation|Codex|Lancer une revue de code": {
+  "Codex|Démarrage|Lancer une revue de code": {
     "title": "Run a code review",
     "desc": "Launches Codex in code review mode on the project's current changes.",
     "tags": ["codex", "openai", "review"]
   },
-  "Programmation|Codex|Choisir un modèle en cours de session": {
+  "Codex|Slash commands|Choisir un modèle en cours de session": {
     "title": "Choose a model mid-session",
     "desc": "Slash command inside an interactive session to change the model and reasoning effort without restarting.",
     "tags": ["codex", "openai", "model", "slash"]
   },
-  "Programmation|Codex|Choisir un modèle au lancement": {
+  "Codex|Options CLI|Choisir un modèle au lancement": {
     "title": "Choose a model at launch",
     "desc": "Starts directly with the given model instead of the default one (short alias: -m).",
     "tags": ["codex", "openai", "model"]
   },
-  "Programmation|Codex|Régler le bac à sable (sandbox)": {
+  "Codex|Options CLI|Régler le bac à sable (sandbox)": {
     "title": "Set the sandbox level",
     "desc": "Allows Codex to write inside the working folder but nowhere else on the machine — read-only and danger-full-access are the other two available levels (short alias: -s).",
     "tags": ["codex", "openai", "sandbox", "security"]
   },
-  "Programmation|Codex|Régler la politique d'approbation": {
+  "Codex|Options CLI|Régler la politique d'approbation": {
     "title": "Set the approval policy",
     "desc": "Codex only asks for confirmation when a risky action justifies it — untrusted and never are the other two available policies (short alias: -a).",
     "tags": ["codex", "openai", "permissions", "approval"]
   },
-  "Programmation|Codex|Combiner sandbox et approbation": {
+  "Codex|Options CLI|Combiner sandbox et approbation": {
     "title": "Combine sandbox and approval",
     "desc": "A typical combination for supervised automation: Codex can write inside the project, but asks for confirmation on truly risky actions.",
     "tags": ["codex", "openai", "sandbox", "approval"]
   },
-  "Programmation|Codex|Tout autoriser sans confirmation (dangereux)": {
+  "Codex|Options CLI|Tout autoriser sans confirmation (dangereux)": {
     "title": "Allow everything with no confirmation (dangerous)",
     "desc": "⚠️ Disables every safety check (sandbox + confirmations, alias --yolo). Reserved for an isolated/disposable environment (container, CI) — never on a machine with sensitive data.",
     "tags": ["codex", "openai", "danger", "yolo"]
   },
-  "Programmation|Codex|Changer de dossier de travail": {
+  "Codex|Options CLI|Changer de dossier de travail": {
     "title": "Change the working directory",
     "desc": "Launches Codex as if the command had been run from this folder, without having to move there yourself (short alias: -C).",
     "tags": ["codex", "openai", "folder"]
   },
-  "Programmation|Codex|Autoriser l'écriture dans un dossier supplémentaire": {
+  "Codex|Options CLI|Autoriser l'écriture dans un dossier supplémentaire": {
     "title": "Allow writing to an extra folder",
     "desc": "Extends write access to a folder outside the current project (repeatable to add several).",
     "tags": ["codex", "openai", "permissions", "folder"]
   },
-  "Programmation|Codex|Joindre une image": {
+  "Codex|Options CLI|Joindre une image": {
     "title": "Attach an image",
     "desc": "Adds one or more images as context for the request (screenshots, mockups…), short alias: -i.",
     "tags": ["codex", "openai", "image", "context"]
   },
-  "Programmation|Codex|Utiliser un modèle local": {
+  "Codex|Options CLI|Utiliser un modèle local": {
     "title": "Use a local model",
     "desc": "Uses a model running locally (via LM Studio or Ollama) instead of the OpenAI API.",
     "tags": ["codex", "openai", "local", "ollama", "lmstudio"]
   },
-  "Programmation|Codex|Se connecter": {
+  "Codex|Authentification|Se connecter": {
     "title": "Log in",
     "desc": "Authenticates Codex, with a choice between signing in with ChatGPT or using an API key.",
     "tags": ["codex", "openai", "login", "auth"]
   },
-  "Programmation|Codex|Se connecter avec une clé API": {
+  "Codex|Authentification|Se connecter avec une clé API": {
     "title": "Log in with an API key",
     "desc": "Authenticates Codex by reading an API key from standard input, without going through a ChatGPT account.",
     "tags": ["codex", "openai", "login", "api key"]
   },
-  "Programmation|Codex|Vérifier le statut de connexion": {
+  "Codex|Authentification|Vérifier le statut de connexion": {
     "title": "Check login status",
     "desc": "Shows whether Codex is currently authenticated.",
     "tags": ["codex", "openai", "login", "status"]
   },
-  "Programmation|Codex|Se déconnecter": {
+  "Codex|Authentification|Se déconnecter": {
     "title": "Log out",
     "desc": "Removes locally stored credentials.",
     "tags": ["codex", "openai", "logout", "auth"]
   },
-  "Programmation|Codex|Gérer les serveurs MCP": {
+  "Codex|MCP & config|Gérer les serveurs MCP": {
     "title": "Manage MCP servers",
     "desc": "Lists and manages the MCP servers connected to Codex.",
     "tags": ["codex", "openai", "mcp"]
   },
-  "Programmation|Codex|Gérer les plugins": {
+  "Codex|MCP & config|Gérer les plugins": {
     "title": "Manage plugins",
     "desc": "Installs, lists, or removes Codex plugins.",
     "tags": ["codex", "openai", "plugin"]
   },
-  "Programmation|Codex|Diagnostiquer l'installation": {
+  "Codex|Installation & mise à jour|Diagnostiquer l'installation": {
     "title": "Diagnose the installation",
     "desc": "Generates a diagnostic report (configuration, connection, dependencies) to pinpoint what's wrong.",
     "tags": ["codex", "openai", "doctor", "diagnostic"]
   },
-  "Programmation|Codex|Vérifier les mises à jour": {
+  "Codex|Installation & mise à jour|Vérifier les mises à jour": {
     "title": "Check for updates",
     "desc": "Checks whether a newer version of Codex CLI is available.",
     "tags": ["codex", "openai", "update"]
   },
-  "Programmation|Codex|Utiliser un profil de configuration": {
+  "Codex|Options CLI|Utiliser un profil de configuration": {
     "title": "Use a configuration profile",
     "desc": "Layers a predefined configuration profile on top of the base config, to quickly switch context (project, settings), short alias: -p.",
     "tags": ["codex", "openai", "profile", "config"]
   },
-  "Programmation|Codex|Surcharger une valeur de config à la volée": {
+  "Codex|Options CLI|Surcharger une valeur de config à la volée": {
     "title": "Override a config value on the fly",
     "desc": "Changes a configuration value for this run only, without editing the config.toml file.",
     "tags": ["codex", "openai", "config"]
   },
-  "Programmation|Codex|Installer Codex CLI (Mac/Linux)": {
+  "Codex|Installation & mise à jour|Installer Codex CLI (Mac/Linux)": {
     "title": "Install Codex CLI (Mac/Linux)",
     "desc": "The official install script for macOS and Linux.",
     "tags": ["codex", "openai", "install"]
   },
-  "Programmation|Codex|Installer via npm": {
+  "Codex|Installation & mise à jour|Installer via npm": {
     "title": "Install via npm",
     "desc": "Global install via npm — a cross-platform alternative to the install script.",
     "tags": ["codex", "openai", "install", "npm"]
   },
-  "Programmation|Codex|Installer via Homebrew (macOS)": {
+  "Codex|Installation & mise à jour|Installer via Homebrew (macOS)": {
     "title": "Install via Homebrew (macOS)",
     "desc": "Install via the Homebrew package manager, on macOS.",
     "tags": ["codex", "openai", "install", "homebrew"]

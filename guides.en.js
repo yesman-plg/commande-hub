@@ -3100,7 +3100,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|Codex, à quoi ça sert et en quoi il diffère de Claude Code": {
+  "Codex|Codex, à quoi ça sert et en quoi il diffère de Claude Code": {
     "title": "Codex: what it's for and how it differs from Claude Code",
     "summary": "OpenAI's command-line coding agent — the same idea as Claude Code, with its own settings and its own vocabulary.",
     "content": [
@@ -3136,7 +3136,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|Installer et se connecter à Codex": {
+  "Codex|Installer et se connecter à Codex": {
     "title": "Installing and logging in to Codex",
     "summary": "Three ways to install Codex CLI, and two ways to authenticate depending on what you already have (a ChatGPT account or an API key).",
     "content": [
@@ -3172,7 +3172,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|Premiers pas avec Codex : session interactive et exécution one-shot": {
+  "Codex|Premiers pas avec Codex : session interactive et exécution one-shot": {
     "title": "First steps with Codex: interactive session and one-shot execution",
     "summary": "codex for a session that lasts, codex exec for a one-off task that answers then hands back control.",
     "content": [
@@ -3208,7 +3208,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|Sandbox et approbations : le système de permissions de Codex": {
+  "Codex|Sandbox et approbations : le système de permissions de Codex": {
     "title": "Sandbox and approvals: Codex's permission system",
     "summary": "Two combined settings define what Codex can do on its own, and when it has to ask for confirmation.",
     "content": [
@@ -3244,7 +3244,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|AGENTS.md : donner du contexte permanent à Codex": {
+  "Codex|AGENTS.md : donner du contexte permanent à Codex": {
     "title": "AGENTS.md: giving Codex permanent context",
     "summary": "The Codex-side equivalent of CLAUDE.md — with a more developed layering system (global, project, subfolders).",
     "content": [
@@ -3280,7 +3280,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|Reprendre, brancher, réviser : gérer ses sessions Codex": {
+  "Codex|Reprendre, brancher, réviser : gérer ses sessions Codex": {
     "title": "Resuming, forking, reviewing: managing Codex sessions",
     "summary": "resume to continue, fork to explore an idea without losing the original, review for a targeted read-through.",
     "content": [
@@ -3316,7 +3316,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|Automatiser avec Codex : exec, JSON, scripts": {
+  "Codex|Automatiser avec Codex : exec, JSON, scripts": {
     "title": "Automating with Codex: exec, JSON, scripts",
     "summary": "codex exec becomes truly useful combined with structured, redirected output — the basis of reliable automation.",
     "content": [
@@ -3352,7 +3352,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Programmation|Configuration avancée de Codex : profils, modèles locaux, MCP": {
+  "Codex|Configuration avancée de Codex : profils, modèles locaux, MCP": {
     "title": "Advanced Codex configuration: profiles, local models, MCP",
     "summary": "Beyond the basic settings: profiles to quickly switch context, local models, and external MCP servers.",
     "content": [

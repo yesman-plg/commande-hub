@@ -3252,9 +3252,9 @@ const GUIDES = [
     ]
   },
 
-  // --- Programmation — Codex (OpenAI) ---------------------------------------
+  // --- Codex (OpenAI) ---------------------------------------
   {
-    category: "Programmation",
+    category: "Codex",
     title: "Codex, à quoi ça sert et en quoi il diffère de Claude Code",
     level: "🟢 Débutant",
     summary: "L'agent de codage en ligne de commande d'OpenAI — la même idée que Claude Code, avec ses propres réglages et son propre vocabulaire.",
@@ -3292,7 +3292,7 @@ const GUIDES = [
     ]
   },
   {
-    category: "Programmation",
+    category: "Codex",
     title: "Installer et se connecter à Codex",
     level: "🟢 Débutant",
     summary: "Trois façons d'installer Codex CLI, et deux façons de s'authentifier selon ce que tu as déjà (compte ChatGPT ou clé API).",
@@ -3330,7 +3330,7 @@ const GUIDES = [
     ]
   },
   {
-    category: "Programmation",
+    category: "Codex",
     title: "Premiers pas avec Codex : session interactive et exécution one-shot",
     level: "🟢 Débutant",
     summary: "codex pour une session qui dure, codex exec pour une tâche ponctuelle qui répond puis rend la main.",
@@ -3368,7 +3368,7 @@ const GUIDES = [
     ]
   },
   {
-    category: "Programmation",
+    category: "Codex",
     title: "Sandbox et approbations : le système de permissions de Codex",
     level: "🟡 Intermédiaire",
     summary: "Deux réglages combinés définissent ce que Codex peut faire seul, et quand il doit demander confirmation.",
@@ -3406,7 +3406,7 @@ const GUIDES = [
     ]
   },
   {
-    category: "Programmation",
+    category: "Codex",
     title: "AGENTS.md : donner du contexte permanent à Codex",
     level: "🟡 Intermédiaire",
     summary: "L'équivalent du CLAUDE.md côté Codex — avec un système de couches (global, projet, sous-dossiers) plus poussé.",
@@ -3444,7 +3444,7 @@ const GUIDES = [
     ]
   },
   {
-    category: "Programmation",
+    category: "Codex",
     title: "Reprendre, brancher, réviser : gérer ses sessions Codex",
     level: "🟡 Intermédiaire",
     summary: "resume pour continuer, fork pour explorer une piste sans perdre l'original, review pour une relecture ciblée.",
@@ -3482,7 +3482,7 @@ const GUIDES = [
     ]
   },
   {
-    category: "Programmation",
+    category: "Codex",
     title: "Automatiser avec Codex : exec, JSON, scripts",
     level: "🔴 Avancé",
     summary: "codex exec devient vraiment utile combiné à une sortie structurée et redirigée — la base d'une automatisation fiable.",
@@ -3520,7 +3520,7 @@ const GUIDES = [
     ]
   },
   {
-    category: "Programmation",
+    category: "Codex",
     title: "Configuration avancée de Codex : profils, modèles locaux, MCP",
     level: "🔴 Avancé",
     summary: "Au-delà des réglages de base : des profils pour changer de contexte rapidement, des modèles locaux, et des serveurs MCP externes.",
