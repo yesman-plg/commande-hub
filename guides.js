@@ -749,7 +749,7 @@ const GUIDES = [
 
   // --- Linux Mint ---------------------------------------
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "sudo et les permissions, sans y laisser des plumes",
     level: "🟢 Débutant",
     summary: "Le minimum à savoir avant de taper sudo devant une commande.",
@@ -787,7 +787,7 @@ const GUIDES = [
 ]
   },
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "apt : installer et gérer des logiciels",
     level: "🟢 Débutant",
     summary: "Le gestionnaire de paquets de Linux Mint, l'équivalent d'un store mais en ligne de commande.",
@@ -829,7 +829,7 @@ const GUIDES = [
 ]
   },
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "Processus, ports, RAM : pourquoi ça rame",
     level: "🟡 Intermédiaire",
     summary: "De quoi diagnostiquer un ordi lent ou un port déjà utilisé.",
@@ -871,7 +871,7 @@ const GUIDES = [
 ]
   },
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "L'arborescence du système de fichiers",
     level: "🟡 Intermédiaire",
     summary: "Pourquoi Linux n'a pas de 'C:\\', et où trouver quoi.",
@@ -905,7 +905,7 @@ const GUIDES = [
 ]
   },
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "Réseau pour les nuls : IP, port, DNS",
     level: "🟡 Intermédiaire",
     summary: "De quoi enfin comprendre ce que veut dire localhost:8081.",
@@ -939,7 +939,7 @@ const GUIDES = [
 ]
   },
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "SSH et les clés : comment ça marche vraiment",
     level: "🔴 Avancé",
     summary: "Pourquoi utiliser une clé plutôt qu'un mot de passe, et ce que représentent vraiment les fichiers générés.",
@@ -978,7 +978,7 @@ const GUIDES = [
 ]
   },
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "systemd et les services",
     level: "🟡 Intermédiaire",
     summary: "Comment Linux Mint démarre, surveille et redémarre les programmes qui tournent en arrière-plan.",
@@ -1016,7 +1016,7 @@ const GUIDES = [
 ]
   },
 {
-    category: "Linux Mint",
+    category: "Linux",
     title: "cron : exécuter des tâches automatiquement",
     level: "🟡 Intermédiaire",
     summary: "Programmer une commande pour qu'elle se lance toute seule, à heure fixe, sans intervention.",
@@ -1173,7 +1173,7 @@ const GUIDES = [
     content: [
       {
         heading: "Des lettres de lecteur, pas une racine unique",
-        text: "Là où Linux a une seule arborescence démarrant à /, Windows attribue une lettre à chaque disque/partition (C:\\, D:\\…) — voir [[Linux Mint::L'arborescence du système de fichiers]] pour le principe côté Linux."
+        text: "Là où Linux a une seule arborescence démarrant à /, Windows attribue une lettre à chaque disque/partition (C:\\, D:\\…) — voir [[Linux::L'arborescence du système de fichiers]] pour le principe côté Linux."
       },
       {
         heading: "C:\\Users\\ : l'équivalent de /home",
@@ -1249,7 +1249,7 @@ const GUIDES = [
     content: [
       {
         heading: "Voir sa configuration réseau",
-        text: "`ipconfig` affiche l'adresse IP, le masque et la passerelle de chaque interface réseau — voir [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] pour les mêmes notions expliquées côté Linux."
+        text: "`ipconfig` affiche l'adresse IP, le masque et la passerelle de chaque interface réseau — voir [[Linux::Réseau pour les nuls : IP, port, DNS]] pour les mêmes notions expliquées côté Linux."
       },
       {
         heading: "Tester qu'un hôte répond",
@@ -1295,7 +1295,7 @@ const GUIDES = [
       },
       {
         heading: "Une vraie distribution Linux, pas une simulation",
-        text: "WSL (Windows Subsystem for Linux) fait tourner une vraie distribution (Ubuntu par défaut) avec son propre terminal — les commandes apt, bash, grep… fonctionnent exactement comme sur une machine Linux, voir [[Linux Mint::apt : installer et gérer des logiciels]]."
+        text: "WSL (Windows Subsystem for Linux) fait tourner une vraie distribution (Ubuntu par défaut) avec son propre terminal — les commandes apt, bash, grep… fonctionnent exactement comme sur une machine Linux, voir [[Linux::apt : installer et gérer des logiciels]]."
       },
       {
         heading: "Installer WSL",
@@ -4372,7 +4372,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux Mint::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
+        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
       }
     ],
     exercises: [
@@ -4406,7 +4406,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. `kill -9 PID` pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] et [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
+        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. `kill -9 PID` pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux::Réseau pour les nuls : IP, port, DNS]] et [[Linux::Processus, ports, RAM : pourquoi ça rame]]."
       }
     ],
     exercises: [
@@ -4640,7 +4640,7 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux Mint::systemd et les services]]."
+        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux::systemd et les services]]."
       }
     ],
     exercises: [

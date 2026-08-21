@@ -1210,7 +1210,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|sudo et les permissions, sans y laisser des plumes": {
+  "Linux|sudo et les permissions, sans y laisser des plumes": {
     "title": "sudo and permissions, without getting burned",
     "summary": "The minimum you need to know before typing sudo in front of a command.",
     "content": [
@@ -1246,7 +1246,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|apt : installer et gérer des logiciels": {
+  "Linux|apt : installer et gérer des logiciels": {
     "title": "apt: installing and managing software",
     "summary": "Linux Mint's package manager, the command-line equivalent of a store.",
     "content": [
@@ -1286,7 +1286,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|Processus, ports, RAM : pourquoi ça rame": {
+  "Linux|Processus, ports, RAM : pourquoi ça rame": {
     "title": "Processes, ports, RAM: why it's slow",
     "summary": "How to diagnose a slow computer or an already-used port.",
     "content": [
@@ -1326,7 +1326,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|L'arborescence du système de fichiers": {
+  "Linux|L'arborescence du système de fichiers": {
     "title": "The filesystem hierarchy",
     "summary": "Why Linux doesn't have a 'C:\\', and where to find what.",
     "content": [
@@ -1358,7 +1358,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|Réseau pour les nuls : IP, port, DNS": {
+  "Linux|Réseau pour les nuls : IP, port, DNS": {
     "title": "Networking for dummies: IP, port, DNS",
     "summary": "Finally understand what localhost:8081 means.",
     "content": [
@@ -1390,7 +1390,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|SSH et les clés : comment ça marche vraiment": {
+  "Linux|SSH et les clés : comment ça marche vraiment": {
     "title": "SSH and keys: how it really works",
     "summary": "Why use a key rather than a password, and what the generated files actually represent.",
     "content": [
@@ -1427,7 +1427,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|systemd et les services": {
+  "Linux|systemd et les services": {
     "title": "systemd and services",
     "summary": "How Linux Mint starts, monitors and restarts the programs running in the background.",
     "content": [
@@ -1463,7 +1463,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Linux Mint|cron : exécuter des tâches automatiquement": {
+  "Linux|cron : exécuter des tâches automatiquement": {
     "title": "cron: running tasks automatically",
     "summary": "Scheduling a command to run on its own, at a fixed time, without intervention.",
     "content": [
@@ -1591,7 +1591,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "For a script: chmod +x script-name.sh, then rerun.\nFor a system file/folder: add sudo in front of the command ONLY if you understand why it's necessary.\n\nSee also: [[Linux Mint::sudo et les permissions, sans y laisser des plumes]] and [[Bases du terminal::Les permissions de fichiers en détail]]."
+        "text": "For a script: chmod +x script-name.sh, then rerun.\nFor a system file/folder: add sudo in front of the command ONLY if you understand why it's necessary.\n\nSee also: [[Linux::sudo et les permissions, sans y laisser des plumes]] and [[Bases du terminal::Les permissions de fichiers en détail]]."
       }
     ],
     "exercises": [
@@ -1623,7 +1623,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "1. sudo ss -tulpn | grep :8081 (replace 8081 with your port) → finds the PID occupying the port.\n2. `kill -9 PID` to free it up.\n3. Rerun your command.\n\nSee also: [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] and [[Linux Mint::Processus, ports, RAM : pourquoi ça rame]]."
+        "text": "1. sudo ss -tulpn | grep :8081 (replace 8081 with your port) → finds the PID occupying the port.\n2. `kill -9 PID` to free it up.\n3. Rerun your command.\n\nSee also: [[Linux::Réseau pour les nuls : IP, port, DNS]] and [[Linux::Processus, ports, RAM : pourquoi ça rame]]."
       }
     ],
     "exercises": [
@@ -1843,7 +1843,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "sudo systemctl status docker to check its state, then sudo systemctl start docker to launch it. For it to start automatically on every reboot: sudo systemctl enable docker.\n\nSee also: [[Linux Mint::systemd et les services]]."
+        "text": "sudo systemctl status docker to check its state, then sudo systemctl start docker to launch it. For it to start automatically on every reboot: sudo systemctl enable docker.\n\nSee also: [[Linux::systemd et les services]]."
       }
     ],
     "exercises": [
@@ -2841,7 +2841,7 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Drive letters, not a single root",
-        "text": "Where Linux has one single tree starting at /, Windows assigns a letter to each disk/partition (C:\\, D:\\…) — see [[Linux Mint::L'arborescence du système de fichiers]] for the same principle on the Linux side."
+        "text": "Where Linux has one single tree starting at /, Windows assigns a letter to each disk/partition (C:\\, D:\\…) — see [[Linux::L'arborescence du système de fichiers]] for the same principle on the Linux side."
       },
       {
         "heading": "C:\\Users\\: the equivalent of /home",
@@ -2913,7 +2913,7 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Viewing your network configuration",
-        "text": "`ipconfig` shows the IP address, mask, and gateway for each network interface — see [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] for the same concepts explained on the Linux side."
+        "text": "`ipconfig` shows the IP address, mask, and gateway for each network interface — see [[Linux::Réseau pour les nuls : IP, port, DNS]] for the same concepts explained on the Linux side."
       },
       {
         "heading": "Testing that a host responds",
@@ -2957,7 +2957,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "A real Linux distribution, not a simulation",
-        "text": "WSL (Windows Subsystem for Linux) runs a real distribution (Ubuntu by default) with its own terminal — commands like apt, bash, grep… work exactly as on a Linux machine, see [[Linux Mint::apt : installer et gérer des logiciels]]."
+        "text": "WSL (Windows Subsystem for Linux) runs a real distribution (Ubuntu by default) with its own terminal — commands like apt, bash, grep… work exactly as on a Linux machine, see [[Linux::apt : installer et gérer des logiciels]]."
       },
       {
         "heading": "Installing WSL",
