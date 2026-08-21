@@ -20,8 +20,8 @@
 // ============================================================
 
 const COMMANDS = [
-  // --- Expo / React Native ---------------------------------
-  {
+  // --- Expo / React Native — Démarrage & Dev ---------------------------------------
+{
     category: "Expo / React Native",
     subcategory: "Démarrage & Dev",
     title: "Démarrer le projet",
@@ -30,7 +30,7 @@ const COMMANDS = [
     tags: ["dev", "start", "metro"],
     related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
   },
-  {
+{
     category: "Expo / React Native",
     subcategory: "Démarrage & Dev",
     title: "Démarrer avec cache vidé",
@@ -39,7 +39,85 @@ const COMMANDS = [
     tags: ["cache", "clear", "debug"],
     related: "Expo / React Native::Metro, le serveur qui recharge ton app",
   },
-  {
+{
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Créer un nouveau projet",
+    cmd: "npx create-expo-app@latest mon-projet",
+    desc: "Génère un nouveau projet Expo à partir du template par défaut.",
+    tags: ["create", "nouveau", "init"]
+  },
+{
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Ouvrir directement sur une plateforme",
+    cmd: "npx expo start --android\nnpx expo start --ios\nnpx expo start --web",
+    desc: "Lance le serveur et ouvre directement l'app sur la plateforme choisie.",
+    tags: ["start", "android", "ios", "web"]
+  },
+{
+    category: "Expo / React Native",
+    subcategory: "Démarrage & Dev",
+    title: "Démarrer via tunnel",
+    cmd: "npx expo start --tunnel",
+    desc: "Utile quand le téléphone et l'ordi ne sont pas sur le même réseau (ou wifi qui bloque le LAN).",
+    tags: ["tunnel", "reseau", "start"]
+  },
+
+  // --- Expo / React Native — Compte & credentials ---------------------------------------
+{
+    category: "Expo / React Native",
+    subcategory: "Compte & credentials",
+    title: "Se connecter à EAS",
+    cmd: "eas login",
+    desc: "Requis avant tout build/submit/update via EAS. Vérifie avec: eas whoami",
+    tags: ["eas", "login", "compte"]
+  },
+{
+    category: "Expo / React Native",
+    subcategory: "Compte & credentials",
+    title: "Initialiser EAS sur le projet",
+    cmd: "eas init",
+    desc: "Lie le projet local à un projet Expo/EAS existant (ou en crée un).",
+    tags: ["eas", "init", "setup"]
+  },
+{
+    category: "Expo / React Native",
+    subcategory: "Compte & credentials",
+    title: "Gérer les credentials de signature",
+    cmd: "eas credentials",
+    desc: "Interface interactive pour voir/régénérer les clés de signature Android/iOS gérées par EAS.",
+    tags: ["eas", "credentials", "signing"]
+  },
+
+  // --- Expo / React Native — Build local ---------------------------------------
+{
+    category: "Expo / React Native",
+    subcategory: "Build local",
+    title: "Build local Android",
+    cmd: "npx expo run:android",
+    desc: "Build et installe sur un émulateur/appareil connecté sans passer par EAS.",
+    tags: ["build", "local", "android"]
+  },
+{
+    category: "Expo / React Native",
+    subcategory: "Build local",
+    title: "Prebuild (générer android/ios natifs)",
+    cmd: "npx expo prebuild --clean",
+    desc: "Régénère les dossiers natifs à partir de app.json/app.config.js.",
+    tags: ["prebuild", "native", "clean"]
+  },
+{
+    category: "Expo / React Native",
+    subcategory: "Build local",
+    title: "Build local iOS",
+    cmd: "npx expo run:ios",
+    desc: "Build et lance sur un simulateur iOS (nécessite un Mac/Xcode).",
+    tags: ["build", "local", "ios"]
+  },
+
+  // --- Expo / React Native — EAS Build & Submit ---------------------------------------
+{
     category: "Expo / React Native",
     subcategory: "EAS Build & Submit",
     title: "Build Android (EAS)",
@@ -48,15 +126,7 @@ const COMMANDS = [
     tags: ["build", "eas", "android"],
     related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
   },
-  {
-    category: "Expo / React Native",
-    subcategory: "Build local",
-    title: "Build local Android",
-    cmd: "npx expo run:android",
-    desc: "Build et installe sur un émulateur/appareil connecté sans passer par EAS.",
-    tags: ["build", "local", "android"]
-  },
-  {
+{
     category: "Expo / React Native",
     subcategory: "EAS Build & Submit",
     title: "Soumettre sur le Play Store",
@@ -64,88 +134,7 @@ const COMMANDS = [
     desc: "Envoie le dernier build vers Google Play.",
     tags: ["submit", "play store", "release"]
   },
-  {
-    category: "Expo / React Native",
-    subcategory: "Diagnostic & config",
-    title: "Vérifier la config du projet",
-    cmd: "npx expo-doctor",
-    desc: "Diagnostique les incompatibilités de versions / config.",
-    tags: ["doctor", "diagnostic"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Diagnostic & config",
-    title: "Installer une lib compatible Expo",
-    cmd: "npx expo install <nom-du-package>",
-    desc: "Comme npm install, mais choisit la version compatible avec ton SDK Expo.",
-    tags: ["install", "package", "dependency"],
-    related: "Expo / React Native::Pourquoi ça plante après avoir installé une lib",
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Diagnostic & config",
-    title: "Mettre à jour le SDK Expo",
-    cmd: "npx expo install expo@latest\nnpx expo-doctor",
-    desc: "Upgrade puis vérifie que tout est cohérent.",
-    tags: ["upgrade", "sdk"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Build local",
-    title: "Prebuild (générer android/ios natifs)",
-    cmd: "npx expo prebuild --clean",
-    desc: "Régénère les dossiers natifs à partir de app.json/app.config.js.",
-    tags: ["prebuild", "native", "clean"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Démarrage & Dev",
-    title: "Créer un nouveau projet",
-    cmd: "npx create-expo-app@latest mon-projet",
-    desc: "Génère un nouveau projet Expo à partir du template par défaut.",
-    tags: ["create", "nouveau", "init"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Build local",
-    title: "Build local iOS",
-    cmd: "npx expo run:ios",
-    desc: "Build et lance sur un simulateur iOS (nécessite un Mac/Xcode).",
-    tags: ["build", "local", "ios"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Démarrage & Dev",
-    title: "Ouvrir directement sur une plateforme",
-    cmd: "npx expo start --android\nnpx expo start --ios\nnpx expo start --web",
-    desc: "Lance le serveur et ouvre directement l'app sur la plateforme choisie.",
-    tags: ["start", "android", "ios", "web"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Démarrage & Dev",
-    title: "Démarrer via tunnel",
-    cmd: "npx expo start --tunnel",
-    desc: "Utile quand le téléphone et l'ordi ne sont pas sur le même réseau (ou wifi qui bloque le LAN).",
-    tags: ["tunnel", "reseau", "start"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Compte & credentials",
-    title: "Se connecter à EAS",
-    cmd: "eas login",
-    desc: "Requis avant tout build/submit/update via EAS. Vérifie avec: eas whoami",
-    tags: ["eas", "login", "compte"]
-  },
-  {
-    category: "Expo / React Native",
-    subcategory: "Compte & credentials",
-    title: "Initialiser EAS sur le projet",
-    cmd: "eas init",
-    desc: "Lie le projet local à un projet Expo/EAS existant (ou en crée un).",
-    tags: ["eas", "init", "setup"]
-  },
-  {
+{
     category: "Expo / React Native",
     subcategory: "EAS Build & Submit",
     title: "Build iOS (EAS)",
@@ -153,7 +142,7 @@ const COMMANDS = [
     desc: "Équivalent iOS du build Android — nécessite un compte Apple Developer configuré.",
     tags: ["build", "eas", "ios"]
   },
-  {
+{
     category: "Expo / React Native",
     subcategory: "EAS Build & Submit",
     title: "Build les deux plateformes",
@@ -161,7 +150,7 @@ const COMMANDS = [
     desc: "Lance un build Android et iOS en une seule commande.",
     tags: ["build", "eas", "all"]
   },
-  {
+{
     category: "Expo / React Native",
     subcategory: "EAS Build & Submit",
     title: "Soumettre sur l'App Store",
@@ -169,7 +158,17 @@ const COMMANDS = [
     desc: "Envoie le dernier build iOS vers App Store Connect.",
     tags: ["submit", "app store", "ios", "release"]
   },
-  {
+{
+    category: "Expo / React Native",
+    subcategory: "EAS Build & Submit",
+    title: "Lister les builds récents",
+    cmd: "eas build:list",
+    desc: "Historique des builds cloud avec leur statut.",
+    tags: ["eas", "build", "list"]
+  },
+
+  // --- Expo / React Native — EAS Update (OTA) ---------------------------------------
+{
     category: "Expo / React Native",
     subcategory: "EAS Update (OTA)",
     title: "Publier une mise à jour OTA",
@@ -178,7 +177,7 @@ const COMMANDS = [
     tags: ["eas", "update", "ota"],
     related: "Expo / React Native::Dev, Build, Submit, Update : qui fait quoi ?",
   },
-  {
+{
     category: "Expo / React Native",
     subcategory: "EAS Update (OTA)",
     title: "Lister les branches de update",
@@ -186,23 +185,34 @@ const COMMANDS = [
     desc: "Voit quels channels/branches de déploiement OTA existent (preview, production…).",
     tags: ["eas", "channel", "update"]
   },
-  {
+
+  // --- Expo / React Native — Diagnostic & config ---------------------------------------
+{
     category: "Expo / React Native",
-    subcategory: "EAS Build & Submit",
-    title: "Lister les builds récents",
-    cmd: "eas build:list",
-    desc: "Historique des builds cloud avec leur statut.",
-    tags: ["eas", "build", "list"]
+    subcategory: "Diagnostic & config",
+    title: "Vérifier la config du projet",
+    cmd: "npx expo-doctor",
+    desc: "Diagnostique les incompatibilités de versions / config.",
+    tags: ["doctor", "diagnostic"]
   },
-  {
+{
     category: "Expo / React Native",
-    subcategory: "Compte & credentials",
-    title: "Gérer les credentials de signature",
-    cmd: "eas credentials",
-    desc: "Interface interactive pour voir/régénérer les clés de signature Android/iOS gérées par EAS.",
-    tags: ["eas", "credentials", "signing"]
+    subcategory: "Diagnostic & config",
+    title: "Installer une lib compatible Expo",
+    cmd: "npx expo install <nom-du-package>",
+    desc: "Comme npm install, mais choisit la version compatible avec ton SDK Expo.",
+    tags: ["install", "package", "dependency"],
+    related: "Expo / React Native::Pourquoi ça plante après avoir installé une lib",
   },
-  {
+{
+    category: "Expo / React Native",
+    subcategory: "Diagnostic & config",
+    title: "Mettre à jour le SDK Expo",
+    cmd: "npx expo install expo@latest\nnpx expo-doctor",
+    desc: "Upgrade puis vérifie que tout est cohérent.",
+    tags: ["upgrade", "sdk"]
+  },
+{
     category: "Expo / React Native",
     subcategory: "Diagnostic & config",
     title: "Corriger les versions de dépendances",
@@ -210,7 +220,7 @@ const COMMANDS = [
     desc: "Aligne automatiquement les packages installés sur les versions attendues par le SDK Expo.",
     tags: ["install", "fix", "dependencies"]
   },
-  {
+{
     category: "Expo / React Native",
     subcategory: "Diagnostic & config",
     title: "Voir la config résolue de l'app",
@@ -218,7 +228,7 @@ const COMMANDS = [
     desc: "Affiche app.json/app.config.js tel qu'Expo l'interprète réellement, avec les valeurs par défaut.",
     tags: ["config", "debug"]
   },
-  {
+{
     category: "Expo / React Native",
     subcategory: "Diagnostic & config",
     title: "Exporter le bundle statique",
@@ -226,7 +236,7 @@ const COMMANDS = [
     desc: "Génère les fichiers statiques (JS, assets) dans dist/ — utile pour le web ou un hébergement custom d'updates.",
     tags: ["export", "build", "static"]
   },
-  {
+{
     category: "Expo / React Native",
     subcategory: "Diagnostic & config",
     title: "Ajouter le dev client",
@@ -235,8 +245,8 @@ const COMMANDS = [
     tags: ["dev-client", "native", "expo-go"]
   },
 
-  // --- Kotlin / Android — Gradle --------------------------------------
-  {
+  // --- Kotlin / Android — Gradle ---------------------------------------
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Build debug",
@@ -245,7 +255,7 @@ const COMMANDS = [
     tags: ["gradle", "build", "debug"],
     related: "Kotlin / Android::Gradle, le chef d'orchestre de ton build",
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Installer sur appareil/émulateur",
@@ -253,7 +263,7 @@ const COMMANDS = [
     desc: "Build + installe directement l'APK debug sur l'appareil connecté (adb).",
     tags: ["gradle", "install", "adb"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Build release signé",
@@ -261,7 +271,7 @@ const COMMANDS = [
     desc: "Nécessite la config de signing dans build.gradle (keystore).",
     tags: ["gradle", "release", "signing"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Générer un App Bundle (Play Store)",
@@ -270,7 +280,7 @@ const COMMANDS = [
     tags: ["gradle", "aab", "bundle", "play store"],
     related: "Kotlin / Android::APK vs AAB, et le keystore de signature",
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Nettoyer le projet",
@@ -278,7 +288,7 @@ const COMMANDS = [
     desc: "Supprime les artefacts de build. Utile en cas d'erreur bizarre.",
     tags: ["gradle", "clean"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Lancer les tests unitaires",
@@ -286,7 +296,7 @@ const COMMANDS = [
     desc: "Exécute les tests JVM (hors instrumentation).",
     tags: ["gradle", "test"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Lancer les tests instrumentés",
@@ -294,7 +304,7 @@ const COMMANDS = [
     desc: "Tests qui tournent réellement sur un appareil/émulateur connecté (UI, contexte Android…).",
     tags: ["gradle", "test", "instrumentation"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Build complet (compile + tests + lint)",
@@ -302,7 +312,7 @@ const COMMANDS = [
     desc: "Plus complet qu'assembleDebug, vérifie tout avant de considérer le build réussi.",
     tags: ["gradle", "build", "complet"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Lancer le lint",
@@ -310,7 +320,7 @@ const COMMANDS = [
     desc: "Analyse statique du code Android, génère un rapport HTML des problèmes détectés.",
     tags: ["gradle", "lint"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Lister toutes les tâches disponibles",
@@ -318,7 +328,7 @@ const COMMANDS = [
     desc: "Utile pour découvrir les tâches spécifiques exposées par le projet/les plugins.",
     tags: ["gradle", "tasks", "aide"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Voir l'arbre des dépendances",
@@ -326,7 +336,7 @@ const COMMANDS = [
     desc: "Utile pour traquer un conflit de version entre librairies.",
     tags: ["gradle", "dependencies"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Voir les empreintes de signature (SHA1/SHA256)",
@@ -334,7 +344,7 @@ const COMMANDS = [
     desc: "Nécessaire pour configurer Firebase, Google Sign-In, Maps API, etc.",
     tags: ["gradle", "signing", "sha1", "firebase"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Build avec la stacktrace complète",
@@ -342,7 +352,7 @@ const COMMANDS = [
     desc: "Pour comprendre une erreur de build peu claire. Ajoute --info pour encore plus de détails.",
     tags: ["gradle", "debug", "stacktrace", "erreur"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Gradle",
     title: "Arrêter le daemon Gradle",
@@ -351,8 +361,8 @@ const COMMANDS = [
     tags: ["gradle", "daemon", "stop"]
   },
 
-  // --- Kotlin / Android — ADB --------------------------------------
-  {
+  // --- Kotlin / Android — ADB ---------------------------------------
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Lister les appareils connectés",
@@ -360,7 +370,7 @@ const COMMANDS = [
     desc: "Vérifie que l'émulateur/téléphone est bien détecté.",
     tags: ["adb", "devices"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Voir les logs (logcat filtré)",
@@ -369,7 +379,7 @@ const COMMANDS = [
     tags: ["adb", "logcat", "debug"],
     related: "Kotlin / Android::ADB, le pont entre ton PC et ton téléphone",
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Vider les logs",
@@ -377,7 +387,7 @@ const COMMANDS = [
     desc: "Efface le buffer de logs avant de reproduire un bug, pour repartir propre.",
     tags: ["adb", "logcat", "clear"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Désinstaller l'app",
@@ -385,7 +395,7 @@ const COMMANDS = [
     desc: "Utile quand l'install échoue à cause d'un conflit de signature.",
     tags: ["adb", "uninstall"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Installer un APK manuellement",
@@ -393,7 +403,7 @@ const COMMANDS = [
     desc: "Ajoute -r pour réinstaller par-dessus en gardant les données existantes.",
     tags: ["adb", "install", "apk"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Effacer les données de l'app",
@@ -401,7 +411,7 @@ const COMMANDS = [
     desc: "Remet l'app dans l'état 'première installation' sans la désinstaller.",
     tags: ["adb", "clear", "data"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Copier un fichier vers l'appareil",
@@ -409,7 +419,7 @@ const COMMANDS = [
     desc: "Pour récupérer un fichier depuis l'appareil, utilise adb pull /sdcard/source fichier-local",
     tags: ["adb", "push", "pull", "fichier"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Rediriger un port (dev server)",
@@ -417,7 +427,7 @@ const COMMANDS = [
     desc: "Permet à un appareil branché en USB d'accéder à un serveur local (Metro, API…) sans wifi.",
     tags: ["adb", "reverse", "port", "metro"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Ouvrir un shell sur l'appareil",
@@ -425,7 +435,7 @@ const COMMANDS = [
     desc: "Accès shell direct sur l'appareil/émulateur connecté.",
     tags: ["adb", "shell"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Lancer une activité précise",
@@ -433,7 +443,7 @@ const COMMANDS = [
     desc: "Démarre directement une Activity sans passer par le launcher.",
     tags: ["adb", "activity", "start"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Prendre une capture d'écran",
@@ -441,7 +451,7 @@ const COMMANDS = [
     desc: "Sauvegarde directement l'écran de l'appareil dans un fichier local.",
     tags: ["adb", "screenshot", "capture"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "ADB",
     title: "Redémarrer le serveur adb",
@@ -450,8 +460,8 @@ const COMMANDS = [
     tags: ["adb", "restart", "troubleshoot"]
   },
 
-  // --- Kotlin / Android — Émulateur --------------------------------------
-  {
+  // --- Kotlin / Android — Émulateur ---------------------------------------
+{
     category: "Kotlin / Android",
     subcategory: "Émulateur",
     title: "Lister les émulateurs disponibles",
@@ -459,7 +469,7 @@ const COMMANDS = [
     desc: "Affiche les AVD (Android Virtual Device) configurés sur la machine.",
     tags: ["emulator", "avd", "list"]
   },
-  {
+{
     category: "Kotlin / Android",
     subcategory: "Émulateur",
     title: "Lancer un émulateur précis",
@@ -468,8 +478,8 @@ const COMMANDS = [
     tags: ["emulator", "avd", "start"]
   },
 
-  // --- Linux — Fichiers & disque -------------------------------
-  {
+  // --- Linux — Fichiers & disque ---------------------------------------
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Lister en détail (avec cachés)",
@@ -477,7 +487,7 @@ const COMMANDS = [
     desc: "Liste tous les fichiers, y compris cachés, avec permissions/taille/date.",
     tags: ["ls", "list"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Revenir au dossier précédent",
@@ -485,7 +495,7 @@ const COMMANDS = [
     desc: "Bascule vers le dernier dossier où tu étais avant le cd actuel.",
     tags: ["cd", "navigation"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Espace disque par dossier",
@@ -493,7 +503,7 @@ const COMMANDS = [
     desc: "Top 20 des plus gros dossiers/fichiers du répertoire courant.",
     tags: ["disque", "du", "espace"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Espace disque global",
@@ -501,7 +511,7 @@ const COMMANDS = [
     desc: "Espace utilisé/disponible par partition.",
     tags: ["disque", "df"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Lister les disques/partitions",
@@ -509,7 +519,7 @@ const COMMANDS = [
     desc: "Vue arborescente des disques, partitions et points de montage.",
     tags: ["disque", "partition", "lsblk"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Trouver un fichier par nom",
@@ -517,7 +527,7 @@ const COMMANDS = [
     desc: "Recherche insensible à la casse sur tout le système, en ignorant les erreurs de permission.",
     tags: ["find", "recherche", "fichier"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Recherche rapide (index)",
@@ -525,7 +535,7 @@ const COMMANDS = [
     desc: "Bien plus rapide que find (utilise un index). Installe: sudo apt install mlocate, puis sudo updatedb pour rafraîchir l'index.",
     tags: ["locate", "recherche"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Chercher du texte dans des fichiers",
@@ -533,7 +543,7 @@ const COMMANDS = [
     desc: "Recherche récursive avec numéro de ligne dans le dossier courant.",
     tags: ["grep", "recherche", "texte"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Copier/synchroniser avec progression",
@@ -541,7 +551,7 @@ const COMMANDS = [
     desc: "Plus robuste que cp pour de gros transferts, reprend là où ça s'est arrêté.",
     tags: ["rsync", "copie", "sync"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Rendre un script exécutable",
@@ -549,7 +559,7 @@ const COMMANDS = [
     desc: "Nécessaire avant de pouvoir lancer ./script.sh",
     tags: ["chmod", "permissions", "executable"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Changer le propriétaire d'un fichier",
@@ -557,7 +567,7 @@ const COMMANDS = [
     desc: "Ajoute -R pour l'appliquer récursivement à un dossier.",
     tags: ["chown", "permissions", "owner"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Créer un lien symbolique",
@@ -565,7 +575,7 @@ const COMMANDS = [
     desc: "Pratique pour exposer un script ou un dossier depuis n'importe où.",
     tags: ["ln", "symlink"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Archiver un dossier (tar.gz)",
@@ -573,7 +583,7 @@ const COMMANDS = [
     desc: "Compresse. Pour décompresser : tar -xzvf archive.tar.gz",
     tags: ["tar", "archive", "compression"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Zipper / dézipper",
@@ -581,7 +591,7 @@ const COMMANDS = [
     desc: "Alternative à tar, plus courante quand il faut échanger avec Windows/Mac.",
     tags: ["zip", "unzip", "compression"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Voir les métadonnées d'un fichier",
@@ -589,7 +599,7 @@ const COMMANDS = [
     desc: "Taille, dates de modif/accès, permissions détaillées, inode…",
     tags: ["stat", "metadata"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Monter / démonter une clé USB",
@@ -597,7 +607,7 @@ const COMMANDS = [
     desc: "Repère d'abord le périphérique avec lsblk avant de monter.",
     tags: ["mount", "umount", "usb"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Voir l'arborescence d'un dossier",
@@ -606,8 +616,8 @@ const COMMANDS = [
     tags: ["tree", "arborescence"]
   },
 
-  // --- Linux — Processus & système -------------------------------
-  {
+  // --- Linux — Processus & système ---------------------------------------
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Moniteur interactif CPU/RAM",
@@ -615,7 +625,7 @@ const COMMANDS = [
     desc: "Vue temps réel des processus. Installe avec: sudo apt install htop.",
     tags: ["process", "cpu", "ram", "monitoring"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Chercher un processus par nom",
@@ -623,7 +633,7 @@ const COMMANDS = [
     desc: "Liste les processus correspondants avec leur PID.",
     tags: ["ps", "process", "grep"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Tuer un processus",
@@ -631,7 +641,7 @@ const COMMANDS = [
     desc: "Force l'arrêt. Pour tuer par nom directement : killall nom-du-processus",
     tags: ["kill", "process", "stop"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Mémoire disponible",
@@ -639,7 +649,7 @@ const COMMANDS = [
     desc: "RAM et swap utilisés/libres, format lisible.",
     tags: ["ram", "memoire", "free"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Depuis combien de temps le système tourne",
@@ -647,7 +657,7 @@ const COMMANDS = [
     desc: "Uptime + charge moyenne du système.",
     tags: ["uptime", "system"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Infos noyau / système",
@@ -655,7 +665,7 @@ const COMMANDS = [
     desc: "Version du kernel, architecture, hostname.",
     tags: ["uname", "kernel", "info"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Version de la distribution",
@@ -663,7 +673,7 @@ const COMMANDS = [
     desc: "Confirme la version de Linux Mint installée.",
     tags: ["lsb_release", "version", "distro"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Statut d'un service",
@@ -671,7 +681,7 @@ const COMMANDS = [
     desc: "Voir si un service tourne, et ses derniers logs.",
     tags: ["systemctl", "service"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Redémarrer un service",
@@ -679,7 +689,7 @@ const COMMANDS = [
     desc: "Utile après un changement de config.",
     tags: ["systemctl", "service", "restart"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Voir les logs système récents",
@@ -687,7 +697,7 @@ const COMMANDS = [
     desc: "Derniers logs systemd, utile pour déboguer un service qui plante.",
     tags: ["logs", "journalctl", "systemd"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Suivre les logs d'un service en direct",
@@ -695,7 +705,7 @@ const COMMANDS = [
     desc: "Équivalent d'un tail -f mais pour un service systemd.",
     tags: ["logs", "journalctl", "follow"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Processus & système",
     title: "Qui est connecté",
@@ -704,8 +714,8 @@ const COMMANDS = [
     tags: ["who", "users", "session"]
   },
 
-  // --- Linux — Réseau -------------------------------
-  {
+  // --- Linux — Réseau ---------------------------------------
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "Adresse IP locale",
@@ -713,7 +723,7 @@ const COMMANDS = [
     desc: "Affiche les interfaces réseau et leurs IP (remplace l'ancien ifconfig).",
     tags: ["ip", "reseau", "adresse"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "IP locale rapide",
@@ -721,7 +731,7 @@ const COMMANDS = [
     desc: "Juste l'IP, sans le détail des interfaces.",
     tags: ["ip", "hostname"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "Tester une connexion",
@@ -729,7 +739,7 @@ const COMMANDS = [
     desc: "Envoie 4 paquets puis s'arrête (sans -c, ping continue indéfiniment).",
     tags: ["ping", "reseau", "test"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "Quel processus utilise ce port ?",
@@ -738,7 +748,7 @@ const COMMANDS = [
     tags: ["réseau", "port", "ss"],
     related: "Linux Mint::Processus, ports, RAM : pourquoi ça rame",
   },
-  {
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "Tester si un port distant est ouvert",
@@ -746,7 +756,7 @@ const COMMANDS = [
     desc: "Pratique pour vérifier qu'un serveur/API est joignable avant de débugger plus loin.",
     tags: ["nc", "netcat", "port", "test"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "Voir les en-têtes HTTP d'une URL",
@@ -754,7 +764,7 @@ const COMMANDS = [
     desc: "Rapide pour vérifier un statut HTTP, des redirections, des headers CORS…",
     tags: ["curl", "http", "headers"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "Télécharger un fichier",
@@ -762,7 +772,7 @@ const COMMANDS = [
     desc: "Alternative à curl -O, plus simple pour un téléchargement direct.",
     tags: ["wget", "download"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Réseau",
     title: "Copier un fichier vers/depuis un serveur",
@@ -771,8 +781,8 @@ const COMMANDS = [
     tags: ["scp", "ssh", "copie"]
   },
 
-  // --- Linux — Paquets (apt / snap / flatpak) -------------------------------
-  {
+  // --- Linux — Paquets (apt / snap / flatpak) ---------------------------------------
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Mettre à jour le système",
@@ -781,7 +791,7 @@ const COMMANDS = [
     tags: ["apt", "update", "upgrade"],
     related: "Linux Mint::apt : installer et gérer des logiciels",
   },
-  {
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Nettoyer les paquets inutiles",
@@ -789,7 +799,7 @@ const COMMANDS = [
     desc: "Libère de l'espace disque en supprimant les paquets orphelins et le cache.",
     tags: ["apt", "clean", "disque"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Chercher un paquet",
@@ -797,7 +807,7 @@ const COMMANDS = [
     desc: "Recherche dans les paquets disponibles.",
     tags: ["apt", "search"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Voir les infos d'un paquet",
@@ -805,7 +815,7 @@ const COMMANDS = [
     desc: "Description, version, dépendances, taille.",
     tags: ["apt", "info"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Lister les paquets installés",
@@ -813,7 +823,7 @@ const COMMANDS = [
     desc: "Vérifie si un paquet précis est déjà installé.",
     tags: ["dpkg", "list"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Installer un .deb téléchargé",
@@ -821,7 +831,7 @@ const COMMANDS = [
     desc: "La 2e ligne corrige automatiquement les dépendances manquantes.",
     tags: ["dpkg", "deb", "install"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Gérer les paquets Snap",
@@ -829,7 +839,7 @@ const COMMANDS = [
     desc: "Gestionnaire de paquets sandboxés, alternative à apt pour certaines apps.",
     tags: ["snap", "install"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Gérer les paquets Flatpak",
@@ -838,8 +848,8 @@ const COMMANDS = [
     tags: ["flatpak", "install"]
   },
 
-  // --- Linux — Utilisateurs & permissions -------------------------------
-  {
+  // --- Linux — Utilisateurs & permissions ---------------------------------------
+{
     category: "Linux",
     subcategory: "Utilisateurs & permissions",
     title: "Ouvrir un shell root",
@@ -848,7 +858,7 @@ const COMMANDS = [
     tags: ["sudo", "root"],
     related: "Linux Mint::sudo et les permissions, sans y laisser des plumes",
   },
-  {
+{
     category: "Linux",
     subcategory: "Utilisateurs & permissions",
     title: "Ajouter l'utilisateur courant à un groupe",
@@ -856,7 +866,7 @@ const COMMANDS = [
     desc: "Ex: sudo usermod -aG docker $USER pour utiliser Docker sans sudo. Nécessite de se reconnecter.",
     tags: ["usermod", "groupe", "permissions"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Utilisateurs & permissions",
     title: "Voir mes groupes",
@@ -864,7 +874,7 @@ const COMMANDS = [
     desc: "Liste les groupes auxquels appartient l'utilisateur courant.",
     tags: ["groups", "id"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Utilisateurs & permissions",
     title: "Changer les permissions récursivement",
@@ -873,8 +883,8 @@ const COMMANDS = [
     tags: ["chmod", "permissions", "recursif"]
   },
 
-  // --- Linux — Outils CLI divers -------------------------------
-  {
+  // --- Linux — Outils CLI divers ---------------------------------------
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "VS Code avec un profil isolé",
@@ -882,7 +892,7 @@ const COMMANDS = [
     desc: "Lance VS Code avec un dossier de config séparé (extensions, settings). Pratique pour isoler un projet ou tester sans polluer ton profil principal.",
     tags: ["vscode", "code", "profile", "user-data-dir"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Ouvrir VS Code ici",
@@ -890,7 +900,7 @@ const COMMANDS = [
     desc: "Ouvre le dossier courant dans VS Code.",
     tags: ["vscode", "code"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Rechercher dans l'historique du shell",
@@ -898,7 +908,7 @@ const COMMANDS = [
     desc: "Retrouve une commande tapée il y a longtemps. Ctrl+R fait une recherche interactive équivalente.",
     tags: ["history", "recherche"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Créer un alias permanent",
@@ -906,7 +916,7 @@ const COMMANDS = [
     desc: "Ajoute un raccourci de commande réutilisable dans tous les nouveaux terminaux.",
     tags: ["alias", "bashrc", "shortcut"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Éditer les tâches planifiées",
@@ -914,7 +924,7 @@ const COMMANDS = [
     desc: "Programme des commandes à exécuter automatiquement (ex: sauvegardes nocturnes).",
     tags: ["cron", "crontab", "planification"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Définir une variable d'environnement",
@@ -922,7 +932,7 @@ const COMMANDS = [
     desc: "Valable pour la session de terminal courante. Ajoute-la à ~/.bashrc pour la rendre permanente.",
     tags: ["export", "env", "variable"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Générer une clé SSH",
@@ -931,7 +941,7 @@ const COMMANDS = [
     tags: ["ssh", "ssh-keygen", "cle"],
     related: "Linux Mint::SSH et les clés : comment ça marche vraiment",
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Se connecter en SSH",
@@ -939,7 +949,7 @@ const COMMANDS = [
     desc: "Ouvre une session shell distante sécurisée.",
     tags: ["ssh", "connexion"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Localiser un exécutable",
@@ -947,7 +957,7 @@ const COMMANDS = [
     desc: "Montre quel binaire est réellement exécuté (utile en cas de conflit de versions).",
     tags: ["which", "path"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Outils CLI divers",
     title: "Afficher le manuel d'une commande",
@@ -956,8 +966,8 @@ const COMMANDS = [
     tags: ["man", "aide", "documentation"]
   },
 
-  // --- Linux — Docker -------------------------------
-  {
+  // --- Linux — Docker ---------------------------------------
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Conteneurs en cours d'exécution",
@@ -966,7 +976,7 @@ const COMMANDS = [
     tags: ["docker", "ps", "conteneur"],
     related: "Docker::Image vs conteneur, la différence",
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Lister les images",
@@ -974,7 +984,7 @@ const COMMANDS = [
     desc: "Toutes les images Docker présentes localement.",
     tags: ["docker", "images"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Lancer un conteneur",
@@ -982,7 +992,7 @@ const COMMANDS = [
     desc: "-d = en arrière-plan, -p = mapping de port hôte:conteneur.",
     tags: ["docker", "run"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Ouvrir un shell dans un conteneur",
@@ -990,7 +1000,7 @@ const COMMANDS = [
     desc: "Utilise sh à la place de bash si l'image ne l'a pas (ex: images Alpine).",
     tags: ["docker", "exec", "shell"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Suivre les logs d'un conteneur",
@@ -998,7 +1008,7 @@ const COMMANDS = [
     desc: "-f pour suivre en direct, comme un tail -f.",
     tags: ["docker", "logs"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Arrêter / démarrer un conteneur",
@@ -1006,7 +1016,7 @@ const COMMANDS = [
     desc: "Arrête ou relance un conteneur existant sans le recréer.",
     tags: ["docker", "stop", "start"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Supprimer un conteneur",
@@ -1014,7 +1024,7 @@ const COMMANDS = [
     desc: "Le conteneur doit être arrêté. Ajoute -f pour forcer sans l'arrêter d'abord.",
     tags: ["docker", "rm", "supprimer"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Construire une image",
@@ -1022,7 +1032,7 @@ const COMMANDS = [
     desc: "Construit à partir du Dockerfile du dossier courant.",
     tags: ["docker", "build", "image"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Lancer / arrêter une stack (Compose)",
@@ -1031,7 +1041,7 @@ const COMMANDS = [
     tags: ["docker", "compose", "stack"],
     related: "Docker::Docker Compose, orchestrer plusieurs conteneurs",
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Voir les logs d'une stack Compose",
@@ -1039,7 +1049,7 @@ const COMMANDS = [
     desc: "Suit les logs de tous les services définis dans docker-compose.yml.",
     tags: ["docker", "compose", "logs"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Tout nettoyer (images/conteneurs/réseaux inutilisés)",
@@ -1047,7 +1057,7 @@ const COMMANDS = [
     desc: "⚠️ Supprime tout ce qui n'est pas utilisé par un conteneur actif. Libère beaucoup d'espace disque.",
     tags: ["docker", "prune", "clean", "danger"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Inspecter un conteneur/image",
@@ -1055,7 +1065,7 @@ const COMMANDS = [
     desc: "Détails complets en JSON (IP, volumes, variables d'env, config réseau…).",
     tags: ["docker", "inspect"]
   },
-  {
+{
     category: "Linux",
     subcategory: "Docker",
     title: "Lister les volumes",
@@ -1064,8 +1074,8 @@ const COMMANDS = [
     tags: ["docker", "volume"]
   },
 
-  // --- Git ------------------------------------------------------
-  {
+  // --- Git — Staging & Commit ---------------------------------------
+{
     category: "Git",
     subcategory: "Staging & Commit",
     title: "Statut du dépôt",
@@ -1073,7 +1083,7 @@ const COMMANDS = [
     desc: "Fichiers modifiés / en staging / non suivis.",
     tags: ["status"]
   },
-  {
+{
     category: "Git",
     subcategory: "Staging & Commit",
     title: "Ajouter tous les changements",
@@ -1081,7 +1091,7 @@ const COMMANDS = [
     desc: "Met tout le dossier courant en staging.",
     tags: ["add", "staging"]
   },
-  {
+{
     category: "Git",
     subcategory: "Staging & Commit",
     title: "Ajouter en interactif",
@@ -1089,7 +1099,7 @@ const COMMANDS = [
     desc: "Choisit morceau par morceau (hunk) ce qui part en staging.",
     tags: ["add", "staging", "interactive"]
   },
-  {
+{
     category: "Git",
     subcategory: "Staging & Commit",
     title: "Commit",
@@ -1098,7 +1108,7 @@ const COMMANDS = [
     tags: ["commit"],
     related: "Git::Local vs distant : ce qui se passe vraiment à chaque étape",
   },
-  {
+{
     category: "Git",
     subcategory: "Staging & Commit",
     title: "Modifier le dernier commit",
@@ -1106,7 +1116,17 @@ const COMMANDS = [
     desc: "Change le message et/ou ajoute des fichiers oubliés au dernier commit.",
     tags: ["commit", "amend"]
   },
-  {
+{
+    category: "Git",
+    subcategory: "Staging & Commit",
+    title: "Voir les changements non stagés",
+    cmd: "git diff",
+    desc: "Diff des fichiers modifiés mais pas encore ajoutés au staging. Ajoute --staged pour voir le diff du staging.",
+    tags: ["diff"]
+  },
+
+  // --- Git — Branches ---------------------------------------
+{
     category: "Git",
     subcategory: "Branches",
     title: "Nouvelle branche + bascule",
@@ -1115,7 +1135,7 @@ const COMMANDS = [
     tags: ["branch", "checkout", "switch"],
     related: "Git::Les branches : travailler sans tout casser",
   },
-  {
+{
     category: "Git",
     subcategory: "Branches",
     title: "Changer de branche",
@@ -1123,7 +1143,7 @@ const COMMANDS = [
     desc: "Bascule sur une branche existante.",
     tags: ["branch", "switch", "checkout"]
   },
-  {
+{
     category: "Git",
     subcategory: "Branches",
     title: "Lister les branches",
@@ -1131,7 +1151,7 @@ const COMMANDS = [
     desc: "Locales et distantes. Ajoute -v pour voir le dernier commit de chacune.",
     tags: ["branch", "list"]
   },
-  {
+{
     category: "Git",
     subcategory: "Branches",
     title: "Supprimer une branche locale",
@@ -1139,7 +1159,7 @@ const COMMANDS = [
     desc: "Utilise -D (majuscule) pour forcer si elle n'est pas fusionnée.",
     tags: ["branch", "delete"]
   },
-  {
+{
     category: "Git",
     subcategory: "Branches",
     title: "Renommer la branche courante",
@@ -1147,40 +1167,7 @@ const COMMANDS = [
     desc: "Renomme la branche sur laquelle tu es actuellement.",
     tags: ["branch", "rename"]
   },
-  {
-    category: "Git",
-    subcategory: "Remote (push/pull/clone)",
-    title: "Récupérer les changements distants",
-    cmd: "git fetch",
-    desc: "Télécharge les nouveautés sans les fusionner dans ta branche.",
-    tags: ["fetch", "remote"]
-  },
-  {
-    category: "Git",
-    subcategory: "Remote (push/pull/clone)",
-    title: "Récupérer + fusionner",
-    cmd: "git pull",
-    desc: "fetch + merge en une commande. Ajoute --rebase pour rebaser au lieu de merger.",
-    tags: ["pull", "remote", "merge"]
-  },
-  {
-    category: "Git",
-    subcategory: "Remote (push/pull/clone)",
-    title: "Envoyer les commits",
-    cmd: "git push",
-    desc: "Pousse la branche courante vers le remote.",
-    tags: ["push", "remote"],
-    related: "Git::Local vs distant : ce qui se passe vraiment à chaque étape",
-  },
-  {
-    category: "Git",
-    subcategory: "Remote (push/pull/clone)",
-    title: "Premier push d'une nouvelle branche",
-    cmd: "git push -u origin nom-de-la-branche",
-    desc: "Pousse et lie la branche locale à la branche distante (-u = upstream).",
-    tags: ["push", "remote", "upstream"]
-  },
-  {
+{
     category: "Git",
     subcategory: "Branches",
     title: "Fusionner une branche",
@@ -1189,7 +1176,7 @@ const COMMANDS = [
     tags: ["merge"],
     related: "Git::Les conflits de fusion (merge conflicts)",
   },
-  {
+{
     category: "Git",
     subcategory: "Branches",
     title: "Rebaser sur une autre branche",
@@ -1197,130 +1184,7 @@ const COMMANDS = [
     desc: "Rejoue tes commits par-dessus l'autre branche. En cas de conflit : git rebase --continue / --abort.",
     tags: ["rebase"]
   },
-  {
-    category: "Git",
-    subcategory: "Historique & recherche",
-    title: "Voir l'historique en une ligne",
-    cmd: "git log --oneline --graph --all",
-    desc: "Vue compacte et graphique des branches/commits.",
-    tags: ["log", "history", "graph"],
-    related: "Git::Lire l'historique : git log, HEAD, SHA",
-  },
-  {
-    category: "Git",
-    subcategory: "Staging & Commit",
-    title: "Voir les changements non stagés",
-    cmd: "git diff",
-    desc: "Diff des fichiers modifiés mais pas encore ajoutés au staging. Ajoute --staged pour voir le diff du staging.",
-    tags: ["diff"]
-  },
-  {
-    category: "Git",
-    subcategory: "Annuler & restaurer",
-    title: "Annuler le dernier commit (garder les modifs)",
-    cmd: "git reset --soft HEAD~1",
-    desc: "Défait le commit mais garde les changements en staging.",
-    tags: ["reset", "undo", "commit"],
-    related: "Git::Annuler une erreur sans paniquer",
-  },
-  {
-    category: "Git",
-    subcategory: "Annuler & restaurer",
-    title: "Annuler le dernier commit (tout jeter)",
-    cmd: "git reset --hard HEAD~1",
-    desc: "⚠️ Supprime définitivement le commit ET les changements. Irréversible.",
-    tags: ["reset", "undo", "commit", "danger"],
-    related: "Git::Annuler une erreur sans paniquer",
-  },
-  {
-    category: "Git",
-    subcategory: "Annuler & restaurer",
-    title: "Remettre un fichier comme au dernier commit",
-    cmd: "git checkout -- nom-du-fichier",
-    desc: "Annule les modifications locales non stagées sur ce fichier (équivalent moderne: git restore nom-du-fichier).",
-    tags: ["checkout", "restore", "undo"]
-  },
-  {
-    category: "Git",
-    subcategory: "Annuler & restaurer",
-    title: "Retirer un fichier du staging",
-    cmd: "git restore --staged nom-du-fichier",
-    desc: "Le fichier reste modifié mais sort du staging.",
-    tags: ["restore", "unstage"]
-  },
-  {
-    category: "Git",
-    subcategory: "Stash",
-    title: "Mettre de côté les changements (stash)",
-    cmd: "git stash",
-    desc: "Range temporairement les modifs en cours pour retrouver un dossier propre.",
-    tags: ["stash"]
-  },
-  {
-    category: "Git",
-    subcategory: "Stash",
-    title: "Récupérer le dernier stash",
-    cmd: "git stash pop",
-    desc: "Réapplique le dernier stash et le retire de la liste.",
-    tags: ["stash", "pop"]
-  },
-  {
-    category: "Git",
-    subcategory: "Stash",
-    title: "Lister les stash",
-    cmd: "git stash list",
-    desc: "Voir tous les stash en attente.",
-    tags: ["stash", "list"]
-  },
-  {
-    category: "Git",
-    subcategory: "Tags & config",
-    title: "Créer un tag",
-    cmd: 'git tag -a v1.0.0 -m "message"',
-    desc: "Tag annoté (recommandé pour les releases). git push --tags pour l'envoyer.",
-    tags: ["tag", "release"]
-  },
-  {
-    category: "Git",
-    subcategory: "Remote (push/pull/clone)",
-    title: "Cloner un dépôt",
-    cmd: "git clone <url>",
-    desc: "Récupère un dépôt distant en local.",
-    tags: ["clone"]
-  },
-  {
-    category: "Git",
-    subcategory: "Historique & recherche",
-    title: "Voir qui a changé quoi (blame)",
-    cmd: "git blame nom-du-fichier",
-    desc: "Affiche le dernier commit ayant modifié chaque ligne.",
-    tags: ["blame"]
-  },
-  {
-    category: "Git",
-    subcategory: "Historique & recherche",
-    title: "Chercher un commit par contenu",
-    cmd: 'git log -S"texte-recherché" --oneline',
-    desc: "Trouve les commits qui ont ajouté/supprimé une chaîne donnée dans le code.",
-    tags: ["log", "search", "pickaxe"]
-  },
-  {
-    category: "Git",
-    subcategory: "Annuler & restaurer",
-    title: "Nettoyer les fichiers non suivis",
-    cmd: "git clean -fd",
-    desc: "⚠️ Supprime définitivement les fichiers/dossiers non trackés. Ajoute -n avant pour prévisualiser sans rien supprimer.",
-    tags: ["clean", "danger"]
-  },
-  {
-    category: "Git",
-    subcategory: "Tags & config",
-    title: "Configurer nom et email globaux",
-    cmd: 'git config --global user.name "Ton Nom"\ngit config --global user.email "ton@email.com"',
-    desc: "À faire une fois par machine.",
-    tags: ["config", "setup"]
-  },
-  {
+{
     category: "Git",
     subcategory: "Branches",
     title: "Réécrire les N derniers commits (rebase interactif)",
@@ -1329,8 +1193,204 @@ const COMMANDS = [
     tags: ["rebase", "interactive", "squash"]
   },
 
+  // --- Git — Remote (push/pull/clone) ---------------------------------------
+{
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Récupérer les changements distants",
+    cmd: "git fetch",
+    desc: "Télécharge les nouveautés sans les fusionner dans ta branche.",
+    tags: ["fetch", "remote"]
+  },
+{
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Récupérer + fusionner",
+    cmd: "git pull",
+    desc: "fetch + merge en une commande. Ajoute --rebase pour rebaser au lieu de merger.",
+    tags: ["pull", "remote", "merge"]
+  },
+{
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Envoyer les commits",
+    cmd: "git push",
+    desc: "Pousse la branche courante vers le remote.",
+    tags: ["push", "remote"],
+    related: "Git::Local vs distant : ce qui se passe vraiment à chaque étape",
+  },
+{
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Premier push d'une nouvelle branche",
+    cmd: "git push -u origin nom-de-la-branche",
+    desc: "Pousse et lie la branche locale à la branche distante (-u = upstream).",
+    tags: ["push", "remote", "upstream"]
+  },
+{
+    category: "Git",
+    subcategory: "Remote (push/pull/clone)",
+    title: "Cloner un dépôt",
+    cmd: "git clone <url>",
+    desc: "Récupère un dépôt distant en local.",
+    tags: ["clone"]
+  },
+
+  // --- Git — Historique & recherche ---------------------------------------
+{
+    category: "Git",
+    subcategory: "Historique & recherche",
+    title: "Voir l'historique en une ligne",
+    cmd: "git log --oneline --graph --all",
+    desc: "Vue compacte et graphique des branches/commits.",
+    tags: ["log", "history", "graph"],
+    related: "Git::Lire l'historique : git log, HEAD, SHA",
+  },
+{
+    category: "Git",
+    subcategory: "Historique & recherche",
+    title: "Voir qui a changé quoi (blame)",
+    cmd: "git blame nom-du-fichier",
+    desc: "Affiche le dernier commit ayant modifié chaque ligne.",
+    tags: ["blame"]
+  },
+{
+    category: "Git",
+    subcategory: "Historique & recherche",
+    title: "Chercher un commit par contenu",
+    cmd: 'git log -S"texte-recherché" --oneline',
+    desc: "Trouve les commits qui ont ajouté/supprimé une chaîne donnée dans le code.",
+    tags: ["log", "search", "pickaxe"]
+  },
+
+  // --- Git — Annuler & restaurer ---------------------------------------
+{
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Annuler le dernier commit (garder les modifs)",
+    cmd: "git reset --soft HEAD~1",
+    desc: "Défait le commit mais garde les changements en staging.",
+    tags: ["reset", "undo", "commit"],
+    related: "Git::Annuler une erreur sans paniquer",
+  },
+{
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Annuler le dernier commit (tout jeter)",
+    cmd: "git reset --hard HEAD~1",
+    desc: "⚠️ Supprime définitivement le commit ET les changements. Irréversible.",
+    tags: ["reset", "undo", "commit", "danger"],
+    related: "Git::Annuler une erreur sans paniquer",
+  },
+{
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Remettre un fichier comme au dernier commit",
+    cmd: "git checkout -- nom-du-fichier",
+    desc: "Annule les modifications locales non stagées sur ce fichier (équivalent moderne: git restore nom-du-fichier).",
+    tags: ["checkout", "restore", "undo"]
+  },
+{
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Retirer un fichier du staging",
+    cmd: "git restore --staged nom-du-fichier",
+    desc: "Le fichier reste modifié mais sort du staging.",
+    tags: ["restore", "unstage"]
+  },
+{
+    category: "Git",
+    subcategory: "Annuler & restaurer",
+    title: "Nettoyer les fichiers non suivis",
+    cmd: "git clean -fd",
+    desc: "⚠️ Supprime définitivement les fichiers/dossiers non trackés. Ajoute -n avant pour prévisualiser sans rien supprimer.",
+    tags: ["clean", "danger"]
+  },
+
+  // --- Git — Stash ---------------------------------------
+{
+    category: "Git",
+    subcategory: "Stash",
+    title: "Mettre de côté les changements (stash)",
+    cmd: "git stash",
+    desc: "Range temporairement les modifs en cours pour retrouver un dossier propre.",
+    tags: ["stash"]
+  },
+{
+    category: "Git",
+    subcategory: "Stash",
+    title: "Récupérer le dernier stash",
+    cmd: "git stash pop",
+    desc: "Réapplique le dernier stash et le retire de la liste.",
+    tags: ["stash", "pop"]
+  },
+{
+    category: "Git",
+    subcategory: "Stash",
+    title: "Lister les stash",
+    cmd: "git stash list",
+    desc: "Voir tous les stash en attente.",
+    tags: ["stash", "list"]
+  },
+
+  // --- Git — Tags & config ---------------------------------------
+{
+    category: "Git",
+    subcategory: "Tags & config",
+    title: "Créer un tag",
+    cmd: 'git tag -a v1.0.0 -m "message"',
+    desc: "Tag annoté (recommandé pour les releases). git push --tags pour l'envoyer.",
+    tags: ["tag", "release"]
+  },
+{
+    category: "Git",
+    subcategory: "Tags & config",
+    title: "Configurer nom et email globaux",
+    cmd: 'git config --global user.name "Ton Nom"\ngit config --global user.email "ton@email.com"',
+    desc: "À faire une fois par machine.",
+    tags: ["config", "setup"]
+  },
+
+  // --- Claude Code — Installation & mise à jour ---------------------------------------
+{
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Installer Claude Code",
+    cmd: "npm install -g @anthropic-ai/claude-code",
+    desc: "Installation globale via npm (nécessite Node.js installé au préalable).",
+    tags: ["claude", "install", "npm"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
+  },
+{
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Mettre à jour",
+    cmd: "claude update",
+    desc: "Met à jour Claude Code vers la dernière version disponible.",
+    tags: ["claude", "update"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
+  },
+{
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Voir la version installée",
+    cmd: "claude --version",
+    desc: "Affiche la version actuellement installée.",
+    tags: ["claude", "version"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
+  },
+{
+    category: "Claude Code",
+    subcategory: "Installation & mise à jour",
+    title: "Diagnostiquer l'installation",
+    cmd: "claude doctor",
+    desc: "Vérifie que l'installation est saine (dépendances, PATH, configuration) et signale ce qui cloche.",
+    tags: ["claude", "doctor", "diagnostic"],
+    related: "Claude Code::Installer Claude Code dans un terminal"
+  },
+
   // --- Claude Code — Démarrage ---------------------------------------
-  {
+{
     category: "Claude Code",
     subcategory: "Démarrage",
     title: "Lancer une session interactive",
@@ -1339,7 +1399,7 @@ const COMMANDS = [
     tags: ["claude", "start", "repl"],
     related: "Claude Code::Claude Code, à quoi ça sert vraiment ?"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Démarrage",
     title: "Démarrer avec un prompt initial",
@@ -1348,7 +1408,7 @@ const COMMANDS = [
     tags: ["claude", "start", "prompt"],
     related: "Claude Code::Utiliser Claude Code dans un terminal : les premiers pas"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Démarrage",
     title: "Réponse ponctuelle sans session interactive",
@@ -1357,7 +1417,7 @@ const COMMANDS = [
     tags: ["claude", "print", "script", "automation"],
     related: "Claude Code::Utiliser Claude Code dans un terminal : les premiers pas"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Démarrage",
     title: "Reprendre la dernière conversation",
@@ -1366,7 +1426,7 @@ const COMMANDS = [
     tags: ["claude", "continue", "session"],
     related: "Claude Code::Sessions : continuer, reprendre, repartir de zéro"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Démarrage",
     title: "Reprendre une session précise",
@@ -1377,7 +1437,7 @@ const COMMANDS = [
   },
 
   // --- Claude Code — Options CLI ---------------------------------------
-  {
+{
     category: "Claude Code",
     subcategory: "Options CLI",
     title: "Choisir un modèle",
@@ -1385,7 +1445,7 @@ const COMMANDS = [
     desc: "Force le modèle utilisé pour cette session (ex: sonnet, opus, haiku).",
     tags: ["claude", "model", "flag"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Options CLI",
     title: "Démarrer en mode plan",
@@ -1394,7 +1454,7 @@ const COMMANDS = [
     tags: ["claude", "plan", "permission"],
     related: "Claude Code::Les modes de permission : plan, auto-accept, manuel"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Options CLI",
     title: "Autoriser un dossier supplémentaire",
@@ -1402,7 +1462,7 @@ const COMMANDS = [
     desc: "Donne accès en lecture/écriture à un dossier situé en dehors du répertoire de travail courant.",
     tags: ["claude", "add-dir", "workspace"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Options CLI",
     title: "Ignorer les confirmations de permission",
@@ -1411,7 +1471,7 @@ const COMMANDS = [
     tags: ["claude", "permissions", "danger"],
     related: "Claude Code::Les modes de permission : plan, auto-accept, manuel"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Options CLI",
     title: "Sortie au format JSON",
@@ -1421,7 +1481,7 @@ const COMMANDS = [
   },
 
   // --- Claude Code — Slash commands ---------------------------------------
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Afficher l'aide",
@@ -1429,7 +1489,7 @@ const COMMANDS = [
     desc: "Liste les commandes disponibles dans la session en cours.",
     tags: ["claude", "help", "aide"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Effacer la conversation",
@@ -1438,7 +1498,7 @@ const COMMANDS = [
     tags: ["claude", "clear", "reset"],
     related: "Claude Code::Sessions : continuer, reprendre, repartir de zéro"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Compacter le contexte",
@@ -1447,7 +1507,7 @@ const COMMANDS = [
     tags: ["claude", "compact", "context"],
     related: "Claude Code::Gérer le contexte : pourquoi et quand utiliser /compact"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Voir le coût de la session",
@@ -1455,7 +1515,7 @@ const COMMANDS = [
     desc: "Affiche une estimation de l'usage/du coût de la session en cours.",
     tags: ["claude", "cost", "usage"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Générer un CLAUDE.md",
@@ -1464,7 +1524,7 @@ const COMMANDS = [
     tags: ["claude", "init", "claude.md", "documentation"],
     related: "Claude Code::CLAUDE.md : donner du contexte permanent à Claude"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Changer de modèle en cours de session",
@@ -1472,7 +1532,7 @@ const COMMANDS = [
     desc: "Bascule vers un autre modèle sans avoir à relancer la session.",
     tags: ["claude", "model"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Gérer les permissions",
@@ -1481,7 +1541,7 @@ const COMMANDS = [
     tags: ["claude", "permissions"],
     related: "Claude Code::Les modes de permission : plan, auto-accept, manuel"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Gérer les sous-agents",
@@ -1490,7 +1550,7 @@ const COMMANDS = [
     tags: ["claude", "agents", "subagent"],
     related: "Claude Code::Sous-agents : déléguer des tâches spécialisées"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Gérer les serveurs MCP",
@@ -1499,7 +1559,7 @@ const COMMANDS = [
     tags: ["claude", "mcp"],
     related: "Claude Code::MCP : connecter Claude à d'autres outils"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Ouvrir la configuration",
@@ -1507,7 +1567,7 @@ const COMMANDS = [
     desc: "Ouvre la configuration interactive (thème, modèle par défaut, etc.).",
     tags: ["claude", "config"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Activer les raccourcis Vim",
@@ -1515,7 +1575,7 @@ const COMMANDS = [
     desc: "Active les raccourcis clavier façon Vim pour éditer le texte tapé dans le prompt.",
     tags: ["claude", "vim", "keybindings"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Connecter un IDE",
@@ -1524,7 +1584,7 @@ const COMMANDS = [
     tags: ["claude", "ide", "vscode"],
     related: "Claude Code::Installer l'extension dans VS Code ou Cursor"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Signaler un bug",
@@ -1532,7 +1592,7 @@ const COMMANDS = [
     desc: "Envoie un rapport de bug directement à Anthropic depuis la session.",
     tags: ["claude", "bug", "feedback"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Voir le statut de la session",
@@ -1540,7 +1600,7 @@ const COMMANDS = [
     desc: "Affiche l'état de la session : compte connecté, modèle actif, connexions en cours.",
     tags: ["claude", "status"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Se connecter",
@@ -1548,7 +1608,7 @@ const COMMANDS = [
     desc: "Connecte (ou change) le compte utilisé par Claude Code.",
     tags: ["claude", "login", "compte"]
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Se déconnecter",
@@ -1556,73 +1616,7 @@ const COMMANDS = [
     desc: "Déconnecte le compte actuellement utilisé.",
     tags: ["claude", "logout", "compte"]
   },
-
-  // --- Claude Code — MCP & config ---------------------------------------
-  {
-    category: "Claude Code",
-    subcategory: "MCP & config",
-    title: "Lister les serveurs MCP",
-    cmd: "claude mcp list",
-    desc: "Affiche les serveurs MCP actuellement configurés (depuis le terminal, hors session).",
-    tags: ["claude", "mcp", "list"],
-    related: "Claude Code::MCP : connecter Claude à d'autres outils"
-  },
-  {
-    category: "Claude Code",
-    subcategory: "MCP & config",
-    title: "Ajouter un serveur MCP",
-    cmd: "claude mcp add <nom> <commande>",
-    desc: "Connecte un nouveau serveur MCP à Claude Code, disponible dans toutes les sessions futures.",
-    tags: ["claude", "mcp", "add"],
-    related: "Claude Code::MCP : connecter Claude à d'autres outils"
-  },
-  {
-    category: "Claude Code",
-    subcategory: "MCP & config",
-    title: "Voir la configuration",
-    cmd: "claude config list",
-    desc: "Affiche les réglages actuels (globaux et propres au projet), depuis le terminal.",
-    tags: ["claude", "config", "list"]
-  },
-
-  // --- Claude Code — Installation & mise à jour ---------------------------------------
-  {
-    category: "Claude Code",
-    subcategory: "Installation & mise à jour",
-    title: "Installer Claude Code",
-    cmd: "npm install -g @anthropic-ai/claude-code",
-    desc: "Installation globale via npm (nécessite Node.js installé au préalable).",
-    tags: ["claude", "install", "npm"],
-    related: "Claude Code::Installer Claude Code dans un terminal"
-  },
-  {
-    category: "Claude Code",
-    subcategory: "Installation & mise à jour",
-    title: "Mettre à jour",
-    cmd: "claude update",
-    desc: "Met à jour Claude Code vers la dernière version disponible.",
-    tags: ["claude", "update"],
-    related: "Claude Code::Installer Claude Code dans un terminal"
-  },
-  {
-    category: "Claude Code",
-    subcategory: "Installation & mise à jour",
-    title: "Voir la version installée",
-    cmd: "claude --version",
-    desc: "Affiche la version actuellement installée.",
-    tags: ["claude", "version"],
-    related: "Claude Code::Installer Claude Code dans un terminal"
-  },
-  {
-    category: "Claude Code",
-    subcategory: "Installation & mise à jour",
-    title: "Diagnostiquer l'installation",
-    cmd: "claude doctor",
-    desc: "Vérifie que l'installation est saine (dépendances, PATH, configuration) et signale ce qui cloche.",
-    tags: ["claude", "doctor", "diagnostic"],
-    related: "Claude Code::Installer Claude Code dans un terminal"
-  },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Relancer une tâche à intervalle régulier",
@@ -1631,7 +1625,7 @@ const COMMANDS = [
     tags: ["claude", "loop", "boucle", "intervalle", "automatisation"],
     related: "Claude Code::Les loops : relancer une tâche automatiquement"
   },
-  {
+{
     category: "Claude Code",
     subcategory: "Slash commands",
     title: "Invoquer une commande personnalisée",
@@ -1641,8 +1635,36 @@ const COMMANDS = [
     related: "Claude Code::Les prompts réutilisables : commandes personnalisées"
   },
 
+  // --- Claude Code — MCP & config ---------------------------------------
+{
+    category: "Claude Code",
+    subcategory: "MCP & config",
+    title: "Lister les serveurs MCP",
+    cmd: "claude mcp list",
+    desc: "Affiche les serveurs MCP actuellement configurés (depuis le terminal, hors session).",
+    tags: ["claude", "mcp", "list"],
+    related: "Claude Code::MCP : connecter Claude à d'autres outils"
+  },
+{
+    category: "Claude Code",
+    subcategory: "MCP & config",
+    title: "Ajouter un serveur MCP",
+    cmd: "claude mcp add <nom> <commande>",
+    desc: "Connecte un nouveau serveur MCP à Claude Code, disponible dans toutes les sessions futures.",
+    tags: ["claude", "mcp", "add"],
+    related: "Claude Code::MCP : connecter Claude à d'autres outils"
+  },
+{
+    category: "Claude Code",
+    subcategory: "MCP & config",
+    title: "Voir la configuration",
+    cmd: "claude config list",
+    desc: "Affiche les réglages actuels (globaux et propres au projet), depuis le terminal.",
+    tags: ["claude", "config", "list"]
+  },
+
   // --- Windows — Fichiers & disque ---------------------------------------
-  {
+{
     category: "Windows",
     subcategory: "Fichiers & disque",
     title: "Lister en détail (avec cachés)",
@@ -1650,7 +1672,7 @@ const COMMANDS = [
     desc: "Liste le contenu du dossier courant avec les détails (taille, date), fichiers cachés/système inclus.",
     tags: ["windows", "powershell", "ls", "fichiers"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Fichiers & disque",
     title: "Espace disque par dossier",
@@ -1658,7 +1680,7 @@ const COMMANDS = [
     desc: "Additionne la taille de tous les fichiers du dossier courant (et sous-dossiers) — pratique pour repérer ce qui prend de la place.",
     tags: ["windows", "powershell", "disque", "taille"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Fichiers & disque",
     title: "Espace disque global",
@@ -1666,7 +1688,7 @@ const COMMANDS = [
     desc: "Affiche l'espace utilisé et libre de chaque disque/partition.",
     tags: ["windows", "powershell", "disque", "volume"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Fichiers & disque",
     title: "Trouver un fichier par nom",
@@ -1674,7 +1696,7 @@ const COMMANDS = [
     desc: "Cherche récursivement dans le dossier courant tous les fichiers dont le nom contient \"motif\".",
     tags: ["windows", "powershell", "recherche", "fichier"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Fichiers & disque",
     title: "Chercher du texte dans des fichiers",
@@ -1682,7 +1704,7 @@ const COMMANDS = [
     desc: "Équivalent de grep — cherche une chaîne de texte dans un ou plusieurs fichiers.",
     tags: ["windows", "powershell", "grep", "recherche", "texte"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Fichiers & disque",
     title: "Copier avec progression et reprise",
@@ -1690,7 +1712,7 @@ const COMMANDS = [
     desc: "Copie robuste d'un dossier entier (récursif avec /E), capable de reprendre une copie interrompue (/Z) — plus fiable qu'un copier-coller classique pour de gros volumes.",
     tags: ["windows", "robocopy", "copie", "fichiers"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Fichiers & disque",
     title: "Archiver / dézipper",
@@ -1699,8 +1721,8 @@ const COMMANDS = [
     tags: ["windows", "powershell", "zip", "archive"]
   },
 
-  // --- Windows — Processus & système --------------------------------------
-  {
+  // --- Windows — Processus & système ---------------------------------------
+{
     category: "Windows",
     subcategory: "Processus & système",
     title: "Ouvrir le gestionnaire des tâches",
@@ -1708,7 +1730,7 @@ const COMMANDS = [
     desc: "Lance l'interface graphique de suivi CPU/RAM/disque/réseau en temps réel.",
     tags: ["windows", "taskmgr", "processus", "moniteur"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Processus & système",
     title: "Top des processus par CPU",
@@ -1716,7 +1738,7 @@ const COMMANDS = [
     desc: "Liste en ligne de commande les 10 processus qui consomment le plus de CPU — utile quand l'interface graphique n'est pas pratique (SSH, script).",
     tags: ["windows", "powershell", "processus", "cpu"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Processus & système",
     title: "Tuer un processus",
@@ -1724,7 +1746,7 @@ const COMMANDS = [
     desc: "Force l'arrêt d'un processus par son nom — équivalent de kill sous Linux.",
     tags: ["windows", "powershell", "processus", "kill"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Processus & système",
     title: "Infos système complètes",
@@ -1732,7 +1754,7 @@ const COMMANDS = [
     desc: "Affiche un résumé complet du système (OS, matériel, mémoire, date d'installation, correctifs installés…).",
     tags: ["windows", "systeminfo", "diagnostic"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Processus & système",
     title: "Depuis combien de temps le système tourne",
@@ -1740,7 +1762,7 @@ const COMMANDS = [
     desc: "Calcule la durée écoulée depuis le dernier démarrage.",
     tags: ["windows", "powershell", "uptime", "système"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Processus & système",
     title: "Statut d'un service",
@@ -1748,7 +1770,7 @@ const COMMANDS = [
     desc: "Affiche l'état (démarré/arrêté) d'un ou plusieurs services système.",
     tags: ["windows", "powershell", "service"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Processus & système",
     title: "Voir les logs système récents",
@@ -1757,8 +1779,8 @@ const COMMANDS = [
     tags: ["windows", "powershell", "logs", "journal"]
   },
 
-  // --- Windows — Réseau ----------------------------------------------------
-  {
+  // --- Windows — Réseau ---------------------------------------
+{
     category: "Windows",
     subcategory: "Réseau",
     title: "Adresse IP locale",
@@ -1766,7 +1788,7 @@ const COMMANDS = [
     desc: "Affiche la configuration réseau (adresse IP, masque, passerelle) de chaque interface.",
     tags: ["windows", "ip", "réseau"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Réseau",
     title: "Tester une connexion",
@@ -1774,7 +1796,7 @@ const COMMANDS = [
     desc: "Vérifie qu'un hôte répond et mesure le temps de réponse.",
     tags: ["windows", "ping", "réseau"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Réseau",
     title: "Quel processus utilise ce port ?",
@@ -1782,7 +1804,7 @@ const COMMANDS = [
     desc: "Trouve le PID du processus qui écoute sur le port 8080 — Get-Process -Id <PID> ensuite pour identifier le programme.",
     tags: ["windows", "netstat", "port", "réseau"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Réseau",
     title: "Tester si un port distant est ouvert",
@@ -1790,7 +1812,7 @@ const COMMANDS = [
     desc: "Vérifie qu'un port précis est joignable sur une machine distante, sans avoir à ouvrir une vraie connexion applicative.",
     tags: ["windows", "powershell", "port", "réseau"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Réseau",
     title: "Télécharger un fichier",
@@ -1798,7 +1820,7 @@ const COMMANDS = [
     desc: "Télécharge le contenu d'une URL vers un fichier local — l'équivalent PowerShell de wget/curl.",
     tags: ["windows", "powershell", "téléchargement", "http"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Réseau",
     title: "Vider le cache DNS",
@@ -1807,8 +1829,8 @@ const COMMANDS = [
     tags: ["windows", "dns", "réseau", "cache"]
   },
 
-  // --- Windows — Paquets (winget / choco) -----------------------------------
-  {
+  // --- Windows — Paquets (winget / choco) ---------------------------------------
+{
     category: "Windows",
     subcategory: "Paquets (winget / choco)",
     title: "Installer un paquet",
@@ -1816,7 +1838,7 @@ const COMMANDS = [
     desc: "Installe un logiciel depuis le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
     tags: ["windows", "winget", "install", "paquet"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Paquets (winget / choco)",
     title: "Mettre à jour tous les paquets",
@@ -1824,7 +1846,7 @@ const COMMANDS = [
     desc: "Met à jour tous les logiciels installés via winget vers leur dernière version disponible.",
     tags: ["windows", "winget", "update", "paquet"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Paquets (winget / choco)",
     title: "Chercher un paquet",
@@ -1832,7 +1854,7 @@ const COMMANDS = [
     desc: "Recherche un logiciel disponible dans les sources winget par son nom.",
     tags: ["windows", "winget", "recherche", "paquet"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Paquets (winget / choco)",
     title: "Lister les paquets installés",
@@ -1840,7 +1862,7 @@ const COMMANDS = [
     desc: "Affiche tous les logiciels installés que winget reconnaît sur la machine.",
     tags: ["windows", "winget", "liste", "paquet"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Paquets (winget / choco)",
     title: "Installer via Chocolatey",
@@ -1849,8 +1871,8 @@ const COMMANDS = [
     tags: ["windows", "chocolatey", "install", "paquet"]
   },
 
-  // --- Windows — Utilisateurs & permissions --------------------------------
-  {
+  // --- Windows — Utilisateurs & permissions ---------------------------------------
+{
     category: "Windows",
     subcategory: "Utilisateurs & permissions",
     title: "Ouvrir un terminal en administrateur",
@@ -1858,7 +1880,7 @@ const COMMANDS = [
     desc: "Ouvre une nouvelle fenêtre PowerShell avec élévation de privilèges — Windows n'a pas d'équivalent direct à sudo dans le même terminal.",
     tags: ["windows", "powershell", "admin", "élévation"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Utilisateurs & permissions",
     title: "Lister les utilisateurs",
@@ -1866,7 +1888,7 @@ const COMMANDS = [
     desc: "Affiche tous les comptes utilisateurs locaux de la machine.",
     tags: ["windows", "powershell", "utilisateurs"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Utilisateurs & permissions",
     title: "Voir mes groupes / droits",
@@ -1874,7 +1896,7 @@ const COMMANDS = [
     desc: "Affiche l'utilisateur courant et tous les groupes auxquels il appartient (admin local, etc.).",
     tags: ["windows", "whoami", "permissions", "groupes"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Utilisateurs & permissions",
     title: "Voir les permissions d'un fichier",
@@ -1882,7 +1904,7 @@ const COMMANDS = [
     desc: "Affiche la liste de contrôle d'accès (ACL) d'un fichier ou dossier — qui a le droit de faire quoi.",
     tags: ["windows", "icacls", "permissions"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Utilisateurs & permissions",
     title: "Changer le propriétaire d'un fichier",
@@ -1891,8 +1913,8 @@ const COMMANDS = [
     tags: ["windows", "takeown", "propriétaire", "permissions"]
   },
 
-  // --- Windows — Outils CLI divers ------------------------------------------
-  {
+  // --- Windows — Outils CLI divers ---------------------------------------
+{
     category: "Windows",
     subcategory: "Outils CLI divers",
     title: "Ouvrir VS Code ici",
@@ -1900,7 +1922,7 @@ const COMMANDS = [
     desc: "Ouvre VS Code directement dans le dossier courant.",
     tags: ["windows", "vscode", "éditeur"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Outils CLI divers",
     title: "Éditer le profil PowerShell",
@@ -1908,7 +1930,7 @@ const COMMANDS = [
     desc: "Ouvre le fichier de configuration chargé à chaque démarrage de PowerShell — l'équivalent du .bashrc sous Linux.",
     tags: ["windows", "powershell", "profil", "config"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Outils CLI divers",
     title: "Créer un alias permanent",
@@ -1916,7 +1938,7 @@ const COMMANDS = [
     desc: "Crée un alias pour la session en cours. Pour le rendre permanent, ajoute la même ligne dans le profil PowerShell ($PROFILE).",
     tags: ["windows", "powershell", "alias"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Outils CLI divers",
     title: "Définir une variable d'environnement",
@@ -1924,7 +1946,7 @@ const COMMANDS = [
     desc: "Définit une variable d'environnement pour la session en cours. setx NOM \"valeur\" la rend permanente (nouvelles sessions uniquement).",
     tags: ["windows", "powershell", "variable", "environnement"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Outils CLI divers",
     title: "Générer une clé SSH",
@@ -1932,7 +1954,7 @@ const COMMANDS = [
     desc: "Génère une paire de clés SSH — le client OpenSSH est intégré nativement depuis Windows 10.",
     tags: ["windows", "ssh", "clé", "sécurité"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Outils CLI divers",
     title: "Se connecter en SSH",
@@ -1940,7 +1962,7 @@ const COMMANDS = [
     desc: "Ouvre une connexion SSH vers une machine distante.",
     tags: ["windows", "ssh", "connexion"]
   },
-  {
+{
     category: "Windows",
     subcategory: "Outils CLI divers",
     title: "Localiser un exécutable",
@@ -1949,200 +1971,8 @@ const COMMANDS = [
     tags: ["windows", "powershell", "which", "chemin"]
   },
 
-  // --- Codex (OpenAI) ---------------------------------------
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Lancer une session interactive",
-    cmd: "codex",
-    desc: "Ouvre l'interface interactive de Codex dans le dossier courant.",
-    tags: ["codex", "openai", "start"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Exécution non-interactive (one-shot)",
-    cmd: 'codex exec "résume les changements récents"',
-    desc: "Exécute une tâche sans ouvrir de session interactive, affiche le résultat puis quitte — pratique pour scripter ou automatiser.",
-    tags: ["codex", "openai", "exec", "script"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Sortie en JSON Lines",
-    cmd: 'codex exec "..." --json',
-    desc: "Diffuse la réponse au format JSON Lines, exploitable par un autre programme plutôt qu'en texte brut.",
-    tags: ["codex", "openai", "json", "script"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Écrire la réponse finale dans un fichier",
-    cmd: 'codex exec "..." -o resultat.txt',
-    desc: "Écrit uniquement le message final dans le fichier indiqué, plutôt que de l'afficher dans le terminal.",
-    tags: ["codex", "openai", "output", "fichier"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Reprendre la dernière session (non-interactif)",
-    cmd: 'codex exec resume --last "continue avec les étapes suivantes"',
-    desc: "Reprend la session la plus récente en mode non-interactif, avec une nouvelle instruction.",
-    tags: ["codex", "openai", "resume", "session"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Reprendre une session précise",
-    cmd: "codex resume",
-    desc: "Affiche un sélecteur des sessions précédentes pour en reprendre une précise, en mode interactif.",
-    tags: ["codex", "openai", "resume", "session"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Créer une branche de la conversation",
-    cmd: "codex fork",
-    desc: "Crée une nouvelle conversation qui part de l'historique de la session actuelle, sans modifier l'originale.",
-    tags: ["codex", "openai", "fork", "session"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Démarrage",
-    title: "Lancer une revue de code",
-    cmd: "codex review",
-    desc: "Lance Codex en mode revue de code sur les changements en cours dans le projet.",
-    tags: ["codex", "openai", "review"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Slash commands",
-    title: "Choisir un modèle en cours de session",
-    cmd: "/model",
-    desc: "Slash command à l'intérieur d'une session interactive pour changer de modèle et de niveau de raisonnement (reasoning effort) sans redémarrer.",
-    tags: ["codex", "openai", "modèle", "slash"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Choisir un modèle au lancement",
-    cmd: "codex --model gpt-5.1-codex",
-    desc: "Démarre directement avec le modèle indiqué plutôt que celui par défaut (alias court : -m).",
-    tags: ["codex", "openai", "modèle"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Régler le bac à sable (sandbox)",
-    cmd: "codex --sandbox workspace-write",
-    desc: "Autorise Codex à écrire dans le dossier de travail mais pas ailleurs sur la machine — read-only et danger-full-access sont les deux autres niveaux disponibles (alias court : -s).",
-    tags: ["codex", "openai", "sandbox", "sécurité"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Régler la politique d'approbation",
-    cmd: "codex --ask-for-approval on-request",
-    desc: "Codex ne demande confirmation que quand une action risquée le justifie — untrusted et never sont les deux autres politiques disponibles (alias court : -a).",
-    tags: ["codex", "openai", "permissions", "approbation"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Combiner sandbox et approbation",
-    cmd: 'codex --sandbox workspace-write --ask-for-approval on-request "tâche"',
-    desc: "Combinaison typique pour une automatisation surveillée : Codex peut écrire dans le projet, mais demande confirmation sur les actions vraiment risquées.",
-    tags: ["codex", "openai", "sandbox", "approbation"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Tout autoriser sans confirmation (dangereux)",
-    cmd: "codex --dangerously-bypass-approvals-and-sandbox",
-    desc: "⚠️ Désactive toutes les vérifications de sécurité (sandbox + confirmations, alias --yolo). Réservé à un environnement isolé/jetable (conteneur, CI) — jamais sur une machine avec des données sensibles.",
-    tags: ["codex", "openai", "danger", "yolo"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Changer de dossier de travail",
-    cmd: "codex --cd chemin/vers/projet",
-    desc: "Lance Codex comme si la commande avait été exécutée depuis ce dossier, sans avoir à s'y déplacer soi-même (alias court : -C).",
-    tags: ["codex", "openai", "dossier"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Autoriser l'écriture dans un dossier supplémentaire",
-    cmd: "codex --add-dir chemin",
-    desc: "Étend l'accès en écriture à un dossier en dehors du projet courant (répétable pour en ajouter plusieurs).",
-    tags: ["codex", "openai", "permissions", "dossier"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Joindre une image",
-    cmd: 'codex --image capture.png "explique cette erreur"',
-    desc: "Ajoute une ou plusieurs images comme contexte de la demande (captures d'écran, maquettes…), alias court : -i.",
-    tags: ["codex", "openai", "image", "contexte"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Utiliser un modèle local",
-    cmd: "codex --oss --local-provider ollama",
-    desc: "Utilise un modèle tournant en local (via LM Studio ou Ollama) plutôt que l'API OpenAI.",
-    tags: ["codex", "openai", "local", "ollama", "lmstudio"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Authentification",
-    title: "Se connecter",
-    cmd: "codex login",
-    desc: "Authentifie Codex, avec le choix entre se connecter via ChatGPT ou avec une clé API.",
-    tags: ["codex", "openai", "login", "auth"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Authentification",
-    title: "Se connecter avec une clé API",
-    cmd: "codex login --with-api-key",
-    desc: "Authentifie Codex en lisant une clé API depuis l'entrée standard, sans passer par le compte ChatGPT.",
-    tags: ["codex", "openai", "login", "api key"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Authentification",
-    title: "Vérifier le statut de connexion",
-    cmd: "codex login status",
-    desc: "Indique si Codex est actuellement authentifié.",
-    tags: ["codex", "openai", "login", "statut"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Authentification",
-    title: "Se déconnecter",
-    cmd: "codex logout",
-    desc: "Supprime les identifiants enregistrés localement.",
-    tags: ["codex", "openai", "logout", "auth"]
-  },
-  {
-    category: "Codex",
-    subcategory: "MCP & config",
-    title: "Gérer les serveurs MCP",
-    cmd: "codex mcp",
-    desc: "Liste et gère les serveurs MCP connectés à Codex.",
-    tags: ["codex", "openai", "mcp"]
-  },
-  {
-    category: "Codex",
-    subcategory: "MCP & config",
-    title: "Gérer les plugins",
-    cmd: "codex plugin",
-    desc: "Installe, liste ou retire des plugins Codex.",
-    tags: ["codex", "openai", "plugin"]
-  },
-  {
+  // --- Codex — Installation & mise à jour ---------------------------------------
+{
     category: "Codex",
     subcategory: "Installation & mise à jour",
     title: "Diagnostiquer l'installation",
@@ -2150,7 +1980,7 @@ const COMMANDS = [
     desc: "Génère un rapport de diagnostic (configuration, connexion, dépendances) pour identifier ce qui cloche.",
     tags: ["codex", "openai", "doctor", "diagnostic"]
   },
-  {
+{
     category: "Codex",
     subcategory: "Installation & mise à jour",
     title: "Vérifier les mises à jour",
@@ -2158,23 +1988,7 @@ const COMMANDS = [
     desc: "Vérifie si une nouvelle version de Codex CLI est disponible.",
     tags: ["codex", "openai", "update"]
   },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Utiliser un profil de configuration",
-    cmd: "codex --profile nom",
-    desc: "Applique un profil de configuration prédéfini par-dessus la config de base, pour changer rapidement de contexte (projet, réglages), alias court : -p.",
-    tags: ["codex", "openai", "profil", "config"]
-  },
-  {
-    category: "Codex",
-    subcategory: "Options CLI",
-    title: "Surcharger une valeur de config à la volée",
-    cmd: 'codex -c model="gpt-5.1-codex"',
-    desc: "Modifie une valeur de configuration pour cette seule exécution, sans éditer le fichier config.toml.",
-    tags: ["codex", "openai", "config"]
-  },
-  {
+{
     category: "Codex",
     subcategory: "Installation & mise à jour",
     title: "Installer Codex CLI (Mac/Linux)",
@@ -2182,7 +1996,7 @@ const COMMANDS = [
     desc: "Script d'installation officiel pour macOS et Linux.",
     tags: ["codex", "openai", "install"]
   },
-  {
+{
     category: "Codex",
     subcategory: "Installation & mise à jour",
     title: "Installer via npm",
@@ -2190,7 +2004,7 @@ const COMMANDS = [
     desc: "Installation globale via npm — alternative multiplateforme au script d'installation.",
     tags: ["codex", "openai", "install", "npm"]
   },
-  {
+{
     category: "Codex",
     subcategory: "Installation & mise à jour",
     title: "Installer via Homebrew (macOS)",
@@ -2199,8 +2013,276 @@ const COMMANDS = [
     tags: ["codex", "openai", "install", "homebrew"]
   },
 
+  // --- Codex — Authentification ---------------------------------------
+{
+    category: "Codex",
+    subcategory: "Authentification",
+    title: "Se connecter",
+    cmd: "codex login",
+    desc: "Authentifie Codex, avec le choix entre se connecter via ChatGPT ou avec une clé API.",
+    tags: ["codex", "openai", "login", "auth"]
+  },
+{
+    category: "Codex",
+    subcategory: "Authentification",
+    title: "Se connecter avec une clé API",
+    cmd: "codex login --with-api-key",
+    desc: "Authentifie Codex en lisant une clé API depuis l'entrée standard, sans passer par le compte ChatGPT.",
+    tags: ["codex", "openai", "login", "api key"]
+  },
+{
+    category: "Codex",
+    subcategory: "Authentification",
+    title: "Vérifier le statut de connexion",
+    cmd: "codex login status",
+    desc: "Indique si Codex est actuellement authentifié.",
+    tags: ["codex", "openai", "login", "statut"]
+  },
+{
+    category: "Codex",
+    subcategory: "Authentification",
+    title: "Se déconnecter",
+    cmd: "codex logout",
+    desc: "Supprime les identifiants enregistrés localement.",
+    tags: ["codex", "openai", "logout", "auth"]
+  },
+
+  // --- Codex — Démarrage ---------------------------------------
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Lancer une session interactive",
+    cmd: "codex",
+    desc: "Ouvre l'interface interactive de Codex dans le dossier courant.",
+    tags: ["codex", "openai", "start"]
+  },
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Exécution non-interactive (one-shot)",
+    cmd: 'codex exec "résume les changements récents"',
+    desc: "Exécute une tâche sans ouvrir de session interactive, affiche le résultat puis quitte — pratique pour scripter ou automatiser.",
+    tags: ["codex", "openai", "exec", "script"]
+  },
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Sortie en JSON Lines",
+    cmd: 'codex exec "..." --json',
+    desc: "Diffuse la réponse au format JSON Lines, exploitable par un autre programme plutôt qu'en texte brut.",
+    tags: ["codex", "openai", "json", "script"]
+  },
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Écrire la réponse finale dans un fichier",
+    cmd: 'codex exec "..." -o resultat.txt',
+    desc: "Écrit uniquement le message final dans le fichier indiqué, plutôt que de l'afficher dans le terminal.",
+    tags: ["codex", "openai", "output", "fichier"]
+  },
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Reprendre la dernière session (non-interactif)",
+    cmd: 'codex exec resume --last "continue avec les étapes suivantes"',
+    desc: "Reprend la session la plus récente en mode non-interactif, avec une nouvelle instruction.",
+    tags: ["codex", "openai", "resume", "session"]
+  },
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Reprendre une session précise",
+    cmd: "codex resume",
+    desc: "Affiche un sélecteur des sessions précédentes pour en reprendre une précise, en mode interactif.",
+    tags: ["codex", "openai", "resume", "session"]
+  },
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Créer une branche de la conversation",
+    cmd: "codex fork",
+    desc: "Crée une nouvelle conversation qui part de l'historique de la session actuelle, sans modifier l'originale.",
+    tags: ["codex", "openai", "fork", "session"]
+  },
+{
+    category: "Codex",
+    subcategory: "Démarrage",
+    title: "Lancer une revue de code",
+    cmd: "codex review",
+    desc: "Lance Codex en mode revue de code sur les changements en cours dans le projet.",
+    tags: ["codex", "openai", "review"]
+  },
+
+  // --- Codex — Options CLI ---------------------------------------
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Choisir un modèle au lancement",
+    cmd: "codex --model gpt-5.1-codex",
+    desc: "Démarre directement avec le modèle indiqué plutôt que celui par défaut (alias court : -m).",
+    tags: ["codex", "openai", "modèle"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Régler le bac à sable (sandbox)",
+    cmd: "codex --sandbox workspace-write",
+    desc: "Autorise Codex à écrire dans le dossier de travail mais pas ailleurs sur la machine — read-only et danger-full-access sont les deux autres niveaux disponibles (alias court : -s).",
+    tags: ["codex", "openai", "sandbox", "sécurité"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Régler la politique d'approbation",
+    cmd: "codex --ask-for-approval on-request",
+    desc: "Codex ne demande confirmation que quand une action risquée le justifie — untrusted et never sont les deux autres politiques disponibles (alias court : -a).",
+    tags: ["codex", "openai", "permissions", "approbation"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Combiner sandbox et approbation",
+    cmd: 'codex --sandbox workspace-write --ask-for-approval on-request "tâche"',
+    desc: "Combinaison typique pour une automatisation surveillée : Codex peut écrire dans le projet, mais demande confirmation sur les actions vraiment risquées.",
+    tags: ["codex", "openai", "sandbox", "approbation"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Tout autoriser sans confirmation (dangereux)",
+    cmd: "codex --dangerously-bypass-approvals-and-sandbox",
+    desc: "⚠️ Désactive toutes les vérifications de sécurité (sandbox + confirmations, alias --yolo). Réservé à un environnement isolé/jetable (conteneur, CI) — jamais sur une machine avec des données sensibles.",
+    tags: ["codex", "openai", "danger", "yolo"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Changer de dossier de travail",
+    cmd: "codex --cd chemin/vers/projet",
+    desc: "Lance Codex comme si la commande avait été exécutée depuis ce dossier, sans avoir à s'y déplacer soi-même (alias court : -C).",
+    tags: ["codex", "openai", "dossier"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Autoriser l'écriture dans un dossier supplémentaire",
+    cmd: "codex --add-dir chemin",
+    desc: "Étend l'accès en écriture à un dossier en dehors du projet courant (répétable pour en ajouter plusieurs).",
+    tags: ["codex", "openai", "permissions", "dossier"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Joindre une image",
+    cmd: 'codex --image capture.png "explique cette erreur"',
+    desc: "Ajoute une ou plusieurs images comme contexte de la demande (captures d'écran, maquettes…), alias court : -i.",
+    tags: ["codex", "openai", "image", "contexte"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Utiliser un modèle local",
+    cmd: "codex --oss --local-provider ollama",
+    desc: "Utilise un modèle tournant en local (via LM Studio ou Ollama) plutôt que l'API OpenAI.",
+    tags: ["codex", "openai", "local", "ollama", "lmstudio"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Utiliser un profil de configuration",
+    cmd: "codex --profile nom",
+    desc: "Applique un profil de configuration prédéfini par-dessus la config de base, pour changer rapidement de contexte (projet, réglages), alias court : -p.",
+    tags: ["codex", "openai", "profil", "config"]
+  },
+{
+    category: "Codex",
+    subcategory: "Options CLI",
+    title: "Surcharger une valeur de config à la volée",
+    cmd: 'codex -c model="gpt-5.1-codex"',
+    desc: "Modifie une valeur de configuration pour cette seule exécution, sans éditer le fichier config.toml.",
+    tags: ["codex", "openai", "config"]
+  },
+
+  // --- Codex — Slash commands ---------------------------------------
+{
+    category: "Codex",
+    subcategory: "Slash commands",
+    title: "Choisir un modèle en cours de session",
+    cmd: "/model",
+    desc: "Slash command à l'intérieur d'une session interactive pour changer de modèle et de niveau de raisonnement (reasoning effort) sans redémarrer.",
+    tags: ["codex", "openai", "modèle", "slash"]
+  },
+
+  // --- Codex — MCP & config ---------------------------------------
+{
+    category: "Codex",
+    subcategory: "MCP & config",
+    title: "Gérer les serveurs MCP",
+    cmd: "codex mcp",
+    desc: "Liste et gère les serveurs MCP connectés à Codex.",
+    tags: ["codex", "openai", "mcp"]
+  },
+{
+    category: "Codex",
+    subcategory: "MCP & config",
+    title: "Gérer les plugins",
+    cmd: "codex plugin",
+    desc: "Installe, liste ou retire des plugins Codex.",
+    tags: ["codex", "openai", "plugin"]
+  },
+
+  // --- VS Code — Installation ---------------------------------------
+{
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Télécharger l'installeur depuis le site officiel (Windows)",
+    cmd: "https://code.visualstudio.com/download",
+    desc: "La méthode la plus courante sur Windows : télécharger le .exe et suivre l'assistant d'installation, sans passer par un gestionnaire de paquets.",
+    tags: ["vscode", "install", "windows", "installeur", "exe"]
+  },
+{
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Windows (winget)",
+    cmd: "winget install Microsoft.VisualStudioCode",
+    desc: "Installation via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
+    tags: ["vscode", "install", "windows", "winget"]
+  },
+{
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Linux (Snap)",
+    cmd: "sudo snap install --classic code",
+    desc: "Méthode la plus simple sur Ubuntu/Debian et distributions compatibles Snap — se met à jour automatiquement en arrière-plan.",
+    tags: ["vscode", "install", "linux", "snap"]
+  },
+{
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Installer sur Linux (dépôt officiel apt)",
+    cmd: "sudo apt update && sudo apt install code",
+    desc: "Nécessite d'avoir ajouté au préalable le dépôt Microsoft (clé GPG + source apt, voir la doc officielle) — ensuite, s'installe et se met à jour comme n'importe quel paquet apt.",
+    tags: ["vscode", "install", "linux", "apt", "debian", "ubuntu"]
+  },
+{
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Vérifier la version installée",
+    cmd: "code --version",
+    desc: "Affiche la version actuellement installée.",
+    tags: ["vscode", "version", "diagnostic"]
+  },
+{
+    category: "VS Code",
+    subcategory: "Installation",
+    title: "Vérifier les mises à jour",
+    cmd: "Check for Updates...",
+    desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — vérifie manuellement si une nouvelle version est disponible (les mises à jour se font sinon automatiquement en arrière-plan).",
+    tags: ["vscode", "update", "palette"]
+  },
+
   // --- VS Code — CLI (terminal) ---------------------------------------
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Ouvrir VS Code ici",
@@ -2208,7 +2290,7 @@ const COMMANDS = [
     desc: "Ouvre VS Code directement dans le dossier courant.",
     tags: ["vscode", "cli", "ouvrir"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Ouvrir un fichier à une ligne précise",
@@ -2216,7 +2298,7 @@ const COMMANDS = [
     desc: "Ouvre le fichier directement positionné sur la ligne 42, sans avoir à faire défiler ensuite.",
     tags: ["vscode", "cli", "fichier", "ligne"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Comparer deux fichiers",
@@ -2224,7 +2306,7 @@ const COMMANDS = [
     desc: "Ouvre une vue diff comparant les deux fichiers côte à côte.",
     tags: ["vscode", "cli", "diff", "comparaison"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Forcer une nouvelle fenêtre",
@@ -2232,7 +2314,7 @@ const COMMANDS = [
     desc: "Ouvre une nouvelle fenêtre plutôt que de réutiliser une fenêtre VS Code déjà ouverte (alias : --new-window).",
     tags: ["vscode", "cli", "fenêtre"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Attendre la fermeture avant de continuer",
@@ -2240,7 +2322,7 @@ const COMMANDS = [
     desc: "Le terminal attend que le fichier soit fermé avant de rendre la main — utile pour définir VS Code comme éditeur par défaut de Git (git commit).",
     tags: ["vscode", "cli", "wait", "git"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Installer une extension en ligne de commande",
@@ -2248,7 +2330,7 @@ const COMMANDS = [
     desc: "Installe une extension sans passer par l'interface graphique — pratique pour scripter la configuration d'une nouvelle machine.",
     tags: ["vscode", "cli", "extension", "install"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Lister les extensions installées",
@@ -2256,7 +2338,7 @@ const COMMANDS = [
     desc: "Affiche l'identifiant de toutes les extensions actuellement installées.",
     tags: ["vscode", "cli", "extension", "liste"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "CLI (terminal)",
     title: "Désactiver temporairement les extensions",
@@ -2266,7 +2348,7 @@ const COMMANDS = [
   },
 
   // --- VS Code — Navigation ---------------------------------------
-  {
+{
     category: "VS Code",
     subcategory: "Navigation",
     title: "Ouverture rapide de fichier",
@@ -2274,7 +2356,7 @@ const COMMANDS = [
     desc: "Cherche et ouvre un fichier par son nom, sans passer par l'explorateur (⌘+P sur Mac).",
     tags: ["vscode", "raccourci", "navigation", "fichier"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Navigation",
     title: "Palette de commandes",
@@ -2282,7 +2364,7 @@ const COMMANDS = [
     desc: "Cherche et exécute n'importe quelle commande/action de VS Code par son nom (⌘+Shift+P sur Mac).",
     tags: ["vscode", "raccourci", "palette", "commande"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Navigation",
     title: "Aller à une ligne précise",
@@ -2290,7 +2372,7 @@ const COMMANDS = [
     desc: "Saute directement à un numéro de ligne dans le fichier ouvert.",
     tags: ["vscode", "raccourci", "navigation", "ligne"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Navigation",
     title: "Basculer le terminal intégré",
@@ -2298,7 +2380,7 @@ const COMMANDS = [
     desc: "Affiche ou masque le terminal intégré sans quitter l'éditeur.",
     tags: ["vscode", "raccourci", "terminal"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Navigation",
     title: "Basculer la barre latérale",
@@ -2306,7 +2388,7 @@ const COMMANDS = [
     desc: "Affiche ou masque l'explorateur de fichiers pour gagner de la place à l'écran.",
     tags: ["vscode", "raccourci", "sidebar"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Navigation",
     title: "Aller à la définition",
@@ -2314,7 +2396,7 @@ const COMMANDS = [
     desc: "Saute directement à la définition de la fonction ou variable sous le curseur.",
     tags: ["vscode", "raccourci", "définition", "navigation"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Navigation",
     title: "Revenir en arrière après un saut",
@@ -2324,7 +2406,7 @@ const COMMANDS = [
   },
 
   // --- VS Code — Édition ---------------------------------------
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Sélectionner l'occurrence suivante",
@@ -2332,7 +2414,7 @@ const COMMANDS = [
     desc: "Ajoute la prochaine occurrence du mot sélectionné à la sélection, pour éditer plusieurs endroits en même temps.",
     tags: ["vscode", "raccourci", "sélection", "multi-curseur"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Curseurs multiples au clic",
@@ -2340,7 +2422,7 @@ const COMMANDS = [
     desc: "Place un curseur supplémentaire à chaque endroit cliqué, pour taper au même endroit sur plusieurs lignes en même temps.",
     tags: ["vscode", "raccourci", "multi-curseur"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Dupliquer la ligne",
@@ -2348,7 +2430,7 @@ const COMMANDS = [
     desc: "Duplique la ligne courante (ou la sélection) juste en dessous.",
     tags: ["vscode", "raccourci", "édition", "dupliquer"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Déplacer une ligne",
@@ -2356,7 +2438,7 @@ const COMMANDS = [
     desc: "Déplace la ligne courante (ou la sélection) vers le bas ou vers le haut.",
     tags: ["vscode", "raccourci", "édition", "déplacer"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Renommer un symbole partout",
@@ -2364,7 +2446,7 @@ const COMMANDS = [
     desc: "Renomme une variable ou une fonction et met à jour toutes ses utilisations dans le projet.",
     tags: ["vscode", "raccourci", "renommer", "refactor"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Commenter / décommenter",
@@ -2372,7 +2454,7 @@ const COMMANDS = [
     desc: "Commente ou décommente la ligne courante (ou la sélection).",
     tags: ["vscode", "raccourci", "commentaire"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Formater le document",
@@ -2380,7 +2462,7 @@ const COMMANDS = [
     desc: "Reformate automatiquement le fichier selon les règles configurées (Prettier ou équivalent).",
     tags: ["vscode", "raccourci", "format", "prettier"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Édition",
     title: "Plier / déplier un bloc de code",
@@ -2390,7 +2472,7 @@ const COMMANDS = [
   },
 
   // --- VS Code — Débogage ---------------------------------------
-  {
+{
     category: "VS Code",
     subcategory: "Débogage",
     title: "Lancer / continuer le débogage",
@@ -2398,7 +2480,7 @@ const COMMANDS = [
     desc: "Démarre une session de débogage, ou continue l'exécution jusqu'au prochain point d'arrêt.",
     tags: ["vscode", "raccourci", "debug"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Débogage",
     title: "Poser un point d'arrêt",
@@ -2406,7 +2488,7 @@ const COMMANDS = [
     desc: "Ajoute ou retire un point d'arrêt (breakpoint) sur la ligne courante.",
     tags: ["vscode", "raccourci", "debug", "breakpoint"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Débogage",
     title: "Avancer sans entrer dans la fonction",
@@ -2414,7 +2496,7 @@ const COMMANDS = [
     desc: "Exécute la ligne courante sans entrer dans le détail des fonctions qu'elle appelle.",
     tags: ["vscode", "raccourci", "debug", "step over"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Débogage",
     title: "Entrer dans une fonction",
@@ -2424,7 +2506,7 @@ const COMMANDS = [
   },
 
   // --- VS Code — Git intégré ---------------------------------------
-  {
+{
     category: "VS Code",
     subcategory: "Git intégré",
     title: "Ouvrir le panneau Source Control",
@@ -2432,7 +2514,7 @@ const COMMANDS = [
     desc: "Affiche les fichiers modifiés, permet de stage/commit sans quitter l'éditeur ni ouvrir un terminal.",
     tags: ["vscode", "raccourci", "git", "source control"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Git intégré",
     title: "Valider le commit sans la souris",
@@ -2442,7 +2524,7 @@ const COMMANDS = [
   },
 
   // --- VS Code — Configuration ---------------------------------------
-  {
+{
     category: "VS Code",
     subcategory: "Configuration",
     title: "Ouvrir les paramètres (interface)",
@@ -2450,7 +2532,7 @@ const COMMANDS = [
     desc: "Ouvre l'interface graphique des paramètres.",
     tags: ["vscode", "raccourci", "paramètres", "settings"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Configuration",
     title: "Éditer settings.json directement",
@@ -2458,7 +2540,7 @@ const COMMANDS = [
     desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — ouvre directement le fichier JSON de configuration plutôt que l'interface graphique, pratique pour copier-coller une config trouvée en ligne.",
     tags: ["vscode", "palette", "settings.json", "config"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Configuration",
     title: "Personnaliser les raccourcis clavier",
@@ -2466,7 +2548,7 @@ const COMMANDS = [
     desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — édite directement le fichier keybindings.json pour changer ou ajouter des raccourcis.",
     tags: ["vscode", "palette", "keybindings", "raccourcis"]
   },
-  {
+{
     category: "VS Code",
     subcategory: "Configuration",
     title: "Recommander des extensions pour un projet",
@@ -2475,58 +2557,58 @@ const COMMANDS = [
     tags: ["vscode", "extension", "équipe", "config"]
   },
 
-  // --- VS Code — Installation ---------------------------------------
-  {
-    category: "VS Code",
+  // --- Cursor — Installation ---------------------------------------
+{
+    category: "Cursor",
     subcategory: "Installation",
     title: "Télécharger l'installeur depuis le site officiel (Windows)",
-    cmd: "https://code.visualstudio.com/download",
+    cmd: "https://cursor.com/download",
     desc: "La méthode la plus courante sur Windows : télécharger le .exe et suivre l'assistant d'installation, sans passer par un gestionnaire de paquets.",
-    tags: ["vscode", "install", "windows", "installeur", "exe"]
+    tags: ["cursor", "install", "windows", "installeur", "exe"]
   },
-  {
-    category: "VS Code",
+{
+    category: "Cursor",
     subcategory: "Installation",
-    title: "Installer sur Windows (winget)",
-    cmd: "winget install Microsoft.VisualStudioCode",
-    desc: "Installation via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
-    tags: ["vscode", "install", "windows", "winget"]
+    title: "Installer l'éditeur sur Windows (winget)",
+    cmd: "winget install --id=Anysphere.Cursor -e",
+    desc: "Installation via le gestionnaire de paquets officiel de Windows — alternative à l'installeur .exe téléchargé depuis cursor.com.",
+    tags: ["cursor", "install", "windows", "winget"]
   },
-  {
-    category: "VS Code",
+{
+    category: "Cursor",
     subcategory: "Installation",
-    title: "Installer sur Linux (Snap)",
-    cmd: "sudo snap install --classic code",
-    desc: "Méthode la plus simple sur Ubuntu/Debian et distributions compatibles Snap — se met à jour automatiquement en arrière-plan.",
-    tags: ["vscode", "install", "linux", "snap"]
+    title: "Installer l'éditeur sur Linux (AppImage)",
+    cmd: 'curl -L "https://downloader.cursor.sh/linux/appImage/x64" -o cursor.AppImage && chmod +x cursor.AppImage',
+    desc: "Télécharge l'AppImage officielle et la rend exécutable — se lance ensuite avec ./cursor.AppImage. Sur Debian/Ubuntu, installe libfuse2 au préalable si le lancement échoue (sudo apt install libfuse2).",
+    tags: ["cursor", "install", "linux", "appimage"]
   },
-  {
-    category: "VS Code",
+{
+    category: "Cursor",
     subcategory: "Installation",
-    title: "Installer sur Linux (dépôt officiel apt)",
-    cmd: "sudo apt update && sudo apt install code",
-    desc: "Nécessite d'avoir ajouté au préalable le dépôt Microsoft (clé GPG + source apt, voir la doc officielle) — ensuite, s'installe et se met à jour comme n'importe quel paquet apt.",
-    tags: ["vscode", "install", "linux", "apt", "debian", "ubuntu"]
+    title: "Installer cursor-agent (Mac/Linux)",
+    cmd: "curl https://cursor.com/install -fsS | bash",
+    desc: "Installe la version en ligne de commande de Cursor (l'agent CLI), séparée de l'éditeur graphique.",
+    tags: ["cursor", "cli", "install", "mac", "linux"]
   },
-  {
-    category: "VS Code",
+{
+    category: "Cursor",
     subcategory: "Installation",
-    title: "Vérifier la version installée",
-    cmd: "code --version",
-    desc: "Affiche la version actuellement installée.",
-    tags: ["vscode", "version", "diagnostic"]
+    title: "Installer cursor-agent (Windows)",
+    cmd: "irm 'https://cursor.com/install?win32=true' | iex",
+    desc: "Installe l'agent CLI sur Windows via PowerShell — rouvrir le terminal ensuite pour que la commande agent soit reconnue.",
+    tags: ["cursor", "cli", "install", "windows", "powershell"]
   },
-  {
-    category: "VS Code",
+{
+    category: "Cursor",
     subcategory: "Installation",
-    title: "Vérifier les mises à jour",
-    cmd: "Check for Updates...",
-    desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — vérifie manuellement si une nouvelle version est disponible (les mises à jour se font sinon automatiquement en arrière-plan).",
-    tags: ["vscode", "update", "palette"]
+    title: "Vérifier la version de cursor-agent",
+    cmd: "cursor-agent --version",
+    desc: "Affiche la version actuellement installée de l'agent CLI.",
+    tags: ["cursor", "cli", "version", "diagnostic"]
   },
 
   // --- Cursor — Éditeur : raccourcis IA ---------------------------------------
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Édition en ligne (inline edit)",
@@ -2534,7 +2616,7 @@ const COMMANDS = [
     desc: "Ouvre un champ pour décrire une modification directement dans le code, à l'endroit du curseur ou sur la sélection (⌘+K sur Mac).",
     tags: ["cursor", "raccourci", "inline edit", "ia"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Ouvrir le chat / envoyer la sélection",
@@ -2542,7 +2624,7 @@ const COMMANDS = [
     desc: "Ouvre le panneau de discussion avec le fichier ouvert comme contexte — si du texte est sélectionné, l'envoie directement dans un nouveau chat (⌘+L sur Mac).",
     tags: ["cursor", "raccourci", "chat", "ia"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Ajouter la sélection au chat en cours",
@@ -2550,7 +2632,7 @@ const COMMANDS = [
     desc: "Envoie l'extrait sélectionné dans le chat déjà ouvert, comme contexte supplémentaire pour la demande suivante.",
     tags: ["cursor", "raccourci", "chat", "contexte"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Basculer la disposition Agent",
@@ -2558,7 +2640,7 @@ const COMMANDS = [
     desc: "Affiche l'agent en plein layout dédié, pratique pour suivre des tâches multi-fichiers plus conséquentes.",
     tags: ["cursor", "raccourci", "agent", "layout"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Accepter toutes les modifications proposées",
@@ -2566,7 +2648,7 @@ const COMMANDS = [
     desc: "Valide en un coup toutes les modifications suggérées par l'agent, sans les parcourir fichier par fichier.",
     tags: ["cursor", "raccourci", "accepter", "diff"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Rejeter toutes les modifications proposées",
@@ -2574,7 +2656,7 @@ const COMMANDS = [
     desc: "Annule en un coup toutes les modifications suggérées par l'agent.",
     tags: ["cursor", "raccourci", "rejeter", "diff"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Changer de modèle IA",
@@ -2582,7 +2664,7 @@ const COMMANDS = [
     desc: "Fait défiler les modèles IA disponibles sans ouvrir de menu déroulant.",
     tags: ["cursor", "raccourci", "modèle"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Le menu des modes",
@@ -2590,7 +2672,7 @@ const COMMANDS = [
     desc: "Bascule entre les modes Agent, Plan et Ask (lecture seule).",
     tags: ["cursor", "raccourci", "mode", "agent"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Accepter la suggestion Tab",
@@ -2598,7 +2680,7 @@ const COMMANDS = [
     desc: "Valide la suggestion d'autocomplétion proposée par Cursor Tab.",
     tags: ["cursor", "raccourci", "tab", "autocomplétion"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Accepter seulement le mot suivant",
@@ -2606,7 +2688,7 @@ const COMMANDS = [
     desc: "Accepte uniquement le prochain mot d'une suggestion Tab, plutôt que la ligne entière.",
     tags: ["cursor", "raccourci", "tab", "autocomplétion"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Générer une commande dans le terminal",
@@ -2614,7 +2696,7 @@ const COMMANDS = [
     desc: "Depuis le terminal intégré, ouvre une barre pour décrire en langage naturel la commande shell voulue, que Cursor génère à ta place.",
     tags: ["cursor", "raccourci", "terminal", "génération"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Poser une question rapide sans ouvrir le chat",
@@ -2622,7 +2704,7 @@ const COMMANDS = [
     desc: "Depuis l'édition en ligne (Ctrl+K), pose une question ponctuelle sans modifier le code ni ouvrir tout le panneau chat.",
     tags: ["cursor", "raccourci", "question", "inline"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "Éditeur : raccourcis IA",
     title: "Activer le mode vocal",
@@ -2632,7 +2714,7 @@ const COMMANDS = [
   },
 
   // --- Cursor — CLI (agent) ---------------------------------------
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Lancer l'agent",
@@ -2640,7 +2722,7 @@ const COMMANDS = [
     desc: "Ouvre une session interactive de l'agent Cursor directement dans le terminal, hors de l'éditeur.",
     tags: ["cursor", "cli", "agent", "start"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Démarrer avec une tâche précise",
@@ -2648,7 +2730,7 @@ const COMMANDS = [
     desc: "Lance directement l'agent avec cette tâche déjà posée, sans avoir à la retaper une fois la session ouverte.",
     tags: ["cursor", "cli", "agent", "prompt"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Exécution non-interactive",
@@ -2656,7 +2738,7 @@ const COMMANDS = [
     desc: "Mode 'print' : exécute la tâche, affiche le résultat, puis quitte — sans laisser de session ouverte à gérer.",
     tags: ["cursor", "cli", "print", "script"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Choisir un modèle",
@@ -2664,7 +2746,7 @@ const COMMANDS = [
     desc: "Précise quel modèle utiliser pour cette exécution, plutôt que celui par défaut.",
     tags: ["cursor", "cli", "modèle"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Mode Plan",
@@ -2672,7 +2754,7 @@ const COMMANDS = [
     desc: "Force l'agent à proposer un plan détaillé avant toute modification, à valider avant exécution.",
     tags: ["cursor", "cli", "plan", "permissions"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Mode Ask (lecture seule)",
@@ -2680,7 +2762,7 @@ const COMMANDS = [
     desc: "L'agent répond aux questions sur le projet sans jamais modifier le moindre fichier.",
     tags: ["cursor", "cli", "ask", "lecture seule"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Régler le bac à sable",
@@ -2688,7 +2770,7 @@ const COMMANDS = [
     desc: "Active un bac à sable limitant ce que l'agent peut toucher sur le système, pour une exécution plus prudente.",
     tags: ["cursor", "cli", "sandbox", "sécurité"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Reprendre la dernière session",
@@ -2696,7 +2778,7 @@ const COMMANDS = [
     desc: "Reprend la conversation la plus récente avec l'agent.",
     tags: ["cursor", "cli", "resume", "session"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Lister les sessions précédentes",
@@ -2704,7 +2786,7 @@ const COMMANDS = [
     desc: "Affiche l'historique des sessions passées avec l'agent.",
     tags: ["cursor", "cli", "liste", "session"]
   },
-  {
+{
     category: "Cursor",
     subcategory: "CLI (agent)",
     title: "Continuer la session active",
@@ -2712,54 +2794,4 @@ const COMMANDS = [
     desc: "Poursuit la session en cours sans repartir de zéro, pratique dans un script qui enchaîne plusieurs étapes.",
     tags: ["cursor", "cli", "continue", "session"]
   },
-
-  // --- Cursor — Installation ---------------------------------------
-  {
-    category: "Cursor",
-    subcategory: "Installation",
-    title: "Télécharger l'installeur depuis le site officiel (Windows)",
-    cmd: "https://cursor.com/download",
-    desc: "La méthode la plus courante sur Windows : télécharger le .exe et suivre l'assistant d'installation, sans passer par un gestionnaire de paquets.",
-    tags: ["cursor", "install", "windows", "installeur", "exe"]
-  },
-  {
-    category: "Cursor",
-    subcategory: "Installation",
-    title: "Installer l'éditeur sur Windows (winget)",
-    cmd: "winget install --id=Anysphere.Cursor -e",
-    desc: "Installation via le gestionnaire de paquets officiel de Windows — alternative à l'installeur .exe téléchargé depuis cursor.com.",
-    tags: ["cursor", "install", "windows", "winget"]
-  },
-  {
-    category: "Cursor",
-    subcategory: "Installation",
-    title: "Installer l'éditeur sur Linux (AppImage)",
-    cmd: 'curl -L "https://downloader.cursor.sh/linux/appImage/x64" -o cursor.AppImage && chmod +x cursor.AppImage',
-    desc: "Télécharge l'AppImage officielle et la rend exécutable — se lance ensuite avec ./cursor.AppImage. Sur Debian/Ubuntu, installe libfuse2 au préalable si le lancement échoue (sudo apt install libfuse2).",
-    tags: ["cursor", "install", "linux", "appimage"]
-  },
-  {
-    category: "Cursor",
-    subcategory: "Installation",
-    title: "Installer cursor-agent (Mac/Linux)",
-    cmd: "curl https://cursor.com/install -fsS | bash",
-    desc: "Installe la version en ligne de commande de Cursor (l'agent CLI), séparée de l'éditeur graphique.",
-    tags: ["cursor", "cli", "install", "mac", "linux"]
-  },
-  {
-    category: "Cursor",
-    subcategory: "Installation",
-    title: "Installer cursor-agent (Windows)",
-    cmd: "irm 'https://cursor.com/install?win32=true' | iex",
-    desc: "Installe l'agent CLI sur Windows via PowerShell — rouvrir le terminal ensuite pour que la commande agent soit reconnue.",
-    tags: ["cursor", "cli", "install", "windows", "powershell"]
-  },
-  {
-    category: "Cursor",
-    subcategory: "Installation",
-    title: "Vérifier la version de cursor-agent",
-    cmd: "cursor-agent --version",
-    desc: "Affiche la version actuellement installée de l'agent CLI.",
-    tags: ["cursor", "cli", "version", "diagnostic"]
-  }
 ];
