@@ -2031,5 +2031,170 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Install via Homebrew (macOS)",
     "desc": "Install via the Homebrew package manager, on macOS.",
     "tags": ["codex", "openai", "install", "homebrew"]
+  },
+  "VS Code|CLI (terminal)|Ouvrir VS Code ici": {
+    "title": "Open VS Code here",
+    "desc": "Opens VS Code directly in the current folder.",
+    "tags": ["vscode", "cli", "open"]
+  },
+  "VS Code|CLI (terminal)|Ouvrir un fichier à une ligne précise": {
+    "title": "Open a file at a specific line",
+    "desc": "Opens the file positioned directly on line 42, no need to scroll afterward.",
+    "tags": ["vscode", "cli", "file", "line"]
+  },
+  "VS Code|CLI (terminal)|Comparer deux fichiers": {
+    "title": "Compare two files",
+    "desc": "Opens a diff view comparing the two files side by side.",
+    "tags": ["vscode", "cli", "diff", "compare"]
+  },
+  "VS Code|CLI (terminal)|Forcer une nouvelle fenêtre": {
+    "title": "Force a new window",
+    "desc": "Opens a new window instead of reusing an already-open VS Code window (alias: --new-window).",
+    "tags": ["vscode", "cli", "window"]
+  },
+  "VS Code|CLI (terminal)|Attendre la fermeture avant de continuer": {
+    "title": "Wait for the file to close before continuing",
+    "desc": "The terminal waits until the file is closed before returning — useful for setting VS Code as Git's default editor (git commit).",
+    "tags": ["vscode", "cli", "wait", "git"]
+  },
+  "VS Code|CLI (terminal)|Installer une extension en ligne de commande": {
+    "title": "Install an extension from the command line",
+    "desc": "Installs an extension with no graphical interface involved — handy for scripting a new machine's setup.",
+    "tags": ["vscode", "cli", "extension", "install"]
+  },
+  "VS Code|CLI (terminal)|Lister les extensions installées": {
+    "title": "List installed extensions",
+    "desc": "Shows the identifier of every currently installed extension.",
+    "tags": ["vscode", "cli", "extension", "list"]
+  },
+  "VS Code|CLI (terminal)|Désactiver temporairement les extensions": {
+    "title": "Temporarily disable extensions",
+    "desc": "Launches VS Code with no extension active — handy for checking whether an extension is causing a bug or a slowdown.",
+    "tags": ["vscode", "cli", "extension", "diagnostic"]
+  },
+  "VS Code|Navigation|Ouverture rapide de fichier": {
+    "title": "Quick file open",
+    "desc": "Searches for and opens a file by name, no need to go through the explorer (⌘+P on Mac).",
+    "tags": ["vscode", "shortcut", "navigation", "file"]
+  },
+  "VS Code|Navigation|Palette de commandes": {
+    "title": "Command palette",
+    "desc": "Searches for and runs any VS Code command/action by name (⌘+Shift+P on Mac).",
+    "tags": ["vscode", "shortcut", "palette", "command"]
+  },
+  "VS Code|Navigation|Aller à une ligne précise": {
+    "title": "Go to a specific line",
+    "desc": "Jumps directly to a line number in the open file.",
+    "tags": ["vscode", "shortcut", "navigation", "line"]
+  },
+  "VS Code|Navigation|Basculer le terminal intégré": {
+    "title": "Toggle the integrated terminal",
+    "desc": "Shows or hides the integrated terminal without leaving the editor.",
+    "tags": ["vscode", "shortcut", "terminal"]
+  },
+  "VS Code|Navigation|Basculer la barre latérale": {
+    "title": "Toggle the sidebar",
+    "desc": "Shows or hides the file explorer to gain screen space.",
+    "tags": ["vscode", "shortcut", "sidebar"]
+  },
+  "VS Code|Navigation|Aller à la définition": {
+    "title": "Go to definition",
+    "desc": "Jumps directly to the definition of the function or variable under the cursor.",
+    "tags": ["vscode", "shortcut", "definition", "navigation"]
+  },
+  "VS Code|Navigation|Revenir en arrière après un saut": {
+    "title": "Go back after a jump",
+    "desc": "Returns to the previous position after jumping to a definition or a reference.",
+    "tags": ["vscode", "shortcut", "navigation", "back"]
+  },
+  "VS Code|Édition|Sélectionner l'occurrence suivante": {
+    "title": "Select the next occurrence",
+    "desc": "Adds the next occurrence of the selected word to the selection, to edit several spots at once.",
+    "tags": ["vscode", "shortcut", "selection", "multi-cursor"]
+  },
+  "VS Code|Édition|Curseurs multiples au clic": {
+    "title": "Multiple cursors on click",
+    "desc": "Places an extra cursor at every clicked spot, to type in the same place across several lines at once.",
+    "tags": ["vscode", "shortcut", "multi-cursor"]
+  },
+  "VS Code|Édition|Dupliquer la ligne": {
+    "title": "Duplicate the line",
+    "desc": "Duplicates the current line (or selection) right below.",
+    "tags": ["vscode", "shortcut", "editing", "duplicate"]
+  },
+  "VS Code|Édition|Déplacer une ligne": {
+    "title": "Move a line",
+    "desc": "Moves the current line (or selection) up or down.",
+    "tags": ["vscode", "shortcut", "editing", "move"]
+  },
+  "VS Code|Édition|Renommer un symbole partout": {
+    "title": "Rename a symbol everywhere",
+    "desc": "Renames a variable or function and updates every use of it across the project.",
+    "tags": ["vscode", "shortcut", "rename", "refactor"]
+  },
+  "VS Code|Édition|Commenter / décommenter": {
+    "title": "Comment / uncomment",
+    "desc": "Comments or uncomments the current line (or selection).",
+    "tags": ["vscode", "shortcut", "comment"]
+  },
+  "VS Code|Édition|Formater le document": {
+    "title": "Format the document",
+    "desc": "Automatically reformats the file according to the configured rules (Prettier or equivalent).",
+    "tags": ["vscode", "shortcut", "format", "prettier"]
+  },
+  "VS Code|Édition|Plier / déplier un bloc de code": {
+    "title": "Fold / unfold a code block",
+    "desc": "Collapses or expands a code block — handy for seeing the overall structure of a long file.",
+    "tags": ["vscode", "shortcut", "fold", "structure"]
+  },
+  "VS Code|Débogage|Lancer / continuer le débogage": {
+    "title": "Start / continue debugging",
+    "desc": "Starts a debugging session, or continues execution until the next breakpoint.",
+    "tags": ["vscode", "shortcut", "debug"]
+  },
+  "VS Code|Débogage|Poser un point d'arrêt": {
+    "title": "Set a breakpoint",
+    "desc": "Adds or removes a breakpoint on the current line.",
+    "tags": ["vscode", "shortcut", "debug", "breakpoint"]
+  },
+  "VS Code|Débogage|Avancer sans entrer dans la fonction": {
+    "title": "Step over",
+    "desc": "Runs the current line without stepping into the functions it calls.",
+    "tags": ["vscode", "shortcut", "debug", "step over"]
+  },
+  "VS Code|Débogage|Entrer dans une fonction": {
+    "title": "Step into a function",
+    "desc": "Runs the current line by stepping into the called function, to debug it step by step.",
+    "tags": ["vscode", "shortcut", "debug", "step into"]
+  },
+  "VS Code|Git intégré|Ouvrir le panneau Source Control": {
+    "title": "Open the Source Control panel",
+    "desc": "Shows modified files, lets you stage/commit without leaving the editor or opening a terminal.",
+    "tags": ["vscode", "shortcut", "git", "source control"]
+  },
+  "VS Code|Git intégré|Valider le commit sans la souris": {
+    "title": "Commit without the mouse",
+    "desc": "From the Source Control panel's commit message field, commits without having to click the button.",
+    "tags": ["vscode", "shortcut", "git", "commit"]
+  },
+  "VS Code|Configuration|Ouvrir les paramètres (interface)": {
+    "title": "Open settings (UI)",
+    "desc": "Opens the graphical settings interface.",
+    "tags": ["vscode", "shortcut", "settings"]
+  },
+  "VS Code|Configuration|Éditer settings.json directement": {
+    "title": "Edit settings.json directly",
+    "desc": "Command to search for in the palette (Ctrl+Shift+P) — opens the JSON configuration file directly instead of the graphical interface, handy for pasting a config found online.",
+    "tags": ["vscode", "palette", "settings.json", "config"]
+  },
+  "VS Code|Configuration|Personnaliser les raccourcis clavier": {
+    "title": "Customize keyboard shortcuts",
+    "desc": "Command to search for in the palette (Ctrl+Shift+P) — directly edits the keybindings.json file to change or add shortcuts.",
+    "tags": ["vscode", "palette", "keybindings", "shortcuts"]
+  },
+  "VS Code|Configuration|Recommander des extensions pour un projet": {
+    "title": "Recommend extensions for a project",
+    "desc": "A file listing the extensions recommended for this project — VS Code automatically offers to install them on open, handy for teams.",
+    "tags": ["vscode", "extension", "team", "config"]
   }
 };

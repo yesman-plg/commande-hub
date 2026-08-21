@@ -2197,5 +2197,281 @@ const COMMANDS = [
     cmd: "brew install --cask codex",
     desc: "Installation via le gestionnaire de paquets Homebrew, sur macOS.",
     tags: ["codex", "openai", "install", "homebrew"]
+  },
+
+  // --- VS Code — CLI (terminal) ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Ouvrir VS Code ici",
+    cmd: "code .",
+    desc: "Ouvre VS Code directement dans le dossier courant.",
+    tags: ["vscode", "cli", "ouvrir"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Ouvrir un fichier à une ligne précise",
+    cmd: "code fichier.js:42",
+    desc: "Ouvre le fichier directement positionné sur la ligne 42, sans avoir à faire défiler ensuite.",
+    tags: ["vscode", "cli", "fichier", "ligne"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Comparer deux fichiers",
+    cmd: "code --diff fichier1 fichier2",
+    desc: "Ouvre une vue diff comparant les deux fichiers côte à côte.",
+    tags: ["vscode", "cli", "diff", "comparaison"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Forcer une nouvelle fenêtre",
+    cmd: "code -n .",
+    desc: "Ouvre une nouvelle fenêtre plutôt que de réutiliser une fenêtre VS Code déjà ouverte (alias : --new-window).",
+    tags: ["vscode", "cli", "fenêtre"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Attendre la fermeture avant de continuer",
+    cmd: "code --wait fichier.txt",
+    desc: "Le terminal attend que le fichier soit fermé avant de rendre la main — utile pour définir VS Code comme éditeur par défaut de Git (git commit).",
+    tags: ["vscode", "cli", "wait", "git"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Installer une extension en ligne de commande",
+    cmd: "code --install-extension editeur.nom",
+    desc: "Installe une extension sans passer par l'interface graphique — pratique pour scripter la configuration d'une nouvelle machine.",
+    tags: ["vscode", "cli", "extension", "install"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Lister les extensions installées",
+    cmd: "code --list-extensions",
+    desc: "Affiche l'identifiant de toutes les extensions actuellement installées.",
+    tags: ["vscode", "cli", "extension", "liste"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "CLI (terminal)",
+    title: "Désactiver temporairement les extensions",
+    cmd: "code --disable-extensions",
+    desc: "Lance VS Code sans aucune extension active — pratique pour vérifier si une extension est la cause d'un bug ou d'une lenteur.",
+    tags: ["vscode", "cli", "extension", "diagnostic"]
+  },
+
+  // --- VS Code — Navigation ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "Navigation",
+    title: "Ouverture rapide de fichier",
+    cmd: "Ctrl+P",
+    desc: "Cherche et ouvre un fichier par son nom, sans passer par l'explorateur (⌘+P sur Mac).",
+    tags: ["vscode", "raccourci", "navigation", "fichier"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Navigation",
+    title: "Palette de commandes",
+    cmd: "Ctrl+Shift+P",
+    desc: "Cherche et exécute n'importe quelle commande/action de VS Code par son nom (⌘+Shift+P sur Mac).",
+    tags: ["vscode", "raccourci", "palette", "commande"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Navigation",
+    title: "Aller à une ligne précise",
+    cmd: "Ctrl+G",
+    desc: "Saute directement à un numéro de ligne dans le fichier ouvert.",
+    tags: ["vscode", "raccourci", "navigation", "ligne"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Navigation",
+    title: "Basculer le terminal intégré",
+    cmd: "Ctrl+`",
+    desc: "Affiche ou masque le terminal intégré sans quitter l'éditeur.",
+    tags: ["vscode", "raccourci", "terminal"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Navigation",
+    title: "Basculer la barre latérale",
+    cmd: "Ctrl+B",
+    desc: "Affiche ou masque l'explorateur de fichiers pour gagner de la place à l'écran.",
+    tags: ["vscode", "raccourci", "sidebar"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Navigation",
+    title: "Aller à la définition",
+    cmd: "F12",
+    desc: "Saute directement à la définition de la fonction ou variable sous le curseur.",
+    tags: ["vscode", "raccourci", "définition", "navigation"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Navigation",
+    title: "Revenir en arrière après un saut",
+    cmd: "Alt+←",
+    desc: "Revient à la position précédente après avoir sauté vers une définition ou une référence.",
+    tags: ["vscode", "raccourci", "navigation", "retour"]
+  },
+
+  // --- VS Code — Édition ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Sélectionner l'occurrence suivante",
+    cmd: "Ctrl+D",
+    desc: "Ajoute la prochaine occurrence du mot sélectionné à la sélection, pour éditer plusieurs endroits en même temps.",
+    tags: ["vscode", "raccourci", "sélection", "multi-curseur"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Curseurs multiples au clic",
+    cmd: "Alt+Clic",
+    desc: "Place un curseur supplémentaire à chaque endroit cliqué, pour taper au même endroit sur plusieurs lignes en même temps.",
+    tags: ["vscode", "raccourci", "multi-curseur"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Dupliquer la ligne",
+    cmd: "Shift+Alt+↓",
+    desc: "Duplique la ligne courante (ou la sélection) juste en dessous.",
+    tags: ["vscode", "raccourci", "édition", "dupliquer"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Déplacer une ligne",
+    cmd: "Alt+↓ / Alt+↑",
+    desc: "Déplace la ligne courante (ou la sélection) vers le bas ou vers le haut.",
+    tags: ["vscode", "raccourci", "édition", "déplacer"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Renommer un symbole partout",
+    cmd: "F2",
+    desc: "Renomme une variable ou une fonction et met à jour toutes ses utilisations dans le projet.",
+    tags: ["vscode", "raccourci", "renommer", "refactor"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Commenter / décommenter",
+    cmd: "Ctrl+/",
+    desc: "Commente ou décommente la ligne courante (ou la sélection).",
+    tags: ["vscode", "raccourci", "commentaire"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Formater le document",
+    cmd: "Shift+Alt+F",
+    desc: "Reformate automatiquement le fichier selon les règles configurées (Prettier ou équivalent).",
+    tags: ["vscode", "raccourci", "format", "prettier"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Édition",
+    title: "Plier / déplier un bloc de code",
+    cmd: "Ctrl+Shift+[ / Ctrl+Shift+]",
+    desc: "Réduit ou déplie un bloc de code, pratique pour voir la structure globale d'un fichier long.",
+    tags: ["vscode", "raccourci", "plier", "structure"]
+  },
+
+  // --- VS Code — Débogage ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "Débogage",
+    title: "Lancer / continuer le débogage",
+    cmd: "F5",
+    desc: "Démarre une session de débogage, ou continue l'exécution jusqu'au prochain point d'arrêt.",
+    tags: ["vscode", "raccourci", "debug"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Débogage",
+    title: "Poser un point d'arrêt",
+    cmd: "F9",
+    desc: "Ajoute ou retire un point d'arrêt (breakpoint) sur la ligne courante.",
+    tags: ["vscode", "raccourci", "debug", "breakpoint"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Débogage",
+    title: "Avancer sans entrer dans la fonction",
+    cmd: "F10",
+    desc: "Exécute la ligne courante sans entrer dans le détail des fonctions qu'elle appelle.",
+    tags: ["vscode", "raccourci", "debug", "step over"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Débogage",
+    title: "Entrer dans une fonction",
+    cmd: "F11",
+    desc: "Exécute la ligne courante en entrant dans la fonction appelée, pour la déboguer pas à pas.",
+    tags: ["vscode", "raccourci", "debug", "step into"]
+  },
+
+  // --- VS Code — Git intégré ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "Git intégré",
+    title: "Ouvrir le panneau Source Control",
+    cmd: "Ctrl+Shift+G",
+    desc: "Affiche les fichiers modifiés, permet de stage/commit sans quitter l'éditeur ni ouvrir un terminal.",
+    tags: ["vscode", "raccourci", "git", "source control"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Git intégré",
+    title: "Valider le commit sans la souris",
+    cmd: "Ctrl+Entrée",
+    desc: "Depuis le champ de message de commit du panneau Source Control, valide le commit sans avoir à cliquer sur le bouton.",
+    tags: ["vscode", "raccourci", "git", "commit"]
+  },
+
+  // --- VS Code — Configuration ---------------------------------------
+  {
+    category: "VS Code",
+    subcategory: "Configuration",
+    title: "Ouvrir les paramètres (interface)",
+    cmd: "Ctrl+,",
+    desc: "Ouvre l'interface graphique des paramètres.",
+    tags: ["vscode", "raccourci", "paramètres", "settings"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Configuration",
+    title: "Éditer settings.json directement",
+    cmd: "Preferences: Open User Settings (JSON)",
+    desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — ouvre directement le fichier JSON de configuration plutôt que l'interface graphique, pratique pour copier-coller une config trouvée en ligne.",
+    tags: ["vscode", "palette", "settings.json", "config"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Configuration",
+    title: "Personnaliser les raccourcis clavier",
+    cmd: "Preferences: Open Keyboard Shortcuts (JSON)",
+    desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — édite directement le fichier keybindings.json pour changer ou ajouter des raccourcis.",
+    tags: ["vscode", "palette", "keybindings", "raccourcis"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Configuration",
+    title: "Recommander des extensions pour un projet",
+    cmd: ".vscode/extensions.json",
+    desc: "Fichier listant les extensions recommandées pour ce projet — VS Code propose automatiquement de les installer à l'ouverture, pratique en équipe.",
+    tags: ["vscode", "extension", "équipe", "config"]
   }
 ];
