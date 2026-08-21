@@ -4144,6 +4144,30 @@ const GUIDES = [
       }
     ]
   },
+  {
+    category: "Skills & Agents",
+    subcategory: "Skills",
+    title: "graphify : transformer des fichiers en graphe de connaissances",
+    summary: "Transforme du code, des PDF, des images ou des diagrammes en un graphe de connaissances interactif et interrogeable, plutôt que de relire les fichiers bruts à chaque question.",
+    content: [
+      {
+        heading: "Ce que ça fait",
+        text: "Analyse des fichiers de natures très différentes (code, documents, PDF, images, captures d'écran) pour en extraire les concepts et leurs relations, puis les visualise sous forme de graphe interactif et cherchable — l'idée étant d'interroger ce graphe plutôt que de relire des fichiers bruts à chaque question."
+      },
+      {
+        heading: "Comment l'installer",
+        text: "`pip install graphifyy && graphify install` — ou manuellement en copiant le fichier skill.md du dépôt dans ~/.claude/skills/graphify/. Une fois installé, `/graphify .` l'utilise sur le dossier courant."
+      },
+      {
+        heading: "Un projet communautaire, pas officiel",
+        text: "Contrairement aux autres fiches de cette section, graphify est maintenu par un développeur indépendant, pas par Anthropic — vérifie qu'il correspond toujours à ce qui est décrit ici avant de l'utiliser sur un projet sensible."
+      },
+      {
+        heading: "Le dépôt",
+        text: "[safishamsi/graphify](https://github.com/safishamsi/graphify)"
+      }
+    ]
+  },
 
   // --- FAQ : questions fréquentes ---------------------------------------
   {

@@ -4219,6 +4219,29 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "Skills & Agents|graphify : transformer des fichiers en graphe de connaissances": {
+    "subcategory": "Skills",
+    "title": "graphify: turning files into a knowledge graph",
+    "summary": "Turns code, PDFs, images, or diagrams into an interactive, queryable knowledge graph, instead of rereading raw files for every question.",
+    "content": [
+      {
+        "heading": "What it does",
+        "text": "Analyzes very different kinds of files (code, documents, PDFs, images, screenshots) to extract concepts and their relationships, then visualizes them as an interactive, searchable graph — the idea being to query that graph rather than reread raw files for every question."
+      },
+      {
+        "heading": "How to install it",
+        "text": "`pip install graphifyy && graphify install` — or manually by copying the repo's skill.md file into ~/.claude/skills/graphify/. Once installed, `/graphify .` runs it on the current folder."
+      },
+      {
+        "heading": "A community project, not official",
+        "text": "Unlike the other fiches in this section, graphify is maintained by an independent developer, not Anthropic — check that it still matches what's described here before using it on a sensitive project."
+      },
+      {
+        "heading": "The repository",
+        "text": "[safishamsi/graphify](https://github.com/safishamsi/graphify)"
+      }
+    ]
+  },
   "Cursor|Installer Cursor sur Windows ou Linux": {
     "title": "Installing Cursor on Windows or Linux",
     "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",
