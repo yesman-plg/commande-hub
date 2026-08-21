@@ -781,8 +781,8 @@
 
   <div class="top-row" id="topRow">
     <div class="mode-tabs" id="modeTabs">
-      <button class="mode-tab active" data-mode="commands">🧰 <span id="modeTabCommandsLabel"></span></button>
-      <button class="mode-tab" data-mode="formation">📘 <span id="modeTabFormationLabel"></span></button>
+      <button class="mode-tab active" data-mode="formation">📘 <span id="modeTabFormationLabel"></span></button>
+      <button class="mode-tab" data-mode="commands">🧰 <span id="modeTabCommandsLabel"></span></button>
     </div>
     <div class="top-row-actions">
       <button class="lang-toggle" id="langToggle" title="Switch language / Changer de langue"></button>
@@ -12317,7 +12317,7 @@ const GUIDE_TRANSLATIONS_EN = {
   try { langChosen = localStorage.getItem(LANG_KEY) === "fr" || localStorage.getItem(LANG_KEY) === "en"; } catch (e) {}
   if (!langChosen) langGateEl.style.display = "flex";
 
-  let mode = "commands"; // "commands" | "formation"
+  let mode = "formation"; // "commands" | "formation"
   let activeGroup = "Toutes";
   let activeCategory = "Toutes";
   let activeSubcategory = "Toutes";
