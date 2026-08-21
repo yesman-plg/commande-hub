@@ -63,7 +63,6 @@ const COMMANDS = [
     desc: "Utile quand le téléphone et l'ordi ne sont pas sur le même réseau (ou wifi qui bloque le LAN).",
     tags: ["tunnel", "reseau", "start"]
   },
-
   // --- Expo / React Native — Compte & credentials ---------------------------------------
 {
     category: "Expo / React Native",
@@ -89,7 +88,6 @@ const COMMANDS = [
     desc: "Interface interactive pour voir/régénérer les clés de signature Android/iOS gérées par EAS.",
     tags: ["eas", "credentials", "signing"]
   },
-
   // --- Expo / React Native — Build local ---------------------------------------
 {
     category: "Expo / React Native",
@@ -115,7 +113,6 @@ const COMMANDS = [
     desc: "Build et lance sur un simulateur iOS (nécessite un Mac/Xcode).",
     tags: ["build", "local", "ios"]
   },
-
   // --- Expo / React Native — EAS Build & Submit ---------------------------------------
 {
     category: "Expo / React Native",
@@ -166,7 +163,6 @@ const COMMANDS = [
     desc: "Historique des builds cloud avec leur statut.",
     tags: ["eas", "build", "list"]
   },
-
   // --- Expo / React Native — EAS Update (OTA) ---------------------------------------
 {
     category: "Expo / React Native",
@@ -185,7 +181,6 @@ const COMMANDS = [
     desc: "Voit quels channels/branches de déploiement OTA existent (preview, production…).",
     tags: ["eas", "channel", "update"]
   },
-
   // --- Expo / React Native — Diagnostic & config ---------------------------------------
 {
     category: "Expo / React Native",
@@ -360,7 +355,6 @@ const COMMANDS = [
     desc: "Utile quand Gradle se comporte bizarrement (cache, process bloqué…) avant de relancer un build.",
     tags: ["gradle", "daemon", "stop"]
   },
-
   // --- Kotlin / Android — ADB ---------------------------------------
 {
     category: "Kotlin / Android",
@@ -459,7 +453,6 @@ const COMMANDS = [
     desc: "Corrige la plupart des soucis de détection d'appareil ('device offline', etc.).",
     tags: ["adb", "restart", "troubleshoot"]
   },
-
   // --- Kotlin / Android — Émulateur ---------------------------------------
 {
     category: "Kotlin / Android",
@@ -615,7 +608,6 @@ const COMMANDS = [
     desc: "Affiche la structure sur 2 niveaux de profondeur. Installe: sudo apt install tree.",
     tags: ["tree", "arborescence"]
   },
-
   // --- Linux — Processus & système ---------------------------------------
 {
     category: "Linux",
@@ -713,7 +705,6 @@ const COMMANDS = [
     desc: "Utilisateurs actuellement connectés à la machine.",
     tags: ["who", "users", "session"]
   },
-
   // --- Linux — Réseau ---------------------------------------
 {
     category: "Linux",
@@ -780,7 +771,6 @@ const COMMANDS = [
     desc: "Copie sécurisée via SSH. Ajoute -r pour un dossier entier.",
     tags: ["scp", "ssh", "copie"]
   },
-
   // --- Linux — Paquets (apt / snap / flatpak) ---------------------------------------
 {
     category: "Linux",
@@ -847,7 +837,6 @@ const COMMANDS = [
     desc: "Autre système de paquets sandboxés, très utilisé pour les apps GUI récentes.",
     tags: ["flatpak", "install"]
   },
-
   // --- Linux — Utilisateurs & permissions ---------------------------------------
 {
     category: "Linux",
@@ -882,7 +871,6 @@ const COMMANDS = [
     desc: "755 = propriétaire rwx, groupe/autres r-x. Adapte selon le besoin réel.",
     tags: ["chmod", "permissions", "recursif"]
   },
-
   // --- Linux — Outils CLI divers ---------------------------------------
 {
     category: "Linux",
@@ -965,7 +953,6 @@ const COMMANDS = [
     desc: "Documentation complète installée localement. Quitte avec la touche q.",
     tags: ["man", "aide", "documentation"]
   },
-
   // --- Linux — Docker ---------------------------------------
 {
     category: "Linux",
@@ -1074,6 +1061,309 @@ const COMMANDS = [
     tags: ["docker", "volume"]
   },
 
+  // --- Windows — Fichiers & disque ---------------------------------------
+{
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Lister en détail (avec cachés)",
+    cmd: "Get-ChildItem -Force",
+    desc: "Liste le contenu du dossier courant avec les détails (taille, date), fichiers cachés/système inclus.",
+    tags: ["windows", "powershell", "ls", "fichiers"]
+  },
+{
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Espace disque par dossier",
+    cmd: "Get-ChildItem -Recurse | Measure-Object -Property Length -Sum",
+    desc: "Additionne la taille de tous les fichiers du dossier courant (et sous-dossiers) — pratique pour repérer ce qui prend de la place.",
+    tags: ["windows", "powershell", "disque", "taille"]
+  },
+{
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Espace disque global",
+    cmd: "Get-Volume",
+    desc: "Affiche l'espace utilisé et libre de chaque disque/partition.",
+    tags: ["windows", "powershell", "disque", "volume"]
+  },
+{
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Trouver un fichier par nom",
+    cmd: 'Get-ChildItem -Recurse -Filter "*motif*"',
+    desc: "Cherche récursivement dans le dossier courant tous les fichiers dont le nom contient \"motif\".",
+    tags: ["windows", "powershell", "recherche", "fichier"]
+  },
+{
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Chercher du texte dans des fichiers",
+    cmd: 'Select-String -Path *.txt -Pattern "motif"',
+    desc: "Équivalent de grep — cherche une chaîne de texte dans un ou plusieurs fichiers.",
+    tags: ["windows", "powershell", "grep", "recherche", "texte"]
+  },
+{
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Copier avec progression et reprise",
+    cmd: "robocopy source destination /E /Z",
+    desc: "Copie robuste d'un dossier entier (récursif avec /E), capable de reprendre une copie interrompue (/Z) — plus fiable qu'un copier-coller classique pour de gros volumes.",
+    tags: ["windows", "robocopy", "copie", "fichiers"]
+  },
+{
+    category: "Windows",
+    subcategory: "Fichiers & disque",
+    title: "Archiver / dézipper",
+    cmd: "Compress-Archive -Path dossier -DestinationPath archive.zip",
+    desc: "Crée une archive .zip à partir d'un dossier. Expand-Archive -Path archive.zip -DestinationPath dossier fait l'inverse.",
+    tags: ["windows", "powershell", "zip", "archive"]
+  },
+  // --- Windows — Processus & système ---------------------------------------
+{
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Ouvrir le gestionnaire des tâches",
+    cmd: "taskmgr",
+    desc: "Lance l'interface graphique de suivi CPU/RAM/disque/réseau en temps réel.",
+    tags: ["windows", "taskmgr", "processus", "moniteur"]
+  },
+{
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Top des processus par CPU",
+    cmd: "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10",
+    desc: "Liste en ligne de commande les 10 processus qui consomment le plus de CPU — utile quand l'interface graphique n'est pas pratique (SSH, script).",
+    tags: ["windows", "powershell", "processus", "cpu"]
+  },
+{
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Tuer un processus",
+    cmd: 'Stop-Process -Name "nom" -Force',
+    desc: "Force l'arrêt d'un processus par son nom — équivalent de kill sous Linux.",
+    tags: ["windows", "powershell", "processus", "kill"]
+  },
+{
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Infos système complètes",
+    cmd: "systeminfo",
+    desc: "Affiche un résumé complet du système (OS, matériel, mémoire, date d'installation, correctifs installés…).",
+    tags: ["windows", "systeminfo", "diagnostic"]
+  },
+{
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Depuis combien de temps le système tourne",
+    cmd: "(Get-Date) - (Get-CimInstance Win32_OperatingSystem).LastBootUpTime",
+    desc: "Calcule la durée écoulée depuis le dernier démarrage.",
+    tags: ["windows", "powershell", "uptime", "système"]
+  },
+{
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Statut d'un service",
+    cmd: 'Get-Service -Name "nom*"',
+    desc: "Affiche l'état (démarré/arrêté) d'un ou plusieurs services système.",
+    tags: ["windows", "powershell", "service"]
+  },
+{
+    category: "Windows",
+    subcategory: "Processus & système",
+    title: "Voir les logs système récents",
+    cmd: "Get-EventLog -LogName System -Newest 20",
+    desc: "Affiche les 20 dernières entrées du journal d'événements système.",
+    tags: ["windows", "powershell", "logs", "journal"]
+  },
+  // --- Windows — Réseau ---------------------------------------
+{
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Adresse IP locale",
+    cmd: "ipconfig",
+    desc: "Affiche la configuration réseau (adresse IP, masque, passerelle) de chaque interface.",
+    tags: ["windows", "ip", "réseau"]
+  },
+{
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Tester une connexion",
+    cmd: "ping site.com",
+    desc: "Vérifie qu'un hôte répond et mesure le temps de réponse.",
+    tags: ["windows", "ping", "réseau"]
+  },
+{
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Quel processus utilise ce port ?",
+    cmd: "netstat -ano | findstr :8080",
+    desc: "Trouve le PID du processus qui écoute sur le port 8080 — Get-Process -Id <PID> ensuite pour identifier le programme.",
+    tags: ["windows", "netstat", "port", "réseau"]
+  },
+{
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Tester si un port distant est ouvert",
+    cmd: "Test-NetConnection -ComputerName hote -Port 443",
+    desc: "Vérifie qu'un port précis est joignable sur une machine distante, sans avoir à ouvrir une vraie connexion applicative.",
+    tags: ["windows", "powershell", "port", "réseau"]
+  },
+{
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Télécharger un fichier",
+    cmd: "Invoke-WebRequest -Uri url -OutFile fichier",
+    desc: "Télécharge le contenu d'une URL vers un fichier local — l'équivalent PowerShell de wget/curl.",
+    tags: ["windows", "powershell", "téléchargement", "http"]
+  },
+{
+    category: "Windows",
+    subcategory: "Réseau",
+    title: "Vider le cache DNS",
+    cmd: "ipconfig /flushdns",
+    desc: "Force le système à oublier les résolutions DNS mises en cache — utile après un changement de serveur ou de domaine.",
+    tags: ["windows", "dns", "réseau", "cache"]
+  },
+  // --- Windows — Paquets (winget / choco) ---------------------------------------
+{
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Installer un paquet",
+    cmd: "winget install nom",
+    desc: "Installe un logiciel depuis le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
+    tags: ["windows", "winget", "install", "paquet"]
+  },
+{
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Mettre à jour tous les paquets",
+    cmd: "winget upgrade --all",
+    desc: "Met à jour tous les logiciels installés via winget vers leur dernière version disponible.",
+    tags: ["windows", "winget", "update", "paquet"]
+  },
+{
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Chercher un paquet",
+    cmd: "winget search nom",
+    desc: "Recherche un logiciel disponible dans les sources winget par son nom.",
+    tags: ["windows", "winget", "recherche", "paquet"]
+  },
+{
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Lister les paquets installés",
+    cmd: "winget list",
+    desc: "Affiche tous les logiciels installés que winget reconnaît sur la machine.",
+    tags: ["windows", "winget", "liste", "paquet"]
+  },
+{
+    category: "Windows",
+    subcategory: "Paquets (winget / choco)",
+    title: "Installer via Chocolatey",
+    cmd: "choco install nom -y",
+    desc: "Gestionnaire de paquets alternatif et tiers, utile pour les logiciels pas encore disponibles sur winget — nécessite d'installer Chocolatey au préalable.",
+    tags: ["windows", "chocolatey", "install", "paquet"]
+  },
+  // --- Windows — Utilisateurs & permissions ---------------------------------------
+{
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Ouvrir un terminal en administrateur",
+    cmd: "Start-Process powershell -Verb RunAs",
+    desc: "Ouvre une nouvelle fenêtre PowerShell avec élévation de privilèges — Windows n'a pas d'équivalent direct à sudo dans le même terminal.",
+    tags: ["windows", "powershell", "admin", "élévation"]
+  },
+{
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Lister les utilisateurs",
+    cmd: "Get-LocalUser",
+    desc: "Affiche tous les comptes utilisateurs locaux de la machine.",
+    tags: ["windows", "powershell", "utilisateurs"]
+  },
+{
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Voir mes groupes / droits",
+    cmd: "whoami /groups",
+    desc: "Affiche l'utilisateur courant et tous les groupes auxquels il appartient (admin local, etc.).",
+    tags: ["windows", "whoami", "permissions", "groupes"]
+  },
+{
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Voir les permissions d'un fichier",
+    cmd: "icacls fichier",
+    desc: "Affiche la liste de contrôle d'accès (ACL) d'un fichier ou dossier — qui a le droit de faire quoi.",
+    tags: ["windows", "icacls", "permissions"]
+  },
+{
+    category: "Windows",
+    subcategory: "Utilisateurs & permissions",
+    title: "Changer le propriétaire d'un fichier",
+    cmd: "takeown /F fichier",
+    desc: "Reprend la propriété d'un fichier ou dossier — utile quand un fichier système ou d'un autre compte bloque une modification.",
+    tags: ["windows", "takeown", "propriétaire", "permissions"]
+  },
+  // --- Windows — Outils CLI divers ---------------------------------------
+{
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Ouvrir VS Code ici",
+    cmd: "code .",
+    desc: "Ouvre VS Code directement dans le dossier courant.",
+    tags: ["windows", "vscode", "éditeur"]
+  },
+{
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Éditer le profil PowerShell",
+    cmd: "notepad $PROFILE",
+    desc: "Ouvre le fichier de configuration chargé à chaque démarrage de PowerShell — l'équivalent du .bashrc sous Linux.",
+    tags: ["windows", "powershell", "profil", "config"]
+  },
+{
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Créer un alias permanent",
+    cmd: 'Set-Alias ll Get-ChildItem',
+    desc: "Crée un alias pour la session en cours. Pour le rendre permanent, ajoute la même ligne dans le profil PowerShell ($PROFILE).",
+    tags: ["windows", "powershell", "alias"]
+  },
+{
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Définir une variable d'environnement",
+    cmd: '$env:NOM = "valeur"',
+    desc: "Définit une variable d'environnement pour la session en cours. setx NOM \"valeur\" la rend permanente (nouvelles sessions uniquement).",
+    tags: ["windows", "powershell", "variable", "environnement"]
+  },
+{
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Générer une clé SSH",
+    cmd: "ssh-keygen",
+    desc: "Génère une paire de clés SSH — le client OpenSSH est intégré nativement depuis Windows 10.",
+    tags: ["windows", "ssh", "clé", "sécurité"]
+  },
+{
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Se connecter en SSH",
+    cmd: "ssh utilisateur@hote",
+    desc: "Ouvre une connexion SSH vers une machine distante.",
+    tags: ["windows", "ssh", "connexion"]
+  },
+{
+    category: "Windows",
+    subcategory: "Outils CLI divers",
+    title: "Localiser un exécutable",
+    cmd: "Get-Command nom",
+    desc: "Trouve le chemin de l'exécutable qui serait lancé en tapant \"nom\" — l'équivalent de which sous Linux.",
+    tags: ["windows", "powershell", "which", "chemin"]
+  },
+
   // --- Git — Staging & Commit ---------------------------------------
 {
     category: "Git",
@@ -1124,7 +1414,6 @@ const COMMANDS = [
     desc: "Diff des fichiers modifiés mais pas encore ajoutés au staging. Ajoute --staged pour voir le diff du staging.",
     tags: ["diff"]
   },
-
   // --- Git — Branches ---------------------------------------
 {
     category: "Git",
@@ -1192,7 +1481,6 @@ const COMMANDS = [
     desc: "Permet de squash / reword / réordonner les 5 derniers commits.",
     tags: ["rebase", "interactive", "squash"]
   },
-
   // --- Git — Remote (push/pull/clone) ---------------------------------------
 {
     category: "Git",
@@ -1235,7 +1523,6 @@ const COMMANDS = [
     desc: "Récupère un dépôt distant en local.",
     tags: ["clone"]
   },
-
   // --- Git — Historique & recherche ---------------------------------------
 {
     category: "Git",
@@ -1262,7 +1549,6 @@ const COMMANDS = [
     desc: "Trouve les commits qui ont ajouté/supprimé une chaîne donnée dans le code.",
     tags: ["log", "search", "pickaxe"]
   },
-
   // --- Git — Annuler & restaurer ---------------------------------------
 {
     category: "Git",
@@ -1306,7 +1592,6 @@ const COMMANDS = [
     desc: "⚠️ Supprime définitivement les fichiers/dossiers non trackés. Ajoute -n avant pour prévisualiser sans rien supprimer.",
     tags: ["clean", "danger"]
   },
-
   // --- Git — Stash ---------------------------------------
 {
     category: "Git",
@@ -1332,7 +1617,6 @@ const COMMANDS = [
     desc: "Voir tous les stash en attente.",
     tags: ["stash", "list"]
   },
-
   // --- Git — Tags & config ---------------------------------------
 {
     category: "Git",
@@ -1388,7 +1672,6 @@ const COMMANDS = [
     tags: ["claude", "doctor", "diagnostic"],
     related: "Claude Code::Installer Claude Code dans un terminal"
   },
-
   // --- Claude Code — Démarrage ---------------------------------------
 {
     category: "Claude Code",
@@ -1435,7 +1718,6 @@ const COMMANDS = [
     tags: ["claude", "resume", "session"],
     related: "Claude Code::Sessions : continuer, reprendre, repartir de zéro"
   },
-
   // --- Claude Code — Options CLI ---------------------------------------
 {
     category: "Claude Code",
@@ -1479,7 +1761,6 @@ const COMMANDS = [
     desc: "Utile pour scripter : récupère la réponse en JSON exploitable par un autre programme plutôt qu'en texte brut.",
     tags: ["claude", "json", "script"]
   },
-
   // --- Claude Code — Slash commands ---------------------------------------
 {
     category: "Claude Code",
@@ -1634,7 +1915,6 @@ const COMMANDS = [
     tags: ["claude", "commande personnalisée", "prompt", "réutilisable"],
     related: "Claude Code::Les prompts réutilisables : commandes personnalisées"
   },
-
   // --- Claude Code — MCP & config ---------------------------------------
 {
     category: "Claude Code",
@@ -1661,314 +1941,6 @@ const COMMANDS = [
     cmd: "claude config list",
     desc: "Affiche les réglages actuels (globaux et propres au projet), depuis le terminal.",
     tags: ["claude", "config", "list"]
-  },
-
-  // --- Windows — Fichiers & disque ---------------------------------------
-{
-    category: "Windows",
-    subcategory: "Fichiers & disque",
-    title: "Lister en détail (avec cachés)",
-    cmd: "Get-ChildItem -Force",
-    desc: "Liste le contenu du dossier courant avec les détails (taille, date), fichiers cachés/système inclus.",
-    tags: ["windows", "powershell", "ls", "fichiers"]
-  },
-{
-    category: "Windows",
-    subcategory: "Fichiers & disque",
-    title: "Espace disque par dossier",
-    cmd: "Get-ChildItem -Recurse | Measure-Object -Property Length -Sum",
-    desc: "Additionne la taille de tous les fichiers du dossier courant (et sous-dossiers) — pratique pour repérer ce qui prend de la place.",
-    tags: ["windows", "powershell", "disque", "taille"]
-  },
-{
-    category: "Windows",
-    subcategory: "Fichiers & disque",
-    title: "Espace disque global",
-    cmd: "Get-Volume",
-    desc: "Affiche l'espace utilisé et libre de chaque disque/partition.",
-    tags: ["windows", "powershell", "disque", "volume"]
-  },
-{
-    category: "Windows",
-    subcategory: "Fichiers & disque",
-    title: "Trouver un fichier par nom",
-    cmd: 'Get-ChildItem -Recurse -Filter "*motif*"',
-    desc: "Cherche récursivement dans le dossier courant tous les fichiers dont le nom contient \"motif\".",
-    tags: ["windows", "powershell", "recherche", "fichier"]
-  },
-{
-    category: "Windows",
-    subcategory: "Fichiers & disque",
-    title: "Chercher du texte dans des fichiers",
-    cmd: 'Select-String -Path *.txt -Pattern "motif"',
-    desc: "Équivalent de grep — cherche une chaîne de texte dans un ou plusieurs fichiers.",
-    tags: ["windows", "powershell", "grep", "recherche", "texte"]
-  },
-{
-    category: "Windows",
-    subcategory: "Fichiers & disque",
-    title: "Copier avec progression et reprise",
-    cmd: "robocopy source destination /E /Z",
-    desc: "Copie robuste d'un dossier entier (récursif avec /E), capable de reprendre une copie interrompue (/Z) — plus fiable qu'un copier-coller classique pour de gros volumes.",
-    tags: ["windows", "robocopy", "copie", "fichiers"]
-  },
-{
-    category: "Windows",
-    subcategory: "Fichiers & disque",
-    title: "Archiver / dézipper",
-    cmd: "Compress-Archive -Path dossier -DestinationPath archive.zip",
-    desc: "Crée une archive .zip à partir d'un dossier. Expand-Archive -Path archive.zip -DestinationPath dossier fait l'inverse.",
-    tags: ["windows", "powershell", "zip", "archive"]
-  },
-
-  // --- Windows — Processus & système ---------------------------------------
-{
-    category: "Windows",
-    subcategory: "Processus & système",
-    title: "Ouvrir le gestionnaire des tâches",
-    cmd: "taskmgr",
-    desc: "Lance l'interface graphique de suivi CPU/RAM/disque/réseau en temps réel.",
-    tags: ["windows", "taskmgr", "processus", "moniteur"]
-  },
-{
-    category: "Windows",
-    subcategory: "Processus & système",
-    title: "Top des processus par CPU",
-    cmd: "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10",
-    desc: "Liste en ligne de commande les 10 processus qui consomment le plus de CPU — utile quand l'interface graphique n'est pas pratique (SSH, script).",
-    tags: ["windows", "powershell", "processus", "cpu"]
-  },
-{
-    category: "Windows",
-    subcategory: "Processus & système",
-    title: "Tuer un processus",
-    cmd: 'Stop-Process -Name "nom" -Force',
-    desc: "Force l'arrêt d'un processus par son nom — équivalent de kill sous Linux.",
-    tags: ["windows", "powershell", "processus", "kill"]
-  },
-{
-    category: "Windows",
-    subcategory: "Processus & système",
-    title: "Infos système complètes",
-    cmd: "systeminfo",
-    desc: "Affiche un résumé complet du système (OS, matériel, mémoire, date d'installation, correctifs installés…).",
-    tags: ["windows", "systeminfo", "diagnostic"]
-  },
-{
-    category: "Windows",
-    subcategory: "Processus & système",
-    title: "Depuis combien de temps le système tourne",
-    cmd: "(Get-Date) - (Get-CimInstance Win32_OperatingSystem).LastBootUpTime",
-    desc: "Calcule la durée écoulée depuis le dernier démarrage.",
-    tags: ["windows", "powershell", "uptime", "système"]
-  },
-{
-    category: "Windows",
-    subcategory: "Processus & système",
-    title: "Statut d'un service",
-    cmd: 'Get-Service -Name "nom*"',
-    desc: "Affiche l'état (démarré/arrêté) d'un ou plusieurs services système.",
-    tags: ["windows", "powershell", "service"]
-  },
-{
-    category: "Windows",
-    subcategory: "Processus & système",
-    title: "Voir les logs système récents",
-    cmd: "Get-EventLog -LogName System -Newest 20",
-    desc: "Affiche les 20 dernières entrées du journal d'événements système.",
-    tags: ["windows", "powershell", "logs", "journal"]
-  },
-
-  // --- Windows — Réseau ---------------------------------------
-{
-    category: "Windows",
-    subcategory: "Réseau",
-    title: "Adresse IP locale",
-    cmd: "ipconfig",
-    desc: "Affiche la configuration réseau (adresse IP, masque, passerelle) de chaque interface.",
-    tags: ["windows", "ip", "réseau"]
-  },
-{
-    category: "Windows",
-    subcategory: "Réseau",
-    title: "Tester une connexion",
-    cmd: "ping site.com",
-    desc: "Vérifie qu'un hôte répond et mesure le temps de réponse.",
-    tags: ["windows", "ping", "réseau"]
-  },
-{
-    category: "Windows",
-    subcategory: "Réseau",
-    title: "Quel processus utilise ce port ?",
-    cmd: "netstat -ano | findstr :8080",
-    desc: "Trouve le PID du processus qui écoute sur le port 8080 — Get-Process -Id <PID> ensuite pour identifier le programme.",
-    tags: ["windows", "netstat", "port", "réseau"]
-  },
-{
-    category: "Windows",
-    subcategory: "Réseau",
-    title: "Tester si un port distant est ouvert",
-    cmd: "Test-NetConnection -ComputerName hote -Port 443",
-    desc: "Vérifie qu'un port précis est joignable sur une machine distante, sans avoir à ouvrir une vraie connexion applicative.",
-    tags: ["windows", "powershell", "port", "réseau"]
-  },
-{
-    category: "Windows",
-    subcategory: "Réseau",
-    title: "Télécharger un fichier",
-    cmd: "Invoke-WebRequest -Uri url -OutFile fichier",
-    desc: "Télécharge le contenu d'une URL vers un fichier local — l'équivalent PowerShell de wget/curl.",
-    tags: ["windows", "powershell", "téléchargement", "http"]
-  },
-{
-    category: "Windows",
-    subcategory: "Réseau",
-    title: "Vider le cache DNS",
-    cmd: "ipconfig /flushdns",
-    desc: "Force le système à oublier les résolutions DNS mises en cache — utile après un changement de serveur ou de domaine.",
-    tags: ["windows", "dns", "réseau", "cache"]
-  },
-
-  // --- Windows — Paquets (winget / choco) ---------------------------------------
-{
-    category: "Windows",
-    subcategory: "Paquets (winget / choco)",
-    title: "Installer un paquet",
-    cmd: "winget install nom",
-    desc: "Installe un logiciel depuis le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
-    tags: ["windows", "winget", "install", "paquet"]
-  },
-{
-    category: "Windows",
-    subcategory: "Paquets (winget / choco)",
-    title: "Mettre à jour tous les paquets",
-    cmd: "winget upgrade --all",
-    desc: "Met à jour tous les logiciels installés via winget vers leur dernière version disponible.",
-    tags: ["windows", "winget", "update", "paquet"]
-  },
-{
-    category: "Windows",
-    subcategory: "Paquets (winget / choco)",
-    title: "Chercher un paquet",
-    cmd: "winget search nom",
-    desc: "Recherche un logiciel disponible dans les sources winget par son nom.",
-    tags: ["windows", "winget", "recherche", "paquet"]
-  },
-{
-    category: "Windows",
-    subcategory: "Paquets (winget / choco)",
-    title: "Lister les paquets installés",
-    cmd: "winget list",
-    desc: "Affiche tous les logiciels installés que winget reconnaît sur la machine.",
-    tags: ["windows", "winget", "liste", "paquet"]
-  },
-{
-    category: "Windows",
-    subcategory: "Paquets (winget / choco)",
-    title: "Installer via Chocolatey",
-    cmd: "choco install nom -y",
-    desc: "Gestionnaire de paquets alternatif et tiers, utile pour les logiciels pas encore disponibles sur winget — nécessite d'installer Chocolatey au préalable.",
-    tags: ["windows", "chocolatey", "install", "paquet"]
-  },
-
-  // --- Windows — Utilisateurs & permissions ---------------------------------------
-{
-    category: "Windows",
-    subcategory: "Utilisateurs & permissions",
-    title: "Ouvrir un terminal en administrateur",
-    cmd: "Start-Process powershell -Verb RunAs",
-    desc: "Ouvre une nouvelle fenêtre PowerShell avec élévation de privilèges — Windows n'a pas d'équivalent direct à sudo dans le même terminal.",
-    tags: ["windows", "powershell", "admin", "élévation"]
-  },
-{
-    category: "Windows",
-    subcategory: "Utilisateurs & permissions",
-    title: "Lister les utilisateurs",
-    cmd: "Get-LocalUser",
-    desc: "Affiche tous les comptes utilisateurs locaux de la machine.",
-    tags: ["windows", "powershell", "utilisateurs"]
-  },
-{
-    category: "Windows",
-    subcategory: "Utilisateurs & permissions",
-    title: "Voir mes groupes / droits",
-    cmd: "whoami /groups",
-    desc: "Affiche l'utilisateur courant et tous les groupes auxquels il appartient (admin local, etc.).",
-    tags: ["windows", "whoami", "permissions", "groupes"]
-  },
-{
-    category: "Windows",
-    subcategory: "Utilisateurs & permissions",
-    title: "Voir les permissions d'un fichier",
-    cmd: "icacls fichier",
-    desc: "Affiche la liste de contrôle d'accès (ACL) d'un fichier ou dossier — qui a le droit de faire quoi.",
-    tags: ["windows", "icacls", "permissions"]
-  },
-{
-    category: "Windows",
-    subcategory: "Utilisateurs & permissions",
-    title: "Changer le propriétaire d'un fichier",
-    cmd: "takeown /F fichier",
-    desc: "Reprend la propriété d'un fichier ou dossier — utile quand un fichier système ou d'un autre compte bloque une modification.",
-    tags: ["windows", "takeown", "propriétaire", "permissions"]
-  },
-
-  // --- Windows — Outils CLI divers ---------------------------------------
-{
-    category: "Windows",
-    subcategory: "Outils CLI divers",
-    title: "Ouvrir VS Code ici",
-    cmd: "code .",
-    desc: "Ouvre VS Code directement dans le dossier courant.",
-    tags: ["windows", "vscode", "éditeur"]
-  },
-{
-    category: "Windows",
-    subcategory: "Outils CLI divers",
-    title: "Éditer le profil PowerShell",
-    cmd: "notepad $PROFILE",
-    desc: "Ouvre le fichier de configuration chargé à chaque démarrage de PowerShell — l'équivalent du .bashrc sous Linux.",
-    tags: ["windows", "powershell", "profil", "config"]
-  },
-{
-    category: "Windows",
-    subcategory: "Outils CLI divers",
-    title: "Créer un alias permanent",
-    cmd: 'Set-Alias ll Get-ChildItem',
-    desc: "Crée un alias pour la session en cours. Pour le rendre permanent, ajoute la même ligne dans le profil PowerShell ($PROFILE).",
-    tags: ["windows", "powershell", "alias"]
-  },
-{
-    category: "Windows",
-    subcategory: "Outils CLI divers",
-    title: "Définir une variable d'environnement",
-    cmd: '$env:NOM = "valeur"',
-    desc: "Définit une variable d'environnement pour la session en cours. setx NOM \"valeur\" la rend permanente (nouvelles sessions uniquement).",
-    tags: ["windows", "powershell", "variable", "environnement"]
-  },
-{
-    category: "Windows",
-    subcategory: "Outils CLI divers",
-    title: "Générer une clé SSH",
-    cmd: "ssh-keygen",
-    desc: "Génère une paire de clés SSH — le client OpenSSH est intégré nativement depuis Windows 10.",
-    tags: ["windows", "ssh", "clé", "sécurité"]
-  },
-{
-    category: "Windows",
-    subcategory: "Outils CLI divers",
-    title: "Se connecter en SSH",
-    cmd: "ssh utilisateur@hote",
-    desc: "Ouvre une connexion SSH vers une machine distante.",
-    tags: ["windows", "ssh", "connexion"]
-  },
-{
-    category: "Windows",
-    subcategory: "Outils CLI divers",
-    title: "Localiser un exécutable",
-    cmd: "Get-Command nom",
-    desc: "Trouve le chemin de l'exécutable qui serait lancé en tapant \"nom\" — l'équivalent de which sous Linux.",
-    tags: ["windows", "powershell", "which", "chemin"]
   },
 
   // --- Codex — Installation & mise à jour ---------------------------------------
@@ -2012,7 +1984,6 @@ const COMMANDS = [
     desc: "Installation via le gestionnaire de paquets Homebrew, sur macOS.",
     tags: ["codex", "openai", "install", "homebrew"]
   },
-
   // --- Codex — Authentification ---------------------------------------
 {
     category: "Codex",
@@ -2046,7 +2017,6 @@ const COMMANDS = [
     desc: "Supprime les identifiants enregistrés localement.",
     tags: ["codex", "openai", "logout", "auth"]
   },
-
   // --- Codex — Démarrage ---------------------------------------
 {
     category: "Codex",
@@ -2112,7 +2082,6 @@ const COMMANDS = [
     desc: "Lance Codex en mode revue de code sur les changements en cours dans le projet.",
     tags: ["codex", "openai", "review"]
   },
-
   // --- Codex — Options CLI ---------------------------------------
 {
     category: "Codex",
@@ -2202,7 +2171,6 @@ const COMMANDS = [
     desc: "Modifie une valeur de configuration pour cette seule exécution, sans éditer le fichier config.toml.",
     tags: ["codex", "openai", "config"]
   },
-
   // --- Codex — Slash commands ---------------------------------------
 {
     category: "Codex",
@@ -2212,7 +2180,6 @@ const COMMANDS = [
     desc: "Slash command à l'intérieur d'une session interactive pour changer de modèle et de niveau de raisonnement (reasoning effort) sans redémarrer.",
     tags: ["codex", "openai", "modèle", "slash"]
   },
-
   // --- Codex — MCP & config ---------------------------------------
 {
     category: "Codex",
@@ -2280,7 +2247,6 @@ const COMMANDS = [
     desc: "Commande à chercher dans la palette (Ctrl+Shift+P) — vérifie manuellement si une nouvelle version est disponible (les mises à jour se font sinon automatiquement en arrière-plan).",
     tags: ["vscode", "update", "palette"]
   },
-
   // --- VS Code — CLI (terminal) ---------------------------------------
 {
     category: "VS Code",
@@ -2346,7 +2312,6 @@ const COMMANDS = [
     desc: "Lance VS Code sans aucune extension active — pratique pour vérifier si une extension est la cause d'un bug ou d'une lenteur.",
     tags: ["vscode", "cli", "extension", "diagnostic"]
   },
-
   // --- VS Code — Navigation ---------------------------------------
 {
     category: "VS Code",
@@ -2404,7 +2369,6 @@ const COMMANDS = [
     desc: "Revient à la position précédente après avoir sauté vers une définition ou une référence.",
     tags: ["vscode", "raccourci", "navigation", "retour"]
   },
-
   // --- VS Code — Édition ---------------------------------------
 {
     category: "VS Code",
@@ -2470,7 +2434,6 @@ const COMMANDS = [
     desc: "Réduit ou déplie un bloc de code, pratique pour voir la structure globale d'un fichier long.",
     tags: ["vscode", "raccourci", "plier", "structure"]
   },
-
   // --- VS Code — Débogage ---------------------------------------
 {
     category: "VS Code",
@@ -2504,7 +2467,6 @@ const COMMANDS = [
     desc: "Exécute la ligne courante en entrant dans la fonction appelée, pour la déboguer pas à pas.",
     tags: ["vscode", "raccourci", "debug", "step into"]
   },
-
   // --- VS Code — Git intégré ---------------------------------------
 {
     category: "VS Code",
@@ -2522,7 +2484,6 @@ const COMMANDS = [
     desc: "Depuis le champ de message de commit du panneau Source Control, valide le commit sans avoir à cliquer sur le bouton.",
     tags: ["vscode", "raccourci", "git", "commit"]
   },
-
   // --- VS Code — Configuration ---------------------------------------
 {
     category: "VS Code",
@@ -2606,7 +2567,6 @@ const COMMANDS = [
     desc: "Affiche la version actuellement installée de l'agent CLI.",
     tags: ["cursor", "cli", "version", "diagnostic"]
   },
-
   // --- Cursor — Éditeur : raccourcis IA ---------------------------------------
 {
     category: "Cursor",
@@ -2712,7 +2672,6 @@ const COMMANDS = [
     desc: "Dicte une demande à l'oral plutôt que de la taper au clavier.",
     tags: ["cursor", "raccourci", "vocal", "dictée"]
   },
-
   // --- Cursor — CLI (agent) ---------------------------------------
 {
     category: "Cursor",

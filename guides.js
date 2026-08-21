@@ -14,8 +14,422 @@
 // ============================================================
 
 const GUIDES = [
+  // --- Expo / React Native ---------------------------------------
+{
+    category: "Expo / React Native",
+    title: "Dev, Build, Submit, Update : qui fait quoi ?",
+    level: "🟢 Débutant",
+    summary: "4 mots que tu vois partout dans la doc Expo, expliqués simplement — et ce qui se passe concrètement pour chacun.",
+    content: [
+      {
+        heading: "Dev — npx expo start",
+        text: "Lance un serveur de développement sur ta machine. Ton téléphone (via l'app Expo Go ou un dev client) se connecte à ce serveur et recharge l'app à chaud à chaque sauvegarde de code. Aucun fichier installable n'est créé — c'est juste pour développer et tester vite."
+      },
+      {
+        heading: "Build — eas build",
+        text: "Fabrique un vrai fichier installable : un .apk/.aab pour Android, un .ipa pour iOS. C'est ce qu'il te faut pour tester une version \"proche du réel\" sur un appareil sans passer par Expo Go, ou pour la publier sur un store."
+      },
+      {
+        heading: "Submit — eas submit",
+        text: "Prend le dernier build et l'envoie vers le Google Play Store ou l'App Store. C'est l'étape finale de publication."
+      },
+      {
+        heading: "Update — eas update",
+        text: "Pousse un changement de code JavaScript directement aux utilisateurs qui ont déjà l'app installée, SANS repasser par le store (donc sans attendre la validation Apple/Google). Ça ne marche que pour du JS/assets — si tu ajoutes une librairie native, il faut un nouveau build."
+      },
+      {
+        heading: "Ce qui vit où, concrètement",
+        text: "Dev : ton code tourne sur TON PC ; le téléphone ne fait qu'afficher le résultat via le réseau — sans ton PC allumé, rien ne marche.\n\nBuild : le code JS est empaqueté DIRECTEMENT dans le fichier .apk/.ipa ; l'app n'a plus jamais besoin de ton PC pour fonctionner.\n\nUpdate (OTA) : remplace le bundle JS déjà empaqueté dans une app déjà installée, sans regénérer de nouveau fichier .apk/.ipa."
+      },
+      {
+        heading: "Résumé en une phrase",
+        text: "Je code → expo start. Je veux un fichier à installer → eas build. Je veux le publier → eas submit. Je veux corriger un bug vite sans repasser par le store → eas update."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Tu veux corriger un bug JS déjà en production, SANS repasser par le store. Quelle commande utilises-tu ?",
+            "options": [
+            "eas build",
+            "eas submit",
+            "eas update",
+            "npx expo start"
+      ],
+            "correctIndex": 2,
+            "correction": "eas update pousse un changement JS/assets directement aux utilisateurs qui ont déjà l'app installée, sans nouveau passage par le store. eas build fabrique un nouveau fichier installable, eas submit l'envoie au store — deux étapes bien plus lourdes pour un simple correctif JS."
+      }
+]
+  },
+{
+    category: "Expo / React Native",
+    title: "Pourquoi ça plante après avoir installé une lib",
+    level: "🟡 Intermédiaire",
+    summary: "Le piège classique du débutant Expo : installer une librairie et ne rien comprendre à l'erreur qui suit.",
+    content: [
+      {
+        heading: "Le problème",
+        text: "Certaines librairies contiennent du code natif (Kotlin/Swift), pas seulement du JavaScript. Le serveur de dev (expo start) ne peut pas \"ajouter\" ce code natif à chaud — il faut reconstruire l'app."
+      },
+      {
+        heading: "Managed workflow vs Bare/prebuild",
+        text: "Par défaut (\"managed workflow\"), Expo gère pour toi toute la partie native — pas de dossiers android/ios visibles dans ton projet. Si tu as besoin d'un accès direct au code natif (lib très spécifique, config custom), npx expo prebuild génère ces dossiers android/ios — c'est le passage en mode \"bare\"."
+      },
+      {
+        heading: "La checklist de dépannage",
+        text: "1. As-tu utilisé npx expo install (pas npm install) ? Il choisit la version compatible avec ton SDK.\n2. Relance avec le cache vidé : `npx expo start -c`\n3. Si la lib a du code natif et que tu es en dev client / bare workflow : `npx expo prebuild --clean` puis un nouveau build.\n4. En cas de doute sur la config générale : `npx expo-doctor` te dit ce qui cloche."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Ton app affiche une erreur bizarre après avoir installé une nouvelle lib. Relance le serveur de dev en vidant complètement le cache.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo start -c"
+                              ],
+                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
+                        }
+                  ]
+            },
+            "correction": "npx expo start -c force Metro à tout recompiler depuis zéro, en ignorant l'ancien bundle mis en cache — le premier réflexe avant de creuser plus loin."
+      }
+]
+  },
+{
+    category: "Expo / React Native",
+    title: "Comprendre app.json et eas.json",
+    level: "🟡 Intermédiaire",
+    summary: "Deux fichiers de config qu'on modifie sans toujours comprendre à quoi ils servent vraiment.",
+    content: [
+      {
+        heading: "app.json / app.config.js : l'identité de ton app",
+        text: "Nom affiché, identifiant unique (package Android / bundle identifier iOS), icône, numéro de version, permissions déclarées (caméra, localisation…)… Expo régénère automatiquement la configuration native à partir de ce fichier au moment du build."
+      },
+      {
+        heading: "eas.json : les recettes de build",
+        text: "Définit des \"profils\" (typiquement development, preview, production), chacun avec ses propres réglages : type de build, variables d'environnement, canal de distribution.\n\neas build --profile preview dit concrètement à EAS \"utilise la recette nommée preview\"."
+      },
+      {
+        heading: "Pourquoi plusieurs profils",
+        text: "Tu veux souvent un build \"preview\" installable directement sans passer par un store (pour toi ou tes testeurs), et un build \"production\" optimisé destiné au store — parfois avec des URLs d'API différentes entre les deux (serveur de test vs serveur réel)."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Tu veux une URL d'API différente entre ton build \"preview\" et ton build \"production\". Où configures-tu ça ?",
+            "options": [
+            "Dans app.json uniquement",
+            "Dans package.json",
+            "Ce n'est pas possible avec Expo",
+            "Dans eas.json, avec un profil par environnement"
+      ],
+            "correctIndex": 3,
+            "correction": "eas.json permet de définir plusieurs profils (preview, production…), chacun avec ses propres variables d'environnement. app.json reste l'identité générale de l'app (nom, icône, permissions), commune à tous les profils."
+      }
+]
+  },
+{
+    category: "Expo / React Native",
+    title: "Metro, le serveur qui recharge ton app",
+    level: "🟢 Débutant",
+    summary: "Comprendre ce que fait vraiment expo start en coulisses, et pourquoi -c résout tant de bugs bizarres.",
+    content: [
+      {
+        heading: "Ce que fait Metro concrètement",
+        text: "Metro est le bundler JavaScript utilisé par Expo/React Native. Il prend tous tes fichiers .js/.ts, les assemble en un seul \"bundle\", et le sert à l'application via le réseau (ou l'USB) pendant le développement."
+      },
+      {
+        heading: "Pourquoi vider le cache (-c) résout tant de problèmes",
+        text: "Metro garde en cache une version déjà compilée de tes fichiers pour aller plus vite. Après un changement de config (babel.config.js, metro.config.js) ou un bug incompréhensible, ce cache peut contenir une version périmée → `npx expo start -c` le force à tout recompiler depuis zéro."
+      },
+      {
+        heading: "Le QR code, comment ça marche",
+        text: "Il encode l'adresse (IP + port) du serveur Metro sur ton réseau local. Le téléphone le scanne, s'y connecte, et télécharge le bundle JS. C'est pour ça qu'il faut être sur le MÊME réseau wifi que ton PC — sinon, utilise `npx expo start --tunnel`."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Ton téléphone n'est pas sur le même wifi que ton PC. Démarre Metro avec un tunnel pour qu'il puisse quand même s'y connecter.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "npx expo start --tunnel"
+                              ],
+                              "output": "Tunnel ngrok établi.\nScanne le QR code pour te connecter depuis n'importe quel réseau."
+                        }
+                  ]
+            },
+            "correction": "--tunnel fait transiter la connexion par un service externe (ngrok), plutôt que par le réseau local — plus lent, mais fonctionne même si le téléphone et le PC ne sont pas sur le même wifi."
+      }
+]
+  },
+{
+    category: "Expo / React Native",
+    title: "Expo Go vs Dev Client vs Build standalone",
+    level: "🟡 Intermédiaire",
+    summary: "Trois façons différentes de faire tourner ton app pendant qu'elle grandit, avec leurs limites respectives.",
+    content: [
+      {
+        heading: "Expo Go",
+        text: "L'app générique installable depuis le store, capable de lancer N'IMPORTE QUEL projet Expo en scannant un QR code. Rapide pour démarrer un premier projet, mais limitée aux librairies déjà incluses dedans — impossible d'y ajouter du code natif custom."
+      },
+      {
+        heading: "Dev Client",
+        text: "Une version d'Expo Go personnalisée et compilée SPÉCIFIQUEMENT pour ton projet, avec tes propres librairies natives incluses. Il faut la reconstruire (build) à chaque fois que tu ajoutes une NOUVELLE librairie native — mais pas à chaque changement de code JS, qui continue de se recharger à chaud comme avec Expo Go."
+      },
+      {
+        heading: "Build standalone",
+        text: "Le fichier final (.apk/.aab/.ipa), totalement autonome, sans aucun lien avec un serveur de développement. C'est ce que les utilisateurs finaux installent depuis le store — ou que tu installes toi-même via adb install pour un test final proche du réel."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Tu viens d'installer une librairie avec du code natif custom. Expo Go suffit-il pour la tester ?",
+            "options": [
+            "Non, il faut un Dev Client (rebuild nécessaire)",
+            "Oui, Expo Go gère tout automatiquement",
+            "Seulement sur Android",
+            "Seulement si la lib est gratuite"
+      ],
+            "correctIndex": 0,
+            "correction": "Expo Go ne contient que les librairies natives déjà incluses par défaut. Une lib avec du code natif custom demande un Dev Client — à reconstruire à chaque nouvelle lib native, mais pas à chaque changement de JS ensuite."
+      }
+]
+  },
+
+  // --- Kotlin / Android ---------------------------------------
+{
+    category: "Kotlin / Android",
+    title: "Gradle, le chef d'orchestre de ton build",
+    level: "🟢 Débutant",
+    summary: "Comprendre ce que fait ./gradlew avant de taper des commandes au hasard.",
+    content: [
+      {
+        heading: "C'est quoi Gradle",
+        text: "Gradle est l'outil qui transforme ton code Kotlin/Java en application installable. ./gradlew (le \"wrapper\") est un script qui télécharge et utilise automatiquement la bonne version de Gradle pour ton projet — c'est pour ça qu'on tape ./gradlew et pas juste gradle."
+      },
+      {
+        heading: "Debug vs Release",
+        text: "Un build \"debug\" (assembleDebug) est rapide à générer, non optimisé, et facile à débugger — c'est celui que tu utilises au quotidien pendant le développement.\n\nUn build \"release\" (assembleRelease) est optimisé, minifié, et signé numériquement — c'est celui que tu envoies aux utilisateurs/au store."
+      },
+      {
+        heading: "assemble vs install",
+        text: "assembleDebug fabrique juste le fichier .apk dans le dossier build/. installDebug fait la même chose ET l'installe directement sur l'appareil/émulateur connecté — c'est celle que tu utilises le plus souvent pour tester."
+      },
+      {
+        heading: "Les variantes de build (flavors)",
+        text: "Au-delà de debug/release, un projet peut définir des \"flavors\" (ex: free/paid, staging/prod), combinés avec debug/release pour donner des tâches comme assembleFreeDebug ou assembleProdRelease. Consulte le fichier build.gradle du module pour voir ceux définis sur ton projet — `./gradlew tasks` les liste aussi."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Compile un APK de debug.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "./gradlew assembleDebug"
+                              ],
+                              "output": "BUILD SUCCESSFUL in 24s\n34 actionable tasks: 34 executed"
+                        }
+                  ]
+            },
+            "correction": "assembleDebug fabrique le fichier .apk debug dans build/outputs/apk/debug/, sans l'installer. Pour build ET installer directement sur l'appareil connecté, il aurait fallu installDebug à la place."
+      }
+]
+  },
+{
+    category: "Kotlin / Android",
+    title: "ADB, le pont entre ton PC et ton téléphone",
+    level: "🟢 Débutant",
+    summary: "Le couteau suisse pour communiquer avec un appareil Android depuis le terminal.",
+    content: [
+      {
+        heading: "À quoi ça sert",
+        text: "ADB (Android Debug Bridge) permet d'installer des apps, de voir les logs, de copier des fichiers, ou d'ouvrir un shell sur un appareil Android connecté (par USB ou sur un émulateur), directement depuis ton terminal."
+      },
+      {
+        heading: "Le flow de débug classique",
+        text: "1. `adb devices` → vérifie que ton appareil est bien détecté\n2. Tu reproduis le bug sur l'app\n3. `adb logcat *:E` → tu regardes les erreurs qui remontent au moment du crash\n4. Une fois corrigé, tu réinstalles avec `./gradlew installDebug` et tu retestes"
+      },
+      {
+        heading: "logcat, filtrer intelligemment",
+        text: "*:E = uniquement les erreurs, tous tags confondus — utile pour un premier repérage.\n\nMonTag:D *:S = affiche seulement les logs de niveau debug et plus du tag \"MonTag\", et masque tout le reste (*:S = silent). Très utile pour isoler UNIQUEMENT les logs que TU as ajoutés toi-même dans le code avec Log.d(\"MonTag\", \"message\")."
+      },
+      {
+        heading: "Pourquoi \"device not found\" ou \"unauthorized\"",
+        text: "Vérifie que le débogage USB est activé sur le téléphone (Options développeur), et accepte la popup d'autorisation qui apparaît sur l'écran du téléphone la première fois que tu le connectes."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Vérifie qu'un appareil Android est bien détecté par ton PC.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "adb devices"
+                              ],
+                              "output": "List of devices attached\nR58N30XXXXX\tdevice"
+                        }
+                  ]
+            },
+            "correction": "adb devices est toujours le premier réflexe avant toute autre commande adb — si l'appareil n'apparaît pas ici (ou apparaît en \"unauthorized\"), rien d'autre ne fonctionnera."
+      }
+]
+  },
+{
+    category: "Kotlin / Android",
+    title: "Émulateur ou vrai téléphone ?",
+    level: "🟢 Débutant",
+    summary: "Les deux ont leur usage, voici quand choisir l'un ou l'autre.",
+    content: [
+      {
+        heading: "L'émulateur",
+        text: "Pratique pour développer sans avoir de téléphone Android sous la main, ou tester différentes versions d'Android/tailles d'écran facilement. Mais plus lent, et certaines fonctionnalités (caméra, capteurs, vraies performances) sont moins fiables à tester."
+      },
+      {
+        heading: "Le vrai téléphone",
+        text: "Indispensable avant de publier une app : les performances réelles, la caméra, le GPS, les notifications se comportent différemment sur un vrai appareil. Connecte-le en USB avec le débogage activé, vérifie avec `adb devices`."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Juste avant de publier ton app, tu veux vérifier les vraies performances et le comportement de la caméra. Tu utilises :",
+            "options": [
+            "L'émulateur",
+            "Un vrai téléphone",
+            "Les deux sont strictement équivalents",
+            "Aucun test n'est nécessaire"
+      ],
+            "correctIndex": 1,
+            "correction": "L'émulateur est parfait pour le développement au quotidien, mais la caméra, le GPS et les performances réelles ne sont fiables qu'avec un vrai appareil — indispensable en dernière vérification avant publication."
+      }
+]
+  },
+{
+    category: "Kotlin / Android",
+    title: "APK vs AAB, et le keystore de signature",
+    level: "🟡 Intermédiaire",
+    summary: "Deux formats de fichier, et le mécanisme de signature qui protège l'identité de ton app.",
+    content: [
+      {
+        heading: "APK : le format installable classique",
+        text: "Un fichier .apk contient tout le nécessaire pour tourner sur un appareil précis — c'est ce que tu installes directement via adb install ou en le transférant sur un téléphone."
+      },
+      {
+        heading: "AAB (Android App Bundle) : le format attendu par le Play Store",
+        text: "Contient TOUT (toutes les langues, toutes les architectures de processeur), et c'est Google Play qui génère ensuite, pour chaque appareil qui télécharge l'app, un APK optimisé et allégé rien que pour lui. Résultat : l'utilisateur télécharge moins de Mo.\n\nDepuis 2021, le Play Store exige l'AAB (bundleRelease) pour toute nouvelle app."
+      },
+      {
+        heading: "Le keystore, la carte d'identité de ton app",
+        text: "Un build release doit être signé avec un keystore (un fichier .jks/.keystore contenant une clé privée). Cette signature prouve que les mises à jour proviennent bien du même développeur — Android refuse d'installer une mise à jour signée avec une clé différente.\n\n⚠️ Si tu perds ce fichier ou son mot de passe, tu ne pourras plus JAMAIS mettre à jour ton app sur le Play Store sous le même identifiant. Sauvegarde-le précieusement, et ne le commite JAMAIS dans Git."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Tu perds ton fichier keystore utilisé pour les précédents builds release. Peux-tu quand même publier une mise à jour de ton app existante ?",
+            "options": [
+            "Oui, sans aucun problème",
+            "Oui, mais seulement via l'AAB",
+            "Non, plus jamais sous le même identifiant",
+            "Seulement en contactant Google"
+      ],
+            "correctIndex": 2,
+            "correction": "Sans le même keystore (même clé privée), Android considère que la mise à jour vient d'un développeur différent et la refuse. Le keystore doit être sauvegardé précieusement dès le premier build release — jamais dans Git."
+      }
+]
+  },
+{
+    category: "Kotlin / Android",
+    title: "Le cycle de vie d'une Activity (les bases)",
+    level: "🔴 Avancé",
+    summary: "Pourquoi ton app peut perdre des données à la rotation de l'écran si tu ne comprends pas ce mécanisme.",
+    content: [
+      {
+        heading: "Pourquoi ça compte",
+        text: "Android peut mettre en pause, détruire, ou recréer ton écran (Activity) à tout moment — un appel entrant, une rotation d'écran, le système qui manque de RAM et ferme des apps en arrière-plan. Comprendre ce cycle évite des bugs classiques (données perdues, crash au retour en arrière)."
+      },
+      {
+        heading: "Les méthodes clés, dans l'ordre",
+        text: "onCreate() → l'écran est créé (en théorie une seule fois, sauf si le système le détruit et le recrée).\nonStart() / onResume() → l'écran devient visible puis interactif.\nonPause() / onStop() → l'utilisateur quitte l'écran, mais peut potentiellement y revenir.\nonDestroy() → l'écran est définitivement fermé."
+      },
+      {
+        heading: "Le piège classique",
+        text: "Une simple rotation d'écran DÉTRUIT et RECRÉE l'Activity par défaut. Si une donnée était stockée dans une simple variable locale, elle est perdue au moment de la recréation. C'est pour ça qu'on utilise un ViewModel (qui survit aux rotations) ou onSaveInstanceState pour préserver l'état à travers ces recréations."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Une rotation d'écran DÉTRUIT l'Activity par défaut. Comment préserver le texte qu'un utilisateur est en train de taper ?",
+            "options": [
+            "Ne rien faire, Android s'en occupe seul",
+            "Empêcher toute rotation de l'écran",
+            "Utiliser uniquement une variable locale",
+            "Le stocker dans un ViewModel"
+      ],
+            "correctIndex": 3,
+            "correction": "Une variable locale est réinitialisée à chaque recréation de l'Activity (donc à chaque rotation). Un ViewModel survit à cette recréation — c'est l'outil standard pour ce genre de donnée, avec onSaveInstanceState comme alternative pour de petites données."
+      }
+]
+  },
+{
+    category: "Kotlin / Android",
+    title: "Coroutines Kotlin : l'async côté Android",
+    level: "🟡 Intermédiaire",
+    summary: "L'équivalent Kotlin d'async/await en JS — indispensable dès qu'on parle réseau ou base de données sur Android.",
+    content: [
+      {
+        heading: "Le problème : ne jamais bloquer le thread principal",
+        text: "Android exécute l'interface (affichage, boutons, animations) sur un seul thread, le \"thread principal\" (UI thread). Une opération longue (appel réseau, accès disque/base de données) lancée directement dessus le BLOQUE — résultat : l'app freeze, et au-delà de quelques secondes, Android affiche carrément \"L'application ne répond pas\" (ANR).\n\nLes coroutines permettent de lancer ce travail long AILLEURS, sans geler l'interface, puis de revenir facilement sur le thread principal pour afficher le résultat."
+      },
+      {
+        heading: "suspend fun, la fonction qui peut être \"mise en pause\"",
+        text: "Le mot-clé suspend marque une fonction comme pouvant être suspendue (mise en pause) sans bloquer le thread qui l'a appelée — un peu comme await en JavaScript. Une fonction suspend ne peut être appelée que depuis une coroutine ou une autre fonction suspend, jamais depuis du code \"normal\" directement."
+      },
+      {
+        heading: "lifecycleScope / viewModelScope : où lancer une coroutine",
+        text: "lifecycleScope.launch { ... } lance une coroutine automatiquement liée au cycle de vie de l'Activity/Fragment — si l'écran est détruit, la coroutine est annulée automatiquement, évitant fuites mémoire et crashs (\"tentative de mise à jour d'une vue qui n'existe plus\").\n\nviewModelScope fait pareil mais lié à la durée de vie du ViewModel — pratique pour survivre à une rotation d'écran tout en étant nettoyé quand l'écran est vraiment fermé."
+      },
+      {
+        heading: "Dispatchers : choisir où ça s'exécute",
+        text: "Dispatchers.Main → sur le thread principal (pour toucher à l'UI).\nDispatchers.IO → optimisé pour les opérations bloquantes (réseau, fichiers, base de données).\nDispatchers.Default → optimisé pour du calcul intensif en CPU.\n\nwithContext(Dispatchers.IO) { ... } permet de basculer temporairement une portion de code sur le bon thread avant de revenir automatiquement là où on était."
+      }
+    ],
+    exercises: [
+      {
+            "type": "quiz",
+            "instruction": "Où dois-tu lancer un appel réseau bloquant pour ne pas geler l'interface de l'app ?",
+            "options": [
+            "Sur Dispatchers.IO, dans une coroutine",
+            "Directement dans la fonction, sur le thread principal",
+            "Peu importe, Kotlin gère ça tout seul",
+            "Uniquement dans onCreate()"
+      ],
+            "correctIndex": 0,
+            "correction": "Le thread principal (UI thread) gère aussi l'affichage — un appel réseau bloquant dessus gèle l'interface, voire déclenche une erreur ANR. Dispatchers.IO est optimisé pour ce genre d'opération bloquante, dans une coroutine lancée via lifecycleScope ou viewModelScope."
+      }
+]
+  },
+
   // --- Bases du terminal ---------------------------------------
-  {
+{
     category: "Bases du terminal",
     title: "Ouvrir un terminal sur Windows ou Linux",
     level: "🟢 Débutant",
@@ -43,7 +457,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Bases du terminal",
     title: "Comment lire une commande",
     level: "🟢 Débutant",
@@ -80,7 +494,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Bases du terminal",
     title: "Se déplacer dans les dossiers",
     level: "🟢 Débutant",
@@ -126,7 +540,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Bases du terminal",
     title: "Les permissions de fichiers en détail",
     level: "🟡 Intermédiaire",
@@ -168,7 +582,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Bases du terminal",
     title: "Variables d'environnement et PATH",
     level: "🟡 Intermédiaire",
@@ -218,7 +632,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Bases du terminal",
     title: "npm & npx, et package.json en détail",
     level: "🟡 Intermédiaire",
@@ -256,7 +670,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Bases du terminal",
     title: "Comprendre les gestionnaires de paquets",
     level: "🟢 Débutant",
@@ -290,7 +704,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Bases du terminal",
     title: "Enchaîner des commandes (pipes et redirections)",
     level: "🟡 Intermédiaire",
@@ -333,170 +747,757 @@ const GUIDES = [
 ]
   },
 
-  // --- Programmation ---------------------------------------
-  {
-    category: "Programmation",
-    title: "JSON, le format universel",
+  // --- Linux Mint ---------------------------------------
+{
+    category: "Linux Mint",
+    title: "sudo et les permissions, sans y laisser des plumes",
     level: "🟢 Débutant",
-    summary: "La structure de données que tu croises partout : réponses d'API, fichiers de config, WebDAV, Firebase…",
+    summary: "Le minimum à savoir avant de taper sudo devant une commande.",
     content: [
       {
-        heading: "C'est quoi JSON",
-        text: "JSON (JavaScript Object Notation) est né en JavaScript, mais il est aujourd'hui utilisé par pratiquement TOUS les langages (Kotlin, Python, Java…) car il est simple à lire pour un humain et facile à analyser pour une machine. C'est le format le plus courant pour échanger des données entre une app et un serveur."
+        heading: "Utilisateur normal vs root",
+        text: "Ton compte utilisateur normal n'a pas le droit de modifier les fichiers système ou d'installer des logiciels par défaut — c'est une protection. \"root\" est le super-utilisateur qui peut tout faire. sudo te donne temporairement les pouvoirs de root pour UNE commande."
       },
       {
-        heading: "À quoi ça ressemble",
-        text: "{\n  \"nom\": \"Alex\",\n  \"age\": 30,\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\"],\n  \"actif\": true\n}\n\nDes paires clé/valeur entre accolades { }, où une valeur peut elle-même contenir un autre objet ou une liste — c'est cette imbrication qui permet de représenter des données complexes."
+        heading: "Les règles de prudence",
+        text: "• Ne tape jamais une commande sudo trouvée sur internet sans comprendre ce qu'elle fait.\n• Sois particulièrement prudent avec sudo rm (suppression) : il n'y a pas de corbeille, c'est définitif.\n• Si une commande normale (sans sudo) échoue avec \"Permission denied\", c'est probablement volontaire — demande-toi si tu as vraiment besoin d'y toucher avant de rajouter sudo."
       },
       {
-        heading: "Les types de valeurs possibles",
-        text: "\"texte\" entre guillemets doubles (jamais simples en JSON strict), un nombre (42, 3.14), un booléen (true/false), null (l'absence de valeur), un objet {...}, ou un tableau [...].\n\nPiège fréquent : une virgule après le TOUT DERNIER élément d'un objet ou tableau est une erreur de syntaxe en JSON (contrairement à JS) — ça fait planter le parsing."
+        heading: "chmod et chown, brièvement",
+        text: "chmod change qui a le droit de lire/écrire/exécuter un fichier. chown change à qui appartient le fichier. Tu en auras besoin par exemple pour rendre un script exécutable (chmod +x) ou récupérer un fichier appartenant à root. Le détail complet des rwx/octal est dans la fiche \"Les permissions de fichiers en détail\" (Bases du terminal)."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Mets à jour la liste des paquets disponibles (sans encore rien installer).",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo apt update"
+                              ],
+                              "output": "[sudo] Mot de passe de user :\nRéception de : 1 http://archive.ubuntu.com/ubuntu…\nTous les paquets sont à jour."
+                        }
+                  ]
+            },
+            "correction": "sudo apt update nécessite les droits administrateur car il touche à la configuration système partagée — d'où le mot de passe demandé. Il ne fait que rafraîchir la LISTE des paquets, rien n'est encore installé."
+      }
+]
+  },
+{
+    category: "Linux Mint",
+    title: "apt : installer et gérer des logiciels",
+    level: "🟢 Débutant",
+    summary: "Le gestionnaire de paquets de Linux Mint, l'équivalent d'un store mais en ligne de commande.",
+    content: [
+      {
+        heading: "Le concept",
+        text: "Plutôt que de télécharger des .exe sur des sites douteux comme sur Windows, Linux Mint utilise des \"dépôts\" (repositories) : des serveurs qui hébergent des logiciels vérifiés. apt est l'outil qui va chercher, installe, met à jour ou supprime ces logiciels."
       },
       {
-        heading: "Pourquoi c'est partout",
-        text: "JSON étant indépendant de tout langage, un serveur écrit en Kotlin peut envoyer une réponse JSON qu'une app Expo/JavaScript comprend nativement avec JSON.parse(), et inversement avec JSON.stringify(). C'est ce langage commun qui permet à des technologies complètement différentes de se parler."
+        heading: "Le cycle de base",
+        text: "sudo apt update → rafraîchit la LISTE des paquets disponibles (ne met rien à jour, juste la liste)\nsudo apt upgrade → installe réellement les mises à jour disponibles\nsudo apt install nom-du-logiciel → installe un logiciel\nsudo apt remove nom-du-logiciel → le désinstalle"
+      },
+      {
+        heading: "Pourquoi \"update\" avant \"upgrade\"",
+        text: "Si tu ne fais pas update d'abord, apt ne sait pas qu'une nouvelle version existe — c'est comme rafraîchir la page d'un store avant d'y chercher une mise à jour."
+      },
+      {
+        heading: "D'où viennent les paquets : les dépôts (sources.list)",
+        text: "apt cherche dans une liste de dépôts configurés (/etc/apt/sources.list et /etc/apt/sources.list.d/). La commande add-apt-repository ppa:... ajoute une source tierce à cette liste — ce qui revient à faire confiance à quelqu'un d'autre pour exécuter du code avec tes droits. À faire seulement pour des sources reconnues."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Cherche si un paquet lié à \"htop\" existe dans les dépôts.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "apt search htop"
+                              ],
+                              "output": "htop/stable 3.2.2-1 amd64\n  interactive processes viewer"
+                        }
+                  ]
+            },
+            "correction": "apt search interroge la liste locale des paquets disponibles (mise à jour par le dernier apt update) — pas besoin de sudo puisque ça ne fait que consulter, sans rien modifier sur le système."
+      }
+]
+  },
+{
+    category: "Linux Mint",
+    title: "Processus, ports, RAM : pourquoi ça rame",
+    level: "🟡 Intermédiaire",
+    summary: "De quoi diagnostiquer un ordi lent ou un port déjà utilisé.",
+    content: [
+      {
+        heading: "Un processus, c'est quoi",
+        text: "Chaque programme lancé (même en arrière-plan) est un \"processus\", identifié par un numéro unique (PID). `htop` montre tous les processus actifs, triés par consommation CPU/RAM en temps réel — utile pour repérer ce qui ralentit ta machine."
+      },
+      {
+        heading: "Tuer un processus bloqué",
+        text: "Si une app ne répond plus : trouve son PID (avec ps aux | grep nom, ou visuellement dans `htop`), puis `kill -9 PID` pour le forcer à s'arrêter."
+      },
+      {
+        heading: "\"Port déjà utilisé\" (ex: Metro, un serveur local)",
+        text: "Cette erreur veut dire qu'un autre programme écoute déjà sur ce port. sudo ss -tulpn | grep :8081 (par exemple) montre quel processus l'occupe, pour pouvoir le tuer ou changer de port."
+      },
+      {
+        heading: "Le %CPU qui dépasse 100, ce n'est pas un bug",
+        text: "Sur une machine multi-coeurs, un processus peut utiliser plusieurs coeurs simultanément à 100% chacun — top/`htop` additionnent ces pourcentages. Donc 350% sur une machine à 4 coeurs veut dire environ 87% de la puissance TOTALE de la machine utilisée par ce seul processus."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Le port 8081 semble déjà utilisé par un vieux serveur Metro. Trouve quel processus l'occupe.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo ss -tulpn | grep :8081"
+                              ],
+                              "output": "tcp   LISTEN  0  511  0.0.0.0:8081  0.0.0.0:*  users:((\"node\",pid=48213,fd=22))"
+                        }
+                  ]
+            },
+            "correction": "Le PID 48213 (processus node) occupe le port 8081. L'étape suivante serait kill -9 48213 pour le libérer, avant de relancer ton propre serveur."
+      }
+]
+  },
+{
+    category: "Linux Mint",
+    title: "L'arborescence du système de fichiers",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi Linux n'a pas de 'C:\\', et où trouver quoi.",
+    content: [
+      {
+        heading: "Pourquoi ce n'est pas comme Windows",
+        text: "Contrairement à Windows, Linux n'a qu'UNE seule arborescence de fichiers, qui part de / (la racine). Les disques, partitions et clés USB sont \"montés\" (rattachés) à des dossiers de cette arborescence unique, plutôt que d'avoir chacun leur propre lettre (C:, D:…)."
+      },
+      {
+        heading: "Les dossiers importants à connaître",
+        text: "/home/ton-nom → tes fichiers personnels (équivalent du dossier utilisateur Windows).\n/etc → fichiers de configuration système.\n/usr → programmes et librairies installés.\n/var → données qui changent souvent, notamment les logs dans /var/log.\n/tmp → fichiers temporaires, effacés au redémarrage."
+      },
+      {
+        heading: "Où sont mes logiciels installés",
+        text: "Contrairement à Windows où tout un logiciel tient dans un seul dossier (Program Files), sous Linux les fichiers d'un logiciel sont répartis PAR TYPE dans ces dossiers standards : le binaire exécutable dans /usr/bin, sa config dans /etc, ses données partagées dans /usr/share… C'est apt qui range tout au bon endroit automatiquement à l'installation."
       }
     ],
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Où se trouve l'erreur dans ce JSON ?\n{\n  \"nom\": \"Alex\",\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\",]\n}",
+            "instruction": "Un service vient de planter. Où cherches-tu ses logs en premier ?",
             "options": [
-            "Les guillemets autour de \"nom\"",
-            "L'accolade ouvrante {",
-            "Il n'y a pas d'erreur",
-            "La virgule après le dernier élément du tableau"
+            "/etc",
+            "/var/log",
+            "/usr",
+            "/tmp"
       ],
-            "correctIndex": 3,
-            "correction": "La virgule après \"SiteVitrine\" (juste avant le crochet fermant ]) est en trop. En JSON strict, une virgule après le DERNIER élément d'un tableau ou d'un objet est une erreur de syntaxe qui fait planter le parsing — contrairement à JavaScript, plus permissif sur ce point."
+            "correctIndex": 1,
+            "correction": "/var contient les données qui changent souvent, notamment les logs dans /var/log. /etc contient la CONFIGURATION (pas les logs), /usr les programmes installés, /tmp des fichiers temporaires effacés au redémarrage."
       }
 ]
   },
-  {
-    category: "Programmation",
-    title: "Requêtes HTTP et API REST",
+{
+    category: "Linux Mint",
+    title: "Réseau pour les nuls : IP, port, DNS",
     level: "🟡 Intermédiaire",
-    summary: "Comment une app parle à un serveur : méthodes, codes de statut, et le principe REST — la base de WebDAV comme de Firebase.",
+    summary: "De quoi enfin comprendre ce que veut dire localhost:8081.",
     content: [
       {
-        heading: "Client et serveur, qui demande quoi",
-        text: "Ton app (le \"client\") envoie une REQUÊTE à une adresse précise (une URL), et le serveur renvoie une RÉPONSE. HTTP est le protocole — les règles du jeu — qui régit la forme de cet échange."
+        heading: "L'adresse IP, le numéro de téléphone de ta machine",
+        text: "Chaque appareil sur un réseau a une adresse (ex: 192.168.1.42) qui permet de le joindre. 127.0.0.1 (aussi appelé \"localhost\") désigne toujours TA PROPRE machine, quel que soit le réseau sur lequel tu es connecté."
       },
       {
-        heading: "Les méthodes HTTP principales",
-        text: "GET → lire/récupérer une donnée, sans rien modifier (ex: récupérer la liste de tes morceaux).\nPOST → créer une nouvelle donnée (ex: ajouter une nouvelle séance de sport).\nPUT / PATCH → modifier une donnée existante (PUT remplace tout, PATCH modifie juste certains champs).\nDELETE → supprimer une donnée."
+        heading: "Le port, l'extension du numéro",
+        text: "Une machine peut faire tourner plusieurs services en même temps (un serveur web, une base de données…). Le port (un nombre de 0 à 65535) précise AUQUEL de ces services on s'adresse.\n\nEx: localhost:8081 = le service qui écoute sur le port 8081 de ta PROPRE machine (souvent Metro pour un projet Expo)."
       },
       {
-        heading: "Les codes de statut à savoir lire",
-        text: "200 OK → tout s'est bien passé.\n201 Created → une ressource a bien été créée (typique après un POST).\n400 Bad Request → ta requête est mal formée (souvent une erreur côté client).\n401 Unauthorized → tu n'es pas authentifié (identifiants manquants/invalides).\n403 Forbidden → tu ES authentifié, mais tu n'as pas le droit d'accéder à ça.\n404 Not Found → l'URL demandée n'existe pas.\n500 Internal Server Error → le serveur a planté de son côté, pas toi.\n\nRéflexe : avant de chercher un bug dans ton code, regarde TOUJOURS le code de statut retourné — il dit souvent directement où chercher."
-      },
-      {
-        heading: "REST, le principe général",
-        text: "Une API dite \"REST\" organise ses URL autour de RESSOURCES (ex: /morceaux, /morceaux/42), et laisse la méthode HTTP dire ce qu'on veut en faire. Résultat : GET /morceaux/42 lit le morceau 42, DELETE /morceaux/42 le supprime — même URL, action différente selon le verbe."
-      },
-      {
-        heading: "Exemple concret : WebDAV (partage de fichiers à distance)",
-        text: "WebDAV est une EXTENSION de HTTP pensée pour gérer des fichiers à distance : PROPFIND pour lister le contenu d'un dossier, GET pour télécharger un fichier, PUT pour en envoyer un, DELETE pour en supprimer un. Comprendre HTTP en général aide directement à comprendre pourquoi WebDAV fonctionne comme il fonctionne."
+        heading: "Le DNS, l'annuaire qui traduit les noms",
+        text: "Tu tapes google.com dans ton navigateur, mais le réseau ne comprend que des adresses IP. Le DNS traduit google.com en une IP (ex: 142.250.x.x) avant de s'y connecter réellement — exactement comme chercher un numéro dans un annuaire à partir d'un nom."
       }
     ],
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Ton app fait un GET sur une ressource qui n'existe pas dans la base. Quel code de statut attends-tu ?",
+            "instruction": "Que désigne l'adresse 127.0.0.1, quel que soit le réseau sur lequel tu es connecté ?",
             "options": [
-            "404 Not Found",
-            "200 OK",
-            "500 Internal Server Error",
-            "301 Moved Permanently"
+            "Le routeur wifi",
+            "Un serveur externe par défaut",
+            "Toujours ta propre machine (localhost)",
+            "Une adresse toujours invalide"
       ],
-            "correctIndex": 0,
-            "correction": "404 signifie \"ressource introuvable\" — l'URL demandée n'existe pas. Un 500 signalerait un problème côté serveur (pas ton cas ici), un 200 signifierait au contraire que tout s'est bien passé."
+            "correctIndex": 2,
+            "correction": "127.0.0.1 (alias \"localhost\") pointe toujours vers TA PROPRE machine — c'est pour ça qu'un serveur de dev lancé localement est accessible via localhost:PORT, peu importe le réseau."
       }
 ]
   },
-  {
-    category: "Programmation",
-    title: "Async/await & Promises en JavaScript",
+{
+    category: "Linux Mint",
+    title: "SSH et les clés : comment ça marche vraiment",
+    level: "🔴 Avancé",
+    summary: "Pourquoi utiliser une clé plutôt qu'un mot de passe, et ce que représentent vraiment les fichiers générés.",
+    content: [
+      {
+        heading: "Le problème du mot de passe",
+        text: "Se connecter à un serveur distant avec un simple mot de passe est risqué : interceptable, devinable, brute-forçable. L'authentification par clé SSH résout ça avec une PAIRE de clés mathématiquement liées : une clé PRIVÉE (jamais partagée, reste uniquement sur ton PC) et une clé PUBLIQUE (peut être partagée sans risque, ex: collée dans les paramètres GitHub)."
+      },
+      {
+        heading: "Le principe, simplifié",
+        text: "Le serveur (ou GitHub) connaît ta clé publique. Quand tu te connectes, il te met au défi de prouver mathématiquement que tu possèdes la clé privée correspondante — SANS que cette clé privée ne quitte jamais ta machine. Si la preuve est valide, tu es authentifié."
+      },
+      {
+        heading: "ssh-keygen, concrètement",
+        text: "Génère deux fichiers, par défaut dans ~/.ssh/ : id_ed25519 (la clé PRIVÉE) et id_ed25519.pub (la clé PUBLIQUE).\n\nLe fichier .pub est celui que tu colles dans les paramètres GitHub ou d'un serveur distant. Le fichier SANS .pub ne doit JAMAIS être partagé, ni commité dans un dépôt Git."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Génère une nouvelle paire de clés SSH moderne pour te connecter à GitHub.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "ssh-keygen -t ed25519 -C \"toi@email.com\"",
+                                    "ssh-keygen -t ed25519 -C 'toi@email.com'"
+                              ],
+                              "output": "Generating public/private ed25519 key pair.\nYour identification has been saved in /home/user/.ssh/id_ed25519\nYour public key has been saved in /home/user/.ssh/id_ed25519.pub"
+                        }
+                  ]
+            },
+            "correction": "Deux fichiers sont créés : id_ed25519 (clé PRIVÉE, ne jamais partager) et id_ed25519.pub (clé PUBLIQUE, celle que tu colles dans les paramètres GitHub)."
+      }
+]
+  },
+{
+    category: "Linux Mint",
+    title: "systemd et les services",
     level: "🟡 Intermédiaire",
-    summary: "Pourquoi certaines lignes de code JS semblent 's'exécuter plus tard', et comment ne pas s'y perdre.",
+    summary: "Comment Linux Mint démarre, surveille et redémarre les programmes qui tournent en arrière-plan.",
+    content: [
+      {
+        heading: "C'est quoi un service",
+        text: "Un programme qui tourne en arrière-plan en continu, souvent démarré automatiquement avec la machine (ex: le wifi, le bluetooth, un serveur local). systemd est le système qui gère le démarrage, l'arrêt et la surveillance de ces services sous Linux Mint."
+      },
+      {
+        heading: "Les commandes de base",
+        text: "`systemctl status nom-du-service` → son état actuel (actif, arrêté, en erreur…) et ses derniers logs.\nsystemctl start / stop / restart nom-du-service → agir dessus MAINTENANT, pour la session en cours.\nsystemctl enable / disable nom-du-service → décider s'il démarre automatiquement au prochain redémarrage de la machine (enable ne le lance PAS immédiatement, seulement au prochain boot)."
+      },
+      {
+        heading: "Où chercher pourquoi un service ne démarre pas",
+        text: "journalctl -u nom-du-service donne les logs spécifiques à ce service précis — généralement le premier réflexe à avoir pour comprendre une panne, plutôt que de fouiller dans les logs système généraux."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Vérifie l'état actuel du service Docker.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "sudo systemctl status docker"
+                              ],
+                              "output": "● docker.service - Docker Application Container Engine\n     Active: active (running) since…"
+                        }
+                  ]
+            },
+            "correction": "systemctl status est toujours le premier réflexe pour diagnostiquer un service : il montre s'il tourne, depuis quand, et ses derniers logs, avant d'agir dessus avec start/stop/restart."
+      }
+]
+  },
+{
+    category: "Linux Mint",
+    title: "cron : exécuter des tâches automatiquement",
+    level: "🟡 Intermédiaire",
+    summary: "Programmer une commande pour qu'elle se lance toute seule, à heure fixe, sans intervention.",
+    content: [
+      {
+        heading: "Le principe",
+        text: "cron exécute des commandes à des horaires programmés à l'avance, même quand tu n'es pas devant l'ordinateur (tant qu'il reste allumé) — utile pour des sauvegardes automatiques, un nettoyage régulier de fichiers, etc."
+      },
+      {
+        heading: "La syntaxe (les 5 étoiles)",
+        text: "minute heure jour-du-mois mois jour-de-semaine commande\n\nExemple : 0 3 * * * /home/user/backup.sh\n→ exécute backup.sh tous les jours à 3h00 du matin (chaque * signifie \"à chaque valeur possible\" pour cette position)."
+      },
+      {
+        heading: "Tester avant de programmer",
+        text: "Lance TOUJOURS la commande manuellement dans le terminal avant de la programmer dans cron, pour vérifier qu'elle fonctionne correctement. Si elle échoue une fois programmée, cron ne t'avertit pas visiblement — l'échec passe facilement inaperçu pendant des semaines."
+      }
+    ],
+    exercises: [
+      {
+            "type": "fillin",
+            "instruction": "Écris la ligne cron complète qui exécute /home/user/backup.sh tous les jours à 3h00 du matin.",
+            "accept": [
+                  "0 3 * * * /home/user/backup.sh"
+            ],
+            "correction": "0 3 * * * /home/user/backup.sh\n\nminute=0, heure=3, jour-du-mois=* (tous), mois=* (tous), jour-de-semaine=* (tous) → tous les jours à 3h00 pile."
+      }
+]
+  },
+
+  // --- Windows ---------------------------------------
+{
+    category: "Windows",
+    title: "PowerShell vs invite de commandes (cmd) : lequel utiliser",
+    level: "🟢 Débutant",
+    summary: "Windows a deux terminaux différents avec des logiques différentes — savoir lequel utiliser évite bien des commandes qui ne marchent que dans l'un des deux.",
+    content: [
+      {
+        heading: "cmd, l'historique",
+        text: "L'invite de commandes (cmd.exe) existe depuis les débuts de Windows — des commandes comme dir, cd ou ping y fonctionnent encore, mais son langage reste limité comparé à un vrai shell de script."
+      },
+      {
+        heading: "PowerShell, le standard actuel",
+        text: "PowerShell est le shell par défaut recommandé depuis plusieurs années — ses commandes (appelées cmdlets) suivent toutes le même schéma Verbe-Nom (Get-Process, Stop-Service, New-Item…), ce qui les rend plus faciles à deviner qu'en cmd."
+      },
+      {
+        heading: "Les deux coexistent, sans se remplacer totalement",
+        text: "Certaines commandes historiques de cmd (comme `ipconfig` ou `systeminfo`) fonctionnent aussi bien dans PowerShell — pas besoin de choisir strictement l'un ou l'autre, PowerShell exécute la plupart des vieilles commandes cmd en plus des siennes."
+      },
+      {
+        heading: "Windows Terminal : l'application qui héberge les deux",
+        text: "Windows Terminal (l'application moderne pour ouvrir un terminal) permet de lancer aussi bien un onglet PowerShell qu'un onglet cmd — le choix se fait à l'ouverture de l'onglet, pas au niveau de l'application elle-même."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux lister les processus qui utilisent le plus de mémoire, avec une commande dont le nom se devine facilement. Quel shell est le plus adapté ?",
+        options: [
+          "PowerShell, grâce au schéma Verbe-Nom de ses cmdlets (Get-Process)",
+          "cmd, car il est plus ancien donc plus complet",
+          "Aucun des deux, Windows ne permet pas ça",
+          "Il faut installer un shell tiers"
+        ],
+        correctIndex: 0,
+        correction: "Les cmdlets PowerShell suivent toutes le schéma Verbe-Nom (Get-Process, Get-Service…), ce qui les rend prévisibles à deviner — un avantage net sur les commandes cmd historiques, souvent moins cohérentes entre elles."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "Élévation de privilèges : l'équivalent Windows de sudo",
+    level: "🟢 Débutant",
+    summary: "Windows n'a pas de sudo : l'élévation de privilèges se fait fenêtre par fenêtre, pas commande par commande.",
+    content: [
+      {
+        heading: "Pas de sudo devant chaque commande",
+        text: "Sous Linux, sudo commande élève juste le temps d'une commande. Windows fonctionne différemment : un terminal tourne soit en utilisateur normal, soit entièrement en administrateur — pas de bascule commande par commande dans la même fenêtre."
+      },
+      {
+        heading: "Ouvrir un terminal déjà élevé",
+        text: "`Start-Process powershell -Verb RunAs` (ou clic droit → \"Exécuter en tant qu'administrateur\" dans l'interface) ouvre une NOUVELLE fenêtre avec tous les droits — tout ce qui s'y tape ensuite est exécuté en administrateur, sans redemander."
+      },
+      {
+        heading: "L'invite UAC, le garde-fou",
+        text: "Que ce soit en lançant un terminal élevé ou un simple programme, Windows affiche une fenêtre de confirmation (UAC) avant d'accorder les droits — le même principe de confirmation explicite que sudo, mais au niveau de toute une fenêtre plutôt que d'une commande isolée."
+      },
+      {
+        heading: "Repérer si on est déjà élevé",
+        text: "Le titre de la fenêtre PowerShell affiche généralement \"Administrateur\" en préfixe quand le terminal tourne avec les droits élevés — le repère visuel le plus rapide, plutôt que de tester une commande pour le découvrir."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu dois modifier un fichier système qui nécessite des droits administrateur, et ton terminal actuel tourne en utilisateur normal. Que fais-tu ?",
+        options: [
+          "Ouvrir une nouvelle fenêtre PowerShell en administrateur (Start-Process powershell -Verb RunAs), puis y taper la commande",
+          "Taper sudo devant la commande dans le terminal actuel",
+          "Ce n'est pas possible sous Windows",
+          "Redémarrer l'ordinateur en mode administrateur"
+        ],
+        correctIndex: 0,
+        correction: "Windows n'a pas de sudo commande par commande : il faut ouvrir une fenêtre entièrement élevée (Start-Process powershell -Verb RunAs) et y exécuter la commande, plutôt que d'élever une seule commande dans la fenêtre actuelle."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "winget : installer et gérer des logiciels",
+    level: "🟢 Débutant",
+    summary: "Le gestionnaire de paquets officiel de Windows — l'équivalent d'apt, intégré nativement depuis Windows 10/11.",
     content: [
       {
         heading: "Le problème que ça résout",
-        text: "Une requête réseau (appeler une API, lire un fichier) prend du temps — parfois plusieurs secondes. Si JavaScript attendait bêtement la réponse en bloquant tout, l'app entière (y compris l'affichage) serait figée pendant ce temps. Les opérations \"asynchrones\" permettent de lancer cette attente SANS bloquer le reste de l'app."
+        text: "Sans gestionnaire de paquets, installer un logiciel veut dire chercher un site officiel, télécharger un installeur, cliquer à travers un assistant — et refaire ça manuellement pour chaque mise à jour."
       },
       {
-        heading: "La Promise : une promesse de valeur future",
-        text: "Une Promise représente une valeur qui n'est PAS encore disponible, mais qui le sera (ou échouera) plus tard. Elle a 3 états possibles : en attente (pending), réussie (fulfilled, avec une valeur), ou échouée (rejected, avec une erreur)."
+        heading: "winget, en une commande",
+        text: "`winget install nom` cherche, télécharge et installe le logiciel automatiquement, sans passer par un navigateur — voir [[Bases du terminal::Comprendre les gestionnaires de paquets]] pour le principe général."
       },
       {
-        heading: "async/await, la syntaxe qui simplifie tout",
-        text: "Une fonction déclarée async peut utiliser le mot-clé await devant un appel qui retourne une Promise — le code \"met en pause\" cette fonction précise (et seulement elle) jusqu'à ce que la Promise se résolve, puis continue avec la valeur obtenue. Ça permet d'écrire du code asynchrone qui SE LIT comme du code normal, séquentiel, plutôt qu'en cascade de callbacks.\n\nasync function chargerDonnees() {\n  const reponse = await fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}"
+        heading: "Chercher avant d'installer",
+        text: "`winget search nom` liste les logiciels correspondants disponibles, utile quand on n'est pas sûr du nom exact attendu par winget."
       },
       {
-        heading: "Gérer les erreurs : try/catch",
-        text: "Un await qui échoue (Promise rejetée, ex: pas de réseau) lève une erreur qu'il faut attraper avec try/catch, sinon l'app peut planter ou l'erreur passer inaperçue silencieusement :\n\ntry {\n  const donnees = await chargerDonnees();\n} catch (erreur) {\n  console.log(\"Échec du chargement :\", erreur);\n}"
+        heading: "Tout mettre à jour d'un coup",
+        text: "`winget upgrade --all` met à jour en une seule commande tous les logiciels installés via winget qui ont une nouvelle version disponible — pas besoin de repasser par chaque site officiel."
       },
       {
-        heading: "Piège fréquent : oublier le await",
-        text: "Appeler une fonction async SANS await ne donne pas le résultat final, mais la Promise elle-même (non résolue) — une erreur très courante qui se traduit par un objet bizarre affiché au lieu de la vraie donnée attendue."
+        heading: "Quand winget ne suffit pas",
+        text: "Certains logiciels ne sont pas encore référencés sur winget. Chocolatey (choco install) est un gestionnaire tiers plus ancien qui couvre parfois des logiciels absents de winget — un complément, pas un remplacement."
       }
     ],
     exercises: [
       {
-            "type": "quiz",
-            "instruction": "Quel est le bug dans ce code ?\nasync function chargerDonnees() {\n  const reponse = fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}",
-            "options": [
-            "La fonction n'est pas déclarée async",
-            "Il manque await devant fetch(...)",
-            "Il manque un return",
-            "reponse.json() n'existe pas"
-      ],
-            "correctIndex": 1,
-            "correction": "Sans await devant fetch(...), reponse contient la PROMESSE elle-même (pas encore résolue), pas la vraie réponse HTTP — donc reponse.json() plante ou renvoie n'importe quoi. Correction : const reponse = await fetch(...)."
+        type: "quiz",
+        instruction: "Tu veux mettre à jour tous tes logiciels installés via winget en une seule commande. Laquelle utilises-tu ?",
+        options: [
+          "winget upgrade --all",
+          "winget install --all",
+          "winget update *",
+          "Il faut mettre à jour chaque logiciel un par un manuellement"
+        ],
+        correctIndex: 0,
+        correction: "winget upgrade --all met à jour en une seule commande tous les logiciels installés via winget qui ont une nouvelle version disponible."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "Se repérer dans l'arborescence Windows",
+    level: "🟡 Intermédiaire",
+    summary: "Pas de racine unique comme sous Linux : chaque disque a sa propre lettre, et certains dossiers ont un rôle bien précis.",
+    content: [
+      {
+        heading: "Des lettres de lecteur, pas une racine unique",
+        text: "Là où Linux a une seule arborescence démarrant à /, Windows attribue une lettre à chaque disque/partition (C:\\, D:\\…) — voir [[Linux Mint::L'arborescence du système de fichiers]] pour le principe côté Linux."
+      },
+      {
+        heading: "C:\\Users\\ : l'équivalent de /home",
+        text: "Le dossier personnel de chaque utilisateur, avec ses documents, téléchargements, bureau — l'équivalent direct du /home/utilisateur sous Linux."
+      },
+      {
+        heading: "Program Files : où vivent les logiciels installés",
+        text: "Les logiciels installés pour tous les utilisateurs s'installent généralement dans C:\\Program Files (ou Program Files (x86) pour les logiciels 32 bits) — modifier ce dossier nécessite les droits administrateur."
+      },
+      {
+        heading: "AppData : la configuration cachée",
+        text: "Dans C:\\Users\\toi\\AppData (dossier caché par défaut), chaque application range sa configuration et ses données locales — le rôle que jouent les dossiers cachés .config ou .local sous Linux."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu cherches où un logiciel a rangé sa configuration personnelle sur ta session Windows. Où regarder en premier ?",
+        options: [
+          "Dans le dossier AppData de ton profil utilisateur",
+          "Directement à la racine du disque C:\\",
+          "Dans Program Files",
+          "Windows ne stocke jamais de configuration par utilisateur"
+        ],
+        correctIndex: 0,
+        correction: "AppData (dans le dossier utilisateur) est l'endroit où les applications rangent leur configuration et leurs données locales — le même rôle que jouent les dossiers cachés .config/.local sous Linux."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "Processus et services : Gestionnaire des tâches, Get-Process, Get-Service",
+    level: "🟡 Intermédiaire",
+    summary: "Deux façons de surveiller ce qui tourne : l'interface graphique pour un coup d'œil rapide, PowerShell pour scripter ou automatiser.",
+    content: [
+      {
+        heading: "Le Gestionnaire des tâches, pour un coup d'œil",
+        text: "`taskmgr` ouvre l'interface graphique classique — utilisation CPU/RAM en temps réel, possibilité de forcer l'arrêt d'un programme qui ne répond plus, sans taper une seule commande."
+      },
+      {
+        heading: "Get-Process, la version scriptable",
+        text: "Get-Process | Sort-Object CPU -Descending liste les processus par consommation CPU directement dans le terminal — pratique pour un script ou une connexion à distance sans interface graphique."
+      },
+      {
+        heading: "Processus vs service : la différence",
+        text: "Un processus est un programme en cours d'exécution, visible et lié à une session utilisateur. Un service tourne en arrière-plan indépendamment de toute session ouverte (souvent démarré avant même la connexion) — Get-Service liste ces services et leur état."
+      },
+      {
+        heading: "Redémarrer un service qui bloque",
+        text: "Restart-Service -Name nom arrête puis relance un service précis — souvent plus rapide que de redémarrer toute la machine pour un service qui a planté."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Un service système semble bloqué et tu veux le relancer sans redémarrer toute la machine. Que fais-tu ?",
+        options: [
+          "Restart-Service -Name nom-du-service",
+          "Redémarrer l'ordinateur entier",
+          "Stop-Process -Name nom-du-service (ça suffit, pas besoin de le relancer)",
+          "Ce n'est pas possible sans redémarrer"
+        ],
+        correctIndex: 0,
+        correction: "Restart-Service cible directement le service concerné (arrêt puis relance) — pas besoin de redémarrer toute la machine pour un service isolé qui a planté."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "Réseau sous Windows : ipconfig, ping, ports",
+    level: "🟡 Intermédiaire",
+    summary: "Les mêmes questions que sous Linux (quelle IP, ça répond, qui utilise ce port) avec des commandes différentes.",
+    content: [
+      {
+        heading: "Voir sa configuration réseau",
+        text: "`ipconfig` affiche l'adresse IP, le masque et la passerelle de chaque interface réseau — voir [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] pour les mêmes notions expliquées côté Linux."
+      },
+      {
+        heading: "Tester qu'un hôte répond",
+        text: "`ping site.com` fonctionne de façon quasi identique à Linux — envoie des paquets et mesure le temps de réponse."
+      },
+      {
+        heading: "Trouver ce qui occupe un port",
+        text: "`netstat -ano | findstr :8080` affiche le PID du processus qui écoute sur le port 8080 ; Get-Process -Id <PID> ensuite pour l'identifier par son nom."
+      },
+      {
+        heading: "Tester un port distant sans navigateur ni client",
+        text: "`Test-NetConnection -ComputerName hote -Port 443` vérifie qu'un port précis répond sur une machine distante, sans avoir à ouvrir une vraie connexion applicative."
+      },
+      {
+        heading: "Vider le cache DNS après un changement",
+        text: "`ipconfig /flushdns` force le système à oublier les résolutions DNS mises en cache — utile juste après avoir changé un enregistrement DNS ou de serveur."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Un port 8080 semble occupé par un programme inconnu. Comment identifier lequel ?",
+        options: [
+          "netstat -ano | findstr :8080 pour trouver le PID, puis Get-Process -Id pour l'identifier",
+          "ping localhost:8080",
+          "ipconfig /flushdns",
+          "Ce n'est pas possible de savoir quel programme utilise un port"
+        ],
+        correctIndex: 0,
+        correction: "netstat -ano donne le PID du processus qui écoute sur le port recherché ; Get-Process -Id <PID> permet ensuite de retrouver son nom."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "WSL : faire tourner Linux dans Windows",
+    level: "🟡 Intermédiaire",
+    summary: "Un vrai environnement Linux à l'intérieur de Windows, sans machine virtuelle séparée à gérer — pratique pour retrouver les commandes déjà connues.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Certains outils/commandes n'existent que sous Linux, ou se comportent différemment sous Windows (chemins, sensibilité à la casse, scripts bash) — WSL évite d'avoir à choisir entre les deux systèmes."
+      },
+      {
+        heading: "Une vraie distribution Linux, pas une simulation",
+        text: "WSL (Windows Subsystem for Linux) fait tourner une vraie distribution (Ubuntu par défaut) avec son propre terminal — les commandes apt, bash, grep… fonctionnent exactement comme sur une machine Linux, voir [[Linux Mint::apt : installer et gérer des logiciels]]."
+      },
+      {
+        heading: "Installer WSL",
+        text: "wsl --install installe WSL et une distribution par défaut en une seule commande — un redémarrage est généralement nécessaire pour terminer l'installation."
+      },
+      {
+        heading: "Accéder aux fichiers d'un côté depuis l'autre",
+        text: "Les fichiers Windows restent accessibles depuis WSL (sous /mnt/c/...), et les fichiers Linux de WSL sont accessibles depuis l'explorateur Windows via \\\\wsl$\\ — les deux mondes cohabitent sans copie manuelle."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux utiliser une commande bash spécifique à Linux directement sur ta machine Windows, sans passer par une machine virtuelle séparée. Que fais-tu ?",
+        options: [
+          "Installer et utiliser WSL (wsl --install)",
+          "Réinstaller entièrement Windows en Linux",
+          "Ce n'est pas possible sans machine virtuelle",
+          "Utiliser winget pour installer bash directement dans PowerShell"
+        ],
+        correctIndex: 0,
+        correction: "WSL fait tourner une vraie distribution Linux à l'intérieur de Windows, sans machine virtuelle séparée à gérer — wsl --install suffit pour l'installer."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "Le profil PowerShell : personnaliser son shell",
+    level: "🔴 Avancé",
+    summary: "Un fichier chargé à chaque ouverture de PowerShell, pour ne pas redéfinir les mêmes alias et réglages à chaque session.",
+    content: [
+      {
+        heading: "Le problème que ça résout",
+        text: "Sans profil, un alias ou une variable définie dans une session PowerShell disparaît à sa fermeture — il faudrait tout redéfinir à chaque ouverture."
+      },
+      {
+        heading: "$PROFILE, le fichier chargé automatiquement",
+        text: "`notepad $PROFILE` ouvre (ou crée) ce fichier — tout ce qui y est écrit s'exécute automatiquement à chaque nouvelle session PowerShell, l'équivalent du .bashrc sous Linux."
+      },
+      {
+        heading: "Rendre un alias permanent",
+        text: "`Set-Alias ll Get-ChildItem` tapé directement dans le terminal ne dure que la session. La même ligne ajoutée dans $PROFILE la rend permanente pour toutes les futures sessions."
+      },
+      {
+        heading: "Un profil différent par contexte",
+        text: "PowerShell distingue plusieurs profils possibles (utilisateur courant, tous les utilisateurs, hôte spécifique…) — dans la plupart des cas, le profil de l'utilisateur courant (celui ouvert par $PROFILE) suffit largement."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu as créé un alias utile avec Set-Alias, mais il disparaît à chaque fois que tu fermes PowerShell. Comment le rendre permanent ?",
+        options: [
+          "Ajouter la même ligne Set-Alias dans le fichier $PROFILE",
+          "Le retaper à chaque ouverture, c'est la seule solution",
+          "Utiliser winget pour l'installer",
+          "Les alias PowerShell sont toujours permanents par défaut"
+        ],
+        correctIndex: 0,
+        correction: "$PROFILE est le fichier exécuté automatiquement à chaque ouverture de PowerShell — y ajouter la ligne Set-Alias la rend permanente, sans avoir à la retaper."
+      }
+    ]
+  },
+{
+    category: "Windows",
+    title: "Exécuter des scripts PowerShell : la politique d'exécution",
+    level: "🔴 Avancé",
+    summary: "Contrairement à Linux, exécuter un script .ps1 est bloqué par défaut — un réglage de sécurité à comprendre avant de le changer.",
+    content: [
+      {
+        heading: "Pourquoi c'est bloqué par défaut",
+        text: "Windows bloque par défaut l'exécution de scripts .ps1 pour limiter les scripts malveillants récupérés sans le vouloir (pièce jointe, téléchargement) — contrairement à Linux où chmod +x suffit à rendre un script exécutable."
+      },
+      {
+        heading: "Voir la politique actuelle",
+        text: "Get-ExecutionPolicy affiche le réglage en vigueur — par défaut, souvent Restricted (aucun script ne s'exécute)."
+      },
+      {
+        heading: "Autoriser ses propres scripts",
+        text: "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser autorise les scripts écrits localement, tout en exigeant une signature numérique pour les scripts téléchargés depuis internet — un bon compromis entre sécurité et confort."
+      },
+      {
+        heading: "Le -Scope CurrentUser, une précaution utile",
+        text: "Limiter le changement à -Scope CurrentUser (plutôt qu'à toute la machine) évite de modifier ce réglage pour d'autres comptes utilisateurs sur la même machine — une bonne pratique par défaut."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu essaies de lancer ton propre script .ps1 et Windows refuse de l'exécuter. Quelle commande règle ça proprement, pour ton compte uniquement ?",
+        options: [
+          "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser",
+          "Supprimer complètement la politique d'exécution",
+          "Renommer le fichier en .exe",
+          "Ce n'est pas possible d'exécuter des scripts PowerShell"
+        ],
+        correctIndex: 0,
+        correction: "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser autorise les scripts locaux (en exigeant une signature pour ceux téléchargés), et -Scope CurrentUser limite le changement à ton seul compte."
+      }
+    ]
+  },
+
+  // --- Docker ---------------------------------------
+{
+    category: "Docker",
+    title: "Docker, à quoi ça sert",
+    level: "🟢 Débutant",
+    summary: "Le problème du 'ça marche sur ma machine', et pourquoi un conteneur est bien plus léger qu'une machine virtuelle.",
+    content: [
+      {
+        heading: "Le problème que ça résout : \"ça marche sur ma machine\"",
+        text: "Une application a souvent besoin d'un environnement précis (une version de Node, une base de données, des variables système…). Sans Docker, reproduire EXACTEMENT le même environnement sur une autre machine (celle d'un collègue, un serveur de production) est une source classique et interminable de bugs de configuration."
+      },
+      {
+        heading: "Le conteneur : une boîte isolée et reproductible",
+        text: "Un conteneur empaquette une application ET tout son environnement (dépendances, configuration) dans une unité qui tourne de façon IDENTIQUE sur n'importe quelle machine disposant de Docker."
+      },
+      {
+        heading: "Conteneur ≠ machine virtuelle",
+        text: "Contrairement à une machine virtuelle qui simule un ordinateur entier (avec son propre noyau, très lourde et lente à démarrer), un conteneur PARTAGE le noyau Linux de la machine hôte. Résultat : beaucoup plus léger, et un démarrage qui se compte en secondes plutôt qu'en minutes."
+      }
+    ]
+  },
+{
+    category: "Docker",
+    title: "Image vs conteneur, la différence",
+    level: "🟢 Débutant",
+    summary: "La confusion la plus fréquente chez les débutants Docker, clarifiée avec une analogie simple.",
+    content: [
+      {
+        heading: "L'image : la recette / le plan",
+        text: "Un fichier figé qui décrit tout ce dont l'application a besoin (système de base, dépendances, code, commande de démarrage). Elle est définie dans un Dockerfile, et elle est IMMUABLE : on ne la modifie jamais directement, on en construit une nouvelle (docker build) si quelque chose change."
+      },
+      {
+        heading: "Le conteneur : l'instance en cours d'exécution",
+        text: "Quand tu lances une image (docker run), Docker crée un conteneur — une instance VIVANTE de cette image. Tu peux lancer PLUSIEURS conteneurs à partir de la MÊME image, exactement comme on peut créer plusieurs objets à partir d'une seule classe en programmation."
+      },
+      {
+        heading: "Ce qui se perd quand un conteneur s'arrête",
+        text: "Par défaut, tout ce qui est écrit À L'INTÉRIEUR d'un conteneur (fichiers créés, données de base de données…) disparaît définitivement quand ce conteneur est supprimé (docker rm). C'est pour ça qu'on utilise des volumes pour les données qu'on veut conserver durablement."
+      }
+    ],
+    exercises: [
+      {
+            "type": "terminal",
+            "instruction": "Liste les conteneurs actuellement en cours d'exécution.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "docker ps"
+                              ],
+                              "output": "CONTAINER ID   IMAGE      STATUS         PORTS\nf3a1b2c9d0e4   postgres   Up 2 hours     5432/tcp"
+                        }
+                  ]
+            },
+            "correction": "docker ps montre les CONTENEURS (instances vivantes), pas les images. Une seule image (ex: postgres) peut donner naissance à plusieurs conteneurs différents lancés à des moments différents."
       }
 ]
   },
-  {
-    category: "Programmation",
-    title: "Firebase, les bases",
+{
+    category: "Docker",
+    title: "Docker Compose, orchestrer plusieurs conteneurs",
     level: "🟡 Intermédiaire",
-    summary: "Authentification, Firestore, règles de sécurité : le strict nécessaire pour s'y retrouver dans un backend Firebase.",
+    summary: "Pourquoi une vraie app a rarement UN SEUL conteneur, et comment Compose les fait cohabiter.",
     content: [
       {
-        heading: "C'est quoi Firebase",
-        text: "Une plateforme backend \"clé en main\" fournie par Google : base de données, authentification des utilisateurs, stockage de fichiers, notifications… Elle évite d'avoir à écrire et héberger soi-même un serveur pour ces besoins courants — l'app communique directement avec les services Firebase via leur SDK."
+        heading: "Pourquoi Compose",
+        text: "Une vraie application a souvent besoin de plusieurs conteneurs qui communiquent entre eux (ex : un backend + une base de données + un cache Redis). Lancer chaque docker run à la main, avec tous les bons réglages, devient vite ingérable dès que ça dépasse un seul conteneur."
       },
       {
-        heading: "Firestore : collections et documents",
-        text: "Firestore (la base de données la plus utilisée de Firebase) organise les données en COLLECTIONS (ex: \"utilisateurs\", \"seances\"), qui contiennent des DOCUMENTS (chacun un peu comme un objet JSON, avec un identifiant unique). Un document peut lui-même contenir des sous-collections — une hiérarchie plutôt que des tables reliées comme en SQL classique."
+        heading: "docker-compose.yml : décrire toute la stack en un fichier",
+        text: "Liste chaque service, son image, ses ports, ses variables d'environnement, ses volumes — et surtout, Compose crée automatiquement un réseau privé pour que les conteneurs se parlent entre eux PAR LEUR NOM (ex: le backend peut appeler directement http://db:5432 sans connaître d'adresse IP)."
       },
       {
-        heading: "Authentication",
-        text: "Le service qui gère les comptes utilisateurs (email/mot de passe, Google, etc.) sans que tu aies à gérer toi-même le stockage sécurisé des mots de passe. Une fois connecté, chaque utilisateur reçoit un identifiant unique (uid) réutilisé pour savoir à QUI appartient chaque donnée dans Firestore."
-      },
-      {
-        heading: "Règles de sécurité (Security Rules)",
-        text: "Par défaut, sans règles bien configurées, N'IMPORTE QUI connaissant l'adresse de ta base peut potentiellement lire ou écrire dedans — Firebase n'a pas de \"serveur\" à toi qui filtre les requêtes, les règles de sécurité SONT le seul rempart. Elles se définissent dans un fichier séparé (ex: allow read, write: if request.auth.uid == userId;) et sont vérifiées côté Firebase à chaque requête, jamais côté app (où elles seraient contournables)."
+        heading: "up -d vs down",
+        text: "docker compose up -d démarre toute la stack décrite dans le fichier, en arrière-plan.\ndocker compose down l'arrête ET supprime les conteneurs — mais conserve les volumes nommés (donc les données), sauf si tu ajoutes explicitement l'option -v."
       }
     ],
     exercises: [
       {
-            "type": "quiz",
-            "instruction": "Sans règles de sécurité Firestore configurées, qui peut potentiellement lire toutes tes données ?",
-            "options": [
-            "Seulement toi",
-            "Personne, Firebase bloque tout par défaut",
-            "N'importe qui connaissant l'URL du projet",
-            "Seulement les comptes Google vérifiés"
-      ],
-            "correctIndex": 2,
-            "correction": "Firestore n'a pas de serveur intermédiaire à toi pour filtrer les requêtes — sans Security Rules qui vérifient l'identité (request.auth.uid), l'accès reste potentiellement ouvert à quiconque connaît l'URL du projet."
+            "type": "terminal",
+            "instruction": "Démarre toute la stack décrite dans docker-compose.yml, en arrière-plan.",
+            "terminal": {
+                  "prompt": "user@mint:~/cmd-hub$",
+                  "steps": [
+                        {
+                              "expect": [
+                                    "docker compose up -d"
+                              ],
+                              "output": "[+] Running 3/3\n ✔ Container app-db-1        Started\n ✔ Container app-backend-1   Started\n ✔ Container app-redis-1     Started"
+                        }
+                  ]
+            },
+            "correction": "up -d démarre TOUS les services décrits dans le fichier en une seule commande, en arrière-plan (-d = detached), avec un réseau privé automatiquement créé pour qu'ils communiquent entre eux par leur nom."
       }
 ]
   },
 
   // --- Git ---------------------------------------
-  {
+{
     category: "Git",
     title: "Git, à quoi ça sert vraiment ?",
     level: "🟢 Débutant",
@@ -520,7 +1521,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Git",
     title: "Local vs distant : ce qui se passe vraiment à chaque étape",
     level: "🟢 Débutant",
@@ -569,7 +1570,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Git",
     title: "Le workflow du quotidien",
     level: "🟢 Débutant",
@@ -621,7 +1622,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Git",
     title: "Les branches : travailler sans tout casser",
     level: "🟡 Intermédiaire",
@@ -667,7 +1668,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Git",
     title: "Annuler une erreur sans paniquer",
     level: "🟡 Intermédiaire",
@@ -709,7 +1710,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Git",
     title: ".gitignore : ne pas tout versionner",
     level: "🟢 Débutant",
@@ -743,7 +1744,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Git",
     title: "Les conflits de fusion (merge conflicts)",
     level: "🔴 Avancé",
@@ -781,7 +1782,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Git",
     title: "Lire l'historique : git log, HEAD, SHA",
     level: "🟡 Intermédiaire",
@@ -819,7 +1820,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "Git",
     title: "Pull Request : la collaboration sur GitHub",
     level: "🟢 Débutant",
@@ -854,819 +1855,170 @@ const GUIDES = [
 ]
   },
 
-  // --- Expo / React Native ---------------------------------------
-  {
-    category: "Expo / React Native",
-    title: "Dev, Build, Submit, Update : qui fait quoi ?",
+  // --- Programmation ---------------------------------------
+{
+    category: "Programmation",
+    title: "JSON, le format universel",
     level: "🟢 Débutant",
-    summary: "4 mots que tu vois partout dans la doc Expo, expliqués simplement — et ce qui se passe concrètement pour chacun.",
+    summary: "La structure de données que tu croises partout : réponses d'API, fichiers de config, WebDAV, Firebase…",
     content: [
       {
-        heading: "Dev — npx expo start",
-        text: "Lance un serveur de développement sur ta machine. Ton téléphone (via l'app Expo Go ou un dev client) se connecte à ce serveur et recharge l'app à chaud à chaque sauvegarde de code. Aucun fichier installable n'est créé — c'est juste pour développer et tester vite."
+        heading: "C'est quoi JSON",
+        text: "JSON (JavaScript Object Notation) est né en JavaScript, mais il est aujourd'hui utilisé par pratiquement TOUS les langages (Kotlin, Python, Java…) car il est simple à lire pour un humain et facile à analyser pour une machine. C'est le format le plus courant pour échanger des données entre une app et un serveur."
       },
       {
-        heading: "Build — eas build",
-        text: "Fabrique un vrai fichier installable : un .apk/.aab pour Android, un .ipa pour iOS. C'est ce qu'il te faut pour tester une version \"proche du réel\" sur un appareil sans passer par Expo Go, ou pour la publier sur un store."
+        heading: "À quoi ça ressemble",
+        text: "{\n  \"nom\": \"Alex\",\n  \"age\": 30,\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\"],\n  \"actif\": true\n}\n\nDes paires clé/valeur entre accolades { }, où une valeur peut elle-même contenir un autre objet ou une liste — c'est cette imbrication qui permet de représenter des données complexes."
       },
       {
-        heading: "Submit — eas submit",
-        text: "Prend le dernier build et l'envoie vers le Google Play Store ou l'App Store. C'est l'étape finale de publication."
+        heading: "Les types de valeurs possibles",
+        text: "\"texte\" entre guillemets doubles (jamais simples en JSON strict), un nombre (42, 3.14), un booléen (true/false), null (l'absence de valeur), un objet {...}, ou un tableau [...].\n\nPiège fréquent : une virgule après le TOUT DERNIER élément d'un objet ou tableau est une erreur de syntaxe en JSON (contrairement à JS) — ça fait planter le parsing."
       },
       {
-        heading: "Update — eas update",
-        text: "Pousse un changement de code JavaScript directement aux utilisateurs qui ont déjà l'app installée, SANS repasser par le store (donc sans attendre la validation Apple/Google). Ça ne marche que pour du JS/assets — si tu ajoutes une librairie native, il faut un nouveau build."
-      },
-      {
-        heading: "Ce qui vit où, concrètement",
-        text: "Dev : ton code tourne sur TON PC ; le téléphone ne fait qu'afficher le résultat via le réseau — sans ton PC allumé, rien ne marche.\n\nBuild : le code JS est empaqueté DIRECTEMENT dans le fichier .apk/.ipa ; l'app n'a plus jamais besoin de ton PC pour fonctionner.\n\nUpdate (OTA) : remplace le bundle JS déjà empaqueté dans une app déjà installée, sans regénérer de nouveau fichier .apk/.ipa."
-      },
-      {
-        heading: "Résumé en une phrase",
-        text: "Je code → expo start. Je veux un fichier à installer → eas build. Je veux le publier → eas submit. Je veux corriger un bug vite sans repasser par le store → eas update."
+        heading: "Pourquoi c'est partout",
+        text: "JSON étant indépendant de tout langage, un serveur écrit en Kotlin peut envoyer une réponse JSON qu'une app Expo/JavaScript comprend nativement avec JSON.parse(), et inversement avec JSON.stringify(). C'est ce langage commun qui permet à des technologies complètement différentes de se parler."
       }
     ],
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Tu veux corriger un bug JS déjà en production, SANS repasser par le store. Quelle commande utilises-tu ?",
+            "instruction": "Où se trouve l'erreur dans ce JSON ?\n{\n  \"nom\": \"Alex\",\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\",]\n}",
             "options": [
-            "eas build",
-            "eas submit",
-            "eas update",
-            "npx expo start"
-      ],
-            "correctIndex": 2,
-            "correction": "eas update pousse un changement JS/assets directement aux utilisateurs qui ont déjà l'app installée, sans nouveau passage par le store. eas build fabrique un nouveau fichier installable, eas submit l'envoie au store — deux étapes bien plus lourdes pour un simple correctif JS."
-      }
-]
-  },
-  {
-    category: "Expo / React Native",
-    title: "Pourquoi ça plante après avoir installé une lib",
-    level: "🟡 Intermédiaire",
-    summary: "Le piège classique du débutant Expo : installer une librairie et ne rien comprendre à l'erreur qui suit.",
-    content: [
-      {
-        heading: "Le problème",
-        text: "Certaines librairies contiennent du code natif (Kotlin/Swift), pas seulement du JavaScript. Le serveur de dev (expo start) ne peut pas \"ajouter\" ce code natif à chaud — il faut reconstruire l'app."
-      },
-      {
-        heading: "Managed workflow vs Bare/prebuild",
-        text: "Par défaut (\"managed workflow\"), Expo gère pour toi toute la partie native — pas de dossiers android/ios visibles dans ton projet. Si tu as besoin d'un accès direct au code natif (lib très spécifique, config custom), npx expo prebuild génère ces dossiers android/ios — c'est le passage en mode \"bare\"."
-      },
-      {
-        heading: "La checklist de dépannage",
-        text: "1. As-tu utilisé npx expo install (pas npm install) ? Il choisit la version compatible avec ton SDK.\n2. Relance avec le cache vidé : `npx expo start -c`\n3. Si la lib a du code natif et que tu es en dev client / bare workflow : `npx expo prebuild --clean` puis un nouveau build.\n4. En cas de doute sur la config générale : `npx expo-doctor` te dit ce qui cloche."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Ton app affiche une erreur bizarre après avoir installé une nouvelle lib. Relance le serveur de dev en vidant complètement le cache.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "npx expo start -c"
-                              ],
-                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
-                        }
-                  ]
-            },
-            "correction": "npx expo start -c force Metro à tout recompiler depuis zéro, en ignorant l'ancien bundle mis en cache — le premier réflexe avant de creuser plus loin."
-      }
-]
-  },
-  {
-    category: "Expo / React Native",
-    title: "Comprendre app.json et eas.json",
-    level: "🟡 Intermédiaire",
-    summary: "Deux fichiers de config qu'on modifie sans toujours comprendre à quoi ils servent vraiment.",
-    content: [
-      {
-        heading: "app.json / app.config.js : l'identité de ton app",
-        text: "Nom affiché, identifiant unique (package Android / bundle identifier iOS), icône, numéro de version, permissions déclarées (caméra, localisation…)… Expo régénère automatiquement la configuration native à partir de ce fichier au moment du build."
-      },
-      {
-        heading: "eas.json : les recettes de build",
-        text: "Définit des \"profils\" (typiquement development, preview, production), chacun avec ses propres réglages : type de build, variables d'environnement, canal de distribution.\n\neas build --profile preview dit concrètement à EAS \"utilise la recette nommée preview\"."
-      },
-      {
-        heading: "Pourquoi plusieurs profils",
-        text: "Tu veux souvent un build \"preview\" installable directement sans passer par un store (pour toi ou tes testeurs), et un build \"production\" optimisé destiné au store — parfois avec des URLs d'API différentes entre les deux (serveur de test vs serveur réel)."
-      }
-    ],
-    exercises: [
-      {
-            "type": "quiz",
-            "instruction": "Tu veux une URL d'API différente entre ton build \"preview\" et ton build \"production\". Où configures-tu ça ?",
-            "options": [
-            "Dans app.json uniquement",
-            "Dans package.json",
-            "Ce n'est pas possible avec Expo",
-            "Dans eas.json, avec un profil par environnement"
+            "Les guillemets autour de \"nom\"",
+            "L'accolade ouvrante {",
+            "Il n'y a pas d'erreur",
+            "La virgule après le dernier élément du tableau"
       ],
             "correctIndex": 3,
-            "correction": "eas.json permet de définir plusieurs profils (preview, production…), chacun avec ses propres variables d'environnement. app.json reste l'identité générale de l'app (nom, icône, permissions), commune à tous les profils."
+            "correction": "La virgule après \"SiteVitrine\" (juste avant le crochet fermant ]) est en trop. En JSON strict, une virgule après le DERNIER élément d'un tableau ou d'un objet est une erreur de syntaxe qui fait planter le parsing — contrairement à JavaScript, plus permissif sur ce point."
       }
 ]
   },
-  {
-    category: "Expo / React Native",
-    title: "Metro, le serveur qui recharge ton app",
-    level: "🟢 Débutant",
-    summary: "Comprendre ce que fait vraiment expo start en coulisses, et pourquoi -c résout tant de bugs bizarres.",
-    content: [
-      {
-        heading: "Ce que fait Metro concrètement",
-        text: "Metro est le bundler JavaScript utilisé par Expo/React Native. Il prend tous tes fichiers .js/.ts, les assemble en un seul \"bundle\", et le sert à l'application via le réseau (ou l'USB) pendant le développement."
-      },
-      {
-        heading: "Pourquoi vider le cache (-c) résout tant de problèmes",
-        text: "Metro garde en cache une version déjà compilée de tes fichiers pour aller plus vite. Après un changement de config (babel.config.js, metro.config.js) ou un bug incompréhensible, ce cache peut contenir une version périmée → `npx expo start -c` le force à tout recompiler depuis zéro."
-      },
-      {
-        heading: "Le QR code, comment ça marche",
-        text: "Il encode l'adresse (IP + port) du serveur Metro sur ton réseau local. Le téléphone le scanne, s'y connecte, et télécharge le bundle JS. C'est pour ça qu'il faut être sur le MÊME réseau wifi que ton PC — sinon, utilise `npx expo start --tunnel`."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Ton téléphone n'est pas sur le même wifi que ton PC. Démarre Metro avec un tunnel pour qu'il puisse quand même s'y connecter.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "npx expo start --tunnel"
-                              ],
-                              "output": "Tunnel ngrok établi.\nScanne le QR code pour te connecter depuis n'importe quel réseau."
-                        }
-                  ]
-            },
-            "correction": "--tunnel fait transiter la connexion par un service externe (ngrok), plutôt que par le réseau local — plus lent, mais fonctionne même si le téléphone et le PC ne sont pas sur le même wifi."
-      }
-]
-  },
-  {
-    category: "Expo / React Native",
-    title: "Expo Go vs Dev Client vs Build standalone",
+{
+    category: "Programmation",
+    title: "Requêtes HTTP et API REST",
     level: "🟡 Intermédiaire",
-    summary: "Trois façons différentes de faire tourner ton app pendant qu'elle grandit, avec leurs limites respectives.",
+    summary: "Comment une app parle à un serveur : méthodes, codes de statut, et le principe REST — la base de WebDAV comme de Firebase.",
     content: [
       {
-        heading: "Expo Go",
-        text: "L'app générique installable depuis le store, capable de lancer N'IMPORTE QUEL projet Expo en scannant un QR code. Rapide pour démarrer un premier projet, mais limitée aux librairies déjà incluses dedans — impossible d'y ajouter du code natif custom."
+        heading: "Client et serveur, qui demande quoi",
+        text: "Ton app (le \"client\") envoie une REQUÊTE à une adresse précise (une URL), et le serveur renvoie une RÉPONSE. HTTP est le protocole — les règles du jeu — qui régit la forme de cet échange."
       },
       {
-        heading: "Dev Client",
-        text: "Une version d'Expo Go personnalisée et compilée SPÉCIFIQUEMENT pour ton projet, avec tes propres librairies natives incluses. Il faut la reconstruire (build) à chaque fois que tu ajoutes une NOUVELLE librairie native — mais pas à chaque changement de code JS, qui continue de se recharger à chaud comme avec Expo Go."
+        heading: "Les méthodes HTTP principales",
+        text: "GET → lire/récupérer une donnée, sans rien modifier (ex: récupérer la liste de tes morceaux).\nPOST → créer une nouvelle donnée (ex: ajouter une nouvelle séance de sport).\nPUT / PATCH → modifier une donnée existante (PUT remplace tout, PATCH modifie juste certains champs).\nDELETE → supprimer une donnée."
       },
       {
-        heading: "Build standalone",
-        text: "Le fichier final (.apk/.aab/.ipa), totalement autonome, sans aucun lien avec un serveur de développement. C'est ce que les utilisateurs finaux installent depuis le store — ou que tu installes toi-même via adb install pour un test final proche du réel."
+        heading: "Les codes de statut à savoir lire",
+        text: "200 OK → tout s'est bien passé.\n201 Created → une ressource a bien été créée (typique après un POST).\n400 Bad Request → ta requête est mal formée (souvent une erreur côté client).\n401 Unauthorized → tu n'es pas authentifié (identifiants manquants/invalides).\n403 Forbidden → tu ES authentifié, mais tu n'as pas le droit d'accéder à ça.\n404 Not Found → l'URL demandée n'existe pas.\n500 Internal Server Error → le serveur a planté de son côté, pas toi.\n\nRéflexe : avant de chercher un bug dans ton code, regarde TOUJOURS le code de statut retourné — il dit souvent directement où chercher."
+      },
+      {
+        heading: "REST, le principe général",
+        text: "Une API dite \"REST\" organise ses URL autour de RESSOURCES (ex: /morceaux, /morceaux/42), et laisse la méthode HTTP dire ce qu'on veut en faire. Résultat : GET /morceaux/42 lit le morceau 42, DELETE /morceaux/42 le supprime — même URL, action différente selon le verbe."
+      },
+      {
+        heading: "Exemple concret : WebDAV (partage de fichiers à distance)",
+        text: "WebDAV est une EXTENSION de HTTP pensée pour gérer des fichiers à distance : PROPFIND pour lister le contenu d'un dossier, GET pour télécharger un fichier, PUT pour en envoyer un, DELETE pour en supprimer un. Comprendre HTTP en général aide directement à comprendre pourquoi WebDAV fonctionne comme il fonctionne."
       }
     ],
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Tu viens d'installer une librairie avec du code natif custom. Expo Go suffit-il pour la tester ?",
+            "instruction": "Ton app fait un GET sur une ressource qui n'existe pas dans la base. Quel code de statut attends-tu ?",
             "options": [
-            "Non, il faut un Dev Client (rebuild nécessaire)",
-            "Oui, Expo Go gère tout automatiquement",
-            "Seulement sur Android",
-            "Seulement si la lib est gratuite"
+            "404 Not Found",
+            "200 OK",
+            "500 Internal Server Error",
+            "301 Moved Permanently"
       ],
             "correctIndex": 0,
-            "correction": "Expo Go ne contient que les librairies natives déjà incluses par défaut. Une lib avec du code natif custom demande un Dev Client — à reconstruire à chaque nouvelle lib native, mais pas à chaque changement de JS ensuite."
+            "correction": "404 signifie \"ressource introuvable\" — l'URL demandée n'existe pas. Un 500 signalerait un problème côté serveur (pas ton cas ici), un 200 signifierait au contraire que tout s'est bien passé."
       }
 ]
   },
-
-  // --- Kotlin / Android ---------------------------------------
-  {
-    category: "Kotlin / Android",
-    title: "Gradle, le chef d'orchestre de ton build",
-    level: "🟢 Débutant",
-    summary: "Comprendre ce que fait ./gradlew avant de taper des commandes au hasard.",
+{
+    category: "Programmation",
+    title: "Async/await & Promises en JavaScript",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi certaines lignes de code JS semblent 's'exécuter plus tard', et comment ne pas s'y perdre.",
     content: [
       {
-        heading: "C'est quoi Gradle",
-        text: "Gradle est l'outil qui transforme ton code Kotlin/Java en application installable. ./gradlew (le \"wrapper\") est un script qui télécharge et utilise automatiquement la bonne version de Gradle pour ton projet — c'est pour ça qu'on tape ./gradlew et pas juste gradle."
+        heading: "Le problème que ça résout",
+        text: "Une requête réseau (appeler une API, lire un fichier) prend du temps — parfois plusieurs secondes. Si JavaScript attendait bêtement la réponse en bloquant tout, l'app entière (y compris l'affichage) serait figée pendant ce temps. Les opérations \"asynchrones\" permettent de lancer cette attente SANS bloquer le reste de l'app."
       },
       {
-        heading: "Debug vs Release",
-        text: "Un build \"debug\" (assembleDebug) est rapide à générer, non optimisé, et facile à débugger — c'est celui que tu utilises au quotidien pendant le développement.\n\nUn build \"release\" (assembleRelease) est optimisé, minifié, et signé numériquement — c'est celui que tu envoies aux utilisateurs/au store."
+        heading: "La Promise : une promesse de valeur future",
+        text: "Une Promise représente une valeur qui n'est PAS encore disponible, mais qui le sera (ou échouera) plus tard. Elle a 3 états possibles : en attente (pending), réussie (fulfilled, avec une valeur), ou échouée (rejected, avec une erreur)."
       },
       {
-        heading: "assemble vs install",
-        text: "assembleDebug fabrique juste le fichier .apk dans le dossier build/. installDebug fait la même chose ET l'installe directement sur l'appareil/émulateur connecté — c'est celle que tu utilises le plus souvent pour tester."
+        heading: "async/await, la syntaxe qui simplifie tout",
+        text: "Une fonction déclarée async peut utiliser le mot-clé await devant un appel qui retourne une Promise — le code \"met en pause\" cette fonction précise (et seulement elle) jusqu'à ce que la Promise se résolve, puis continue avec la valeur obtenue. Ça permet d'écrire du code asynchrone qui SE LIT comme du code normal, séquentiel, plutôt qu'en cascade de callbacks.\n\nasync function chargerDonnees() {\n  const reponse = await fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}"
       },
       {
-        heading: "Les variantes de build (flavors)",
-        text: "Au-delà de debug/release, un projet peut définir des \"flavors\" (ex: free/paid, staging/prod), combinés avec debug/release pour donner des tâches comme assembleFreeDebug ou assembleProdRelease. Consulte le fichier build.gradle du module pour voir ceux définis sur ton projet — `./gradlew tasks` les liste aussi."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Compile un APK de debug.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "./gradlew assembleDebug"
-                              ],
-                              "output": "BUILD SUCCESSFUL in 24s\n34 actionable tasks: 34 executed"
-                        }
-                  ]
-            },
-            "correction": "assembleDebug fabrique le fichier .apk debug dans build/outputs/apk/debug/, sans l'installer. Pour build ET installer directement sur l'appareil connecté, il aurait fallu installDebug à la place."
-      }
-]
-  },
-  {
-    category: "Kotlin / Android",
-    title: "ADB, le pont entre ton PC et ton téléphone",
-    level: "🟢 Débutant",
-    summary: "Le couteau suisse pour communiquer avec un appareil Android depuis le terminal.",
-    content: [
-      {
-        heading: "À quoi ça sert",
-        text: "ADB (Android Debug Bridge) permet d'installer des apps, de voir les logs, de copier des fichiers, ou d'ouvrir un shell sur un appareil Android connecté (par USB ou sur un émulateur), directement depuis ton terminal."
+        heading: "Gérer les erreurs : try/catch",
+        text: "Un await qui échoue (Promise rejetée, ex: pas de réseau) lève une erreur qu'il faut attraper avec try/catch, sinon l'app peut planter ou l'erreur passer inaperçue silencieusement :\n\ntry {\n  const donnees = await chargerDonnees();\n} catch (erreur) {\n  console.log(\"Échec du chargement :\", erreur);\n}"
       },
       {
-        heading: "Le flow de débug classique",
-        text: "1. `adb devices` → vérifie que ton appareil est bien détecté\n2. Tu reproduis le bug sur l'app\n3. `adb logcat *:E` → tu regardes les erreurs qui remontent au moment du crash\n4. Une fois corrigé, tu réinstalles avec `./gradlew installDebug` et tu retestes"
-      },
-      {
-        heading: "logcat, filtrer intelligemment",
-        text: "*:E = uniquement les erreurs, tous tags confondus — utile pour un premier repérage.\n\nMonTag:D *:S = affiche seulement les logs de niveau debug et plus du tag \"MonTag\", et masque tout le reste (*:S = silent). Très utile pour isoler UNIQUEMENT les logs que TU as ajoutés toi-même dans le code avec Log.d(\"MonTag\", \"message\")."
-      },
-      {
-        heading: "Pourquoi \"device not found\" ou \"unauthorized\"",
-        text: "Vérifie que le débogage USB est activé sur le téléphone (Options développeur), et accepte la popup d'autorisation qui apparaît sur l'écran du téléphone la première fois que tu le connectes."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Vérifie qu'un appareil Android est bien détecté par ton PC.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "adb devices"
-                              ],
-                              "output": "List of devices attached\nR58N30XXXXX\tdevice"
-                        }
-                  ]
-            },
-            "correction": "adb devices est toujours le premier réflexe avant toute autre commande adb — si l'appareil n'apparaît pas ici (ou apparaît en \"unauthorized\"), rien d'autre ne fonctionnera."
-      }
-]
-  },
-  {
-    category: "Kotlin / Android",
-    title: "Émulateur ou vrai téléphone ?",
-    level: "🟢 Débutant",
-    summary: "Les deux ont leur usage, voici quand choisir l'un ou l'autre.",
-    content: [
-      {
-        heading: "L'émulateur",
-        text: "Pratique pour développer sans avoir de téléphone Android sous la main, ou tester différentes versions d'Android/tailles d'écran facilement. Mais plus lent, et certaines fonctionnalités (caméra, capteurs, vraies performances) sont moins fiables à tester."
-      },
-      {
-        heading: "Le vrai téléphone",
-        text: "Indispensable avant de publier une app : les performances réelles, la caméra, le GPS, les notifications se comportent différemment sur un vrai appareil. Connecte-le en USB avec le débogage activé, vérifie avec `adb devices`."
+        heading: "Piège fréquent : oublier le await",
+        text: "Appeler une fonction async SANS await ne donne pas le résultat final, mais la Promise elle-même (non résolue) — une erreur très courante qui se traduit par un objet bizarre affiché au lieu de la vraie donnée attendue."
       }
     ],
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Juste avant de publier ton app, tu veux vérifier les vraies performances et le comportement de la caméra. Tu utilises :",
+            "instruction": "Quel est le bug dans ce code ?\nasync function chargerDonnees() {\n  const reponse = fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}",
             "options": [
-            "L'émulateur",
-            "Un vrai téléphone",
-            "Les deux sont strictement équivalents",
-            "Aucun test n'est nécessaire"
+            "La fonction n'est pas déclarée async",
+            "Il manque await devant fetch(...)",
+            "Il manque un return",
+            "reponse.json() n'existe pas"
       ],
             "correctIndex": 1,
-            "correction": "L'émulateur est parfait pour le développement au quotidien, mais la caméra, le GPS et les performances réelles ne sont fiables qu'avec un vrai appareil — indispensable en dernière vérification avant publication."
+            "correction": "Sans await devant fetch(...), reponse contient la PROMESSE elle-même (pas encore résolue), pas la vraie réponse HTTP — donc reponse.json() plante ou renvoie n'importe quoi. Correction : const reponse = await fetch(...)."
       }
 ]
   },
-  {
-    category: "Kotlin / Android",
-    title: "APK vs AAB, et le keystore de signature",
+{
+    category: "Programmation",
+    title: "Firebase, les bases",
     level: "🟡 Intermédiaire",
-    summary: "Deux formats de fichier, et le mécanisme de signature qui protège l'identité de ton app.",
+    summary: "Authentification, Firestore, règles de sécurité : le strict nécessaire pour s'y retrouver dans un backend Firebase.",
     content: [
       {
-        heading: "APK : le format installable classique",
-        text: "Un fichier .apk contient tout le nécessaire pour tourner sur un appareil précis — c'est ce que tu installes directement via adb install ou en le transférant sur un téléphone."
+        heading: "C'est quoi Firebase",
+        text: "Une plateforme backend \"clé en main\" fournie par Google : base de données, authentification des utilisateurs, stockage de fichiers, notifications… Elle évite d'avoir à écrire et héberger soi-même un serveur pour ces besoins courants — l'app communique directement avec les services Firebase via leur SDK."
       },
       {
-        heading: "AAB (Android App Bundle) : le format attendu par le Play Store",
-        text: "Contient TOUT (toutes les langues, toutes les architectures de processeur), et c'est Google Play qui génère ensuite, pour chaque appareil qui télécharge l'app, un APK optimisé et allégé rien que pour lui. Résultat : l'utilisateur télécharge moins de Mo.\n\nDepuis 2021, le Play Store exige l'AAB (bundleRelease) pour toute nouvelle app."
+        heading: "Firestore : collections et documents",
+        text: "Firestore (la base de données la plus utilisée de Firebase) organise les données en COLLECTIONS (ex: \"utilisateurs\", \"seances\"), qui contiennent des DOCUMENTS (chacun un peu comme un objet JSON, avec un identifiant unique). Un document peut lui-même contenir des sous-collections — une hiérarchie plutôt que des tables reliées comme en SQL classique."
       },
       {
-        heading: "Le keystore, la carte d'identité de ton app",
-        text: "Un build release doit être signé avec un keystore (un fichier .jks/.keystore contenant une clé privée). Cette signature prouve que les mises à jour proviennent bien du même développeur — Android refuse d'installer une mise à jour signée avec une clé différente.\n\n⚠️ Si tu perds ce fichier ou son mot de passe, tu ne pourras plus JAMAIS mettre à jour ton app sur le Play Store sous le même identifiant. Sauvegarde-le précieusement, et ne le commite JAMAIS dans Git."
+        heading: "Authentication",
+        text: "Le service qui gère les comptes utilisateurs (email/mot de passe, Google, etc.) sans que tu aies à gérer toi-même le stockage sécurisé des mots de passe. Une fois connecté, chaque utilisateur reçoit un identifiant unique (uid) réutilisé pour savoir à QUI appartient chaque donnée dans Firestore."
+      },
+      {
+        heading: "Règles de sécurité (Security Rules)",
+        text: "Par défaut, sans règles bien configurées, N'IMPORTE QUI connaissant l'adresse de ta base peut potentiellement lire ou écrire dedans — Firebase n'a pas de \"serveur\" à toi qui filtre les requêtes, les règles de sécurité SONT le seul rempart. Elles se définissent dans un fichier séparé (ex: allow read, write: if request.auth.uid == userId;) et sont vérifiées côté Firebase à chaque requête, jamais côté app (où elles seraient contournables)."
       }
     ],
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Tu perds ton fichier keystore utilisé pour les précédents builds release. Peux-tu quand même publier une mise à jour de ton app existante ?",
+            "instruction": "Sans règles de sécurité Firestore configurées, qui peut potentiellement lire toutes tes données ?",
             "options": [
-            "Oui, sans aucun problème",
-            "Oui, mais seulement via l'AAB",
-            "Non, plus jamais sous le même identifiant",
-            "Seulement en contactant Google"
+            "Seulement toi",
+            "Personne, Firebase bloque tout par défaut",
+            "N'importe qui connaissant l'URL du projet",
+            "Seulement les comptes Google vérifiés"
       ],
             "correctIndex": 2,
-            "correction": "Sans le même keystore (même clé privée), Android considère que la mise à jour vient d'un développeur différent et la refuse. Le keystore doit être sauvegardé précieusement dès le premier build release — jamais dans Git."
-      }
-]
-  },
-  {
-    category: "Kotlin / Android",
-    title: "Le cycle de vie d'une Activity (les bases)",
-    level: "🔴 Avancé",
-    summary: "Pourquoi ton app peut perdre des données à la rotation de l'écran si tu ne comprends pas ce mécanisme.",
-    content: [
-      {
-        heading: "Pourquoi ça compte",
-        text: "Android peut mettre en pause, détruire, ou recréer ton écran (Activity) à tout moment — un appel entrant, une rotation d'écran, le système qui manque de RAM et ferme des apps en arrière-plan. Comprendre ce cycle évite des bugs classiques (données perdues, crash au retour en arrière)."
-      },
-      {
-        heading: "Les méthodes clés, dans l'ordre",
-        text: "onCreate() → l'écran est créé (en théorie une seule fois, sauf si le système le détruit et le recrée).\nonStart() / onResume() → l'écran devient visible puis interactif.\nonPause() / onStop() → l'utilisateur quitte l'écran, mais peut potentiellement y revenir.\nonDestroy() → l'écran est définitivement fermé."
-      },
-      {
-        heading: "Le piège classique",
-        text: "Une simple rotation d'écran DÉTRUIT et RECRÉE l'Activity par défaut. Si une donnée était stockée dans une simple variable locale, elle est perdue au moment de la recréation. C'est pour ça qu'on utilise un ViewModel (qui survit aux rotations) ou onSaveInstanceState pour préserver l'état à travers ces recréations."
-      }
-    ],
-    exercises: [
-      {
-            "type": "quiz",
-            "instruction": "Une rotation d'écran DÉTRUIT l'Activity par défaut. Comment préserver le texte qu'un utilisateur est en train de taper ?",
-            "options": [
-            "Ne rien faire, Android s'en occupe seul",
-            "Empêcher toute rotation de l'écran",
-            "Utiliser uniquement une variable locale",
-            "Le stocker dans un ViewModel"
-      ],
-            "correctIndex": 3,
-            "correction": "Une variable locale est réinitialisée à chaque recréation de l'Activity (donc à chaque rotation). Un ViewModel survit à cette recréation — c'est l'outil standard pour ce genre de donnée, avec onSaveInstanceState comme alternative pour de petites données."
-      }
-]
-  },
-  {
-    category: "Kotlin / Android",
-    title: "Coroutines Kotlin : l'async côté Android",
-    level: "🟡 Intermédiaire",
-    summary: "L'équivalent Kotlin d'async/await en JS — indispensable dès qu'on parle réseau ou base de données sur Android.",
-    content: [
-      {
-        heading: "Le problème : ne jamais bloquer le thread principal",
-        text: "Android exécute l'interface (affichage, boutons, animations) sur un seul thread, le \"thread principal\" (UI thread). Une opération longue (appel réseau, accès disque/base de données) lancée directement dessus le BLOQUE — résultat : l'app freeze, et au-delà de quelques secondes, Android affiche carrément \"L'application ne répond pas\" (ANR).\n\nLes coroutines permettent de lancer ce travail long AILLEURS, sans geler l'interface, puis de revenir facilement sur le thread principal pour afficher le résultat."
-      },
-      {
-        heading: "suspend fun, la fonction qui peut être \"mise en pause\"",
-        text: "Le mot-clé suspend marque une fonction comme pouvant être suspendue (mise en pause) sans bloquer le thread qui l'a appelée — un peu comme await en JavaScript. Une fonction suspend ne peut être appelée que depuis une coroutine ou une autre fonction suspend, jamais depuis du code \"normal\" directement."
-      },
-      {
-        heading: "lifecycleScope / viewModelScope : où lancer une coroutine",
-        text: "lifecycleScope.launch { ... } lance une coroutine automatiquement liée au cycle de vie de l'Activity/Fragment — si l'écran est détruit, la coroutine est annulée automatiquement, évitant fuites mémoire et crashs (\"tentative de mise à jour d'une vue qui n'existe plus\").\n\nviewModelScope fait pareil mais lié à la durée de vie du ViewModel — pratique pour survivre à une rotation d'écran tout en étant nettoyé quand l'écran est vraiment fermé."
-      },
-      {
-        heading: "Dispatchers : choisir où ça s'exécute",
-        text: "Dispatchers.Main → sur le thread principal (pour toucher à l'UI).\nDispatchers.IO → optimisé pour les opérations bloquantes (réseau, fichiers, base de données).\nDispatchers.Default → optimisé pour du calcul intensif en CPU.\n\nwithContext(Dispatchers.IO) { ... } permet de basculer temporairement une portion de code sur le bon thread avant de revenir automatiquement là où on était."
-      }
-    ],
-    exercises: [
-      {
-            "type": "quiz",
-            "instruction": "Où dois-tu lancer un appel réseau bloquant pour ne pas geler l'interface de l'app ?",
-            "options": [
-            "Sur Dispatchers.IO, dans une coroutine",
-            "Directement dans la fonction, sur le thread principal",
-            "Peu importe, Kotlin gère ça tout seul",
-            "Uniquement dans onCreate()"
-      ],
-            "correctIndex": 0,
-            "correction": "Le thread principal (UI thread) gère aussi l'affichage — un appel réseau bloquant dessus gèle l'interface, voire déclenche une erreur ANR. Dispatchers.IO est optimisé pour ce genre d'opération bloquante, dans une coroutine lancée via lifecycleScope ou viewModelScope."
-      }
-]
-  },
-
-  // --- Linux Mint ---------------------------------------
-  {
-    category: "Linux Mint",
-    title: "sudo et les permissions, sans y laisser des plumes",
-    level: "🟢 Débutant",
-    summary: "Le minimum à savoir avant de taper sudo devant une commande.",
-    content: [
-      {
-        heading: "Utilisateur normal vs root",
-        text: "Ton compte utilisateur normal n'a pas le droit de modifier les fichiers système ou d'installer des logiciels par défaut — c'est une protection. \"root\" est le super-utilisateur qui peut tout faire. sudo te donne temporairement les pouvoirs de root pour UNE commande."
-      },
-      {
-        heading: "Les règles de prudence",
-        text: "• Ne tape jamais une commande sudo trouvée sur internet sans comprendre ce qu'elle fait.\n• Sois particulièrement prudent avec sudo rm (suppression) : il n'y a pas de corbeille, c'est définitif.\n• Si une commande normale (sans sudo) échoue avec \"Permission denied\", c'est probablement volontaire — demande-toi si tu as vraiment besoin d'y toucher avant de rajouter sudo."
-      },
-      {
-        heading: "chmod et chown, brièvement",
-        text: "chmod change qui a le droit de lire/écrire/exécuter un fichier. chown change à qui appartient le fichier. Tu en auras besoin par exemple pour rendre un script exécutable (chmod +x) ou récupérer un fichier appartenant à root. Le détail complet des rwx/octal est dans la fiche \"Les permissions de fichiers en détail\" (Bases du terminal)."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Mets à jour la liste des paquets disponibles (sans encore rien installer).",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "sudo apt update"
-                              ],
-                              "output": "[sudo] Mot de passe de user :\nRéception de : 1 http://archive.ubuntu.com/ubuntu…\nTous les paquets sont à jour."
-                        }
-                  ]
-            },
-            "correction": "sudo apt update nécessite les droits administrateur car il touche à la configuration système partagée — d'où le mot de passe demandé. Il ne fait que rafraîchir la LISTE des paquets, rien n'est encore installé."
-      }
-]
-  },
-  {
-    category: "Linux Mint",
-    title: "apt : installer et gérer des logiciels",
-    level: "🟢 Débutant",
-    summary: "Le gestionnaire de paquets de Linux Mint, l'équivalent d'un store mais en ligne de commande.",
-    content: [
-      {
-        heading: "Le concept",
-        text: "Plutôt que de télécharger des .exe sur des sites douteux comme sur Windows, Linux Mint utilise des \"dépôts\" (repositories) : des serveurs qui hébergent des logiciels vérifiés. apt est l'outil qui va chercher, installe, met à jour ou supprime ces logiciels."
-      },
-      {
-        heading: "Le cycle de base",
-        text: "sudo apt update → rafraîchit la LISTE des paquets disponibles (ne met rien à jour, juste la liste)\nsudo apt upgrade → installe réellement les mises à jour disponibles\nsudo apt install nom-du-logiciel → installe un logiciel\nsudo apt remove nom-du-logiciel → le désinstalle"
-      },
-      {
-        heading: "Pourquoi \"update\" avant \"upgrade\"",
-        text: "Si tu ne fais pas update d'abord, apt ne sait pas qu'une nouvelle version existe — c'est comme rafraîchir la page d'un store avant d'y chercher une mise à jour."
-      },
-      {
-        heading: "D'où viennent les paquets : les dépôts (sources.list)",
-        text: "apt cherche dans une liste de dépôts configurés (/etc/apt/sources.list et /etc/apt/sources.list.d/). La commande add-apt-repository ppa:... ajoute une source tierce à cette liste — ce qui revient à faire confiance à quelqu'un d'autre pour exécuter du code avec tes droits. À faire seulement pour des sources reconnues."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Cherche si un paquet lié à \"htop\" existe dans les dépôts.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "apt search htop"
-                              ],
-                              "output": "htop/stable 3.2.2-1 amd64\n  interactive processes viewer"
-                        }
-                  ]
-            },
-            "correction": "apt search interroge la liste locale des paquets disponibles (mise à jour par le dernier apt update) — pas besoin de sudo puisque ça ne fait que consulter, sans rien modifier sur le système."
-      }
-]
-  },
-  {
-    category: "Linux Mint",
-    title: "Processus, ports, RAM : pourquoi ça rame",
-    level: "🟡 Intermédiaire",
-    summary: "De quoi diagnostiquer un ordi lent ou un port déjà utilisé.",
-    content: [
-      {
-        heading: "Un processus, c'est quoi",
-        text: "Chaque programme lancé (même en arrière-plan) est un \"processus\", identifié par un numéro unique (PID). `htop` montre tous les processus actifs, triés par consommation CPU/RAM en temps réel — utile pour repérer ce qui ralentit ta machine."
-      },
-      {
-        heading: "Tuer un processus bloqué",
-        text: "Si une app ne répond plus : trouve son PID (avec ps aux | grep nom, ou visuellement dans `htop`), puis `kill -9 PID` pour le forcer à s'arrêter."
-      },
-      {
-        heading: "\"Port déjà utilisé\" (ex: Metro, un serveur local)",
-        text: "Cette erreur veut dire qu'un autre programme écoute déjà sur ce port. sudo ss -tulpn | grep :8081 (par exemple) montre quel processus l'occupe, pour pouvoir le tuer ou changer de port."
-      },
-      {
-        heading: "Le %CPU qui dépasse 100, ce n'est pas un bug",
-        text: "Sur une machine multi-coeurs, un processus peut utiliser plusieurs coeurs simultanément à 100% chacun — top/`htop` additionnent ces pourcentages. Donc 350% sur une machine à 4 coeurs veut dire environ 87% de la puissance TOTALE de la machine utilisée par ce seul processus."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Le port 8081 semble déjà utilisé par un vieux serveur Metro. Trouve quel processus l'occupe.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "sudo ss -tulpn | grep :8081"
-                              ],
-                              "output": "tcp   LISTEN  0  511  0.0.0.0:8081  0.0.0.0:*  users:((\"node\",pid=48213,fd=22))"
-                        }
-                  ]
-            },
-            "correction": "Le PID 48213 (processus node) occupe le port 8081. L'étape suivante serait kill -9 48213 pour le libérer, avant de relancer ton propre serveur."
-      }
-]
-  },
-  {
-    category: "Linux Mint",
-    title: "L'arborescence du système de fichiers",
-    level: "🟡 Intermédiaire",
-    summary: "Pourquoi Linux n'a pas de 'C:\\', et où trouver quoi.",
-    content: [
-      {
-        heading: "Pourquoi ce n'est pas comme Windows",
-        text: "Contrairement à Windows, Linux n'a qu'UNE seule arborescence de fichiers, qui part de / (la racine). Les disques, partitions et clés USB sont \"montés\" (rattachés) à des dossiers de cette arborescence unique, plutôt que d'avoir chacun leur propre lettre (C:, D:…)."
-      },
-      {
-        heading: "Les dossiers importants à connaître",
-        text: "/home/ton-nom → tes fichiers personnels (équivalent du dossier utilisateur Windows).\n/etc → fichiers de configuration système.\n/usr → programmes et librairies installés.\n/var → données qui changent souvent, notamment les logs dans /var/log.\n/tmp → fichiers temporaires, effacés au redémarrage."
-      },
-      {
-        heading: "Où sont mes logiciels installés",
-        text: "Contrairement à Windows où tout un logiciel tient dans un seul dossier (Program Files), sous Linux les fichiers d'un logiciel sont répartis PAR TYPE dans ces dossiers standards : le binaire exécutable dans /usr/bin, sa config dans /etc, ses données partagées dans /usr/share… C'est apt qui range tout au bon endroit automatiquement à l'installation."
-      }
-    ],
-    exercises: [
-      {
-            "type": "quiz",
-            "instruction": "Un service vient de planter. Où cherches-tu ses logs en premier ?",
-            "options": [
-            "/etc",
-            "/var/log",
-            "/usr",
-            "/tmp"
-      ],
-            "correctIndex": 1,
-            "correction": "/var contient les données qui changent souvent, notamment les logs dans /var/log. /etc contient la CONFIGURATION (pas les logs), /usr les programmes installés, /tmp des fichiers temporaires effacés au redémarrage."
-      }
-]
-  },
-  {
-    category: "Linux Mint",
-    title: "Réseau pour les nuls : IP, port, DNS",
-    level: "🟡 Intermédiaire",
-    summary: "De quoi enfin comprendre ce que veut dire localhost:8081.",
-    content: [
-      {
-        heading: "L'adresse IP, le numéro de téléphone de ta machine",
-        text: "Chaque appareil sur un réseau a une adresse (ex: 192.168.1.42) qui permet de le joindre. 127.0.0.1 (aussi appelé \"localhost\") désigne toujours TA PROPRE machine, quel que soit le réseau sur lequel tu es connecté."
-      },
-      {
-        heading: "Le port, l'extension du numéro",
-        text: "Une machine peut faire tourner plusieurs services en même temps (un serveur web, une base de données…). Le port (un nombre de 0 à 65535) précise AUQUEL de ces services on s'adresse.\n\nEx: localhost:8081 = le service qui écoute sur le port 8081 de ta PROPRE machine (souvent Metro pour un projet Expo)."
-      },
-      {
-        heading: "Le DNS, l'annuaire qui traduit les noms",
-        text: "Tu tapes google.com dans ton navigateur, mais le réseau ne comprend que des adresses IP. Le DNS traduit google.com en une IP (ex: 142.250.x.x) avant de s'y connecter réellement — exactement comme chercher un numéro dans un annuaire à partir d'un nom."
-      }
-    ],
-    exercises: [
-      {
-            "type": "quiz",
-            "instruction": "Que désigne l'adresse 127.0.0.1, quel que soit le réseau sur lequel tu es connecté ?",
-            "options": [
-            "Le routeur wifi",
-            "Un serveur externe par défaut",
-            "Toujours ta propre machine (localhost)",
-            "Une adresse toujours invalide"
-      ],
-            "correctIndex": 2,
-            "correction": "127.0.0.1 (alias \"localhost\") pointe toujours vers TA PROPRE machine — c'est pour ça qu'un serveur de dev lancé localement est accessible via localhost:PORT, peu importe le réseau."
-      }
-]
-  },
-  {
-    category: "Linux Mint",
-    title: "SSH et les clés : comment ça marche vraiment",
-    level: "🔴 Avancé",
-    summary: "Pourquoi utiliser une clé plutôt qu'un mot de passe, et ce que représentent vraiment les fichiers générés.",
-    content: [
-      {
-        heading: "Le problème du mot de passe",
-        text: "Se connecter à un serveur distant avec un simple mot de passe est risqué : interceptable, devinable, brute-forçable. L'authentification par clé SSH résout ça avec une PAIRE de clés mathématiquement liées : une clé PRIVÉE (jamais partagée, reste uniquement sur ton PC) et une clé PUBLIQUE (peut être partagée sans risque, ex: collée dans les paramètres GitHub)."
-      },
-      {
-        heading: "Le principe, simplifié",
-        text: "Le serveur (ou GitHub) connaît ta clé publique. Quand tu te connectes, il te met au défi de prouver mathématiquement que tu possèdes la clé privée correspondante — SANS que cette clé privée ne quitte jamais ta machine. Si la preuve est valide, tu es authentifié."
-      },
-      {
-        heading: "ssh-keygen, concrètement",
-        text: "Génère deux fichiers, par défaut dans ~/.ssh/ : id_ed25519 (la clé PRIVÉE) et id_ed25519.pub (la clé PUBLIQUE).\n\nLe fichier .pub est celui que tu colles dans les paramètres GitHub ou d'un serveur distant. Le fichier SANS .pub ne doit JAMAIS être partagé, ni commité dans un dépôt Git."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Génère une nouvelle paire de clés SSH moderne pour te connecter à GitHub.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "ssh-keygen -t ed25519 -C \"toi@email.com\"",
-                                    "ssh-keygen -t ed25519 -C 'toi@email.com'"
-                              ],
-                              "output": "Generating public/private ed25519 key pair.\nYour identification has been saved in /home/user/.ssh/id_ed25519\nYour public key has been saved in /home/user/.ssh/id_ed25519.pub"
-                        }
-                  ]
-            },
-            "correction": "Deux fichiers sont créés : id_ed25519 (clé PRIVÉE, ne jamais partager) et id_ed25519.pub (clé PUBLIQUE, celle que tu colles dans les paramètres GitHub)."
-      }
-]
-  },
-  {
-    category: "Linux Mint",
-    title: "systemd et les services",
-    level: "🟡 Intermédiaire",
-    summary: "Comment Linux Mint démarre, surveille et redémarre les programmes qui tournent en arrière-plan.",
-    content: [
-      {
-        heading: "C'est quoi un service",
-        text: "Un programme qui tourne en arrière-plan en continu, souvent démarré automatiquement avec la machine (ex: le wifi, le bluetooth, un serveur local). systemd est le système qui gère le démarrage, l'arrêt et la surveillance de ces services sous Linux Mint."
-      },
-      {
-        heading: "Les commandes de base",
-        text: "`systemctl status nom-du-service` → son état actuel (actif, arrêté, en erreur…) et ses derniers logs.\nsystemctl start / stop / restart nom-du-service → agir dessus MAINTENANT, pour la session en cours.\nsystemctl enable / disable nom-du-service → décider s'il démarre automatiquement au prochain redémarrage de la machine (enable ne le lance PAS immédiatement, seulement au prochain boot)."
-      },
-      {
-        heading: "Où chercher pourquoi un service ne démarre pas",
-        text: "journalctl -u nom-du-service donne les logs spécifiques à ce service précis — généralement le premier réflexe à avoir pour comprendre une panne, plutôt que de fouiller dans les logs système généraux."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Vérifie l'état actuel du service Docker.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "sudo systemctl status docker"
-                              ],
-                              "output": "● docker.service - Docker Application Container Engine\n     Active: active (running) since…"
-                        }
-                  ]
-            },
-            "correction": "systemctl status est toujours le premier réflexe pour diagnostiquer un service : il montre s'il tourne, depuis quand, et ses derniers logs, avant d'agir dessus avec start/stop/restart."
-      }
-]
-  },
-  {
-    category: "Linux Mint",
-    title: "cron : exécuter des tâches automatiquement",
-    level: "🟡 Intermédiaire",
-    summary: "Programmer une commande pour qu'elle se lance toute seule, à heure fixe, sans intervention.",
-    content: [
-      {
-        heading: "Le principe",
-        text: "cron exécute des commandes à des horaires programmés à l'avance, même quand tu n'es pas devant l'ordinateur (tant qu'il reste allumé) — utile pour des sauvegardes automatiques, un nettoyage régulier de fichiers, etc."
-      },
-      {
-        heading: "La syntaxe (les 5 étoiles)",
-        text: "minute heure jour-du-mois mois jour-de-semaine commande\n\nExemple : 0 3 * * * /home/user/backup.sh\n→ exécute backup.sh tous les jours à 3h00 du matin (chaque * signifie \"à chaque valeur possible\" pour cette position)."
-      },
-      {
-        heading: "Tester avant de programmer",
-        text: "Lance TOUJOURS la commande manuellement dans le terminal avant de la programmer dans cron, pour vérifier qu'elle fonctionne correctement. Si elle échoue une fois programmée, cron ne t'avertit pas visiblement — l'échec passe facilement inaperçu pendant des semaines."
-      }
-    ],
-    exercises: [
-      {
-            "type": "fillin",
-            "instruction": "Écris la ligne cron complète qui exécute /home/user/backup.sh tous les jours à 3h00 du matin.",
-            "accept": [
-                  "0 3 * * * /home/user/backup.sh"
-            ],
-            "correction": "0 3 * * * /home/user/backup.sh\n\nminute=0, heure=3, jour-du-mois=* (tous), mois=* (tous), jour-de-semaine=* (tous) → tous les jours à 3h00 pile."
-      }
-]
-  },
-
-  // --- Docker ---------------------------------------
-  {
-    category: "Docker",
-    title: "Docker, à quoi ça sert",
-    level: "🟢 Débutant",
-    summary: "Le problème du 'ça marche sur ma machine', et pourquoi un conteneur est bien plus léger qu'une machine virtuelle.",
-    content: [
-      {
-        heading: "Le problème que ça résout : \"ça marche sur ma machine\"",
-        text: "Une application a souvent besoin d'un environnement précis (une version de Node, une base de données, des variables système…). Sans Docker, reproduire EXACTEMENT le même environnement sur une autre machine (celle d'un collègue, un serveur de production) est une source classique et interminable de bugs de configuration."
-      },
-      {
-        heading: "Le conteneur : une boîte isolée et reproductible",
-        text: "Un conteneur empaquette une application ET tout son environnement (dépendances, configuration) dans une unité qui tourne de façon IDENTIQUE sur n'importe quelle machine disposant de Docker."
-      },
-      {
-        heading: "Conteneur ≠ machine virtuelle",
-        text: "Contrairement à une machine virtuelle qui simule un ordinateur entier (avec son propre noyau, très lourde et lente à démarrer), un conteneur PARTAGE le noyau Linux de la machine hôte. Résultat : beaucoup plus léger, et un démarrage qui se compte en secondes plutôt qu'en minutes."
-      }
-    ]
-  },
-  {
-    category: "Docker",
-    title: "Image vs conteneur, la différence",
-    level: "🟢 Débutant",
-    summary: "La confusion la plus fréquente chez les débutants Docker, clarifiée avec une analogie simple.",
-    content: [
-      {
-        heading: "L'image : la recette / le plan",
-        text: "Un fichier figé qui décrit tout ce dont l'application a besoin (système de base, dépendances, code, commande de démarrage). Elle est définie dans un Dockerfile, et elle est IMMUABLE : on ne la modifie jamais directement, on en construit une nouvelle (docker build) si quelque chose change."
-      },
-      {
-        heading: "Le conteneur : l'instance en cours d'exécution",
-        text: "Quand tu lances une image (docker run), Docker crée un conteneur — une instance VIVANTE de cette image. Tu peux lancer PLUSIEURS conteneurs à partir de la MÊME image, exactement comme on peut créer plusieurs objets à partir d'une seule classe en programmation."
-      },
-      {
-        heading: "Ce qui se perd quand un conteneur s'arrête",
-        text: "Par défaut, tout ce qui est écrit À L'INTÉRIEUR d'un conteneur (fichiers créés, données de base de données…) disparaît définitivement quand ce conteneur est supprimé (docker rm). C'est pour ça qu'on utilise des volumes pour les données qu'on veut conserver durablement."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Liste les conteneurs actuellement en cours d'exécution.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "docker ps"
-                              ],
-                              "output": "CONTAINER ID   IMAGE      STATUS         PORTS\nf3a1b2c9d0e4   postgres   Up 2 hours     5432/tcp"
-                        }
-                  ]
-            },
-            "correction": "docker ps montre les CONTENEURS (instances vivantes), pas les images. Une seule image (ex: postgres) peut donner naissance à plusieurs conteneurs différents lancés à des moments différents."
-      }
-]
-  },
-  {
-    category: "Docker",
-    title: "Docker Compose, orchestrer plusieurs conteneurs",
-    level: "🟡 Intermédiaire",
-    summary: "Pourquoi une vraie app a rarement UN SEUL conteneur, et comment Compose les fait cohabiter.",
-    content: [
-      {
-        heading: "Pourquoi Compose",
-        text: "Une vraie application a souvent besoin de plusieurs conteneurs qui communiquent entre eux (ex : un backend + une base de données + un cache Redis). Lancer chaque docker run à la main, avec tous les bons réglages, devient vite ingérable dès que ça dépasse un seul conteneur."
-      },
-      {
-        heading: "docker-compose.yml : décrire toute la stack en un fichier",
-        text: "Liste chaque service, son image, ses ports, ses variables d'environnement, ses volumes — et surtout, Compose crée automatiquement un réseau privé pour que les conteneurs se parlent entre eux PAR LEUR NOM (ex: le backend peut appeler directement http://db:5432 sans connaître d'adresse IP)."
-      },
-      {
-        heading: "up -d vs down",
-        text: "docker compose up -d démarre toute la stack décrite dans le fichier, en arrière-plan.\ndocker compose down l'arrête ET supprime les conteneurs — mais conserve les volumes nommés (donc les données), sauf si tu ajoutes explicitement l'option -v."
-      }
-    ],
-    exercises: [
-      {
-            "type": "terminal",
-            "instruction": "Démarre toute la stack décrite dans docker-compose.yml, en arrière-plan.",
-            "terminal": {
-                  "prompt": "user@mint:~/cmd-hub$",
-                  "steps": [
-                        {
-                              "expect": [
-                                    "docker compose up -d"
-                              ],
-                              "output": "[+] Running 3/3\n ✔ Container app-db-1        Started\n ✔ Container app-backend-1   Started\n ✔ Container app-redis-1     Started"
-                        }
-                  ]
-            },
-            "correction": "up -d démarre TOUS les services décrits dans le fichier en une seule commande, en arrière-plan (-d = detached), avec un réseau privé automatiquement créé pour qu'ils communiquent entre eux par leur nom."
+            "correction": "Firestore n'a pas de serveur intermédiaire à toi pour filtrer les requêtes — sans Security Rules qui vérifient l'identité (request.auth.uid), l'accès reste potentiellement ouvert à quiconque connaît l'URL du projet."
       }
 ]
   },
 
   // --- Claude Code ---------------------------------------
-  {
+{
     category: "Claude Code",
     title: "Installer Claude Code dans un terminal",
     level: "🟢 Débutant",
@@ -1694,7 +2046,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Claude Code, à quoi ça sert vraiment ?",
     level: "🟢 Débutant",
@@ -1714,7 +2066,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Sessions : continuer, reprendre, repartir de zéro",
     level: "🟢 Débutant",
@@ -1751,7 +2103,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "CLAUDE.md : donner du contexte permanent à Claude",
     level: "🟢 Débutant",
@@ -1788,7 +2140,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Les modes de permission : plan, auto-accept, manuel",
     level: "🟡 Intermédiaire",
@@ -1826,7 +2178,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Gérer le contexte : pourquoi et quand utiliser /compact",
     level: "🟡 Intermédiaire",
@@ -1859,7 +2211,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Sous-agents : déléguer des tâches spécialisées",
     level: "🔴 Avancé",
@@ -1897,7 +2249,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "MCP : connecter Claude à d'autres outils",
     level: "🔴 Avancé",
@@ -1934,7 +2286,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Bien démarrer un nouveau projet",
     level: "🟢 Débutant",
@@ -1972,7 +2324,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Choisir le bon agent selon la tâche",
     level: "🔴 Avancé",
@@ -1996,7 +2348,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Skills : des instructions prêtes à l'emploi",
     level: "🟡 Intermédiaire",
@@ -2034,7 +2386,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Où trouver des agents et des skills",
     level: "🟡 Intermédiaire",
@@ -2072,7 +2424,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Les loops : relancer une tâche automatiquement",
     level: "🟢 Débutant",
@@ -2110,7 +2462,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Choisir entre intervalle fixe et rythme automatique",
     level: "🟡 Intermédiaire",
@@ -2148,7 +2500,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Bien utiliser les loops : bonnes pratiques",
     level: "🔴 Avancé",
@@ -2186,7 +2538,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Écrire une bonne demande à Claude Code",
     level: "🟢 Débutant",
@@ -2224,7 +2576,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Itérer sur un prompt : préciser plutôt que reformuler",
     level: "🟡 Intermédiaire",
@@ -2262,7 +2614,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Les prompts réutilisables : commandes personnalisées",
     level: "🔴 Avancé",
@@ -2300,7 +2652,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Utiliser Claude Code dans un terminal : les premiers pas",
     level: "🟢 Débutant",
@@ -2338,7 +2690,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Installer l'extension dans VS Code ou Cursor",
     level: "🟢 Débutant",
@@ -2376,7 +2728,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Utiliser Claude Code dans VS Code / Cursor",
     level: "🟡 Intermédiaire",
@@ -2414,7 +2766,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Les plugins : qu'est-ce que c'est et à quoi ça sert",
     level: "🟢 Débutant",
@@ -2452,7 +2804,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Installer et gérer un plugin",
     level: "🟡 Intermédiaire",
@@ -2490,7 +2842,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Claude Code",
     title: "Créer son propre plugin",
     level: "🔴 Avancé",
@@ -2529,360 +2881,8 @@ const GUIDES = [
     ]
   },
 
-  // --- Windows ---------------------------------------
-  {
-    category: "Windows",
-    title: "PowerShell vs invite de commandes (cmd) : lequel utiliser",
-    level: "🟢 Débutant",
-    summary: "Windows a deux terminaux différents avec des logiques différentes — savoir lequel utiliser évite bien des commandes qui ne marchent que dans l'un des deux.",
-    content: [
-      {
-        heading: "cmd, l'historique",
-        text: "L'invite de commandes (cmd.exe) existe depuis les débuts de Windows — des commandes comme dir, cd ou ping y fonctionnent encore, mais son langage reste limité comparé à un vrai shell de script."
-      },
-      {
-        heading: "PowerShell, le standard actuel",
-        text: "PowerShell est le shell par défaut recommandé depuis plusieurs années — ses commandes (appelées cmdlets) suivent toutes le même schéma Verbe-Nom (Get-Process, Stop-Service, New-Item…), ce qui les rend plus faciles à deviner qu'en cmd."
-      },
-      {
-        heading: "Les deux coexistent, sans se remplacer totalement",
-        text: "Certaines commandes historiques de cmd (comme `ipconfig` ou `systeminfo`) fonctionnent aussi bien dans PowerShell — pas besoin de choisir strictement l'un ou l'autre, PowerShell exécute la plupart des vieilles commandes cmd en plus des siennes."
-      },
-      {
-        heading: "Windows Terminal : l'application qui héberge les deux",
-        text: "Windows Terminal (l'application moderne pour ouvrir un terminal) permet de lancer aussi bien un onglet PowerShell qu'un onglet cmd — le choix se fait à l'ouverture de l'onglet, pas au niveau de l'application elle-même."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu veux lister les processus qui utilisent le plus de mémoire, avec une commande dont le nom se devine facilement. Quel shell est le plus adapté ?",
-        options: [
-          "PowerShell, grâce au schéma Verbe-Nom de ses cmdlets (Get-Process)",
-          "cmd, car il est plus ancien donc plus complet",
-          "Aucun des deux, Windows ne permet pas ça",
-          "Il faut installer un shell tiers"
-        ],
-        correctIndex: 0,
-        correction: "Les cmdlets PowerShell suivent toutes le schéma Verbe-Nom (Get-Process, Get-Service…), ce qui les rend prévisibles à deviner — un avantage net sur les commandes cmd historiques, souvent moins cohérentes entre elles."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "Élévation de privilèges : l'équivalent Windows de sudo",
-    level: "🟢 Débutant",
-    summary: "Windows n'a pas de sudo : l'élévation de privilèges se fait fenêtre par fenêtre, pas commande par commande.",
-    content: [
-      {
-        heading: "Pas de sudo devant chaque commande",
-        text: "Sous Linux, sudo commande élève juste le temps d'une commande. Windows fonctionne différemment : un terminal tourne soit en utilisateur normal, soit entièrement en administrateur — pas de bascule commande par commande dans la même fenêtre."
-      },
-      {
-        heading: "Ouvrir un terminal déjà élevé",
-        text: "`Start-Process powershell -Verb RunAs` (ou clic droit → \"Exécuter en tant qu'administrateur\" dans l'interface) ouvre une NOUVELLE fenêtre avec tous les droits — tout ce qui s'y tape ensuite est exécuté en administrateur, sans redemander."
-      },
-      {
-        heading: "L'invite UAC, le garde-fou",
-        text: "Que ce soit en lançant un terminal élevé ou un simple programme, Windows affiche une fenêtre de confirmation (UAC) avant d'accorder les droits — le même principe de confirmation explicite que sudo, mais au niveau de toute une fenêtre plutôt que d'une commande isolée."
-      },
-      {
-        heading: "Repérer si on est déjà élevé",
-        text: "Le titre de la fenêtre PowerShell affiche généralement \"Administrateur\" en préfixe quand le terminal tourne avec les droits élevés — le repère visuel le plus rapide, plutôt que de tester une commande pour le découvrir."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu dois modifier un fichier système qui nécessite des droits administrateur, et ton terminal actuel tourne en utilisateur normal. Que fais-tu ?",
-        options: [
-          "Ouvrir une nouvelle fenêtre PowerShell en administrateur (Start-Process powershell -Verb RunAs), puis y taper la commande",
-          "Taper sudo devant la commande dans le terminal actuel",
-          "Ce n'est pas possible sous Windows",
-          "Redémarrer l'ordinateur en mode administrateur"
-        ],
-        correctIndex: 0,
-        correction: "Windows n'a pas de sudo commande par commande : il faut ouvrir une fenêtre entièrement élevée (Start-Process powershell -Verb RunAs) et y exécuter la commande, plutôt que d'élever une seule commande dans la fenêtre actuelle."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "winget : installer et gérer des logiciels",
-    level: "🟢 Débutant",
-    summary: "Le gestionnaire de paquets officiel de Windows — l'équivalent d'apt, intégré nativement depuis Windows 10/11.",
-    content: [
-      {
-        heading: "Le problème que ça résout",
-        text: "Sans gestionnaire de paquets, installer un logiciel veut dire chercher un site officiel, télécharger un installeur, cliquer à travers un assistant — et refaire ça manuellement pour chaque mise à jour."
-      },
-      {
-        heading: "winget, en une commande",
-        text: "`winget install nom` cherche, télécharge et installe le logiciel automatiquement, sans passer par un navigateur — voir [[Bases du terminal::Comprendre les gestionnaires de paquets]] pour le principe général."
-      },
-      {
-        heading: "Chercher avant d'installer",
-        text: "`winget search nom` liste les logiciels correspondants disponibles, utile quand on n'est pas sûr du nom exact attendu par winget."
-      },
-      {
-        heading: "Tout mettre à jour d'un coup",
-        text: "`winget upgrade --all` met à jour en une seule commande tous les logiciels installés via winget qui ont une nouvelle version disponible — pas besoin de repasser par chaque site officiel."
-      },
-      {
-        heading: "Quand winget ne suffit pas",
-        text: "Certains logiciels ne sont pas encore référencés sur winget. Chocolatey (choco install) est un gestionnaire tiers plus ancien qui couvre parfois des logiciels absents de winget — un complément, pas un remplacement."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu veux mettre à jour tous tes logiciels installés via winget en une seule commande. Laquelle utilises-tu ?",
-        options: [
-          "winget upgrade --all",
-          "winget install --all",
-          "winget update *",
-          "Il faut mettre à jour chaque logiciel un par un manuellement"
-        ],
-        correctIndex: 0,
-        correction: "winget upgrade --all met à jour en une seule commande tous les logiciels installés via winget qui ont une nouvelle version disponible."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "Se repérer dans l'arborescence Windows",
-    level: "🟡 Intermédiaire",
-    summary: "Pas de racine unique comme sous Linux : chaque disque a sa propre lettre, et certains dossiers ont un rôle bien précis.",
-    content: [
-      {
-        heading: "Des lettres de lecteur, pas une racine unique",
-        text: "Là où Linux a une seule arborescence démarrant à /, Windows attribue une lettre à chaque disque/partition (C:\\, D:\\…) — voir [[Linux Mint::L'arborescence du système de fichiers]] pour le principe côté Linux."
-      },
-      {
-        heading: "C:\\Users\\ : l'équivalent de /home",
-        text: "Le dossier personnel de chaque utilisateur, avec ses documents, téléchargements, bureau — l'équivalent direct du /home/utilisateur sous Linux."
-      },
-      {
-        heading: "Program Files : où vivent les logiciels installés",
-        text: "Les logiciels installés pour tous les utilisateurs s'installent généralement dans C:\\Program Files (ou Program Files (x86) pour les logiciels 32 bits) — modifier ce dossier nécessite les droits administrateur."
-      },
-      {
-        heading: "AppData : la configuration cachée",
-        text: "Dans C:\\Users\\toi\\AppData (dossier caché par défaut), chaque application range sa configuration et ses données locales — le rôle que jouent les dossiers cachés .config ou .local sous Linux."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu cherches où un logiciel a rangé sa configuration personnelle sur ta session Windows. Où regarder en premier ?",
-        options: [
-          "Dans le dossier AppData de ton profil utilisateur",
-          "Directement à la racine du disque C:\\",
-          "Dans Program Files",
-          "Windows ne stocke jamais de configuration par utilisateur"
-        ],
-        correctIndex: 0,
-        correction: "AppData (dans le dossier utilisateur) est l'endroit où les applications rangent leur configuration et leurs données locales — le même rôle que jouent les dossiers cachés .config/.local sous Linux."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "Processus et services : Gestionnaire des tâches, Get-Process, Get-Service",
-    level: "🟡 Intermédiaire",
-    summary: "Deux façons de surveiller ce qui tourne : l'interface graphique pour un coup d'œil rapide, PowerShell pour scripter ou automatiser.",
-    content: [
-      {
-        heading: "Le Gestionnaire des tâches, pour un coup d'œil",
-        text: "`taskmgr` ouvre l'interface graphique classique — utilisation CPU/RAM en temps réel, possibilité de forcer l'arrêt d'un programme qui ne répond plus, sans taper une seule commande."
-      },
-      {
-        heading: "Get-Process, la version scriptable",
-        text: "Get-Process | Sort-Object CPU -Descending liste les processus par consommation CPU directement dans le terminal — pratique pour un script ou une connexion à distance sans interface graphique."
-      },
-      {
-        heading: "Processus vs service : la différence",
-        text: "Un processus est un programme en cours d'exécution, visible et lié à une session utilisateur. Un service tourne en arrière-plan indépendamment de toute session ouverte (souvent démarré avant même la connexion) — Get-Service liste ces services et leur état."
-      },
-      {
-        heading: "Redémarrer un service qui bloque",
-        text: "Restart-Service -Name nom arrête puis relance un service précis — souvent plus rapide que de redémarrer toute la machine pour un service qui a planté."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Un service système semble bloqué et tu veux le relancer sans redémarrer toute la machine. Que fais-tu ?",
-        options: [
-          "Restart-Service -Name nom-du-service",
-          "Redémarrer l'ordinateur entier",
-          "Stop-Process -Name nom-du-service (ça suffit, pas besoin de le relancer)",
-          "Ce n'est pas possible sans redémarrer"
-        ],
-        correctIndex: 0,
-        correction: "Restart-Service cible directement le service concerné (arrêt puis relance) — pas besoin de redémarrer toute la machine pour un service isolé qui a planté."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "Réseau sous Windows : ipconfig, ping, ports",
-    level: "🟡 Intermédiaire",
-    summary: "Les mêmes questions que sous Linux (quelle IP, ça répond, qui utilise ce port) avec des commandes différentes.",
-    content: [
-      {
-        heading: "Voir sa configuration réseau",
-        text: "`ipconfig` affiche l'adresse IP, le masque et la passerelle de chaque interface réseau — voir [[Linux Mint::Réseau pour les nuls : IP, port, DNS]] pour les mêmes notions expliquées côté Linux."
-      },
-      {
-        heading: "Tester qu'un hôte répond",
-        text: "`ping site.com` fonctionne de façon quasi identique à Linux — envoie des paquets et mesure le temps de réponse."
-      },
-      {
-        heading: "Trouver ce qui occupe un port",
-        text: "`netstat -ano | findstr :8080` affiche le PID du processus qui écoute sur le port 8080 ; Get-Process -Id <PID> ensuite pour l'identifier par son nom."
-      },
-      {
-        heading: "Tester un port distant sans navigateur ni client",
-        text: "`Test-NetConnection -ComputerName hote -Port 443` vérifie qu'un port précis répond sur une machine distante, sans avoir à ouvrir une vraie connexion applicative."
-      },
-      {
-        heading: "Vider le cache DNS après un changement",
-        text: "`ipconfig /flushdns` force le système à oublier les résolutions DNS mises en cache — utile juste après avoir changé un enregistrement DNS ou de serveur."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Un port 8080 semble occupé par un programme inconnu. Comment identifier lequel ?",
-        options: [
-          "netstat -ano | findstr :8080 pour trouver le PID, puis Get-Process -Id pour l'identifier",
-          "ping localhost:8080",
-          "ipconfig /flushdns",
-          "Ce n'est pas possible de savoir quel programme utilise un port"
-        ],
-        correctIndex: 0,
-        correction: "netstat -ano donne le PID du processus qui écoute sur le port recherché ; Get-Process -Id <PID> permet ensuite de retrouver son nom."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "WSL : faire tourner Linux dans Windows",
-    level: "🟡 Intermédiaire",
-    summary: "Un vrai environnement Linux à l'intérieur de Windows, sans machine virtuelle séparée à gérer — pratique pour retrouver les commandes déjà connues.",
-    content: [
-      {
-        heading: "Le problème que ça résout",
-        text: "Certains outils/commandes n'existent que sous Linux, ou se comportent différemment sous Windows (chemins, sensibilité à la casse, scripts bash) — WSL évite d'avoir à choisir entre les deux systèmes."
-      },
-      {
-        heading: "Une vraie distribution Linux, pas une simulation",
-        text: "WSL (Windows Subsystem for Linux) fait tourner une vraie distribution (Ubuntu par défaut) avec son propre terminal — les commandes apt, bash, grep… fonctionnent exactement comme sur une machine Linux, voir [[Linux Mint::apt : installer et gérer des logiciels]]."
-      },
-      {
-        heading: "Installer WSL",
-        text: "wsl --install installe WSL et une distribution par défaut en une seule commande — un redémarrage est généralement nécessaire pour terminer l'installation."
-      },
-      {
-        heading: "Accéder aux fichiers d'un côté depuis l'autre",
-        text: "Les fichiers Windows restent accessibles depuis WSL (sous /mnt/c/...), et les fichiers Linux de WSL sont accessibles depuis l'explorateur Windows via \\\\wsl$\\ — les deux mondes cohabitent sans copie manuelle."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu veux utiliser une commande bash spécifique à Linux directement sur ta machine Windows, sans passer par une machine virtuelle séparée. Que fais-tu ?",
-        options: [
-          "Installer et utiliser WSL (wsl --install)",
-          "Réinstaller entièrement Windows en Linux",
-          "Ce n'est pas possible sans machine virtuelle",
-          "Utiliser winget pour installer bash directement dans PowerShell"
-        ],
-        correctIndex: 0,
-        correction: "WSL fait tourner une vraie distribution Linux à l'intérieur de Windows, sans machine virtuelle séparée à gérer — wsl --install suffit pour l'installer."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "Le profil PowerShell : personnaliser son shell",
-    level: "🔴 Avancé",
-    summary: "Un fichier chargé à chaque ouverture de PowerShell, pour ne pas redéfinir les mêmes alias et réglages à chaque session.",
-    content: [
-      {
-        heading: "Le problème que ça résout",
-        text: "Sans profil, un alias ou une variable définie dans une session PowerShell disparaît à sa fermeture — il faudrait tout redéfinir à chaque ouverture."
-      },
-      {
-        heading: "$PROFILE, le fichier chargé automatiquement",
-        text: "`notepad $PROFILE` ouvre (ou crée) ce fichier — tout ce qui y est écrit s'exécute automatiquement à chaque nouvelle session PowerShell, l'équivalent du .bashrc sous Linux."
-      },
-      {
-        heading: "Rendre un alias permanent",
-        text: "`Set-Alias ll Get-ChildItem` tapé directement dans le terminal ne dure que la session. La même ligne ajoutée dans $PROFILE la rend permanente pour toutes les futures sessions."
-      },
-      {
-        heading: "Un profil différent par contexte",
-        text: "PowerShell distingue plusieurs profils possibles (utilisateur courant, tous les utilisateurs, hôte spécifique…) — dans la plupart des cas, le profil de l'utilisateur courant (celui ouvert par $PROFILE) suffit largement."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu as créé un alias utile avec Set-Alias, mais il disparaît à chaque fois que tu fermes PowerShell. Comment le rendre permanent ?",
-        options: [
-          "Ajouter la même ligne Set-Alias dans le fichier $PROFILE",
-          "Le retaper à chaque ouverture, c'est la seule solution",
-          "Utiliser winget pour l'installer",
-          "Les alias PowerShell sont toujours permanents par défaut"
-        ],
-        correctIndex: 0,
-        correction: "$PROFILE est le fichier exécuté automatiquement à chaque ouverture de PowerShell — y ajouter la ligne Set-Alias la rend permanente, sans avoir à la retaper."
-      }
-    ]
-  },
-  {
-    category: "Windows",
-    title: "Exécuter des scripts PowerShell : la politique d'exécution",
-    level: "🔴 Avancé",
-    summary: "Contrairement à Linux, exécuter un script .ps1 est bloqué par défaut — un réglage de sécurité à comprendre avant de le changer.",
-    content: [
-      {
-        heading: "Pourquoi c'est bloqué par défaut",
-        text: "Windows bloque par défaut l'exécution de scripts .ps1 pour limiter les scripts malveillants récupérés sans le vouloir (pièce jointe, téléchargement) — contrairement à Linux où chmod +x suffit à rendre un script exécutable."
-      },
-      {
-        heading: "Voir la politique actuelle",
-        text: "Get-ExecutionPolicy affiche le réglage en vigueur — par défaut, souvent Restricted (aucun script ne s'exécute)."
-      },
-      {
-        heading: "Autoriser ses propres scripts",
-        text: "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser autorise les scripts écrits localement, tout en exigeant une signature numérique pour les scripts téléchargés depuis internet — un bon compromis entre sécurité et confort."
-      },
-      {
-        heading: "Le -Scope CurrentUser, une précaution utile",
-        text: "Limiter le changement à -Scope CurrentUser (plutôt qu'à toute la machine) évite de modifier ce réglage pour d'autres comptes utilisateurs sur la même machine — une bonne pratique par défaut."
-      }
-    ],
-    exercises: [
-      {
-        type: "quiz",
-        instruction: "Tu essaies de lancer ton propre script .ps1 et Windows refuse de l'exécuter. Quelle commande règle ça proprement, pour ton compte uniquement ?",
-        options: [
-          "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser",
-          "Supprimer complètement la politique d'exécution",
-          "Renommer le fichier en .exe",
-          "Ce n'est pas possible d'exécuter des scripts PowerShell"
-        ],
-        correctIndex: 0,
-        correction: "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser autorise les scripts locaux (en exigeant une signature pour ceux téléchargés), et -Scope CurrentUser limite le changement à ton seul compte."
-      }
-    ]
-  },
-
-  // --- Codex (OpenAI) ---------------------------------------
-  {
+  // --- Codex ---------------------------------------
+{
     category: "Codex",
     title: "Installer et se connecter à Codex",
     level: "🟢 Débutant",
@@ -2910,7 +2910,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Codex",
     title: "Codex, à quoi ça sert et en quoi il diffère de Claude Code",
     level: "🟢 Débutant",
@@ -2934,7 +2934,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Codex",
     title: "Premiers pas avec Codex : session interactive et exécution one-shot",
     level: "🟢 Débutant",
@@ -2972,7 +2972,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Codex",
     title: "Sandbox et approbations : le système de permissions de Codex",
     level: "🟡 Intermédiaire",
@@ -3010,7 +3010,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Codex",
     title: "AGENTS.md : donner du contexte permanent à Codex",
     level: "🟡 Intermédiaire",
@@ -3048,7 +3048,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Codex",
     title: "Reprendre, brancher, réviser : gérer ses sessions Codex",
     level: "🟡 Intermédiaire",
@@ -3086,7 +3086,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Codex",
     title: "Automatiser avec Codex : exec, JSON, scripts",
     level: "🔴 Avancé",
@@ -3124,7 +3124,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Codex",
     title: "Configuration avancée de Codex : profils, modèles locaux, MCP",
     level: "🔴 Avancé",
@@ -3164,7 +3164,7 @@ const GUIDES = [
   },
 
   // --- VS Code ---------------------------------------
-  {
+{
     category: "VS Code",
     title: "Installer VS Code sur Windows ou Linux",
     level: "🟢 Débutant",
@@ -3192,7 +3192,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "VS Code, à quoi ça sert et comment il s'organise",
     level: "🟢 Débutant",
@@ -3216,7 +3216,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "La palette de commandes : le point d'entrée vers tout",
     level: "🟢 Débutant",
@@ -3254,7 +3254,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "Multi-curseurs et sélection multiple : éditer plusieurs endroits à la fois",
     level: "🟢 Débutant",
@@ -3292,7 +3292,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "Les extensions : étendre VS Code selon ses besoins",
     level: "🟡 Intermédiaire",
@@ -3330,7 +3330,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "Terminal intégré et Git intégré : moins de fenêtres à jongler",
     level: "🟡 Intermédiaire",
@@ -3368,7 +3368,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "Débogueur intégré : comprendre le principe",
     level: "🟡 Intermédiaire",
@@ -3406,7 +3406,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "settings.json vs interface graphique : la configuration en profondeur",
     level: "🔴 Avancé",
@@ -3444,7 +3444,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "Personnaliser ses raccourcis : keybindings.json",
     level: "🔴 Avancé",
@@ -3482,7 +3482,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "VS Code",
     title: "VS Code + Claude Code : la connexion entre les deux",
     level: "🟡 Intermédiaire",
@@ -3522,7 +3522,7 @@ const GUIDES = [
   },
 
   // --- Cursor ---------------------------------------
-  {
+{
     category: "Cursor",
     title: "Installer Cursor sur Windows ou Linux",
     level: "🟢 Débutant",
@@ -3546,7 +3546,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "Cursor, à quoi ça sert et en quoi il diffère de VS Code",
     level: "🟢 Débutant",
@@ -3570,7 +3570,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "Édition inline (Ctrl+K) : modifier du code sans ouvrir le chat",
     level: "🟢 Débutant",
@@ -3608,7 +3608,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "Le chat et le mode Agent : deux façons de demander de l'aide",
     level: "🟢 Débutant",
@@ -3646,7 +3646,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "Cursor Tab : l'autocomplétion qui devine plusieurs lignes",
     level: "🟡 Intermédiaire",
@@ -3684,7 +3684,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "Les modes Agent / Plan / Ask : garder la main sur ce que l'IA fait",
     level: "🟡 Intermédiaire",
@@ -3722,7 +3722,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "Cursor Rules : donner du contexte permanent au projet",
     level: "🟡 Intermédiaire",
@@ -3760,7 +3760,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "cursor-agent : utiliser Cursor sans ouvrir l'éditeur",
     level: "🔴 Avancé",
@@ -3798,7 +3798,7 @@ const GUIDES = [
       }
     ]
   },
-  {
+{
     category: "Cursor",
     title: "Choisir le bon outil : Cursor, Claude Code ou Codex ?",
     level: "🔴 Avancé",
@@ -3824,7 +3824,7 @@ const GUIDES = [
   },
 
   // --- FAQ : erreurs fréquentes ---------------------------------------
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "\"Permission denied\"",
     level: "🟢 Débutant",
@@ -3858,7 +3858,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "\"Port already in use\" / \"Address already in use\"",
     level: "🟢 Débutant",
@@ -3892,7 +3892,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "\"command not found\"",
     level: "🟢 Débutant",
@@ -3926,7 +3926,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "adb : \"device not found\" / \"unauthorized\"",
     level: "🟢 Débutant",
@@ -3960,7 +3960,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "Expo : comportement bizarre après un changement de config",
     level: "🟢 Débutant",
@@ -3994,7 +3994,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "git push : \"rejected\" / \"non-fast-forward\"",
     level: "🟡 Intermédiaire",
@@ -4028,7 +4028,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "Des symboles <<<<<<< ======= >>>>>>> apparaissent dans un fichier",
     level: "🟡 Intermédiaire",
@@ -4058,7 +4058,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "npm : conflit de versions / peer dependency",
     level: "🟡 Intermédiaire",
@@ -4092,7 +4092,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "Docker : \"Cannot connect to the Docker daemon\"",
     level: "🟢 Débutant",
@@ -4126,7 +4126,7 @@ const GUIDES = [
       }
 ]
   },
-  {
+{
     category: "FAQ : erreurs fréquentes",
     title: "Gradle : \"SDK location not found\"",
     level: "🟡 Intermédiaire",
@@ -4152,5 +4152,4 @@ const GUIDES = [
       }
 ]
   },
-
 ];
