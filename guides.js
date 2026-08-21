@@ -3578,8 +3578,12 @@ const GUIDES = [
     summary: "Un installeur graphique, ou une ligne de commande via le gestionnaire de paquets du système — au choix selon l'OS.",
     content: [
       {
-        heading: "Sur Windows : winget",
-        text: "`winget install Microsoft.VisualStudioCode` installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — l'alternative en ligne de commande à l'installeur téléchargé depuis le site."
+        heading: "Sur Windows : l'installeur du site, la méthode la plus courante",
+        text: "La plupart des utilisateurs Windows installent leurs logiciels en téléchargeant directement l'installeur depuis `https://code.visualstudio.com/download` et en suivant l'assistant — pas besoin de terminal ni de gestionnaire de paquets pour ça."
+      },
+      {
+        heading: "Sur Windows : winget, l'alternative en ligne de commande",
+        text: "`winget install Microsoft.VisualStudioCode` installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — pratique pour scripter une installation ou équiper une machine sans repasser par un navigateur."
       },
       {
         heading: "Sur Linux : Snap, le plus simple",
@@ -3922,8 +3926,8 @@ const GUIDES = [
     summary: "L'éditeur graphique et l'agent en ligne de commande (cursor-agent) s'installent séparément, chacun à sa façon.",
     content: [
       {
-        heading: "L'éditeur sur Windows : winget ou l'installeur .exe",
-        text: "`winget install --id=Anysphere.Cursor -e` installe l'éditeur via le gestionnaire de paquets de Windows — une alternative à l'installeur .exe téléchargé depuis cursor.com."
+        heading: "L'éditeur sur Windows : l'installeur du site, la méthode la plus courante",
+        text: "La plupart des utilisateurs Windows téléchargent directement l'installeur depuis `https://cursor.com/download` et suivent l'assistant — pas besoin de terminal pour ça. `winget install --id=Anysphere.Cursor -e` installe l'éditeur via le gestionnaire de paquets de Windows, une alternative en ligne de commande pratique pour scripter une installation."
       },
       {
         heading: "L'éditeur sur Linux : l'AppImage",

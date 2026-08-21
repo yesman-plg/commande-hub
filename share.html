@@ -3318,6 +3318,14 @@ const COMMANDS = [
   {
     category: "VS Code",
     subcategory: "Installation",
+    title: "Télécharger l'installeur depuis le site officiel (Windows)",
+    cmd: "https://code.visualstudio.com/download",
+    desc: "La méthode la plus courante sur Windows : télécharger le .exe et suivre l'assistant d'installation, sans passer par un gestionnaire de paquets.",
+    tags: ["vscode", "install", "windows", "installeur", "exe"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
     title: "Installer sur Windows (winget)",
     cmd: "winget install Microsoft.VisualStudioCode",
     desc: "Installation via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
@@ -3545,6 +3553,14 @@ const COMMANDS = [
   },
 
   // --- Cursor — Installation ---------------------------------------
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Télécharger l'installeur depuis le site officiel (Windows)",
+    cmd: "https://cursor.com/download",
+    desc: "La méthode la plus courante sur Windows : télécharger le .exe et suivre l'assistant d'installation, sans passer par un gestionnaire de paquets.",
+    tags: ["cursor", "install", "windows", "installeur", "exe"]
+  },
   {
     category: "Cursor",
     subcategory: "Installation",
@@ -5788,6 +5804,11 @@ const COMMAND_TRANSLATIONS_EN = {
     "desc": "A file listing the extensions recommended for this project — VS Code automatically offers to install them on open, handy for teams.",
     "tags": ["vscode", "extension", "team", "config"]
   },
+  "VS Code|Installation|Télécharger l'installeur depuis le site officiel (Windows)": {
+    "title": "Download the installer from the official site (Windows)",
+    "desc": "The most common method on Windows: download the .exe and follow the setup wizard, with no package manager involved.",
+    "tags": ["vscode", "install", "windows", "installer", "exe"]
+  },
   "VS Code|Installation|Installer sur Windows (winget)": {
     "title": "Install on Windows (winget)",
     "desc": "Install via Windows's official package manager, built in since Windows 10/11.",
@@ -5927,6 +5948,11 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Continue the active session",
     "desc": "Continues the current session without starting over — handy in a script that chains several steps.",
     "tags": ["cursor", "cli", "continue", "session"]
+  },
+  "Cursor|Installation|Télécharger l'installeur depuis le site officiel (Windows)": {
+    "title": "Download the installer from the official site (Windows)",
+    "desc": "The most common method on Windows: download the .exe and follow the setup wizard, with no package manager involved.",
+    "tags": ["cursor", "install", "windows", "installer", "exe"]
   },
   "Cursor|Installation|Installer l'éditeur sur Windows (winget)": {
     "title": "Install the editor on Windows (winget)",
@@ -9537,8 +9563,12 @@ const GUIDES = [
     summary: "Un installeur graphique, ou une ligne de commande via le gestionnaire de paquets du système — au choix selon l'OS.",
     content: [
       {
-        heading: "Sur Windows : winget",
-        text: "`winget install Microsoft.VisualStudioCode` installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — l'alternative en ligne de commande à l'installeur téléchargé depuis le site."
+        heading: "Sur Windows : l'installeur du site, la méthode la plus courante",
+        text: "La plupart des utilisateurs Windows installent leurs logiciels en téléchargeant directement l'installeur depuis `https://code.visualstudio.com/download` et en suivant l'assistant — pas besoin de terminal ni de gestionnaire de paquets pour ça."
+      },
+      {
+        heading: "Sur Windows : winget, l'alternative en ligne de commande",
+        text: "`winget install Microsoft.VisualStudioCode` installe VS Code via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11 — pratique pour scripter une installation ou équiper une machine sans repasser par un navigateur."
       },
       {
         heading: "Sur Linux : Snap, le plus simple",
@@ -9881,8 +9911,8 @@ const GUIDES = [
     summary: "L'éditeur graphique et l'agent en ligne de commande (cursor-agent) s'installent séparément, chacun à sa façon.",
     content: [
       {
-        heading: "L'éditeur sur Windows : winget ou l'installeur .exe",
-        text: "`winget install --id=Anysphere.Cursor -e` installe l'éditeur via le gestionnaire de paquets de Windows — une alternative à l'installeur .exe téléchargé depuis cursor.com."
+        heading: "L'éditeur sur Windows : l'installeur du site, la méthode la plus courante",
+        text: "La plupart des utilisateurs Windows téléchargent directement l'installeur depuis `https://cursor.com/download` et suivent l'assistant — pas besoin de terminal pour ça. `winget install --id=Anysphere.Cursor -e` installe l'éditeur via le gestionnaire de paquets de Windows, une alternative en ligne de commande pratique pour scripter une installation."
       },
       {
         heading: "L'éditeur sur Linux : l'AppImage",
@@ -13966,8 +13996,12 @@ const GUIDE_TRANSLATIONS_EN = {
     "summary": "A graphical installer, or a command line via the system's package manager — whichever fits the OS.",
     "content": [
       {
-        "heading": "On Windows: winget",
-        "text": "`winget install Microsoft.VisualStudioCode` installs VS Code via Windows's official package manager, built in since Windows 10/11 — the command-line alternative to the installer downloaded from the website."
+        "heading": "On Windows: the site's installer, the most common method",
+        "text": "Most Windows users install their software by downloading the installer directly from `https://code.visualstudio.com/download` and following the wizard — no terminal or package manager needed for that."
+      },
+      {
+        "heading": "On Windows: winget, the command-line alternative",
+        "text": "`winget install Microsoft.VisualStudioCode` installs VS Code via Windows's official package manager, built in since Windows 10/11 — handy for scripting an install or setting up a machine without a browser."
       },
       {
         "heading": "On Linux: Snap, the simplest option",
@@ -14290,8 +14324,8 @@ const GUIDE_TRANSLATIONS_EN = {
     "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",
     "content": [
       {
-        "heading": "The editor on Windows: winget or the .exe installer",
-        "text": "`winget install --id=Anysphere.Cursor -e` installs the editor via Windows's package manager — an alternative to the .exe installer downloaded from cursor.com."
+        "heading": "The editor on Windows: the site's installer, the most common method",
+        "text": "Most Windows users download the installer directly from `https://cursor.com/download` and follow the wizard — no terminal needed for that. `winget install --id=Anysphere.Cursor -e` installs the editor via Windows's package manager, a command-line alternative handy for scripting an install."
       },
       {
         "heading": "The editor on Linux: the AppImage",

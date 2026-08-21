@@ -2479,6 +2479,14 @@ const COMMANDS = [
   {
     category: "VS Code",
     subcategory: "Installation",
+    title: "Télécharger l'installeur depuis le site officiel (Windows)",
+    cmd: "https://code.visualstudio.com/download",
+    desc: "La méthode la plus courante sur Windows : télécharger le .exe et suivre l'assistant d'installation, sans passer par un gestionnaire de paquets.",
+    tags: ["vscode", "install", "windows", "installeur", "exe"]
+  },
+  {
+    category: "VS Code",
+    subcategory: "Installation",
     title: "Installer sur Windows (winget)",
     cmd: "winget install Microsoft.VisualStudioCode",
     desc: "Installation via le gestionnaire de paquets officiel de Windows, intégré depuis Windows 10/11.",
@@ -2706,6 +2714,14 @@ const COMMANDS = [
   },
 
   // --- Cursor — Installation ---------------------------------------
+  {
+    category: "Cursor",
+    subcategory: "Installation",
+    title: "Télécharger l'installeur depuis le site officiel (Windows)",
+    cmd: "https://cursor.com/download",
+    desc: "La méthode la plus courante sur Windows : télécharger le .exe et suivre l'assistant d'installation, sans passer par un gestionnaire de paquets.",
+    tags: ["cursor", "install", "windows", "installeur", "exe"]
+  },
   {
     category: "Cursor",
     subcategory: "Installation",

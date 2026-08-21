@@ -2197,6 +2197,11 @@ const COMMAND_TRANSLATIONS_EN = {
     "desc": "A file listing the extensions recommended for this project — VS Code automatically offers to install them on open, handy for teams.",
     "tags": ["vscode", "extension", "team", "config"]
   },
+  "VS Code|Installation|Télécharger l'installeur depuis le site officiel (Windows)": {
+    "title": "Download the installer from the official site (Windows)",
+    "desc": "The most common method on Windows: download the .exe and follow the setup wizard, with no package manager involved.",
+    "tags": ["vscode", "install", "windows", "installer", "exe"]
+  },
   "VS Code|Installation|Installer sur Windows (winget)": {
     "title": "Install on Windows (winget)",
     "desc": "Install via Windows's official package manager, built in since Windows 10/11.",
@@ -2336,6 +2341,11 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Continue the active session",
     "desc": "Continues the current session without starting over — handy in a script that chains several steps.",
     "tags": ["cursor", "cli", "continue", "session"]
+  },
+  "Cursor|Installation|Télécharger l'installeur depuis le site officiel (Windows)": {
+    "title": "Download the installer from the official site (Windows)",
+    "desc": "The most common method on Windows: download the .exe and follow the setup wizard, with no package manager involved.",
+    "tags": ["cursor", "install", "windows", "installer", "exe"]
   },
   "Cursor|Installation|Installer l'éditeur sur Windows (winget)": {
     "title": "Install the editor on Windows (winget)",

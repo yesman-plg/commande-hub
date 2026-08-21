@@ -3717,8 +3717,12 @@ const GUIDE_TRANSLATIONS_EN = {
     "summary": "A graphical installer, or a command line via the system's package manager — whichever fits the OS.",
     "content": [
       {
-        "heading": "On Windows: winget",
-        "text": "`winget install Microsoft.VisualStudioCode` installs VS Code via Windows's official package manager, built in since Windows 10/11 — the command-line alternative to the installer downloaded from the website."
+        "heading": "On Windows: the site's installer, the most common method",
+        "text": "Most Windows users install their software by downloading the installer directly from `https://code.visualstudio.com/download` and following the wizard — no terminal or package manager needed for that."
+      },
+      {
+        "heading": "On Windows: winget, the command-line alternative",
+        "text": "`winget install Microsoft.VisualStudioCode` installs VS Code via Windows's official package manager, built in since Windows 10/11 — handy for scripting an install or setting up a machine without a browser."
       },
       {
         "heading": "On Linux: Snap, the simplest option",
@@ -4041,8 +4045,8 @@ const GUIDE_TRANSLATIONS_EN = {
     "summary": "The graphical editor and the command-line agent (cursor-agent) install separately, each its own way.",
     "content": [
       {
-        "heading": "The editor on Windows: winget or the .exe installer",
-        "text": "`winget install --id=Anysphere.Cursor -e` installs the editor via Windows's package manager — an alternative to the .exe installer downloaded from cursor.com."
+        "heading": "The editor on Windows: the site's installer, the most common method",
+        "text": "Most Windows users download the installer directly from `https://cursor.com/download` and follow the wizard — no terminal needed for that. `winget install --id=Anysphere.Cursor -e` installs the editor via Windows's package manager, a command-line alternative handy for scripting an install."
       },
       {
         "heading": "The editor on Linux: the AppImage",
