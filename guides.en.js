@@ -3387,5 +3387,329 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "--oss enables a locally hosted model, and --local-provider ollama specifies which of the two supported local providers to use (LM Studio or Ollama)."
       }
     ]
+  },
+  "VS Code|VS Code, à quoi ça sert et comment il s'organise": {
+    "title": "VS Code: what it's for and how it's organized",
+    "summary": "A lightweight, extensible code editor — understanding the interface's main areas before going further.",
+    "content": [
+      {
+        "heading": "An editor, not a full IDE by default",
+        "text": "VS Code deliberately starts lightweight (text editing, syntax highlighting, search) — more advanced features (a debugger for a specific language, a linter, advanced autocomplete) come through extensions installed on demand."
+      },
+      {
+        "heading": "The interface's main areas",
+        "text": "On the left, the activity bar (files, search, Git, extensions, debugging) and its associated explorer; in the center, the editor, which can split into several columns; at the bottom, the panel (integrated terminal, problems, output)."
+      },
+      {
+        "heading": "The workspace: one folder, one context",
+        "text": "Opening a folder (rather than a single file) gives access to the file explorer, project-wide search, and settings specific to THIS folder."
+      },
+      {
+        "heading": "Almost everything goes through a shortcut",
+        "text": "VS Code is designed to be used from the keyboard — most actions have a shortcut, and the ones that don't stay reachable through the command palette."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want project-wide search and settings specific to this folder. What should you do when opening VS Code?",
+        "options": [
+          "Open the project FOLDER (not just a single file)",
+          "Open only the main file",
+          "Install every available extension",
+          "It's not possible, VS Code only handles one file at a time"
+        ],
+        "correctIndex": 0,
+        "correction": "Opening the project folder (rather than a single file) gives access to the explorer, project-wide search, and settings specific to that folder (workspace)."
+      }
+    ]
+  },
+  "VS Code|La palette de commandes : le point d'entrée vers tout": {
+    "title": "The command palette: the entry point to everything",
+    "summary": "Ctrl+Shift+P gives access to every VS Code action by name, with no need to dig through menus.",
+    "content": [
+      {
+        "heading": "Searching for an action instead of finding it in a menu",
+        "text": "Rather than navigating nested menus, Ctrl+Shift+P opens a search where typing a few words of the wanted action (\"format\", \"reload\", \"settings\"…) is enough to find it."
+      },
+      {
+        "heading": "A dedicated cousin for files: Ctrl+P",
+        "text": "Ctrl+P (without Shift) opens a similar search but dedicated to the project's FILES — the two complement each other: Ctrl+P to open a file, Ctrl+Shift+P to run an action."
+      },
+      {
+        "heading": "Shortcuts show up next to the name",
+        "text": "In the palette's results, each action's keyboard shortcut (when it has one) shows up on the right — a natural way to memorize the most useful shortcuts over time."
+      },
+      {
+        "heading": "Useful even when you know the shortcuts",
+        "text": "For a rare action (changing the theme, reloading the window), going through the palette is often faster than memorizing a shortcut used once a month."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to format the open file but can't remember the exact shortcut. What do you do?",
+        "options": [
+          "Open the command palette (Ctrl+Shift+P) and type \"format\"",
+          "Search through every menu one by one",
+          "Close and reopen VS Code",
+          "It's only possible with the exact shortcut"
+        ],
+        "correctIndex": 0,
+        "correction": "The command palette finds an action from a few words of its name — no need to memorize a shortcut for a rarely used action."
+      }
+    ]
+  },
+  "VS Code|Multi-curseurs et sélection multiple : éditer plusieurs endroits à la fois": {
+    "title": "Multi-cursors and multiple selection: editing several spots at once",
+    "summary": "Changing several occurrences at once, without find-and-replace, while keeping visual control over each change.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Renaming a variable used in 5 nearby spots, or adding the same prefix to several lines, takes repeated manual effort — multi-cursors let you type once so it applies everywhere it's selected."
+      },
+      {
+        "heading": "Ctrl+D: occurrence by occurrence",
+        "text": "Selecting a word then pressing Ctrl+D adds the next identical occurrence to the selection — repeating Ctrl+D adds one more each time, keeping control over what's affected."
+      },
+      {
+        "heading": "Alt+Click: a cursor exactly where you want",
+        "text": "Alt+Click places an extra cursor at the clicked spot, with no dependency on a word or a specific occurrence — useful for positions that don't textually resemble each other."
+      },
+      {
+        "heading": "Difference from find-and-replace",
+        "text": "Find-and-replace acts blindly across the whole file (or project). Multi-cursors stay visual: you see and choose exactly which occurrences are affected before typing anything."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to rename a variable used in 4 spots in the file, but want to see and precisely choose which occurrences are affected before typing. Which approach do you use?",
+        "options": [
+          "Select the variable then Ctrl+D to add each occurrence to the selection",
+          "Find-and-replace across the whole file without checking",
+          "Retype each occurrence one by one, in separate actions",
+          "It's not possible in VS Code"
+        ],
+        "correctIndex": 0,
+        "correction": "Ctrl+D adds occurrences one by one to the selection, giving visual control over what's affected before typing — unlike a blind find-and-replace."
+      }
+    ]
+  },
+  "VS Code|Les extensions : étendre VS Code selon ses besoins": {
+    "title": "Extensions: extending VS Code to fit your needs",
+    "summary": "VS Code deliberately stays lightweight by default — extensions add support for a language, a linter, a theme, or a specific tool.",
+    "content": [
+      {
+        "heading": "Why VS Code doesn't do everything by default",
+        "text": "Native support for every language, every framework, every tool would make VS Code heavy and slow for everyone, including those who don't need it — extensions let each person add only what serves THEIR use case."
+      },
+      {
+        "heading": "Searching and installing",
+        "text": "The Extensions panel (activity bar) lets you search by name or keyword, see the description and install count, then install with one click — the graphical equivalent of code --install-extension."
+      },
+      {
+        "heading": "Recommending extensions to your team",
+        "text": "A .vscode/extensions.json file at the project root lists the extensions recommended for THIS project — VS Code automatically offers to install them on open, handy for standardizing a team's tools."
+      },
+      {
+        "heading": "Too many extensions can slow things down",
+        "text": "Every active extension uses resources, even with no direct use — uninstalling or disabling the ones no longer needed avoids a gradual slowdown over time."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Your team wants everyone to have the same extensions installed on a given project. How do you do that without sending a list to copy-paste by hand?",
+        "options": [
+          "Create a .vscode/extensions.json file at the project root listing recommended extensions",
+          "Message every new team member",
+          "It's not possible, everyone has to search on their own",
+          "Install the extensions on the Git server"
+        ],
+        "correctIndex": 0,
+        "correction": ".vscode/extensions.json lists the project's recommended extensions — VS Code offers to install them automatically on open, with no list to copy-paste by hand."
+      }
+    ]
+  },
+  "VS Code|Terminal intégré et Git intégré : moins de fenêtres à jongler": {
+    "title": "Integrated terminal and built-in Git: fewer windows to juggle",
+    "summary": "The terminal and Git status stay visible right next to the code, with no window switching for the smallest command.",
+    "content": [
+      {
+        "heading": "The integrated terminal, one shortcut away",
+        "text": "Ctrl+` toggles a terminal directly inside VS Code, already positioned in the project's folder — this is in fact where tools like Claude Code run from, see [[Claude Code::Utiliser Claude Code dans VS Code / Cursor]]."
+      },
+      {
+        "heading": "Several terminals side by side",
+        "text": "The terminal panel can open several tabs (a dev server running, another for one-off commands) without them getting in each other's way."
+      },
+      {
+        "heading": "The Source Control panel, without leaving the editor",
+        "text": "Ctrl+Shift+G shows modified files, lets you view a diff, stage, and commit — for everyday actions, no need to go back to the terminal for every git add/commit."
+      },
+      {
+        "heading": "The indicators in the gutter",
+        "text": "A colored bar appears in the left margin of lines modified, added, or removed compared to the last commit — an immediate visual cue of what changed in the open file, with no git diff to run."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to quickly see which lines of the open file have changed since the last commit, without typing a command. How do you do that?",
+        "options": [
+          "Look at the colored indicators in the editor's left margin",
+          "Open a terminal and type git diff",
+          "It's only visible in the Source Control panel",
+          "It's not possible without an extension"
+        ],
+        "correctIndex": 0,
+        "correction": "The colored indicators in the left margin immediately flag lines added/modified/removed compared to the last commit, with no command to type."
+      }
+    ]
+  },
+  "VS Code|Débogueur intégré : comprendre le principe": {
+    "title": "The built-in debugger: understanding the principle",
+    "summary": "Setting a breakpoint and stepping through, rather than guessing what's happening via print/console.log.",
+    "content": [
+      {
+        "heading": "The problem it solves",
+        "text": "Adding console.log statements everywhere to understand where a bug happens works, but requires removing them afterward and only shows a frozen instant — the debugger lets you observe the program's state live, at the exact spot where it's stuck."
+      },
+      {
+        "heading": "A breakpoint, to pause execution",
+        "text": "F9 on a line sets a breakpoint — when execution reaches it (F5 to launch), the program pauses right there, with every variable visible in its current state."
+      },
+      {
+        "heading": "Stepping through",
+        "text": "Once paused, F10 runs the current line without stepping into the functions it calls; F11 instead steps into the function to follow it line by line, from the inside."
+      },
+      {
+        "heading": "launch.json: how VS Code knows what to run",
+        "text": "For a slightly specific project (arguments, environment variables), a .vscode/launch.json file specifies how to start debugging — generated automatically the first time the debugger is configured for a project type."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to observe the exact state of variables at the precise moment a bug happens, without adding then removing console.log statements. What do you do?",
+        "options": [
+          "Set a breakpoint (F9) at that spot then launch the debugger (F5)",
+          "Add console.log statements everywhere in the file",
+          "Reread the code without running it",
+          "It's not possible without a third-party extension"
+        ],
+        "correctIndex": 0,
+        "correction": "A breakpoint pauses the program exactly where wanted, with every variable visible in its real state — more reliable and faster than console.log statements to add then remove."
+      }
+    ]
+  },
+  "VS Code|settings.json vs interface graphique : la configuration en profondeur": {
+    "title": "settings.json vs the graphical interface: in-depth configuration",
+    "summary": "The same settings, reachable either through a graphical interface or a JSON file — each with its own advantages.",
+    "content": [
+      {
+        "heading": "Two ways to reach the same settings",
+        "text": "Ctrl+, opens the graphical settings interface, with search and descriptions. The same configuration exists as a JSON file (settings.json), reachable via the palette (Preferences: Open User Settings (JSON))."
+      },
+      {
+        "heading": "Why go through JSON despite the interface",
+        "text": "Pasting a configuration found online (a block of settings for a specific language) is faster in JSON than searching for each setting one by one in the graphical interface."
+      },
+      {
+        "heading": "User vs Workspace: two different scopes",
+        "text": "\"User\" settings apply to every project opened with this account. \"Workspace\" settings (stored in .vscode/settings.json at the project root) only apply to THIS project, and take precedence over user settings."
+      },
+      {
+        "heading": "Sharing team settings",
+        "text": "Like .vscode/extensions.json for extensions, a .vscode/settings.json committed to Git lets a whole team share the same project settings (indent size, default formatter…) with no one having to configure them by hand."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want a setting (say, indent size) to apply only to this project, not to all your other projects. Where do you put it?",
+        "options": [
+          "In .vscode/settings.json, at the project root (workspace setting)",
+          "In user settings (Ctrl+,)",
+          "It always applies to every project, there's no way to target just one",
+          "In a .env file"
+        ],
+        "correctIndex": 0,
+        "correction": "Workspace settings (.vscode/settings.json) only apply to the current project and take precedence over user settings, which apply everywhere else."
+      }
+    ]
+  },
+  "VS Code|Personnaliser ses raccourcis : keybindings.json": {
+    "title": "Customizing shortcuts: keybindings.json",
+    "summary": "Changing, adding, or disabling a shortcut — useful when the habit comes from another editor, or a shortcut conflicts with something else.",
+    "content": [
+      {
+        "heading": "Two ways to change a shortcut",
+        "text": "The graphical interface (Preferences: Open Keyboard Shortcuts) lets you search for an action and assign it a new shortcut by clicking. The same thing exists in JSON (keybindings.json), faster for pasting a configuration or changing several at once."
+      },
+      {
+        "heading": "\"when\": a shortcut active only in a specific context",
+        "text": "Every shortcut can be limited to a context (\"when\": \"editorTextFocus\") — the same shortcut can thus do different things depending on whether you're in the editor, the terminal, or a file list."
+      },
+      {
+        "heading": "Resolving a conflict with another application",
+        "text": "If a VS Code shortcut conflicts with a system shortcut or another application's (often the case on Linux with certain window managers), reassigning it in keybindings.json resolves the conflict without touching the system's configuration."
+      },
+      {
+        "heading": "Bringing back habits from another editor",
+        "text": "Dedicated extensions (\"Vim\", or keybinding profiles for Sublime Text/Atom) reproduce a previous editor's shortcuts — an alternative to reconfiguring everything by hand."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "A VS Code shortcut conflicts with a shortcut already used by your operating system. How do you resolve it without touching the system's configuration?",
+        "options": [
+          "Reassign that shortcut in keybindings.json (via Preferences: Open Keyboard Shortcuts)",
+          "Uninstall VS Code",
+          "Change the operating system's shortcuts",
+          "It's not possible, you have to live with the conflict"
+        ],
+        "correctIndex": 0,
+        "correction": "Reassigning the shortcut on the VS Code side (keybindings.json) resolves the conflict without touching the system's configuration or the other application's."
+      }
+    ]
+  },
+  "VS Code|VS Code + Claude Code : la connexion entre les deux": {
+    "title": "VS Code + Claude Code: the connection between the two",
+    "summary": "What the extension actually changes once VS Code and Claude Code are connected — a practical summary of both sides.",
+    "content": [
+      {
+        "heading": "The extension replaces nothing, it connects",
+        "text": "Claude Code keeps running in the integrated terminal — the extension simply adds communication between that session and the editor around it, see [[Claude Code::Utiliser Claude Code dans VS Code / Cursor]] for the detail of what that changes."
+      },
+      {
+        "heading": "Selected code as automatic context",
+        "text": "Selecting a snippet in the editor before asking Claude Code a question avoids having to copy-paste it into the terminal — the editor and the session share that context automatically."
+      },
+      {
+        "heading": "Proposed changes, as a diff in the editor",
+        "text": "Rather than a block of plain text shown in the terminal, changes proposed by Claude Code show up as a real diff view in VS Code — the same kind of display as a classic Git review."
+      },
+      {
+        "heading": "/ide to connect an already-open session",
+        "text": "If Claude Code is running in a terminal separate from VS Code's integrated one, /ide (typed in the session) connects it to the open editor — see [[Claude Code::Installer l'extension dans VS Code ou Cursor]] for the extension's initial install."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You have a Claude Code session running in a separate terminal (not VS Code's integrated one), and want it to see the file open in the editor. What do you do?",
+        "options": [
+          "Type /ide in the Claude Code session to connect it to the open editor",
+          "Close and relaunch VS Code",
+          "Copy-paste the entire file into the terminal",
+          "It's not possible, Claude Code has to be relaunched from the integrated terminal"
+        ],
+        "correctIndex": 0,
+        "correction": "/ide connects an already-running Claude Code session (even one launched from a separate terminal) to the open editor, to share the active file and selection."
+      }
+    ]
   }
 };
