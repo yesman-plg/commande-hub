@@ -131,11 +131,12 @@ const COMMAND_TRANSLATIONS_EN = {
   },
   "Expo / React Native|Compte & credentials|Se connecter à EAS": {
     "title": "Log in to EAS",
-    "desc": "Required before any build/submit/update via EAS. Check with: eas whoami",
+    "desc": "Required before any build/submit/update via EAS. Check with: eas whoami — if eas-cli isn't installed globally, npx eas-cli login does the same thing with no prior install.",
     "tags": [
       "eas",
       "login",
-      "account"
+      "account",
+      "npx"
     ]
   },
   "Expo / React Native|Compte & credentials|Initialiser EAS sur le projet": {

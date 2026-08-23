@@ -69,8 +69,8 @@ const COMMANDS = [
     subcategory: "Compte & credentials",
     title: "Se connecter à EAS",
     cmd: "eas login",
-    desc: "Requis avant tout build/submit/update via EAS. Vérifie avec: eas whoami",
-    tags: ["eas", "login", "compte"]
+    desc: "Requis avant tout build/submit/update via EAS. Vérifie avec: eas whoami — si eas-cli n'est pas installé globalement, npx eas-cli login fait la même chose sans installation préalable.",
+    tags: ["eas", "login", "compte", "npx"]
   },
 {
     category: "Expo / React Native",
