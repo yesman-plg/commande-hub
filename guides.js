@@ -5164,5 +5164,144 @@ const GUIDES = [
         correction: "/ide connecte une session Claude Code déjà en cours à l'éditeur ouvert, même si elle a été lancée depuis un terminal séparé — pas besoin de tout relancer."
       }
     ]
+  },
+  // --- Serveur — Plex / rclone / accès distant ---------------------------------------
+{
+    category: "Serveur",
+    title: "Pourquoi Plex ne peut pas lire un cloud (kDrive) directement",
+    level: "🟡 Intermédiaire",
+    summary: "Plex ne comprend que des fichiers locaux — comment un montage WebDAV (rclone) fait passer un espace cloud pour un dossier normal.",
+    content: [
+      {
+        heading: "Le problème : Plex ne parle que \"fichier local\"",
+        text: "Plex scanne des dossiers sur le disque et ouvre des fichiers avec des appels système classiques (open, read, seek). Il n'a aucune notion native d'\"aller chercher ce fichier sur kDrive/Google Drive via une API\" — ce n'est pas un protocole qu'il sait parler directement."
+      },
+      {
+        heading: "La solution : faire passer le cloud pour un dossier local (montage)",
+        text: "Un outil comme rclone peut MONTER un espace WebDAV (kDrive, Nextcloud, ownCloud...) comme un vrai dossier du système de fichiers (ex: /mnt/kdrive). Techniquement ça passe par FUSE (Filesystem in Userspace) : le noyau redirige chaque lecture de fichier vers rclone, qui va chercher les données sur le cloud en coulisses. Pour Plex, aucune différence avec un disque dur normal."
+      },
+      {
+        heading: "Le cache VFS : rendre le streaming fluide",
+        text: "Sans cache, chaque avance rapide dans une vidéo obligerait à re-télécharger depuis le cloud à cet endroit précis — lent et saccadé. `--vfs-cache-mode full` télécharge progressivement le fichier en local pendant la lecture, ce qui permet un vrai seek fluide, au prix d'un peu d'espace disque local utilisé temporairement."
+      },
+      {
+        heading: "La limite : la fraîcheur du contenu",
+        text: "Le montage garde en mémoire la liste des fichiers pendant un certain temps (--dir-cache-time) pour éviter de spammer l'API du cloud à chaque coup d'œil dans un dossier. Résultat : un fichier tout juste ajouté sur le cloud peut mettre un moment à apparaître dans le montage — c'est un compromis délibéré entre fraîcheur et nombre de requêtes, pas un bug."
+      }
+    ]
+  },
+{
+    category: "Serveur",
+    title: "Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone",
+    level: "🟡 Intermédiaire",
+    summary: "Configurer rclone pour connecter un espace cloud WebDAV, sans passer par le prompt interactif qui bloque souvent dans certains terminaux.",
+    content: [
+      {
+        heading: "Installer rclone sans droits root",
+        text: "rclone est un simple binaire statique — pas besoin d'apt ni de sudo : télécharge-le, rends-le exécutable, place-le dans ~/.local/bin/. Pratique aussi si tu n'as pas la main sur les droits admin de la machine."
+      },
+      {
+        heading: "Configurer un remote sans passer par le prompt interactif",
+        text: "`rclone config` propose un menu interactif, mais son prompt de mot de passe masqué se bloque parfois dans certains terminaux intégrés (VS Code notamment) — il attend une saisie sans rien afficher, ce qui donne l'impression que tout est gelé. L'alternative fiable : une seule commande `rclone config create nom-remote webdav url=... vendor=other user=... pass=... --obscure`. --obscure fait à rclone le travail d'encoder le mot de passe correctement dans son fichier de config, sans passer par ce prompt."
+      },
+      {
+        heading: "Le piège de l'espace manquant",
+        text: "Attention à bien laisser un espace avant --obscure : `pass=motdepasse--obscure` (collé sans espace) fait que \"--obscure\" devient une partie du mot de passe stocké, au lieu d'être reconnu comme option — l'authentification échoue ensuite silencieusement, avec un message d'erreur qui ne mentionne même pas le mot de passe."
+      },
+      {
+        heading: "Vérifier avant d'aller plus loin",
+        text: "`rclone lsd nom-remote:` doit lister les dossiers du cloud. \"directory not found\" pointe vers une mauvaise URL/identifiant (vérifie avec `rclone config show nom-remote`). \"401 Unauthorized\" ou \"No Authorization header\" veut dire que user/pass ne sont pas enregistrés DU TOUT dans la config — pas que le mot de passe est faux."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "`rclone lsd monremote:` renvoie \"No 'Authorization: Basic' header found\". Que faut-il vérifier en premier ?",
+        options: [
+          "Que l'URL du serveur WebDAV est correcte",
+          "Que le remote contient bien un user ET un pass enregistrés",
+          "Que la connexion internet fonctionne",
+          "Que le dossier distant existe bien sur le cloud"
+        ],
+        correctIndex: 1,
+        correction: "Ce message précis veut dire qu'aucun identifiant n'a été envoyé du tout — pas que le mot de passe est faux. Ça pointe vers une config incomplète (souvent une commande de création tronquée par un souci de collage), à vérifier avec `rclone config show nom-remote`."
+      }
+    ]
+  },
+{
+    category: "Serveur",
+    title: "Rendre le montage rclone permanent avec systemd",
+    level: "🔴 Avancé",
+    summary: "Faire tourner un montage rclone comme un vrai service système : démarré au boot, relancé s'il plante, lisible par d'autres utilisateurs (ex: Plex).",
+    content: [
+      {
+        heading: "Pourquoi un service plutôt qu'une commande lancée à la main",
+        text: "Un simple `rclone mount ...` lancé dans un terminal meurt dès que tu fermes la session. Un service systemd le garde actif en permanence, le relance automatiquement en cas de plantage (Restart=on-failure), et le démarre tout seul à chaque redémarrage de la machine (WantedBy=multi-user.target + enable)."
+      },
+      {
+        heading: "allow_other : laisser un AUTRE utilisateur lire le montage",
+        text: "Par défaut, FUSE réserve l'accès au montage au seul utilisateur qui l'a monté. Si Plex tourne sous son propre utilisateur système (souvent `plex`), il ne verra rien sans l'option --allow-other côté rclone ET sans activer `user_allow_other` dans /etc/fuse.conf — les deux sont nécessaires, l'un sans l'autre ne suffit pas."
+      },
+      {
+        heading: "Les réglages qui comptent pour du streaming",
+        text: "--vfs-cache-mode full : télécharge en local à la lecture pour permettre l'avance rapide sans lag.\n--dir-cache-time : durée avant qu'un nouveau fichier ajouté sur le cloud apparaisse dans le montage — plus court = plus réactif mais plus de requêtes API.\n--rc --rc-addr 127.0.0.1:5572 --rc-no-auth : ouvre une petite API locale pour forcer un rafraîchissement à la demande sans attendre le cache ni redémarrer le service."
+      },
+      {
+        heading: "Type=simple, pas Type=notify",
+        text: "rclone mount reste au premier plan une fois lancé (il ne se \"daemonize\" pas tout seul) — c'est exactement ce qu'attend Type=simple. Pas besoin de Type=notify, qui suppose que le programme signale lui-même sa disponibilité à systemd, ce que rclone ne fait pas par défaut."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux qu'un fichier tout juste ajouté sur le cloud apparaisse dans le montage local le plus vite possible, sans attendre le cache ni redémarrer quoi que ce soit. Quelle est la solution ?",
+        options: [
+          "Redémarrer toute la machine",
+          "Attendre l'expiration de --dir-cache-time",
+          "Appeler l'API locale du service (curl -X POST http://localhost:5572/vfs/refresh)",
+          "Réinstaller rclone"
+        ],
+        correctIndex: 2,
+        correction: "L'option --rc du service ouvre exprès une API locale pour ça : forcer un rafraîchissement immédiat du cache sans attendre son expiration ni relancer tout le service."
+      }
+    ]
+  },
+{
+    category: "Serveur",
+    title: "NAT, double NAT et accès distant à Plex",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi Plex fonctionne en local mais pas depuis l'extérieur, et ce que veut vraiment dire un diagnostic \"Double-NAT\".",
+    content: [
+      {
+        heading: "NAT : pourquoi ton serveur n'est pas visible depuis Internet par défaut",
+        text: "Ta box Internet a une seule adresse IP publique, partagée par tous les appareils du réseau (le NAT, Network Address Translation). Par défaut, une connexion venant d'Internet vers cette IP ne sait pas vers quel appareil du réseau local la rediriger — d'où le besoin d'une redirection de port explicite (port forwarding) pour dire \"le port 32400 va vers TELLE machine\"."
+      },
+      {
+        heading: "Le double NAT : deux routeurs qui font chacun leur NAT",
+        text: "Si un routeur secondaire (ex: un système mesh comme Google Wifi/Nest Wifi) est branché en aval de la box du FAI plutôt qu'à sa place, il y a deux couches de NAT empilées. Rediriger un port sur le routeur mesh ne sert à rien si la box FAI, en amont, ne sait pas elle aussi rediriger vers le routeur mesh — c'est exactement ce que Plex détecte et signale explicitement comme \"Double-NAT\"."
+      },
+      {
+        heading: "Trois façons de le résoudre, du plus propre au plus simple",
+        text: "1. Mode bridge/pont sur la box FAI (élimine carrément une des deux couches de NAT) — pas toujours proposé par tous les FAI/box grand public.\n2. Rediriger le port sur LES DEUX routeurs en chaîne (garder le double NAT, mais le \"percer\" aux deux étages).\n3. Le relais (Relay) : Plex fait transiter le flux par ses propres serveurs — zéro configuration réseau requise, mais débit plafonné (~2 Mbps), adapté à du SD/HD léger, pas à du 4K HDR remux non transcodé."
+      },
+      {
+        heading: "Qui peut faire quoi",
+        text: "Les options 1 et 2 nécessitent un accès admin à CHAQUE routeur de la chaîne. Si tu ne gères pas la box FAI toi-même (colocataire, famille, logement partagé...), le relais reste la seule option qui ne demande la permission de personne."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Plex affiche \"Non disponible en dehors de votre réseau local\" avec un message évoquant un Double-NAT, et tu n'as pas accès à la box Internet principale (gérée par quelqu'un d'autre). Quelle est ta meilleure option ?",
+        options: [
+          "Rien n'est possible, il faut abandonner l'accès distant",
+          "Activer le Relais Plex (débit plafonné mais fonctionne sans toucher à aucun routeur)",
+          "Réinstaller Plex",
+          "Changer l'adresse IP locale du serveur"
+        ],
+        correctIndex: 1,
+        correction: "Le Relais ne demande d'accès à aucun routeur — c'est la seule option qui fonctionne quand tu ne contrôles pas (ou ne peux pas contrôler) tous les équipements réseau de la chaîne. Le compromis est le débit plafonné (~2 Mbps), insuffisant pour du 4K non transcodé mais correct pour du SD/HD léger."
+      }
+    ]
   }
 ];

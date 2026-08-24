@@ -4889,5 +4889,135 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "/ide connects an already-running Claude Code session to the open editor, even one launched from a separate terminal — no need to relaunch anything."
       }
     ]
+  },
+  "Serveur|Pourquoi Plex ne peut pas lire un cloud (kDrive) directement": {
+    "title": "Why Plex can't read cloud storage (kDrive) directly",
+    "summary": "Plex only understands local files — how a WebDAV mount (rclone) makes cloud storage look like a normal folder.",
+    "content": [
+      {
+        "heading": "The problem: Plex only speaks \"local file\"",
+        "text": "Plex scans folders on disk and opens files with plain system calls (open, read, seek). It has no built-in notion of \"go fetch this file from kDrive/Google Drive via an API\" — that's not a protocol it speaks directly."
+      },
+      {
+        "heading": "The fix: make the cloud look like a local folder (mounting)",
+        "text": "A tool like rclone can MOUNT a WebDAV space (kDrive, Nextcloud, ownCloud...) as a real folder in the filesystem (e.g. /mnt/kdrive). Under the hood this goes through FUSE (Filesystem in Userspace): the kernel redirects every file read to rclone, which fetches the data from the cloud behind the scenes. To Plex, it's indistinguishable from a normal hard drive."
+      },
+      {
+        "heading": "The VFS cache: making streaming smooth",
+        "text": "Without a cache, every fast-forward in a video would require re-downloading from the cloud at that exact spot — slow and choppy. `--vfs-cache-mode full` progressively downloads the file locally as it plays, enabling real smooth seeking, at the cost of some local disk space used temporarily."
+      },
+      {
+        "heading": "The trade-off: content freshness",
+        "text": "The mount keeps the file listing cached for a while (--dir-cache-time) to avoid hammering the cloud's API on every folder glance. Result: a file just added to the cloud can take a while to show up in the mount — that's a deliberate trade-off between freshness and API request volume, not a bug."
+      }
+    ]
+  },
+  "Serveur|Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone": {
+    "title": "Mounting a WebDAV space (kDrive, Nextcloud...) locally with rclone",
+    "summary": "Setting up rclone to connect to cloud WebDAV storage, without hitting the interactive prompt that often freezes in some terminals.",
+    "content": [
+      {
+        "heading": "Installing rclone without root",
+        "text": "rclone is a single static binary — no apt, no sudo needed: download it, make it executable, drop it in ~/.local/bin/. Also handy if you don't have admin rights on the machine."
+      },
+      {
+        "heading": "Configuring a remote without the interactive prompt",
+        "text": "`rclone config` offers an interactive menu, but its masked password prompt sometimes freezes in certain integrated terminals (VS Code notably) — it's waiting for input while showing nothing, which looks like it hung. The reliable alternative: one single command, `rclone config create remote-name webdav url=... vendor=other user=... pass=... --obscure`. --obscure does rclone's job of encoding the password correctly into its config file, bypassing that prompt entirely."
+      },
+      {
+        "heading": "The missing-space trap",
+        "text": "Make sure to leave a space before --obscure: `pass=mypassword--obscure` (glued together with no space) makes \"--obscure\" become part of the stored password instead of being recognized as a flag — authentication then fails silently, with an error message that doesn't even mention the password."
+      },
+      {
+        "heading": "Verify before moving on",
+        "text": "`rclone lsd remote-name:` should list the cloud folders. \"directory not found\" points to a wrong URL/ID (check with `rclone config show remote-name`). \"401 Unauthorized\" or \"No Authorization header\" means user/pass aren't stored in the config AT ALL — not that the password is wrong."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "`rclone lsd myremote:` returns \"No 'Authorization: Basic' header found\". What should you check first?",
+        "options": [
+          "That the WebDAV server URL is correct",
+          "That the remote actually has a user AND a pass stored",
+          "That the internet connection works",
+          "That the remote folder actually exists in the cloud"
+        ],
+        "correctIndex": 1,
+        "correction": "This specific message means no credentials were sent at all — not that the password is wrong. It points to an incomplete config (often a creation command cut short by a paste issue), to check with `rclone config show remote-name`."
+      }
+    ]
+  },
+  "Serveur|Rendre le montage rclone permanent avec systemd": {
+    "title": "Making an rclone mount permanent with systemd",
+    "summary": "Running an rclone mount as a real system service: started at boot, restarted if it crashes, readable by other users (e.g. Plex).",
+    "content": [
+      {
+        "heading": "Why a service instead of a manually run command",
+        "text": "A plain `rclone mount ...` launched in a terminal dies as soon as you close the session. A systemd service keeps it running permanently, restarts it automatically if it crashes (Restart=on-failure), and starts it on its own at every reboot (WantedBy=multi-user.target + enable)."
+      },
+      {
+        "heading": "allow_other: letting ANOTHER user read the mount",
+        "text": "By default, FUSE restricts mount access to the user who mounted it. If Plex runs under its own system user (often `plex`), it will see nothing without the --allow-other option on rclone's side AND `user_allow_other` enabled in /etc/fuse.conf — both are required, one without the other isn't enough."
+      },
+      {
+        "heading": "The settings that matter for streaming",
+        "text": "--vfs-cache-mode full: downloads locally on read to allow fast-forward without lag.\n--dir-cache-time: how long before a file newly added to the cloud shows up in the mount — shorter means more responsive but more API requests.\n--rc --rc-addr 127.0.0.1:5572 --rc-no-auth: opens a small local API to force an on-demand refresh without waiting for the cache or restarting the service."
+      },
+      {
+        "heading": "Type=simple, not Type=notify",
+        "text": "rclone mount stays in the foreground once launched (it doesn't daemonize itself) — exactly what Type=simple expects. No need for Type=notify, which assumes the program itself signals its readiness to systemd, something rclone doesn't do by default."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want a file just added to the cloud to show up in the local mount as fast as possible, without waiting for the cache or restarting anything. What's the solution?",
+        "options": [
+          "Restart the whole machine",
+          "Wait for --dir-cache-time to expire",
+          "Call the service's local API (curl -X POST http://localhost:5572/vfs/refresh)",
+          "Reinstall rclone"
+        ],
+        "correctIndex": 2,
+        "correction": "The service's --rc option exists exactly for this: forcing an immediate cache refresh without waiting for it to expire or restarting the whole service."
+      }
+    ]
+  },
+  "Serveur|NAT, double NAT et accès distant à Plex": {
+    "title": "NAT, double NAT, and remote access to Plex",
+    "summary": "Why Plex works locally but not from outside, and what a \"Double-NAT\" diagnosis actually means.",
+    "content": [
+      {
+        "heading": "NAT: why your server isn't visible from the Internet by default",
+        "text": "Your internet box has a single public IP address, shared by every device on the network (NAT, Network Address Translation). By default, a connection coming from the Internet to that IP has no way of knowing which local device to route to — hence the need for explicit port forwarding to say \"port 32400 goes to THIS machine\"."
+      },
+      {
+        "heading": "Double NAT: two routers each doing their own NAT",
+        "text": "If a secondary router (e.g. a mesh system like Google Wifi/Nest Wifi) is plugged in downstream of the ISP's box instead of replacing it, there are two layers of NAT stacked on top of each other. Forwarding a port on the mesh router is useless if the ISP box upstream doesn't also know to forward to the mesh router — this is exactly what Plex detects and explicitly flags as \"Double-NAT\"."
+      },
+      {
+        "heading": "Three ways to fix it, from cleanest to simplest",
+        "text": "1. Bridge mode on the ISP box (removes one of the two NAT layers entirely) — not always offered by every consumer ISP/box.\n2. Forward the port on BOTH routers in the chain (keep the double NAT, but \"pierce\" it at both stages).\n3. Relay: Plex routes the stream through its own servers — zero network configuration required, but capped bandwidth (~2 Mbps), fine for light SD/HD, not for untranscoded 4K HDR remuxes."
+      },
+      {
+        "heading": "Who can do what",
+        "text": "Options 1 and 2 require admin access to EVERY router in the chain. If you don't manage the ISP box yourself (roommate, family, shared housing...), Relay remains the only option that doesn't require anyone's permission."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "Plex shows \"Not available outside your network\" with a message mentioning Double-NAT, and you don't have access to the main internet box (managed by someone else). What's your best option?",
+        "options": [
+          "Nothing can be done, remote access has to be abandoned",
+          "Enable Plex Relay (capped bandwidth, but works without touching any router)",
+          "Reinstall Plex",
+          "Change the server's local IP address"
+        ],
+        "correctIndex": 1,
+        "correction": "Relay doesn't require access to any router — it's the only option that works when you don't control (or can't control) every network device in the chain. The trade-off is capped bandwidth (~2 Mbps), not enough for untranscoded 4K but fine for light SD/HD."
+      }
+    ]
   }
 };
