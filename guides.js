@@ -5167,8 +5167,7 @@ const GUIDES = [
   },
   // --- Serveur — Plex / rclone / accès distant ---------------------------------------
 {
-    category: "Serveur",
-    subcategory: "Plex",
+    category: "Plex",
     title: "Pourquoi Plex ne peut pas lire un cloud (kDrive) directement",
     level: "🟡 Intermédiaire",
     summary: "Plex ne comprend que des fichiers locaux — comment un montage WebDAV (rclone) fait passer un espace cloud pour un dossier normal.",
@@ -5192,8 +5191,7 @@ const GUIDES = [
     ]
   },
 {
-    category: "Serveur",
-    subcategory: "Plex",
+    category: "Plex",
     title: "Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone",
     level: "🟡 Intermédiaire",
     summary: "Configurer rclone pour connecter un espace cloud WebDAV, sans passer par le prompt interactif qui bloque souvent dans certains terminaux.",
@@ -5231,8 +5229,7 @@ const GUIDES = [
     ]
   },
 {
-    category: "Serveur",
-    subcategory: "Plex",
+    category: "Plex",
     title: "Rendre le montage rclone permanent avec systemd",
     level: "🔴 Avancé",
     summary: "Faire tourner un montage rclone comme un vrai service système : démarré au boot, relancé s'il plante, lisible par d'autres utilisateurs (ex: Plex).",
@@ -5270,8 +5267,7 @@ const GUIDES = [
     ]
   },
 {
-    category: "Serveur",
-    subcategory: "Plex",
+    category: "Plex",
     title: "NAT, double NAT et accès distant à Plex",
     level: "🟡 Intermédiaire",
     summary: "Pourquoi Plex fonctionne en local mais pas depuis l'extérieur, et ce que veut vraiment dire un diagnostic \"Double-NAT\".",
@@ -5309,8 +5305,7 @@ const GUIDES = [
     ]
   },
 {
-    category: "Serveur",
-    subcategory: "Plex",
+    category: "Plex",
     title: "Installer un serveur Plex de A à Z (Linux)",
     level: "🟢 Débutant",
     summary: "Le parcours complet, condensé : installer Plex, lui donner accès à tes fichiers (locaux ou cloud), créer tes bibliothèques.",
@@ -5338,8 +5333,7 @@ const GUIDES = [
     ]
   },
 {
-    category: "Serveur",
-    subcategory: "Plex",
+    category: "Plex",
     title: "Gérer un serveur Plex au quotidien",
     level: "🟡 Intermédiaire",
     summary: "Une fois installé : démarrer/vérifier le service, ajouter du contenu, mettre à jour, surveiller les performances, dépanner.",

@@ -4890,7 +4890,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Serveur|Pourquoi Plex ne peut pas lire un cloud (kDrive) directement": {
+  "Plex|Pourquoi Plex ne peut pas lire un cloud (kDrive) directement": {
     "title": "Why Plex can't read cloud storage (kDrive) directly",
     "summary": "Plex only understands local files — how a WebDAV mount (rclone) makes cloud storage look like a normal folder.",
     "content": [
@@ -4912,7 +4912,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Serveur|Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone": {
+  "Plex|Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone": {
     "title": "Mounting a WebDAV space (kDrive, Nextcloud...) locally with rclone",
     "summary": "Setting up rclone to connect to cloud WebDAV storage, without hitting the interactive prompt that often freezes in some terminals.",
     "content": [
@@ -4948,7 +4948,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Serveur|Rendre le montage rclone permanent avec systemd": {
+  "Plex|Rendre le montage rclone permanent avec systemd": {
     "title": "Making an rclone mount permanent with systemd",
     "summary": "Running an rclone mount as a real system service: started at boot, restarted if it crashes, readable by other users (e.g. Plex).",
     "content": [
@@ -4984,7 +4984,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Serveur|NAT, double NAT et accès distant à Plex": {
+  "Plex|NAT, double NAT et accès distant à Plex": {
     "title": "NAT, double NAT, and remote access to Plex",
     "summary": "Why Plex works locally but not from outside, and what a \"Double-NAT\" diagnosis actually means.",
     "content": [
@@ -5020,7 +5020,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Serveur|Installer un serveur Plex de A à Z (Linux)": {
+  "Plex|Installer un serveur Plex de A à Z (Linux)": {
     "title": "Installing a Plex server from scratch (Linux)",
     "summary": "The whole path, condensed: install Plex, give it access to your files (local or cloud), create your libraries.",
     "content": [
@@ -5046,7 +5046,7 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
-  "Serveur|Gérer un serveur Plex au quotidien": {
+  "Plex|Gérer un serveur Plex au quotidien": {
     "title": "Managing a Plex server day-to-day",
     "summary": "Once it's installed: starting/checking the service, adding content, updating, watching performance, troubleshooting.",
     "content": [

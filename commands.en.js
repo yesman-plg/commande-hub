@@ -2373,77 +2373,77 @@ const COMMAND_TRANSLATIONS_EN = {
     "desc": "Shows the currently installed version of the CLI agent.",
     "tags": ["cursor", "cli", "version", "diagnostic"]
   },
-  "Serveur|Plex|Installer Plex via le .deb officiel (Debian/Ubuntu)": {
+  "Plex||Installer Plex via le .deb officiel (Debian/Ubuntu)": {
     "title": "Install Plex via the official .deb (Debian/Ubuntu)",
     "desc": "Always the latest version, bypassing the official apt repo — useful because the repo's signing key (2015, SHA-1) is rejected by Debian 13+/trixie's newer verifier (sqv). Plex then updates itself from its own server settings, without depending on the repo.",
     "tags": ["plex", "install", "debian", "linux", "deb", "media server"]
   },
-  "Serveur|Plex|Ajouter le dépôt apt officiel de Plex (méthode classique)": {
+  "Plex||Ajouter le dépôt apt officiel de Plex (méthode classique)": {
     "title": "Add Plex's official apt repo (classic method)",
     "desc": "Enables auto-updates via apt — but often fails on Debian 13+/trixie with \"not signed\" (Plex's key is too old, SHA-1 rejected). If that happens, use the direct .deb instead (previous command) rather than lowering apt's global security policy.",
     "tags": ["plex", "install", "apt", "repo", "debian"]
   },
-  "Serveur|Plex|Vérifier que le service Plex tourne": {
+  "Plex||Vérifier que le service Plex tourne": {
     "title": "Check that the Plex service is running",
     "desc": "Confirms the server has started (installed as a systemd service by the official package).",
     "tags": ["plex", "systemd", "status", "service"]
   },
-  "Serveur|Plex|Voir les logs du service Plex": {
+  "Plex||Voir les logs du service Plex": {
     "title": "View the Plex service logs",
     "desc": "Useful to diagnose a service that won't start or crashes.",
     "tags": ["plex", "logs", "journalctl", "debug"]
   },
-  "Serveur|Plex|Trouver l'IP locale et ouvrir l'interface web": {
+  "Plex||Trouver l'IP locale et ouvrir l'interface web": {
     "title": "Find the local IP and open the web interface",
     "desc": "Gives the machine's IP on the local network — then open http://IP:32400/web in a browser (prefer the IP over \"localhost\" if accessing from another device on the network).",
     "tags": ["plex", "ip", "web", "network", "interface"]
   },
-  "Serveur|Plex|Installer rclone sans sudo (binaire local)": {
+  "Plex||Installer rclone sans sudo (binaire local)": {
     "title": "Install rclone without sudo (local binary)",
     "desc": "Used to mount cloud storage (kDrive, Nextcloud, ownCloud, Google Drive...) as a local folder so Plex can read it. No root needed.",
     "tags": ["rclone", "install", "cloud", "webdav"]
   },
-  "Serveur|Plex|Connecter un espace WebDAV (ex: kDrive) à rclone": {
+  "Plex||Connecter un espace WebDAV (ex: kDrive) à rclone": {
     "title": "Connect a WebDAV space (e.g. kDrive) to rclone",
     "desc": "--obscure avoids the interactive masked prompt of \"rclone config\" (often buggy/frozen in some integrated terminals). Make sure to leave a space before --obscure, otherwise it merges with the password. For kDrive: the ID is the number in ksuite.infomaniak.com/all/kdrive's URL after \"/drive/\", and the password must be an app password (not the main account password).",
     "tags": ["rclone", "webdav", "kdrive", "config", "cloud"]
   },
-  "Serveur|Plex|Tester la connexion à un remote rclone": {
+  "Plex||Tester la connexion à un remote rclone": {
     "title": "Test the connection to an rclone remote",
     "desc": "Should list the cloud folders if the connection/authentication works. \"directory not found\" = wrong URL/ID; \"401 Unauthorized\"/\"No Authorization header\" = missing or wrong user/pass in the config.",
     "tags": ["rclone", "test", "diagnostic", "webdav"]
   },
-  "Serveur|Plex|Déplacer un dossier côté cloud (sans re-upload)": {
+  "Plex||Déplacer un dossier côté cloud (sans re-upload)": {
     "title": "Move a folder server-side in the cloud (no re-upload)",
     "desc": "Server-to-server rename/move, near-instant (no data transfer) — handy for reorganizing movies/shows directly on the cloud before handing them to Plex.",
     "tags": ["rclone", "move", "reorganize", "cloud"]
   },
-  "Serveur|Plex|Autoriser le montage à être lu par d'autres utilisateurs": {
+  "Plex||Autoriser le montage à être lu par d'autres utilisateurs": {
     "title": "Allow the mount to be read by other users",
     "desc": "Needed so the system's \"plex\" user (different from your own account) can read the rclone mount's files — combined with the service's --allow-other option (next command).",
     "tags": ["fuse", "permissions", "plex", "allow_other"]
   },
-  "Serveur|Plex|Créer le service systemd de montage automatique": {
+  "Plex||Créer le service systemd de montage automatique": {
     "title": "Create the systemd service for automatic mounting",
     "desc": "--dir-cache-time sets how long before newly added cloud files show up in the mount (1h is a good compromise). --vfs-cache-mode full downloads locally on read for smooth streaming (seeking works). --rc enables a local interface to force an on-demand refresh. Adjust the paths/user to your setup.",
     "tags": ["systemd", "rclone", "mount", "service", "unit"]
   },
-  "Serveur|Plex|Activer et démarrer le montage au démarrage": {
+  "Plex||Activer et démarrer le montage au démarrage": {
     "title": "Enable and start the mount at boot",
     "desc": "Creates the mount point, then enables the service so it starts automatically on every boot.",
     "tags": ["systemd", "mount", "boot", "enable"]
   },
-  "Serveur|Plex|Vérifier l'état du montage": {
+  "Plex||Vérifier l'état du montage": {
     "title": "Check the mount's status",
     "desc": "The second command should list the real cloud folders. If the mount looks empty/stale right after a cloud-side change, that's the cache (--dir-cache-time) — see the force-refresh command.",
     "tags": ["systemd", "mount", "status", "diagnostic"]
   },
-  "Serveur|Plex|Forcer le rafraîchissement du cache du montage": {
+  "Plex||Forcer le rafraîchissement du cache du montage": {
     "title": "Force the mount's cache to refresh",
     "desc": "Makes the mount re-check files immediately without waiting for --dir-cache-time — requires the service's --rc option. Then trigger a scan in Plex (library → \"...\" → Scan Library Files) so it picks up the new files right away.",
     "tags": ["rclone", "rc", "cache", "refresh", "vfs"]
   },
-  "Serveur|Plex|Ouvrir le port Plex dans le pare-feu (ufw)": {
+  "Plex||Ouvrir le port Plex dans le pare-feu (ufw)": {
     "title": "Open the Plex port in the firewall (ufw)",
     "desc": "Only needed if ufw is active and blocking the default port. For remote access (outside the local network), you also need to forward port 32400 to this machine in your router settings.",
     "tags": ["plex", "firewall", "ufw", "port", "remote access"]
