@@ -5019,5 +5019,71 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "Relay doesn't require access to any router — it's the only option that works when you don't control (or can't control) every network device in the chain. The trade-off is capped bandwidth (~2 Mbps), not enough for untranscoded 4K but fine for light SD/HD."
       }
     ]
+  },
+  "Serveur|Installer un serveur Plex de A à Z (Linux)": {
+    "title": "Installing a Plex server from scratch (Linux)",
+    "summary": "The whole path, condensed: install Plex, give it access to your files (local or cloud), create your libraries.",
+    "content": [
+      {
+        "heading": "Overview: what you need",
+        "text": "A Plex server is three independent building blocks: (1) Plex Media Server itself, which scans your files and streams them; (2) access to the files — a local disk, or cloud storage mounted locally if your movies/shows aren't already there (see [[Serveur::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]); (3) optionally, remote access if you want to watch away from home. This guide covers the first two blocks."
+      },
+      {
+        "heading": "Installing Plex",
+        "text": "On recent Debian/Ubuntu (Debian 13+/trixie), use the directly downloaded .deb rather than the official apt repo — its signing key (2015, SHA-1) is rejected by Debian's newer security verifier. Once installed, `systemctl is-active plexmediaserver` should answer \"active\": it's a real systemd service, started automatically on every reboot — no need to relaunch it by hand."
+      },
+      {
+        "heading": "Pointing Plex to your files",
+        "text": "If your movies/shows are already on a disk on this machine, nothing special — you'll give that folder directly to Plex. If they're on cloud storage (kDrive, Nextcloud...), you first need to mount it locally with rclone (see [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) then make it permanent with a systemd service (see [[Serveur::Rendre le montage rclone permanent avec systemd]]) — otherwise the mount disappears on every reboot."
+      },
+      {
+        "heading": "Creating libraries in the web interface",
+        "text": "Find the machine's local IP with `hostname -I`, open http://IP:32400/web in a browser, create a Plex account or sign in, then \"claim\" the server. In Settings → Libraries → Add Library: create a SEPARATE \"Movies\" library and \"TV Shows\" library (never both mixed in the same scanned folder as-is), each pointing to the right folder — Plex then fetches posters and summaries on its own."
+      },
+      {
+        "heading": "What's next?",
+        "text": "Once it's running, see [[Serveur::Gérer un serveur Plex au quotidien]] for day-to-day maintenance, and [[Serveur::NAT, double NAT et accès distant à Plex]] if you want to access it from outside your home."
+      }
+    ]
+  },
+  "Serveur|Gérer un serveur Plex au quotidien": {
+    "title": "Managing a Plex server day-to-day",
+    "summary": "Once it's installed: starting/checking the service, adding content, updating, watching performance, troubleshooting.",
+    "content": [
+      {
+        "heading": "The service: start, stop, check",
+        "text": "Plex runs as a standard systemd service: `systemctl status plexmediaserver` to see if it's running, `sudo systemctl restart plexmediaserver` to relaunch it after an issue. If it crashes or misbehaves, the real logs are in `journalctl -u plexmediaserver -n 50 --no-pager` — far more informative than the web interface's vague messages."
+      },
+      {
+        "heading": "Adding new content",
+        "text": "If your files are on a cloud mount (rclone), a newly added cloud file doesn't show up instantly: the mount has its own cache, and Plex additionally needs to run a scan. To force it immediately: `curl -X POST http://localhost:5572/vfs/refresh` (refreshes the mount), then in Plex: the library → \"...\" → \"Scan Library Files\". Otherwise it happens on its own within the hour if the library's periodic scan is enabled (library's advanced settings)."
+      },
+      {
+        "heading": "Updating Plex",
+        "text": "If Plex was installed via the direct .deb (not the apt repo), `apt upgrade` will NEVER update it. Plex updates itself: Settings → General → the updates section, where you can enable automatic downloads or click \"Check for Updates Now\". The server handles this itself, independently of apt."
+      },
+      {
+        "heading": "Watching space and performance",
+        "text": "On the cloud mount point, `df -h` shows the cloud's real used/available space (not the local disk's). The real local risk is the VFS cache (--vfs-cache-mode full), which grows as large files are read — watch the disk space hosting it. On the CPU side: direct playback (\"Direct Play\") costs almost nothing, but a client that doesn't support the codec/resolution forces on-the-fly TRANSCODING, which can max out a small CPU on 4K HDR content — visible live in Plex under \"Activity\" (dashboard)."
+      },
+      {
+        "heading": "Troubleshooting reflex",
+        "text": "Empty/incomplete library → check the cloud mount before Plex (see [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]). Accessible locally but not remotely → see [[Serveur::NAT, double NAT et accès distant à Plex]]. Service won't start → `journalctl -u plexmediaserver -n 50 --no-pager` is always the first reflex."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "An episode added yesterday to your cloud storage still hasn't shown up in Plex, 2 hours later. What's the most effective reflex?",
+        "options": [
+          "Reinstall Plex",
+          "Force the mount to refresh (curl vfs/refresh) then trigger a library scan",
+          "Restart the whole machine",
+          "Keep waiting, it'll eventually show up on its own"
+        ],
+        "correctIndex": 1,
+        "correction": "That's the exact combination that fixes it immediately: the cloud mount has its own cache (independent from Plex), and Plex additionally needs its own scan. Forcing both manually avoids waiting out both delays one after the other."
+      }
+    ]
   }
 };

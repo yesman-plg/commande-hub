@@ -5307,5 +5307,77 @@ const GUIDES = [
         correction: "Le Relais ne demande d'accès à aucun routeur — c'est la seule option qui fonctionne quand tu ne contrôles pas (ou ne peux pas contrôler) tous les équipements réseau de la chaîne. Le compromis est le débit plafonné (~2 Mbps), insuffisant pour du 4K non transcodé mais correct pour du SD/HD léger."
       }
     ]
+  },
+{
+    category: "Serveur",
+    subcategory: "Plex",
+    title: "Installer un serveur Plex de A à Z (Linux)",
+    level: "🟢 Débutant",
+    summary: "Le parcours complet, condensé : installer Plex, lui donner accès à tes fichiers (locaux ou cloud), créer tes bibliothèques.",
+    content: [
+      {
+        heading: "Vue d'ensemble : ce dont tu as besoin",
+        text: "Un serveur Plex, c'est trois briques indépendantes : (1) Plex Media Server lui-même, qui scanne tes fichiers et les diffuse ; (2) l'accès aux fichiers — un disque local, ou un espace cloud monté en local si tes films/séries n'y sont pas déjà (voir [[Serveur::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]) ; (3) éventuellement l'accès distant si tu veux regarder hors de chez toi. Cette fiche couvre les deux premières briques."
+      },
+      {
+        heading: "Installer Plex",
+        text: "Sur Debian/Ubuntu récents (Debian 13+/trixie), passe par le .deb téléchargé directement plutôt que par le dépôt apt officiel — sa clé de signature (2015, SHA-1) est rejetée par le nouveau vérificateur de sécurité de Debian. Une fois installé, `systemctl is-active plexmediaserver` doit répondre \"active\" : c'est un vrai service systemd, démarré automatiquement à chaque redémarrage — pas besoin de le relancer à la main."
+      },
+      {
+        heading: "Pointer Plex vers tes fichiers",
+        text: "Si tes films/séries sont déjà sur un disque de cette machine, rien de spécial — tu donneras directement ce dossier à Plex. S'ils sont sur un espace cloud (kDrive, Nextcloud...), il faut d'abord le monter localement avec rclone (voir [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) puis le rendre permanent avec un service systemd (voir [[Serveur::Rendre le montage rclone permanent avec systemd]]) — sinon le montage disparaît à chaque redémarrage de la machine."
+      },
+      {
+        heading: "Créer les bibliothèques dans l'interface web",
+        text: "Trouve l'IP locale de la machine avec `hostname -I`, ouvre http://IP:32400/web dans un navigateur, crée un compte Plex ou connecte-toi, puis \"réclame\" le serveur. Dans Réglages → Bibliothèques → Ajouter une bibliothèque : crée une bibliothèque \"Films\" et une bibliothèque \"Séries TV\" SÉPARÉES (jamais les deux mélangées dans le même dossier scanné tel quel), chacune pointant vers le bon dossier — Plex récupère ensuite tout seul affiches et résumés."
+      },
+      {
+        heading: "Et après ?",
+        text: "Une fois que ça tourne, voir [[Serveur::Gérer un serveur Plex au quotidien]] pour l'entretien courant, et [[Serveur::NAT, double NAT et accès distant à Plex]] si tu veux y accéder depuis l'extérieur de chez toi."
+      }
+    ]
+  },
+{
+    category: "Serveur",
+    subcategory: "Plex",
+    title: "Gérer un serveur Plex au quotidien",
+    level: "🟡 Intermédiaire",
+    summary: "Une fois installé : démarrer/vérifier le service, ajouter du contenu, mettre à jour, surveiller les performances, dépanner.",
+    content: [
+      {
+        heading: "Le service : démarrer, arrêter, vérifier",
+        text: "Plex tourne comme un service systemd standard : `systemctl status plexmediaserver` pour voir s'il tourne, `sudo systemctl restart plexmediaserver` pour le relancer après un souci. En cas de plantage ou de comportement bizarre, les vrais logs sont dans `journalctl -u plexmediaserver -n 50 --no-pager` — bien plus parlant que les messages vagues de l'interface web."
+      },
+      {
+        heading: "Ajouter du nouveau contenu",
+        text: "Si tes fichiers sont sur un montage cloud (rclone), un nouveau fichier ajouté sur le cloud n'apparaît pas instantanément : le montage a son propre cache, et Plex doit en plus lancer un scan. Pour forcer l'immédiat : `curl -X POST http://localhost:5572/vfs/refresh` (rafraîchit le montage), puis dans Plex : bibliothèque concernée → \"...\" → \"Analyser les fichiers de la bibliothèque\". Sinon ça se fait tout seul dans l'heure si le scan périodique de la bibliothèque est activé (réglages avancés de la bibliothèque)."
+      },
+      {
+        heading: "Mettre Plex à jour",
+        text: "Si Plex a été installé via le .deb direct (pas via le dépôt apt), `apt upgrade` ne le mettra JAMAIS à jour. Plex se met à jour lui-même : Réglages → Général → section mises à jour, où tu peux activer le téléchargement automatique ou cliquer \"Vérifier les mises à jour maintenant\". C'est le serveur lui-même qui gère ça, indépendamment d'apt."
+      },
+      {
+        heading: "Surveiller l'espace et les performances",
+        text: "Sur le point de montage cloud, `df -h` montre l'espace utilisé/disponible réel du cloud (pas du disque local). Le vrai risque local, c'est le cache VFS (--vfs-cache-mode full) qui grossit avec la lecture de gros fichiers — surveille l'espace du disque qui l'héberge. Côté CPU : la lecture directe (\"Direct Play\") ne coûte presque rien, mais un client qui ne supporte pas le codec/la résolution force un TRANSCODAGE à la volée, qui peut saturer un petit CPU sur du 4K HDR — visible en direct dans Plex sous \"Activité\" (tableau de bord)."
+      },
+      {
+        heading: "Réflexe de dépannage",
+        text: "Bibliothèque vide/incomplète → vérifie le montage cloud avant Plex (voir [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]). Accessible en local mais pas à distance → voir [[Serveur::NAT, double NAT et accès distant à Plex]]. Service qui ne démarre pas → `journalctl -u plexmediaserver -n 50 --no-pager` en premier réflexe, toujours."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Un épisode ajouté hier sur ton espace cloud n'apparaît toujours pas dans Plex, 2h plus tard. Quel est le réflexe le plus efficace ?",
+        options: [
+          "Réinstaller Plex",
+          "Forcer le rafraîchissement du montage (curl vfs/refresh) puis relancer un scan de la bibliothèque",
+          "Redémarrer toute la machine",
+          "Attendre encore, ça finira par apparaître tout seul"
+        ],
+        correctIndex: 1,
+        correction: "C'est la combinaison exacte qui règle ça immédiatement : le montage cloud a son propre cache (indépendant de Plex), et Plex a en plus besoin de son propre scan. Forcer les deux manuellement évite d'attendre les deux délais l'un après l'autre."
+      }
+    ]
   }
 ];
