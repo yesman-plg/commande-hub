@@ -854,7 +854,8 @@
 //                 Utilisé pour "Linux" afin d'éviter d'avoir 70 commandes
 //                 en vrac — même principe si un autre onglet grossit trop.
 //   title       : petit titre lisible
-//   cmd         : la commande (utilise \n pour plusieurs lignes)
+//   cmd         : la commande (utilise 
+ pour plusieurs lignes)
 //   desc        : explication courte (optionnel)
 //   tags        : mots-clés pour la recherche (optionnel)
 //   related     : renvoi vers une fiche Formation liée (optionnel), au
@@ -897,7 +898,9 @@ const COMMANDS = [
     category: "Expo / React Native",
     subcategory: "Démarrage & Dev",
     title: "Ouvrir directement sur une plateforme",
-    cmd: "npx expo start --android\nnpx expo start --ios\nnpx expo start --web",
+    cmd: "npx expo start --android
+npx expo start --ios
+npx expo start --web",
     desc: "Lance le serveur et ouvre directement l'app sur la plateforme choisie.",
     tags: ["start", "android", "ios", "web"]
   },
@@ -1049,7 +1052,8 @@ const COMMANDS = [
     category: "Expo / React Native",
     subcategory: "Diagnostic & config",
     title: "Mettre à jour le SDK Expo",
-    cmd: "npx expo install expo@latest\nnpx expo-doctor",
+    cmd: "npx expo install expo@latest
+npx expo-doctor",
     desc: "Upgrade puis vérifie que tout est cohérent.",
     tags: ["upgrade", "sdk"]
   },
@@ -1426,7 +1430,8 @@ const COMMANDS = [
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Zipper / dézipper",
-    cmd: "zip -r archive.zip mon-dossier/\nunzip archive.zip",
+    cmd: "zip -r archive.zip mon-dossier/
+unzip archive.zip",
     desc: "Alternative à tar, plus courante quand il faut échanger avec Windows/Mac.",
     tags: ["zip", "unzip", "compression"]
   },
@@ -1442,7 +1447,9 @@ const COMMANDS = [
     category: "Linux",
     subcategory: "Fichiers & disque",
     title: "Monter / démonter une clé USB",
-    cmd: "lsblk\nsudo mount /dev/sdX1 /mnt\nsudo umount /mnt",
+    cmd: "lsblk
+sudo mount /dev/sdX1 /mnt
+sudo umount /mnt",
     desc: "Repère d'abord le périphérique avec lsblk avant de monter.",
     tags: ["mount", "umount", "usb"]
   },
@@ -1663,7 +1670,8 @@ const COMMANDS = [
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Installer un .deb téléchargé",
-    cmd: "sudo dpkg -i fichier.deb\nsudo apt -f install",
+    cmd: "sudo dpkg -i fichier.deb
+sudo apt -f install",
     desc: "La 2e ligne corrige automatiquement les dépendances manquantes.",
     tags: ["dpkg", "deb", "install"]
   },
@@ -1671,7 +1679,8 @@ const COMMANDS = [
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Gérer les paquets Snap",
-    cmd: "snap list\nsudo snap install nom-du-paquet",
+    cmd: "snap list
+sudo snap install nom-du-paquet",
     desc: "Gestionnaire de paquets sandboxés, alternative à apt pour certaines apps.",
     tags: ["snap", "install"]
   },
@@ -1679,7 +1688,8 @@ const COMMANDS = [
     category: "Linux",
     subcategory: "Paquets (apt / snap / flatpak)",
     title: "Gérer les paquets Flatpak",
-    cmd: "flatpak list\nflatpak install flathub nom-du-paquet",
+    cmd: "flatpak list
+flatpak install flathub nom-du-paquet",
     desc: "Autre système de paquets sandboxés, très utilisé pour les apps GUI récentes.",
     tags: ["flatpak", "install"]
   },
@@ -1845,7 +1855,8 @@ const COMMANDS = [
     category: "Linux",
     subcategory: "Docker",
     title: "Arrêter / démarrer un conteneur",
-    cmd: "docker stop nom-conteneur\ndocker start nom-conteneur",
+    cmd: "docker stop nom-conteneur
+docker start nom-conteneur",
     desc: "Arrête ou relance un conteneur existant sans le recréer.",
     tags: ["docker", "stop", "start"]
   },
@@ -1869,7 +1880,8 @@ const COMMANDS = [
     category: "Linux",
     subcategory: "Docker",
     title: "Lancer / arrêter une stack (Compose)",
-    cmd: "docker compose up -d\ndocker compose down",
+    cmd: "docker compose up -d
+docker compose down",
     desc: "up -d démarre tous les services en arrière-plan, down les arrête et supprime les conteneurs.",
     tags: ["docker", "compose", "stack"],
     related: "Docker::Docker Compose, orchestrer plusieurs conteneurs",
@@ -2476,7 +2488,8 @@ const COMMANDS = [
     category: "Git",
     subcategory: "Tags & config",
     title: "Configurer nom et email globaux",
-    cmd: 'git config --global user.name "Ton Nom"\ngit config --global user.email "ton@email.com"',
+    cmd: 'git config --global user.name "Ton Nom"
+git config --global user.email "ton@email.com"',
     desc: "À faire une fois par machine.",
     tags: ["config", "setup"]
   },
@@ -3603,21 +3616,27 @@ const COMMANDS = [
 {
     category: "Plex",
     title: "Installer Plex via le .deb officiel (Debian/Ubuntu)",
-    cmd: "cd /tmp\ncurl -fsSL -o plexmediaserver.deb \"$(curl -s https://plex.tv/api/downloads/5.json | python3 -c \"import json,sys; d=json.load(sys.stdin); print([r['url'] for r in d['computer']['Linux']['releases'] if r['distro']=='debian' and r['build']=='linux-x86_64'][0])\")\"\nsudo dpkg -i plexmediaserver.deb\nsudo apt-get install -f -y",
+    cmd: "cd /tmp
+curl -fsSL -o plexmediaserver.deb \"$(curl -s https://plex.tv/api/downloads/5.json | python3 -c \"import json,sys; d=json.load(sys.stdin); print([r['url'] for r in d['computer']['Linux']['releases'] if r['distro']=='debian' and r['build']=='linux-x86_64'][0])\")\"
+sudo dpkg -i plexmediaserver.deb
+sudo apt-get install -f -y",
     desc: "Toujours la dernière version, en contournant le dépôt apt officiel — utile car la clé de signature du dépôt (2015, SHA-1) est rejetée par le nouveau vérificateur de Debian 13+/trixie (sqv). Plex se met à jour ensuite lui-même depuis ses réglages serveur, sans dépendre du dépôt.",
     tags: ["plex", "install", "debian", "linux", "deb", "media server"]
   },
 {
     category: "Plex",
     title: "Ajouter le dépôt apt officiel de Plex (méthode classique)",
-    cmd: "curl -fsSL https://downloads.plex.tv/plex-keys/PlexSign.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/plexmediaserver.gpg\necho \"deb https://downloads.plex.tv/repo/deb public main\" | sudo tee /etc/apt/sources.list.d/plexmediaserver.list\nsudo apt update && sudo apt install -y plexmediaserver",
+    cmd: "curl -fsSL https://downloads.plex.tv/plex-keys/PlexSign.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/plexmediaserver.gpg
+echo \"deb https://downloads.plex.tv/repo/deb public main\" | sudo tee /etc/apt/sources.list.d/plexmediaserver.list
+sudo apt update && sudo apt install -y plexmediaserver",
     desc: "Permet les mises à jour auto via apt — mais échoue souvent sur Debian 13+/trixie avec \"n'est pas signé\" (clé Plex trop ancienne, SHA-1 refusé). Si ça arrive, utilise plutôt le .deb direct (commande précédente) au lieu de baisser la politique de sécurité globale d'apt.",
     tags: ["plex", "install", "apt", "repo", "debian"]
   },
 {
     category: "Plex",
     title: "Vérifier que le service Plex tourne",
-    cmd: "systemctl is-active plexmediaserver\nsystemctl status plexmediaserver",
+    cmd: "systemctl is-active plexmediaserver
+systemctl status plexmediaserver",
     desc: "Confirme que le serveur a démarré (installé comme service systemd par le paquet officiel).",
     tags: ["plex", "systemd", "status", "service"]
   },
@@ -3638,7 +3657,11 @@ const COMMANDS = [
 {
     category: "Plex",
     title: "Installer rclone sans sudo (binaire local)",
-    cmd: "curl -fsSL -o rclone.zip https://downloads.rclone.org/rclone-current-linux-amd64.zip\nunzip -q -o rclone.zip\nmkdir -p ~/.local/bin\ncp rclone-*-linux-amd64/rclone ~/.local/bin/rclone\nchmod +x ~/.local/bin/rclone",
+    cmd: "curl -fsSL -o rclone.zip https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip -q -o rclone.zip
+mkdir -p ~/.local/bin
+cp rclone-*-linux-amd64/rclone ~/.local/bin/rclone
+chmod +x ~/.local/bin/rclone",
     desc: "Sert à monter un espace cloud (kDrive, Nextcloud, ownCloud, Google Drive...) comme un dossier local pour que Plex puisse le lire. Pas besoin de droits root.",
     tags: ["rclone", "install", "cloud", "webdav"]
   },
@@ -3673,21 +3696,45 @@ const COMMANDS = [
 {
     category: "Plex",
     title: "Créer le service systemd de montage automatique",
-    cmd: "sudo tee /etc/systemd/system/rclone-kdrive.service <<'EOF'\n[Unit]\nDescription=rclone mount kDrive pour Plex\nAfter=network-online.target\nWants=network-online.target\nAssertPathIsDirectory=/mnt/kdrive\n\n[Service]\nType=simple\nUser=evan\nGroup=evan\nExecStart=/home/evan/.local/bin/rclone mount kdrive: /mnt/kdrive --config /home/evan/.config/rclone/rclone.conf --allow-other --dir-cache-time 1h --vfs-cache-mode full --vfs-cache-max-size 20G --vfs-cache-max-age 48h --umask 022 --log-level INFO --rc --rc-addr 127.0.0.1:5572 --rc-no-auth\nExecStop=/bin/fusermount3 -u /mnt/kdrive\nExecStopPost=-/bin/fusermount3 -uz /mnt/kdrive\nRestart=on-failure\nRestartSec=10\nTimeoutStopSec=20\n\n[Install]\nWantedBy=multi-user.target\nEOF",
+    cmd: "sudo tee /etc/systemd/system/rclone-kdrive.service <<'EOF'
+[Unit]
+Description=rclone mount kDrive pour Plex
+After=network-online.target
+Wants=network-online.target
+AssertPathIsDirectory=/mnt/kdrive
+
+[Service]
+Type=simple
+User=evan
+Group=evan
+ExecStart=/home/evan/.local/bin/rclone mount kdrive: /mnt/kdrive --config /home/evan/.config/rclone/rclone.conf --allow-other --dir-cache-time 1h --vfs-cache-mode full --vfs-cache-max-size 20G --vfs-cache-max-age 48h --umask 022 --log-level INFO --rc --rc-addr 127.0.0.1:5572 --rc-no-auth
+ExecStop=/bin/fusermount3 -u /mnt/kdrive
+ExecStopPost=-/bin/fusermount3 -uz /mnt/kdrive
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target
+EOF",
     desc: "--dir-cache-time règle le délai avant que les nouveaux fichiers ajoutés sur le cloud apparaissent dans le montage (1h = bon compromis). --vfs-cache-mode full télécharge en local à la lecture pour un streaming fluide (seek possible). --rc active une interface locale pour forcer un rafraîchissement à la demande. Adapte les chemins/utilisateur à ta config.",
     tags: ["systemd", "rclone", "mount", "service", "unit"]
   },
 {
     category: "Plex",
     title: "Activer et démarrer le montage au démarrage",
-    cmd: "sudo mkdir -p /mnt/kdrive\nsudo chown $USER:$USER /mnt/kdrive\nsudo systemctl daemon-reload\nsudo systemctl enable --now rclone-kdrive.service",
+    cmd: "sudo mkdir -p /mnt/kdrive
+sudo chown $USER:$USER /mnt/kdrive
+sudo systemctl daemon-reload
+sudo systemctl enable --now rclone-kdrive.service",
     desc: "Crée le point de montage, puis active le service pour qu'il démarre automatiquement à chaque boot.",
     tags: ["systemd", "mount", "boot", "enable"]
   },
 {
     category: "Plex",
     title: "Vérifier l'état du montage",
-    cmd: "systemctl status rclone-kdrive.service\nls /mnt/kdrive",
+    cmd: "systemctl status rclone-kdrive.service
+ls /mnt/kdrive",
     desc: "Le deuxième doit lister les vrais dossiers du cloud. Si le montage semble vide/périmé juste après un changement côté cloud, c'est le cache (--dir-cache-time) — vois la commande de rafraîchissement forcé.",
     tags: ["systemd", "mount", "status", "diagnostic"]
   },
@@ -6174,7 +6221,10 @@ const COMMAND_TRANSLATIONS_EN = {
 //   level    : "🟢 Débutant", "🟡 Intermédiaire" ou "🔴 Avancé" (badge)
 //   summary  : résumé en 1-2 phrases, toujours visible
 //   content  : tableau de { heading, text }. text peut contenir des
-//              \n\n pour séparer les paragraphes, et des \n simples
+//              
+
+ pour séparer les paragraphes, et des 
+ simples
 //              pour des lignes de commande/étapes.
 // ============================================================
 
@@ -6204,7 +6254,11 @@ const GUIDES = [
       },
       {
         heading: "Ce qui vit où, concrètement",
-        text: "Dev : ton code tourne sur TON PC ; le téléphone ne fait qu'afficher le résultat via le réseau — sans ton PC allumé, rien ne marche.\n\nBuild : le code JS est empaqueté DIRECTEMENT dans le fichier .apk/.ipa ; l'app n'a plus jamais besoin de ton PC pour fonctionner.\n\nUpdate (OTA) : remplace le bundle JS déjà empaqueté dans une app déjà installée, sans regénérer de nouveau fichier .apk/.ipa."
+        text: "Dev : ton code tourne sur TON PC ; le téléphone ne fait qu'afficher le résultat via le réseau — sans ton PC allumé, rien ne marche.
+
+Build : le code JS est empaqueté DIRECTEMENT dans le fichier .apk/.ipa ; l'app n'a plus jamais besoin de ton PC pour fonctionner.
+
+Update (OTA) : remplace le bundle JS déjà empaqueté dans une app déjà installée, sans regénérer de nouveau fichier .apk/.ipa."
       },
       {
         heading: "Résumé en une phrase",
@@ -6242,7 +6296,10 @@ const GUIDES = [
       },
       {
         heading: "La checklist de dépannage",
-        text: "1. As-tu utilisé npx expo install (pas npm install) ? Il choisit la version compatible avec ton SDK.\n2. Relance avec le cache vidé : `npx expo start -c`\n3. Si la lib a du code natif et que tu es en dev client / bare workflow : `npx expo prebuild --clean` puis un nouveau build.\n4. En cas de doute sur la config générale : `npx expo-doctor` te dit ce qui cloche."
+        text: "1. As-tu utilisé npx expo install (pas npm install) ? Il choisit la version compatible avec ton SDK.
+2. Relance avec le cache vidé : `npx expo start -c`
+3. Si la lib a du code natif et que tu es en dev client / bare workflow : `npx expo prebuild --clean` puis un nouveau build.
+4. En cas de doute sur la config générale : `npx expo-doctor` te dit ce qui cloche."
       }
     ],
     exercises: [
@@ -6256,7 +6313,8 @@ const GUIDES = [
                               "expect": [
                                     "npx expo start -c"
                               ],
-                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
+                              "output": "Cache Metro vidé.
+Démarrage du serveur de développement…"
                         }
                   ]
             },
@@ -6276,7 +6334,9 @@ const GUIDES = [
       },
       {
         heading: "eas.json : les recettes de build",
-        text: "Définit des \"profils\" (typiquement development, preview, production), chacun avec ses propres réglages : type de build, variables d'environnement, canal de distribution.\n\neas build --profile preview dit concrètement à EAS \"utilise la recette nommée preview\"."
+        text: "Définit des \"profils\" (typiquement development, preview, production), chacun avec ses propres réglages : type de build, variables d'environnement, canal de distribution.
+
+eas build --profile preview dit concrètement à EAS \"utilise la recette nommée preview\"."
       },
       {
         heading: "Pourquoi plusieurs profils",
@@ -6328,7 +6388,8 @@ const GUIDES = [
                               "expect": [
                                     "npx expo start --tunnel"
                               ],
-                              "output": "Tunnel ngrok établi.\nScanne le QR code pour te connecter depuis n'importe quel réseau."
+                              "output": "Tunnel ngrok établi.
+Scanne le QR code pour te connecter depuis n'importe quel réseau."
                         }
                   ]
             },
@@ -6384,7 +6445,9 @@ const GUIDES = [
       },
       {
         heading: "Debug vs Release",
-        text: "Un build \"debug\" (assembleDebug) est rapide à générer, non optimisé, et facile à débugger — c'est celui que tu utilises au quotidien pendant le développement.\n\nUn build \"release\" (assembleRelease) est optimisé, minifié, et signé numériquement — c'est celui que tu envoies aux utilisateurs/au store."
+        text: "Un build \"debug\" (assembleDebug) est rapide à générer, non optimisé, et facile à débugger — c'est celui que tu utilises au quotidien pendant le développement.
+
+Un build \"release\" (assembleRelease) est optimisé, minifié, et signé numériquement — c'est celui que tu envoies aux utilisateurs/au store."
       },
       {
         heading: "assemble vs install",
@@ -6406,7 +6469,8 @@ const GUIDES = [
                               "expect": [
                                     "./gradlew assembleDebug"
                               ],
-                              "output": "BUILD SUCCESSFUL in 24s\n34 actionable tasks: 34 executed"
+                              "output": "BUILD SUCCESSFUL in 24s
+34 actionable tasks: 34 executed"
                         }
                   ]
             },
@@ -6426,11 +6490,16 @@ const GUIDES = [
       },
       {
         heading: "Le flow de débug classique",
-        text: "1. `adb devices` → vérifie que ton appareil est bien détecté\n2. Tu reproduis le bug sur l'app\n3. `adb logcat *:E` → tu regardes les erreurs qui remontent au moment du crash\n4. Une fois corrigé, tu réinstalles avec `./gradlew installDebug` et tu retestes"
+        text: "1. `adb devices` → vérifie que ton appareil est bien détecté
+2. Tu reproduis le bug sur l'app
+3. `adb logcat *:E` → tu regardes les erreurs qui remontent au moment du crash
+4. Une fois corrigé, tu réinstalles avec `./gradlew installDebug` et tu retestes"
       },
       {
         heading: "logcat, filtrer intelligemment",
-        text: "*:E = uniquement les erreurs, tous tags confondus — utile pour un premier repérage.\n\nMonTag:D *:S = affiche seulement les logs de niveau debug et plus du tag \"MonTag\", et masque tout le reste (*:S = silent). Très utile pour isoler UNIQUEMENT les logs que TU as ajoutés toi-même dans le code avec Log.d(\"MonTag\", \"message\")."
+        text: "*:E = uniquement les erreurs, tous tags confondus — utile pour un premier repérage.
+
+MonTag:D *:S = affiche seulement les logs de niveau debug et plus du tag \"MonTag\", et masque tout le reste (*:S = silent). Très utile pour isoler UNIQUEMENT les logs que TU as ajoutés toi-même dans le code avec Log.d(\"MonTag\", \"message\")."
       },
       {
         heading: "Pourquoi \"device not found\" ou \"unauthorized\"",
@@ -6448,7 +6517,8 @@ const GUIDES = [
                               "expect": [
                                     "adb devices"
                               ],
-                              "output": "List of devices attached\nR58N30XXXXX\tdevice"
+                              "output": "List of devices attached
+R58N30XXXXX	device"
                         }
                   ]
             },
@@ -6498,11 +6568,15 @@ const GUIDES = [
       },
       {
         heading: "AAB (Android App Bundle) : le format attendu par le Play Store",
-        text: "Contient TOUT (toutes les langues, toutes les architectures de processeur), et c'est Google Play qui génère ensuite, pour chaque appareil qui télécharge l'app, un APK optimisé et allégé rien que pour lui. Résultat : l'utilisateur télécharge moins de Mo.\n\nDepuis 2021, le Play Store exige l'AAB (bundleRelease) pour toute nouvelle app."
+        text: "Contient TOUT (toutes les langues, toutes les architectures de processeur), et c'est Google Play qui génère ensuite, pour chaque appareil qui télécharge l'app, un APK optimisé et allégé rien que pour lui. Résultat : l'utilisateur télécharge moins de Mo.
+
+Depuis 2021, le Play Store exige l'AAB (bundleRelease) pour toute nouvelle app."
       },
       {
         heading: "Le keystore, la carte d'identité de ton app",
-        text: "Un build release doit être signé avec un keystore (un fichier .jks/.keystore contenant une clé privée). Cette signature prouve que les mises à jour proviennent bien du même développeur — Android refuse d'installer une mise à jour signée avec une clé différente.\n\n⚠️ Si tu perds ce fichier ou son mot de passe, tu ne pourras plus JAMAIS mettre à jour ton app sur le Play Store sous le même identifiant. Sauvegarde-le précieusement, et ne le commite JAMAIS dans Git."
+        text: "Un build release doit être signé avec un keystore (un fichier .jks/.keystore contenant une clé privée). Cette signature prouve que les mises à jour proviennent bien du même développeur — Android refuse d'installer une mise à jour signée avec une clé différente.
+
+⚠️ Si tu perds ce fichier ou son mot de passe, tu ne pourras plus JAMAIS mettre à jour ton app sur le Play Store sous le même identifiant. Sauvegarde-le précieusement, et ne le commite JAMAIS dans Git."
       }
     ],
     exercises: [
@@ -6532,7 +6606,10 @@ const GUIDES = [
       },
       {
         heading: "Les méthodes clés, dans l'ordre",
-        text: "onCreate() → l'écran est créé (en théorie une seule fois, sauf si le système le détruit et le recrée).\nonStart() / onResume() → l'écran devient visible puis interactif.\nonPause() / onStop() → l'utilisateur quitte l'écran, mais peut potentiellement y revenir.\nonDestroy() → l'écran est définitivement fermé."
+        text: "onCreate() → l'écran est créé (en théorie une seule fois, sauf si le système le détruit et le recrée).
+onStart() / onResume() → l'écran devient visible puis interactif.
+onPause() / onStop() → l'utilisateur quitte l'écran, mais peut potentiellement y revenir.
+onDestroy() → l'écran est définitivement fermé."
       },
       {
         heading: "Le piège classique",
@@ -6562,7 +6639,9 @@ const GUIDES = [
     content: [
       {
         heading: "Le problème : ne jamais bloquer le thread principal",
-        text: "Android exécute l'interface (affichage, boutons, animations) sur un seul thread, le \"thread principal\" (UI thread). Une opération longue (appel réseau, accès disque/base de données) lancée directement dessus le BLOQUE — résultat : l'app freeze, et au-delà de quelques secondes, Android affiche carrément \"L'application ne répond pas\" (ANR).\n\nLes coroutines permettent de lancer ce travail long AILLEURS, sans geler l'interface, puis de revenir facilement sur le thread principal pour afficher le résultat."
+        text: "Android exécute l'interface (affichage, boutons, animations) sur un seul thread, le \"thread principal\" (UI thread). Une opération longue (appel réseau, accès disque/base de données) lancée directement dessus le BLOQUE — résultat : l'app freeze, et au-delà de quelques secondes, Android affiche carrément \"L'application ne répond pas\" (ANR).
+
+Les coroutines permettent de lancer ce travail long AILLEURS, sans geler l'interface, puis de revenir facilement sur le thread principal pour afficher le résultat."
       },
       {
         heading: "suspend fun, la fonction qui peut être \"mise en pause\"",
@@ -6570,11 +6649,17 @@ const GUIDES = [
       },
       {
         heading: "lifecycleScope / viewModelScope : où lancer une coroutine",
-        text: "lifecycleScope.launch { ... } lance une coroutine automatiquement liée au cycle de vie de l'Activity/Fragment — si l'écran est détruit, la coroutine est annulée automatiquement, évitant fuites mémoire et crashs (\"tentative de mise à jour d'une vue qui n'existe plus\").\n\nviewModelScope fait pareil mais lié à la durée de vie du ViewModel — pratique pour survivre à une rotation d'écran tout en étant nettoyé quand l'écran est vraiment fermé."
+        text: "lifecycleScope.launch { ... } lance une coroutine automatiquement liée au cycle de vie de l'Activity/Fragment — si l'écran est détruit, la coroutine est annulée automatiquement, évitant fuites mémoire et crashs (\"tentative de mise à jour d'une vue qui n'existe plus\").
+
+viewModelScope fait pareil mais lié à la durée de vie du ViewModel — pratique pour survivre à une rotation d'écran tout en étant nettoyé quand l'écran est vraiment fermé."
       },
       {
         heading: "Dispatchers : choisir où ça s'exécute",
-        text: "Dispatchers.Main → sur le thread principal (pour toucher à l'UI).\nDispatchers.IO → optimisé pour les opérations bloquantes (réseau, fichiers, base de données).\nDispatchers.Default → optimisé pour du calcul intensif en CPU.\n\nwithContext(Dispatchers.IO) { ... } permet de basculer temporairement une portion de code sur le bon thread avant de revenir automatiquement là où on était."
+        text: "Dispatchers.Main → sur le thread principal (pour toucher à l'UI).
+Dispatchers.IO → optimisé pour les opérations bloquantes (réseau, fichiers, base de données).
+Dispatchers.Default → optimisé pour du calcul intensif en CPU.
+
+withContext(Dispatchers.IO) { ... } permet de basculer temporairement une portion de code sur le bon thread avant de revenir automatiquement là où on était."
       }
     ],
     exercises: [
@@ -6630,19 +6715,34 @@ const GUIDES = [
     content: [
       {
         heading: "Anatomie d'une commande",
-        text: "Une commande a en général cette forme :\n\ncommande --option valeur argument\n\n• La commande (ex: git, npm, ls) dit quel programme lancer.\n• Les options (ou \"flags\") commencent par - ou -- et modifient le comportement. Ex: -r pour \"récursif\", --force pour forcer.\n• Un argument est une valeur donnée à la commande, souvent un nom de fichier ou de dossier.\n\nExemple : rm -r mon-dossier\n→ rm = supprimer, -r = aussi le contenu à l'intérieur, mon-dossier = ce qu'on supprime."
+        text: "Une commande a en général cette forme :
+
+commande --option valeur argument
+
+• La commande (ex: git, npm, ls) dit quel programme lancer.
+• Les options (ou \"flags\") commencent par - ou -- et modifient le comportement. Ex: -r pour \"récursif\", --force pour forcer.
+• Un argument est une valeur donnée à la commande, souvent un nom de fichier ou de dossier.
+
+Exemple : rm -r mon-dossier
+→ rm = supprimer, -r = aussi le contenu à l'intérieur, mon-dossier = ce qu'on supprime."
       },
       {
         heading: "Les < > dans ce hub",
-        text: "Dans les commandes de ce hub, tu verras parfois <nom-du-package> ou <PID>. Les chevrons ne se tapent JAMAIS : ils veulent dire \"remplace ça par ta propre valeur\".\n\nEx: `adb uninstall <nom.du.package>` devient adb uninstall com.exemple.monapp"
+        text: "Dans les commandes de ce hub, tu verras parfois <nom-du-package> ou <PID>. Les chevrons ne se tapent JAMAIS : ils veulent dire \"remplace ça par ta propre valeur\".
+
+Ex: `adb uninstall <nom.du.package>` devient adb uninstall com.exemple.monapp"
       },
       {
         heading: "sudo, c'est quoi ?",
-        text: "sudo veut dire \"exécute cette commande en tant qu'administrateur\". Le système demande ton mot de passe et autorise des actions normalement bloquées (installer un logiciel, modifier un fichier système…).\n\nRègle d'or : ne tape jamais sudo devant une commande que tu ne comprends pas, surtout si elle contient rm."
+        text: "sudo veut dire \"exécute cette commande en tant qu'administrateur\". Le système demande ton mot de passe et autorise des actions normalement bloquées (installer un logiciel, modifier un fichier système…).
+
+Règle d'or : ne tape jamais sudo devant une commande que tu ne comprends pas, surtout si elle contient rm."
       },
       {
         heading: "\"command not found\", que faire ?",
-        text: "Ça veut dire que le shell n'a trouvé aucun programme portant ce nom (faute de frappe, ou logiciel pas installé, ou pas dans le PATH — voir [[Bases du terminal::Variables d'environnement et PATH]]).\n\nRéflexe : vérifie l'orthographe, puis demande-toi \"ce logiciel est-il vraiment installé ?\" avec `which nom-de-la-commande` ou en cherchant comment l'installer (souvent via apt)."
+        text: "Ça veut dire que le shell n'a trouvé aucun programme portant ce nom (faute de frappe, ou logiciel pas installé, ou pas dans le PATH — voir [[Bases du terminal::Variables d'environnement et PATH]]).
+
+Réflexe : vérifie l'orthographe, puis demande-toi \"ce logiciel est-il vraiment installé ?\" avec `which nom-de-la-commande` ou en cherchant comment l'installer (souvent via apt)."
       }
     ],
     exercises: [
@@ -6671,11 +6771,15 @@ const GUIDES = [
       },
       {
         heading: "Se déplacer",
-        text: "cd nom-du-dossier entre dans un dossier.\ncd .. remonte d'un niveau.\ncd (tout seul) ou cd ~ te ramène dans ton dossier personnel.\n`cd -` te ramène au dossier précédent — pratique pour faire des allers-retours."
+        text: "cd nom-du-dossier entre dans un dossier.
+cd .. remonte d'un niveau.
+cd (tout seul) ou cd ~ te ramène dans ton dossier personnel.
+`cd -` te ramène au dossier précédent — pratique pour faire des allers-retours."
       },
       {
         heading: "Voir ce qu'il y a",
-        text: "ls liste le contenu du dossier courant.\n`ls -la` l'affiche en détail (permissions, taille, date) et montre aussi les fichiers cachés (ceux qui commencent par un point, comme .bashrc)."
+        text: "ls liste le contenu du dossier courant.
+`ls -la` l'affiche en détail (permissions, taille, date) et montre aussi les fichiers cachés (ceux qui commencent par un point, comme .bashrc)."
       },
       {
         heading: "Chemin relatif vs absolu",
@@ -6683,7 +6787,9 @@ const GUIDES = [
       },
       {
         heading: "L'autocomplétion (Tab)",
-        text: "Tape les premières lettres d'un nom de fichier/dossier puis appuie sur Tab : le terminal le complète automatiquement. Si plusieurs fichiers commencent pareil, appuie deux fois sur Tab pour voir la liste des possibilités.\n\nRéflexe à prendre tout de suite : ça évite les fautes de frappe et fait gagner énormément de temps."
+        text: "Tape les premières lettres d'un nom de fichier/dossier puis appuie sur Tab : le terminal le complète automatiquement. Si plusieurs fichiers commencent pareil, appuie deux fois sur Tab pour voir la liste des possibilités.
+
+Réflexe à prendre tout de suite : ça évite les fautes de frappe et fait gagner énormément de temps."
       }
     ],
     exercises: [
@@ -6713,7 +6819,9 @@ const GUIDES = [
     content: [
       {
         heading: "Trois types de droits",
-        text: "r (read) = peut lire le contenu.\nw (write) = peut modifier/supprimer.\nx (execute) = peut exécuter le fichier comme un programme — ou, pour un DOSSIER, peut \"entrer\" dedans (cd)."
+        text: "r (read) = peut lire le contenu.
+w (write) = peut modifier/supprimer.
+x (execute) = peut exécuter le fichier comme un programme — ou, pour un DOSSIER, peut \"entrer\" dedans (cd)."
       },
       {
         heading: "Trois profils concernés",
@@ -6721,11 +6829,22 @@ const GUIDES = [
       },
       {
         heading: "Décoder une ligne de ls -la",
-        text: "Exemple : -rwxr-xr-- 1 user user 220 ... script.sh\n\n• Le tout premier caractère (-) dit si c'est un fichier (-) ou un dossier (d).\n• rwx → le propriétaire (user) peut tout faire.\n• r-x → le groupe peut lire et exécuter, pas modifier.\n• r-- → tous les autres peuvent seulement lire."
+        text: "Exemple : -rwxr-xr-- 1 user user 220 ... script.sh
+
+• Le tout premier caractère (-) dit si c'est un fichier (-) ou un dossier (d).
+• rwx → le propriétaire (user) peut tout faire.
+• r-x → le groupe peut lire et exécuter, pas modifier.
+• r-- → tous les autres peuvent seulement lire."
       },
       {
         heading: "Le format en chiffres (chmod 755)",
-        text: "Chaque droit a une valeur : r=4, w=2, x=1. On additionne par profil.\n\nrwx = 4+2+1 = 7\nr-x = 4+0+1 = 5\nr-- = 4+0+0 = 4\n\nchmod 755 fichier donne donc : propriétaire=7 (rwx), groupe=5 (r-x), autres=5 (r-x). C'est la combinaison typique pour un script qu'on veut pouvoir exécuter."
+        text: "Chaque droit a une valeur : r=4, w=2, x=1. On additionne par profil.
+
+rwx = 4+2+1 = 7
+r-x = 4+0+1 = 5
+r-- = 4+0+0 = 4
+
+chmod 755 fichier donne donc : propriétaire=7 (rwx), groupe=5 (r-x), autres=5 (r-x). C'est la combinaison typique pour un script qu'on veut pouvoir exécuter."
       },
       {
         heading: "Erreur fréquente",
@@ -6759,7 +6878,9 @@ const GUIDES = [
       },
       {
         heading: "PATH, la liste des endroits où chercher un programme",
-        text: "Quand tu tapes une commande (ex: git), le shell ne connaît pas son emplacement exact par magie : il regarde, DANS L'ORDRE, chaque dossier listé dans la variable PATH, jusqu'à trouver un programme portant ce nom. S'il n'en trouve aucun → \"command not found\".\n\n`which nom-de-la-commande` te dit exactement quel fichier est utilisé, si plusieurs versions traînent sur le système."
+        text: "Quand tu tapes une commande (ex: git), le shell ne connaît pas son emplacement exact par magie : il regarde, DANS L'ORDRE, chaque dossier listé dans la variable PATH, jusqu'à trouver un programme portant ce nom. S'il n'en trouve aucun → \"command not found\".
+
+`which nom-de-la-commande` te dit exactement quel fichier est utilisé, si plusieurs versions traînent sur le système."
       },
       {
         heading: "Variable temporaire vs permanente",
@@ -6771,11 +6892,15 @@ const GUIDES = [
       },
       {
         heading: "Les fichiers .env : centraliser la config sans la coder en dur",
-        text: "Un fichier .env à la racine d'un projet liste des variables (ex: API_URL=https://exemple.com) que certains outils (Node, Expo, Docker…) chargent automatiquement au démarrage. Ça permet de changer la config selon l'environnement (dev/prod) sans toucher au code, et surtout de garder les secrets HORS du code source.\n\nRègle absolue : un fichier .env doit TOUJOURS être listé dans .gitignore. Le committer par erreur revient à publier tes secrets dans l'historique Git, potentiellement pour toujours."
+        text: "Un fichier .env à la racine d'un projet liste des variables (ex: API_URL=https://exemple.com) que certains outils (Node, Expo, Docker…) chargent automatiquement au démarrage. Ça permet de changer la config selon l'environnement (dev/prod) sans toucher au code, et surtout de garder les secrets HORS du code source.
+
+Règle absolue : un fichier .env doit TOUJOURS être listé dans .gitignore. Le committer par erreur revient à publier tes secrets dans l'historique Git, potentiellement pour toujours."
       },
       {
         heading: "Piège spécifique à Expo/React Native : EXPO_PUBLIC_",
-        text: "Dans un projet Expo, seules les variables préfixées par EXPO_PUBLIC_ (ex: EXPO_PUBLIC_API_URL) sont intégrées dans le bundle JS envoyé sur le téléphone — les autres variables du .env restent invisibles côté app, utilisables seulement pendant le build.\n\n\"Public\" ici veut dire littéralement EMBARQUÉE DANS L'APP, donc potentiellement lisible par n'importe qui qui décompile le fichier installé. Ne mets JAMAIS un vrai secret (mot de passe, clé privée, token d'accès complet) derrière un EXPO_PUBLIC_ — uniquement des informations qui peuvent sans risque être publiques, comme une URL d'API ou une clé Firebase déjà conçue pour être publique."
+        text: "Dans un projet Expo, seules les variables préfixées par EXPO_PUBLIC_ (ex: EXPO_PUBLIC_API_URL) sont intégrées dans le bundle JS envoyé sur le téléphone — les autres variables du .env restent invisibles côté app, utilisables seulement pendant le build.
+
+\"Public\" ici veut dire littéralement EMBARQUÉE DANS L'APP, donc potentiellement lisible par n'importe qui qui décompile le fichier installé. Ne mets JAMAIS un vrai secret (mot de passe, clé privée, token d'accès complet) derrière un EXPO_PUBLIC_ — uniquement des informations qui peuvent sans risque être publiques, comme une URL d'API ou une clé Firebase déjà conçue pour être publique."
       }
     ],
     exercises: [
@@ -6805,15 +6930,25 @@ const GUIDES = [
     content: [
       {
         heading: "npm vs npx, la confusion la plus fréquente",
-        text: "npm (Node Package Manager) sert à INSTALLER des paquets dans ton projet (npm install).\n\nnpx sert à EXÉCUTER un paquet — en le téléchargeant temporairement s'il n'est pas déjà présent, sans l'ajouter durablement au projet. C'est pour ça que presque toutes les commandes Expo de ce hub commencent par npx expo ... plutôt que par une installation globale : ça garantit d'utiliser la version d'Expo CLI attendue par CE projet précis, sans rien installer de façon permanente sur ta machine."
+        text: "npm (Node Package Manager) sert à INSTALLER des paquets dans ton projet (npm install).
+
+npx sert à EXÉCUTER un paquet — en le téléchargeant temporairement s'il n'est pas déjà présent, sans l'ajouter durablement au projet. C'est pour ça que presque toutes les commandes Expo de ce hub commencent par npx expo ... plutôt que par une installation globale : ça garantit d'utiliser la version d'Expo CLI attendue par CE projet précis, sans rien installer de façon permanente sur ta machine."
       },
       {
         heading: "Anatomie de package.json",
-        text: "dependencies : les librairies nécessaires pour que l'app FONCTIONNE une fois publiée (ex: react, expo).\n\ndevDependencies : des outils utiles seulement PENDANT le développement (ex: un linter, des types TypeScript) — ils ne sont pas inclus dans l'app finale distribuée aux utilisateurs.\n\nscripts : des raccourcis de commande personnalisés, lancés avec npm run nom-du-script (certains scripts spéciaux comme start se lancent directement avec npm start, sans \"run\")."
+        text: "dependencies : les librairies nécessaires pour que l'app FONCTIONNE une fois publiée (ex: react, expo).
+
+devDependencies : des outils utiles seulement PENDANT le développement (ex: un linter, des types TypeScript) — ils ne sont pas inclus dans l'app finale distribuée aux utilisateurs.
+
+scripts : des raccourcis de commande personnalisés, lancés avec npm run nom-du-script (certains scripts spéciaux comme start se lancent directement avec npm start, sans \"run\")."
       },
       {
         heading: "Lire un numéro de version (semver)",
-        text: "Un numéro de version suit le format MAJEUR.MINEUR.CORRECTIF (ex: 4.2.1 → changements cassants seulement sur le premier chiffre, en théorie). Dans package.json, les symboles placés devant précisent ce qu'un npm install a le droit d'installer automatiquement :\n\n^4.2.1 → accepte les mises à jour MINEURES et CORRECTIFS (jusqu'à 4.x.x), mais pas 5.0.0.\n~4.2.1 → accepte seulement les CORRECTIFS (4.2.x), plus prudent.\nAucun symbole (4.2.1 tout seul) → version figée exactement, rien d'autre n'est installé automatiquement."
+        text: "Un numéro de version suit le format MAJEUR.MINEUR.CORRECTIF (ex: 4.2.1 → changements cassants seulement sur le premier chiffre, en théorie). Dans package.json, les symboles placés devant précisent ce qu'un npm install a le droit d'installer automatiquement :
+
+^4.2.1 → accepte les mises à jour MINEURES et CORRECTIFS (jusqu'à 4.x.x), mais pas 5.0.0.
+~4.2.1 → accepte seulement les CORRECTIFS (4.2.x), plus prudent.
+Aucun symbole (4.2.1 tout seul) → version figée exactement, rien d'autre n'est installé automatiquement."
       },
       {
         heading: "Pourquoi npx expo install plutôt que npm install",
@@ -6847,7 +6982,11 @@ const GUIDES = [
       },
       {
         heading: "Où sont installés les paquets",
-        text: "apt install installe pour TOUT le système, dans des dossiers partagés (/usr, /etc…) — un seul exemplaire pour tous tes projets.\n\nnpm install installe dans un dossier node_modules/ propre à CE projet — chaque projet a sa propre copie, isolée des autres. C'est pour ça qu'on peut supprimer node_modules/ sans risque : npm install le régénère entièrement.\n\nGradle télécharge dans un cache partagé (~/.gradle) puis le relie au projet."
+        text: "apt install installe pour TOUT le système, dans des dossiers partagés (/usr, /etc…) — un seul exemplaire pour tous tes projets.
+
+npm install installe dans un dossier node_modules/ propre à CE projet — chaque projet a sa propre copie, isolée des autres. C'est pour ça qu'on peut supprimer node_modules/ sans risque : npm install le régénère entièrement.
+
+Gradle télécharge dans un cache partagé (~/.gradle) puis le relie au projet."
       },
       {
         heading: "package.json / build.gradle : la liste de courses",
@@ -6877,15 +7016,24 @@ const GUIDES = [
     content: [
       {
         heading: "Le pipe | : brancher une commande sur une autre",
-        text: "| envoie la SORTIE de la commande de gauche comme ENTRÉE de la commande de droite.\n\nExemple : ps aux | grep node\n→ ps aux liste tous les processus, grep node ne garde que les lignes contenant \"node\". Résultat : une liste filtrée, sans avoir à tout lire à l'oeil."
+        text: "| envoie la SORTIE de la commande de gauche comme ENTRÉE de la commande de droite.
+
+Exemple : ps aux | grep node
+→ ps aux liste tous les processus, grep node ne garde que les lignes contenant \"node\". Résultat : une liste filtrée, sans avoir à tout lire à l'oeil."
       },
       {
         heading: "> et >> : rediriger vers un fichier",
-        text: "> envoie le résultat dans un fichier, en ÉCRASANT son contenu existant.\n>> fait pareil mais AJOUTE à la fin, sans rien effacer.\n\nExemple : `ls -la` > liste.txt sauvegarde le résultat de ls dans un fichier au lieu de l'afficher à l'écran."
+        text: "> envoie le résultat dans un fichier, en ÉCRASANT son contenu existant.
+>> fait pareil mais AJOUTE à la fin, sans rien effacer.
+
+Exemple : `ls -la` > liste.txt sauvegarde le résultat de ls dans un fichier au lieu de l'afficher à l'écran."
       },
       {
         heading: "&& : exécuter la suite seulement si ça a réussi",
-        text: "commande1 && commande2 exécute la deuxième SEULEMENT SI la première a réussi (code de sortie 0).\n\nExemple : cd mon-projet && npm install\n→ Si le dossier mon-projet n'existe pas, cd échoue et npm install n'est jamais lancé au mauvais endroit. C'est plus sûr que de les taper séparément."
+        text: "commande1 && commande2 exécute la deuxième SEULEMENT SI la première a réussi (code de sortie 0).
+
+Exemple : cd mon-projet && npm install
+→ Si le dossier mon-projet n'existe pas, cd échoue et npm install n'est jamais lancé au mauvais endroit. C'est plus sûr que de les taper séparément."
       },
       {
         heading: "; : exécuter l'une après l'autre, sans condition",
@@ -6925,7 +7073,9 @@ const GUIDES = [
       },
       {
         heading: "Les règles de prudence",
-        text: "• Ne tape jamais une commande sudo trouvée sur internet sans comprendre ce qu'elle fait.\n• Sois particulièrement prudent avec sudo rm (suppression) : il n'y a pas de corbeille, c'est définitif.\n• Si une commande normale (sans sudo) échoue avec \"Permission denied\", c'est probablement volontaire — demande-toi si tu as vraiment besoin d'y toucher avant de rajouter sudo."
+        text: "• Ne tape jamais une commande sudo trouvée sur internet sans comprendre ce qu'elle fait.
+• Sois particulièrement prudent avec sudo rm (suppression) : il n'y a pas de corbeille, c'est définitif.
+• Si une commande normale (sans sudo) échoue avec \"Permission denied\", c'est probablement volontaire — demande-toi si tu as vraiment besoin d'y toucher avant de rajouter sudo."
       },
       {
         heading: "chmod et chown, brièvement",
@@ -6943,7 +7093,9 @@ const GUIDES = [
                               "expect": [
                                     "sudo apt update"
                               ],
-                              "output": "[sudo] Mot de passe de user :\nRéception de : 1 http://archive.ubuntu.com/ubuntu…\nTous les paquets sont à jour."
+                              "output": "[sudo] Mot de passe de user :
+Réception de : 1 http://archive.ubuntu.com/ubuntu…
+Tous les paquets sont à jour."
                         }
                   ]
             },
@@ -6963,7 +7115,10 @@ const GUIDES = [
       },
       {
         heading: "Le cycle de base",
-        text: "sudo apt update → rafraîchit la LISTE des paquets disponibles (ne met rien à jour, juste la liste)\nsudo apt upgrade → installe réellement les mises à jour disponibles\nsudo apt install nom-du-logiciel → installe un logiciel\nsudo apt remove nom-du-logiciel → le désinstalle"
+        text: "sudo apt update → rafraîchit la LISTE des paquets disponibles (ne met rien à jour, juste la liste)
+sudo apt upgrade → installe réellement les mises à jour disponibles
+sudo apt install nom-du-logiciel → installe un logiciel
+sudo apt remove nom-du-logiciel → le désinstalle"
       },
       {
         heading: "Pourquoi \"update\" avant \"upgrade\"",
@@ -6985,7 +7140,8 @@ const GUIDES = [
                               "expect": [
                                     "apt search htop"
                               ],
-                              "output": "htop/stable 3.2.2-1 amd64\n  interactive processes viewer"
+                              "output": "htop/stable 3.2.2-1 amd64
+  interactive processes viewer"
                         }
                   ]
             },
@@ -7039,7 +7195,7 @@ const GUIDES = [
     category: "Linux",
     title: "L'arborescence du système de fichiers",
     level: "🟡 Intermédiaire",
-    summary: "Pourquoi Linux n'a pas de 'C:\\', et où trouver quoi.",
+    summary: "Pourquoi Linux n'a pas de 'C:\', et où trouver quoi.",
     content: [
       {
         heading: "Pourquoi ce n'est pas comme Windows",
@@ -7047,7 +7203,11 @@ const GUIDES = [
       },
       {
         heading: "Les dossiers importants à connaître",
-        text: "/home/ton-nom → tes fichiers personnels (équivalent du dossier utilisateur Windows).\n/etc → fichiers de configuration système.\n/usr → programmes et librairies installés.\n/var → données qui changent souvent, notamment les logs dans /var/log.\n/tmp → fichiers temporaires, effacés au redémarrage."
+        text: "/home/ton-nom → tes fichiers personnels (équivalent du dossier utilisateur Windows).
+/etc → fichiers de configuration système.
+/usr → programmes et librairies installés.
+/var → données qui changent souvent, notamment les logs dans /var/log.
+/tmp → fichiers temporaires, effacés au redémarrage."
       },
       {
         heading: "Où sont mes logiciels installés",
@@ -7081,7 +7241,9 @@ const GUIDES = [
       },
       {
         heading: "Le port, l'extension du numéro",
-        text: "Une machine peut faire tourner plusieurs services en même temps (un serveur web, une base de données…). Le port (un nombre de 0 à 65535) précise AUQUEL de ces services on s'adresse.\n\nEx: localhost:8081 = le service qui écoute sur le port 8081 de ta PROPRE machine (souvent Metro pour un projet Expo)."
+        text: "Une machine peut faire tourner plusieurs services en même temps (un serveur web, une base de données…). Le port (un nombre de 0 à 65535) précise AUQUEL de ces services on s'adresse.
+
+Ex: localhost:8081 = le service qui écoute sur le port 8081 de ta PROPRE machine (souvent Metro pour un projet Expo)."
       },
       {
         heading: "Le DNS, l'annuaire qui traduit les noms",
@@ -7119,7 +7281,9 @@ const GUIDES = [
       },
       {
         heading: "ssh-keygen, concrètement",
-        text: "Génère deux fichiers, par défaut dans ~/.ssh/ : id_ed25519 (la clé PRIVÉE) et id_ed25519.pub (la clé PUBLIQUE).\n\nLe fichier .pub est celui que tu colles dans les paramètres GitHub ou d'un serveur distant. Le fichier SANS .pub ne doit JAMAIS être partagé, ni commité dans un dépôt Git."
+        text: "Génère deux fichiers, par défaut dans ~/.ssh/ : id_ed25519 (la clé PRIVÉE) et id_ed25519.pub (la clé PUBLIQUE).
+
+Le fichier .pub est celui que tu colles dans les paramètres GitHub ou d'un serveur distant. Le fichier SANS .pub ne doit JAMAIS être partagé, ni commité dans un dépôt Git."
       }
     ],
     exercises: [
@@ -7134,7 +7298,9 @@ const GUIDES = [
                                     "ssh-keygen -t ed25519 -C \"toi@email.com\"",
                                     "ssh-keygen -t ed25519 -C 'toi@email.com'"
                               ],
-                              "output": "Generating public/private ed25519 key pair.\nYour identification has been saved in /home/user/.ssh/id_ed25519\nYour public key has been saved in /home/user/.ssh/id_ed25519.pub"
+                              "output": "Generating public/private ed25519 key pair.
+Your identification has been saved in /home/user/.ssh/id_ed25519
+Your public key has been saved in /home/user/.ssh/id_ed25519.pub"
                         }
                   ]
             },
@@ -7154,7 +7320,9 @@ const GUIDES = [
       },
       {
         heading: "Les commandes de base",
-        text: "`systemctl status nom-du-service` → son état actuel (actif, arrêté, en erreur…) et ses derniers logs.\nsystemctl start / stop / restart nom-du-service → agir dessus MAINTENANT, pour la session en cours.\nsystemctl enable / disable nom-du-service → décider s'il démarre automatiquement au prochain redémarrage de la machine (enable ne le lance PAS immédiatement, seulement au prochain boot)."
+        text: "`systemctl status nom-du-service` → son état actuel (actif, arrêté, en erreur…) et ses derniers logs.
+systemctl start / stop / restart nom-du-service → agir dessus MAINTENANT, pour la session en cours.
+systemctl enable / disable nom-du-service → décider s'il démarre automatiquement au prochain redémarrage de la machine (enable ne le lance PAS immédiatement, seulement au prochain boot)."
       },
       {
         heading: "Où chercher pourquoi un service ne démarre pas",
@@ -7172,7 +7340,8 @@ const GUIDES = [
                               "expect": [
                                     "sudo systemctl status docker"
                               ],
-                              "output": "● docker.service - Docker Application Container Engine\n     Active: active (running) since…"
+                              "output": "● docker.service - Docker Application Container Engine
+     Active: active (running) since…"
                         }
                   ]
             },
@@ -7192,7 +7361,10 @@ const GUIDES = [
       },
       {
         heading: "La syntaxe (les 5 étoiles)",
-        text: "minute heure jour-du-mois mois jour-de-semaine commande\n\nExemple : 0 3 * * * /home/user/backup.sh\n→ exécute backup.sh tous les jours à 3h00 du matin (chaque * signifie \"à chaque valeur possible\" pour cette position)."
+        text: "minute heure jour-du-mois mois jour-de-semaine commande
+
+Exemple : 0 3 * * * /home/user/backup.sh
+→ exécute backup.sh tous les jours à 3h00 du matin (chaque * signifie \"à chaque valeur possible\" pour cette position)."
       },
       {
         heading: "Tester avant de programmer",
@@ -7206,7 +7378,9 @@ const GUIDES = [
             "accept": [
                   "0 3 * * * /home/user/backup.sh"
             ],
-            "correction": "0 3 * * * /home/user/backup.sh\n\nminute=0, heure=3, jour-du-mois=* (tous), mois=* (tous), jour-de-semaine=* (tous) → tous les jours à 3h00 pile."
+            "correction": "0 3 * * * /home/user/backup.sh
+
+minute=0, heure=3, jour-du-mois=* (tous), mois=* (tous), jour-de-semaine=* (tous) → tous les jours à 3h00 pile."
       }
 ]
   },
@@ -7240,7 +7414,8 @@ const GUIDES = [
         terminal: {
           prompt: "user@mint:~$",
           steps: [
-            { expect: ["df -h"], output: "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        50G   32G   16G  67% /" }
+            { expect: ["df -h"], output: "Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        50G   32G   16G  67% /" }
           ]
         },
         correction: "df -h affiche l'espace de chaque partition montée en unités lisibles (Go/Mo) plutôt qu'en blocs bruts — le -h veut dire \"human-readable\"."
@@ -7277,7 +7452,9 @@ const GUIDES = [
         terminal: {
           prompt: "user@mint:~$",
           steps: [
-            { expect: ["tar tzf archive.tar.gz"], output: "dossier/\ndossier/fichier1.txt\ndossier/fichier2.txt" }
+            { expect: ["tar tzf archive.tar.gz"], output: "dossier/
+dossier/fichier1.txt
+dossier/fichier2.txt" }
           ]
         },
         correction: "tar tzf liste le contenu d'une archive .tar.gz sans en extraire le moindre fichier — un moyen sûr de vérifier ce qu'elle contient avant de l'ouvrir pour de bon."
@@ -7450,19 +7627,19 @@ const GUIDES = [
     content: [
       {
         heading: "Des lettres de lecteur, pas une racine unique",
-        text: "Là où Linux a une seule arborescence démarrant à /, Windows attribue une lettre à chaque disque/partition (C:\\, D:\\…) — voir [[Linux::L'arborescence du système de fichiers]] pour le principe côté Linux."
+        text: "Là où Linux a une seule arborescence démarrant à /, Windows attribue une lettre à chaque disque/partition (C:\, D:\…) — voir [[Linux::L'arborescence du système de fichiers]] pour le principe côté Linux."
       },
       {
-        heading: "C:\\Users\\ : l'équivalent de /home",
+        heading: "C:\Users\ : l'équivalent de /home",
         text: "Le dossier personnel de chaque utilisateur, avec ses documents, téléchargements, bureau — l'équivalent direct du /home/utilisateur sous Linux."
       },
       {
         heading: "Program Files : où vivent les logiciels installés",
-        text: "Les logiciels installés pour tous les utilisateurs s'installent généralement dans C:\\Program Files (ou Program Files (x86) pour les logiciels 32 bits) — modifier ce dossier nécessite les droits administrateur."
+        text: "Les logiciels installés pour tous les utilisateurs s'installent généralement dans C:\Program Files (ou Program Files (x86) pour les logiciels 32 bits) — modifier ce dossier nécessite les droits administrateur."
       },
       {
         heading: "AppData : la configuration cachée",
-        text: "Dans C:\\Users\\toi\\AppData (dossier caché par défaut), chaque application range sa configuration et ses données locales — le rôle que jouent les dossiers cachés .config ou .local sous Linux."
+        text: "Dans C:\Users\toi\AppData (dossier caché par défaut), chaque application range sa configuration et ses données locales — le rôle que jouent les dossiers cachés .config ou .local sous Linux."
       }
     ],
     exercises: [
@@ -7471,7 +7648,7 @@ const GUIDES = [
         instruction: "Tu cherches où un logiciel a rangé sa configuration personnelle sur ta session Windows. Où regarder en premier ?",
         options: [
           "Dans le dossier AppData de ton profil utilisateur",
-          "Directement à la racine du disque C:\\",
+          "Directement à la racine du disque C:\",
           "Dans Program Files",
           "Windows ne stocke jamais de configuration par utilisateur"
         ],
@@ -7580,7 +7757,7 @@ const GUIDES = [
       },
       {
         heading: "Accéder aux fichiers d'un côté depuis l'autre",
-        text: "Les fichiers Windows restent accessibles depuis WSL (sous /mnt/c/...), et les fichiers Linux de WSL sont accessibles depuis l'explorateur Windows via \\\\wsl$\\ — les deux mondes cohabitent sans copie manuelle."
+        text: "Les fichiers Windows restent accessibles depuis WSL (sous /mnt/c/...), et les fichiers Linux de WSL sont accessibles depuis l'explorateur Windows via \\wsl$\ — les deux mondes cohabitent sans copie manuelle."
       }
     ],
     exercises: [
@@ -7726,7 +7903,8 @@ const GUIDES = [
                               "expect": [
                                     "docker ps"
                               ],
-                              "output": "CONTAINER ID   IMAGE      STATUS         PORTS\nf3a1b2c9d0e4   postgres   Up 2 hours     5432/tcp"
+                              "output": "CONTAINER ID   IMAGE      STATUS         PORTS
+f3a1b2c9d0e4   postgres   Up 2 hours     5432/tcp"
                         }
                   ]
             },
@@ -7750,7 +7928,8 @@ const GUIDES = [
       },
       {
         heading: "up -d vs down",
-        text: "docker compose up -d démarre toute la stack décrite dans le fichier, en arrière-plan.\ndocker compose down l'arrête ET supprime les conteneurs — mais conserve les volumes nommés (donc les données), sauf si tu ajoutes explicitement l'option -v."
+        text: "docker compose up -d démarre toute la stack décrite dans le fichier, en arrière-plan.
+docker compose down l'arrête ET supprime les conteneurs — mais conserve les volumes nommés (donc les données), sauf si tu ajoutes explicitement l'option -v."
       }
     ],
     exercises: [
@@ -7764,7 +7943,10 @@ const GUIDES = [
                               "expect": [
                                     "docker compose up -d"
                               ],
-                              "output": "[+] Running 3/3\n ✔ Container app-db-1        Started\n ✔ Container app-backend-1   Started\n ✔ Container app-redis-1     Started"
+                              "output": "[+] Running 3/3
+ ✔ Container app-db-1        Started
+ ✔ Container app-backend-1   Started
+ ✔ Container app-redis-1     Started"
                         }
                   ]
             },
@@ -7802,7 +7984,12 @@ const GUIDES = [
         terminal: {
           prompt: "user@mint:~/mon-projet$",
           steps: [
-            { expect: ["docker build -t mon-app ."], output: "[+] Building 12.3s\n => [1/4] FROM node:20\n => [2/4] COPY . .\n => [3/4] RUN npm install\n => exporting to image\n => naming to docker.io/library/mon-app" }
+            { expect: ["docker build -t mon-app ."], output: "[+] Building 12.3s
+ => [1/4] FROM node:20
+ => [2/4] COPY . .
+ => [3/4] RUN npm install
+ => exporting to image
+ => naming to docker.io/library/mon-app" }
           ]
         },
         correction: "docker build -t mon-app . construit une image nommée mon-app à partir du Dockerfile du dossier courant (le . final indique le contexte de build)."
@@ -7877,7 +8064,10 @@ const GUIDES = [
         terminal: {
           prompt: "user@mint:~$",
           steps: [
-            { expect: ["docker system df"], output: "TYPE            TOTAL   ACTIVE   SIZE      RECLAIMABLE\nImages          12      3        4.2GB     3.1GB (73%)\nContainers      5       2        180MB     95MB (52%)\nVolumes         4       2        1.1GB     400MB (36%)" }
+            { expect: ["docker system df"], output: "TYPE            TOTAL   ACTIVE   SIZE      RECLAIMABLE
+Images          12      3        4.2GB     3.1GB (73%)
+Containers      5       2        180MB     95MB (52%)
+Volumes         4       2        1.1GB     400MB (36%)" }
           ]
         },
         correction: "docker system df affiche l'espace utilisé par catégorie (images, conteneurs, volumes) — un aperçu utile avant de lancer un nettoyage à l'aveugle."
@@ -7898,11 +8088,15 @@ const GUIDES = [
       },
       {
         heading: "Un commit, précisément",
-        text: "Un commit est une sauvegarde 100% LOCALE, horodatée, avec un message qui explique ce qui a changé. Elle ne se trouve QUE sur ta machine, dans le dossier caché .git/ de ton projet — personne d'autre ne la voit tant que tu ne l'as pas explicitement envoyée quelque part.\n\nC'est une nuance essentielle : committer n'est PAS partager. Tu peux committer 50 fois dans la journée sans que ça touche à quoi que ce soit d'autre que ton propre disque dur, même sans connexion internet."
+        text: "Un commit est une sauvegarde 100% LOCALE, horodatée, avec un message qui explique ce qui a changé. Elle ne se trouve QUE sur ta machine, dans le dossier caché .git/ de ton projet — personne d'autre ne la voit tant que tu ne l'as pas explicitement envoyée quelque part.
+
+C'est une nuance essentielle : committer n'est PAS partager. Tu peux committer 50 fois dans la journée sans que ça touche à quoi que ce soit d'autre que ton propre disque dur, même sans connexion internet."
       },
       {
         heading: "Le dépôt (repo) local vs le remote",
-        text: "Le dépôt local est l'historique complet de commits stocké uniquement sur ta machine. Le remote (ex: GitHub) est une COPIE de cet historique hébergée sur un serveur ailleurs.\n\n`git push` copie tes commits locaux VERS le remote. `git pull` rapatrie les commits du remote VERS ton dépôt local. Tant que tu n'as pas fait push, un commit reste une sauvegarde strictement locale — même si un remote est configuré sur le projet."
+        text: "Le dépôt local est l'historique complet de commits stocké uniquement sur ta machine. Le remote (ex: GitHub) est une COPIE de cet historique hébergée sur un serveur ailleurs.
+
+`git push` copie tes commits locaux VERS le remote. `git pull` rapatrie les commits du remote VERS ton dépôt local. Tant que tu n'as pas fait push, un commit reste une sauvegarde strictement locale — même si un remote est configuré sur le projet."
       },
       {
         heading: "Pourquoi committer souvent, même sans push",
@@ -7918,7 +8112,9 @@ const GUIDES = [
     content: [
       {
         heading: "Les 3 zones sur TA machine",
-        text: "1. Working Directory : tes fichiers tels que tu les vois et les édites dans ton éditeur.\n2. Staging Area (l'index) : une zone d'attente où tu places ce que tu veux inclure dans le prochain commit (via git add).\n3. Repository local : l'historique complet des commits déjà enregistrés, stocké dans le dossier .git/ de ton projet."
+        text: "1. Working Directory : tes fichiers tels que tu les vois et les édites dans ton éditeur.
+2. Staging Area (l'index) : une zone d'attente où tu places ce que tu veux inclure dans le prochain commit (via git add).
+3. Repository local : l'historique complet des commits déjà enregistrés, stocké dans le dossier .git/ de ton projet."
       },
       {
         heading: "Et le remote, une 4e zone — mais ailleurs",
@@ -7926,11 +8122,16 @@ const GUIDES = [
       },
       {
         heading: "Tableau récapitulatif",
-        text: "git add          : Working Directory → Staging          (reste local)\ngit commit       : Staging → Repository local              (reste local)\n`git push`         : Repository local → Remote                (part sur internet)\n`git pull` / fetch : Remote → Repository local (+ Working Dir) (vient d'internet)"
+        text: "git add          : Working Directory → Staging          (reste local)
+git commit       : Staging → Repository local              (reste local)
+`git push`         : Repository local → Remote                (part sur internet)
+`git pull` / fetch : Remote → Repository local (+ Working Dir) (vient d'internet)"
       },
       {
         heading: "Ce que ça implique concrètement",
-        text: "• Si ton PC crashe avant un push, tu perds les commits non pushés — ils n'ont jamais existé ailleurs que sur ce disque.\n• Si Internet est coupé, tu peux quand même committer (aucune étape ne touche le réseau) mais pas push/pull.\n• C'est pour ça qu'un commit régulier + un push en fin de session est une bonne habitude : le commit te protège des erreurs de manipulation, le push te protège de la perte de la machine."
+        text: "• Si ton PC crashe avant un push, tu perds les commits non pushés — ils n'ont jamais existé ailleurs que sur ce disque.
+• Si Internet est coupé, tu peux quand même committer (aucune étape ne touche le réseau) mais pas push/pull.
+• C'est pour ça qu'un commit régulier + un push en fin de session est une bonne habitude : le commit te protège des erreurs de manipulation, le push te protège de la perte de la machine."
       }
     ],
     exercises: [
@@ -7945,13 +8146,16 @@ const GUIDES = [
                                     "git commit -m \"fix: corrige le titre\"",
                                     "git commit -m \"fix: corrige le titre\""
                               ],
-                              "output": "[master a3f9c2e] fix: corrige le titre\n 1 file changed, 1 insertion(+)"
+                              "output": "[master a3f9c2e] fix: corrige le titre
+ 1 file changed, 1 insertion(+)"
                         },
                         {
                               "expect": [
                                     "git push"
                               ],
-                              "output": "Énumération des objets : 4, fait.\nVers github.com:toi/projet.git\n   9de4781..a3f9c2e  master -> master"
+                              "output": "Énumération des objets : 4, fait.
+Vers github.com:toi/projet.git
+   9de4781..a3f9c2e  master -> master"
                         }
                   ]
             },
@@ -7972,11 +8176,24 @@ const GUIDES = [
       { heading: "Étape 5 — git push", text: "Envoie tes commits locaux vers le remote (GitHub par ex.), pour les partager ou les sauvegarder en ligne. Sans push, tes commits restent uniquement sur ta machine." },
       {
         heading: "Convention de message (optionnelle mais très répandue)",
-        text: "Beaucoup d'équipes préfixent leurs messages par un type :\n\nfix: corrige un bug\nfeat: ajoute une fonctionnalité\nchore: tâche technique sans impact utilisateur (config, dépendances…)\ndocs: documentation uniquement\n\nExemple : feat: ajoute le tri par date sur la liste d'écoute"
+        text: "Beaucoup d'équipes préfixent leurs messages par un type :
+
+fix: corrige un bug
+feat: ajoute une fonctionnalité
+chore: tâche technique sans impact utilisateur (config, dépendances…)
+docs: documentation uniquement
+
+Exemple : feat: ajoute le tri par date sur la liste d'écoute"
       },
       {
         heading: "Exemple concret de bout en bout",
-        text: "Tu viens de corriger un bug d'affichage :\n\n`git status`   →  tu vois app/Login.kt modifié\n`git diff`     →  tu vérifies que ce sont bien les bonnes lignes\n`git add .`\ngit commit -m \"fix: corrige l'alignement du bouton login\"\n`git push`"
+        text: "Tu viens de corriger un bug d'affichage :
+
+`git status`   →  tu vois app/Login.kt modifié
+`git diff`     →  tu vérifies que ce sont bien les bonnes lignes
+`git add .`
+git commit -m \"fix: corrige l'alignement du bouton login\"
+`git push`"
       }
     ],
     exercises: [
@@ -7990,7 +8207,9 @@ const GUIDES = [
                               "expect": [
                                     "git status"
                               ],
-                              "output": "Sur la branche master\nModifications qui seront validées :\n  modifié : app/Liste.kt"
+                              "output": "Sur la branche master
+Modifications qui seront validées :
+  modifié : app/Liste.kt"
                         },
                         {
                               "expect": [
@@ -8003,7 +8222,8 @@ const GUIDES = [
                                     "git commit -m \"feat: ajoute le tri par date\"",
                                     "git commit -m \"feat: ajoute le tri par date\""
                               ],
-                              "output": "[master 7c1e4aa] feat: ajoute le tri par date\n 1 file changed, 12 insertions(+)"
+                              "output": "[master 7c1e4aa] feat: ajoute le tri par date
+ 1 file changed, 12 insertions(+)"
                         }
                   ]
             },
@@ -8031,7 +8251,10 @@ const GUIDES = [
       },
       {
         heading: "Le cycle de vie d'une branche",
-        text: "1. git checkout -b ma-feature → tu crées la branche et tu bascules dessus\n2. Tu commits normalement dessus (status/add/commit)\n3. Une fois fini et testé, tu la fusionnes dans main (git merge, ou une Pull Request sur GitHub)\n4. Tu peux ensuite la supprimer : git branch -d ma-feature"
+        text: "1. git checkout -b ma-feature → tu crées la branche et tu bascules dessus
+2. Tu commits normalement dessus (status/add/commit)
+3. Une fois fini et testé, tu la fusionnes dans main (git merge, ou une Pull Request sur GitHub)
+4. Tu peux ensuite la supprimer : git branch -d ma-feature"
       },
       {
         heading: "Quand créer une branche",
@@ -8069,11 +8292,15 @@ const GUIDES = [
       },
       {
         heading: "J'ai commité mais pas encore pushé, je veux annuler le dernier commit",
-        text: "`git reset --soft HEAD~1` annule le commit mais garde tes changements prêts à être re-commités (staging). C'est l'option sûre.\n\n`git reset --hard HEAD~1` supprime TOUT, changements compris. Irréversible, à utiliser seulement si tu es sûr."
+        text: "`git reset --soft HEAD~1` annule le commit mais garde tes changements prêts à être re-commités (staging). C'est l'option sûre.
+
+`git reset --hard HEAD~1` supprime TOUT, changements compris. Irréversible, à utiliser seulement si tu es sûr."
       },
       {
         heading: "J'ai DÉJÀ pushé ce commit — git revert, l'option sûre",
-        text: "Une fois pushé, d'autres personnes (ou d'autres machines) ont pu récupérer ce commit : le réécrire avec reset devient dangereux et source de conflits pour tout le monde.\n\ngit revert crée à la place un NOUVEAU commit qui annule les changements d'un ancien commit, SANS effacer l'historique existant. Règle simple : reset avant push, revert après push sur du code partagé."
+        text: "Une fois pushé, d'autres personnes (ou d'autres machines) ont pu récupérer ce commit : le réécrire avec reset devient dangereux et source de conflits pour tout le monde.
+
+git revert crée à la place un NOUVEAU commit qui annule les changements d'un ancien commit, SANS effacer l'historique existant. Règle simple : reset avant push, revert après push sur du code partagé."
       },
       {
         heading: "Je veux juste mettre mon travail de côté temporairement",
@@ -8107,11 +8334,22 @@ const GUIDES = [
     content: [
       {
         heading: "Pourquoi certains fichiers ne doivent PAS être commités",
-        text: "• Les fichiers générés automatiquement (node_modules/, build/, dist/) — ils se régénèrent à partir du code source, inutile de les versionner.\n• Les secrets (clés API, mots de passe, fichiers .env) — les committer les rend visibles à quiconque a accès au dépôt, y compris dans l'historique même si tu les supprimes plus tard.\n• Les fichiers de config propres à ton éditeur/IDE.\n\nLes committer par erreur gonfle inutilement l'historique et peut carrément faire fuiter des secrets."
+        text: "• Les fichiers générés automatiquement (node_modules/, build/, dist/) — ils se régénèrent à partir du code source, inutile de les versionner.
+• Les secrets (clés API, mots de passe, fichiers .env) — les committer les rend visibles à quiconque a accès au dépôt, y compris dans l'historique même si tu les supprimes plus tard.
+• Les fichiers de config propres à ton éditeur/IDE.
+
+Les committer par erreur gonfle inutilement l'historique et peut carrément faire fuiter des secrets."
       },
       {
         heading: "Comment ça marche",
-        text: "Un fichier .gitignore à la racine du projet liste des motifs (patterns) à ignorer, un par ligne :\n\nnode_modules/\nbuild/\n*.apk\n.env\n\nGit ignore alors automatiquement ces fichiers — ils n'apparaissent même plus dans `git status`."
+        text: "Un fichier .gitignore à la racine du projet liste des motifs (patterns) à ignorer, un par ligne :
+
+node_modules/
+build/
+*.apk
+.env
+
+Git ignore alors automatiquement ces fichiers — ils n'apparaissent même plus dans `git status`."
       },
       {
         heading: "Piège fréquent",
@@ -8145,11 +8383,21 @@ const GUIDES = [
       },
       {
         heading: "À quoi ça ressemble dans le fichier",
-        text: "Git insère des marqueurs directement dans le fichier concerné :\n\n<<<<<<< HEAD\nta version à toi\n=======\nl'autre version\n>>>>>>> nom-de-la-branche"
+        text: "Git insère des marqueurs directement dans le fichier concerné :
+
+<<<<<<< HEAD
+ta version à toi
+=======
+l'autre version
+>>>>>>> nom-de-la-branche"
       },
       {
         heading: "Comment le résoudre, étape par étape",
-        text: "1. Ouvre le fichier en conflit dans ton éditeur.\n2. Décide quelle version garder — ou combine manuellement les deux.\n3. Supprime complètement les lignes de marqueurs (<<<<<<<, =======, >>>>>>>).\n4. git add nom-du-fichier pour marquer le conflit comme résolu.\n5. git commit (souvent un message déjà pré-rempli par Git) pour finaliser la fusion."
+        text: "1. Ouvre le fichier en conflit dans ton éditeur.
+2. Décide quelle version garder — ou combine manuellement les deux.
+3. Supprime complètement les lignes de marqueurs (<<<<<<<, =======, >>>>>>>).
+4. git add nom-du-fichier pour marquer le conflit comme résolu.
+5. git commit (souvent un message déjà pré-rempli par Git) pour finaliser la fusion."
       },
       {
         heading: "Comment en avoir moins",
@@ -8183,7 +8431,7 @@ const GUIDES = [
       },
       {
         heading: "git log --oneline --graph --all, décrypté",
-        text: "Chaque ligne = un commit (SHA court + message). Les caractères ASCII (|, /, \\, *) dessinent un graphique montrant les branches et où elles divergent ou fusionnent — précieux pour visualiser l'histoire d'un projet en un coup d'oeil."
+        text: "Chaque ligne = un commit (SHA court + message). Les caractères ASCII (|, /, \, *) dessinent un graphique montrant les branches et où elles divergent ou fusionnent — précieux pour visualiser l'histoire d'un projet en un coup d'oeil."
       },
       {
         heading: "HEAD, HEAD~1, HEAD~2…",
@@ -8201,7 +8449,9 @@ const GUIDES = [
                               "expect": [
                                     "git log --oneline"
                               ],
-                              "output": "a3f9c2e fix: corrige le titre\n7c1e4aa feat: ajoute le tri par date\n9de4781 Sauvegarde initiale"
+                              "output": "a3f9c2e fix: corrige le titre
+7c1e4aa feat: ajoute le tri par date
+9de4781 Sauvegarde initiale"
                         }
                   ]
             },
@@ -8221,7 +8471,11 @@ const GUIDES = [
       },
       {
         heading: "Le flow typique",
-        text: "1. Tu crées une branche et tu y commites ton travail.\n2. Tu la pushes : `git push` -u origin ma-branche\n3. Sur GitHub, tu ouvres une Pull Request depuis cette branche vers main.\n4. Quelqu'un (ou toi-même) relit le diff, commente, demande éventuellement des changements.\n5. Une fois approuvée, elle est fusionnée — souvent en un clic \"Merge\" sur l'interface GitHub."
+        text: "1. Tu crées une branche et tu y commites ton travail.
+2. Tu la pushes : `git push` -u origin ma-branche
+3. Sur GitHub, tu ouvres une Pull Request depuis cette branche vers main.
+4. Quelqu'un (ou toi-même) relit le diff, commente, demande éventuellement des changements.
+5. Une fois approuvée, elle est fusionnée — souvent en un clic \"Merge\" sur l'interface GitHub."
       },
       {
         heading: "Pourquoi c'est utile même en travaillant seul",
@@ -8257,11 +8511,20 @@ const GUIDES = [
       },
       {
         heading: "À quoi ça ressemble",
-        text: "{\n  \"nom\": \"Alex\",\n  \"age\": 30,\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\"],\n  \"actif\": true\n}\n\nDes paires clé/valeur entre accolades { }, où une valeur peut elle-même contenir un autre objet ou une liste — c'est cette imbrication qui permet de représenter des données complexes."
+        text: "{
+  \"nom\": \"Alex\",
+  \"age\": 30,
+  \"projets\": [\"AppPhotos\", \"SiteVitrine\"],
+  \"actif\": true
+}
+
+Des paires clé/valeur entre accolades { }, où une valeur peut elle-même contenir un autre objet ou une liste — c'est cette imbrication qui permet de représenter des données complexes."
       },
       {
         heading: "Les types de valeurs possibles",
-        text: "\"texte\" entre guillemets doubles (jamais simples en JSON strict), un nombre (42, 3.14), un booléen (true/false), null (l'absence de valeur), un objet {...}, ou un tableau [...].\n\nPiège fréquent : une virgule après le TOUT DERNIER élément d'un objet ou tableau est une erreur de syntaxe en JSON (contrairement à JS) — ça fait planter le parsing."
+        text: "\"texte\" entre guillemets doubles (jamais simples en JSON strict), un nombre (42, 3.14), un booléen (true/false), null (l'absence de valeur), un objet {...}, ou un tableau [...].
+
+Piège fréquent : une virgule après le TOUT DERNIER élément d'un objet ou tableau est une erreur de syntaxe en JSON (contrairement à JS) — ça fait planter le parsing."
       },
       {
         heading: "Pourquoi c'est partout",
@@ -8271,7 +8534,11 @@ const GUIDES = [
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Où se trouve l'erreur dans ce JSON ?\n{\n  \"nom\": \"Alex\",\n  \"projets\": [\"AppPhotos\", \"SiteVitrine\",]\n}",
+            "instruction": "Où se trouve l'erreur dans ce JSON ?
+{
+  \"nom\": \"Alex\",
+  \"projets\": [\"AppPhotos\", \"SiteVitrine\",]
+}",
             "options": [
             "Les guillemets autour de \"nom\"",
             "L'accolade ouvrante {",
@@ -8295,11 +8562,22 @@ const GUIDES = [
       },
       {
         heading: "Les méthodes HTTP principales",
-        text: "GET → lire/récupérer une donnée, sans rien modifier (ex: récupérer la liste de tes morceaux).\nPOST → créer une nouvelle donnée (ex: ajouter une nouvelle séance de sport).\nPUT / PATCH → modifier une donnée existante (PUT remplace tout, PATCH modifie juste certains champs).\nDELETE → supprimer une donnée."
+        text: "GET → lire/récupérer une donnée, sans rien modifier (ex: récupérer la liste de tes morceaux).
+POST → créer une nouvelle donnée (ex: ajouter une nouvelle séance de sport).
+PUT / PATCH → modifier une donnée existante (PUT remplace tout, PATCH modifie juste certains champs).
+DELETE → supprimer une donnée."
       },
       {
         heading: "Les codes de statut à savoir lire",
-        text: "200 OK → tout s'est bien passé.\n201 Created → une ressource a bien été créée (typique après un POST).\n400 Bad Request → ta requête est mal formée (souvent une erreur côté client).\n401 Unauthorized → tu n'es pas authentifié (identifiants manquants/invalides).\n403 Forbidden → tu ES authentifié, mais tu n'as pas le droit d'accéder à ça.\n404 Not Found → l'URL demandée n'existe pas.\n500 Internal Server Error → le serveur a planté de son côté, pas toi.\n\nRéflexe : avant de chercher un bug dans ton code, regarde TOUJOURS le code de statut retourné — il dit souvent directement où chercher."
+        text: "200 OK → tout s'est bien passé.
+201 Created → une ressource a bien été créée (typique après un POST).
+400 Bad Request → ta requête est mal formée (souvent une erreur côté client).
+401 Unauthorized → tu n'es pas authentifié (identifiants manquants/invalides).
+403 Forbidden → tu ES authentifié, mais tu n'as pas le droit d'accéder à ça.
+404 Not Found → l'URL demandée n'existe pas.
+500 Internal Server Error → le serveur a planté de son côté, pas toi.
+
+Réflexe : avant de chercher un bug dans ton code, regarde TOUJOURS le code de statut retourné — il dit souvent directement où chercher."
       },
       {
         heading: "REST, le principe général",
@@ -8341,11 +8619,23 @@ const GUIDES = [
       },
       {
         heading: "async/await, la syntaxe qui simplifie tout",
-        text: "Une fonction déclarée async peut utiliser le mot-clé await devant un appel qui retourne une Promise — le code \"met en pause\" cette fonction précise (et seulement elle) jusqu'à ce que la Promise se résolve, puis continue avec la valeur obtenue. Ça permet d'écrire du code asynchrone qui SE LIT comme du code normal, séquentiel, plutôt qu'en cascade de callbacks.\n\nasync function chargerDonnees() {\n  const reponse = await fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}"
+        text: "Une fonction déclarée async peut utiliser le mot-clé await devant un appel qui retourne une Promise — le code \"met en pause\" cette fonction précise (et seulement elle) jusqu'à ce que la Promise se résolve, puis continue avec la valeur obtenue. Ça permet d'écrire du code asynchrone qui SE LIT comme du code normal, séquentiel, plutôt qu'en cascade de callbacks.
+
+async function chargerDonnees() {
+  const reponse = await fetch(\"https://api.exemple.com/data\");
+  const donnees = await reponse.json();
+  return donnees;
+}"
       },
       {
         heading: "Gérer les erreurs : try/catch",
-        text: "Un await qui échoue (Promise rejetée, ex: pas de réseau) lève une erreur qu'il faut attraper avec try/catch, sinon l'app peut planter ou l'erreur passer inaperçue silencieusement :\n\ntry {\n  const donnees = await chargerDonnees();\n} catch (erreur) {\n  console.log(\"Échec du chargement :\", erreur);\n}"
+        text: "Un await qui échoue (Promise rejetée, ex: pas de réseau) lève une erreur qu'il faut attraper avec try/catch, sinon l'app peut planter ou l'erreur passer inaperçue silencieusement :
+
+try {
+  const donnees = await chargerDonnees();
+} catch (erreur) {
+  console.log(\"Échec du chargement :\", erreur);
+}"
       },
       {
         heading: "Piège fréquent : oublier le await",
@@ -8355,7 +8645,12 @@ const GUIDES = [
     exercises: [
       {
             "type": "quiz",
-            "instruction": "Quel est le bug dans ce code ?\nasync function chargerDonnees() {\n  const reponse = fetch(\"https://api.exemple.com/data\");\n  const donnees = await reponse.json();\n  return donnees;\n}",
+            "instruction": "Quel est le bug dans ce code ?
+async function chargerDonnees() {
+  const reponse = fetch(\"https://api.exemple.com/data\");
+  const donnees = await reponse.json();
+  return donnees;
+}",
             "options": [
             "La fonction n'est pas déclarée async",
             "Il manque await devant fetch(...)",
@@ -8417,11 +8712,11 @@ const GUIDES = [
       },
       {
         heading: "Les briques de base",
-        text: ". (n'importe quel caractère), * (zéro ou plus de fois), + (une ou plus), ? (zéro ou une fois), [abc] (un des caractères listés), \\d (un chiffre) — combinées, elles décrivent des motifs de plus en plus précis."
+        text: ". (n'importe quel caractère), * (zéro ou plus de fois), + (une ou plus), ? (zéro ou une fois), [abc] (un des caractères listés), \d (un chiffre) — combinées, elles décrivent des motifs de plus en plus précis."
       },
       {
         heading: "Un exemple concret",
-        text: "^\\d{2}/\\d{2}/\\d{4}$ décrit une date au format JJ/MM/AAAA : exactement 2 chiffres, un /, 2 chiffres, un /, 4 chiffres, du début (^) à la fin ($) de la chaîne."
+        text: "^\d{2}/\d{2}/\d{4}$ décrit une date au format JJ/MM/AAAA : exactement 2 chiffres, un /, 2 chiffres, un /, 4 chiffres, du début (^) à la fin ($) de la chaîne."
       },
       {
         heading: "Tester avant d'utiliser en production",
@@ -8433,13 +8728,13 @@ const GUIDES = [
         type: "quiz",
         instruction: "Tu veux valider qu'une chaîne contient exactement 4 chiffres, ni plus ni moins. Quel motif utiliser ?",
         options: [
-          "^\\d{4}$",
-          "\\d+",
+          "^\d{4}$",
+          "\d+",
           "[0-9]",
           "d4"
         ],
         correctIndex: 0,
-        correction: "^\\d{4}$ ancre le motif au début et à la fin de la chaîne (^ et $) et impose exactement 4 chiffres ({4}) — \\d+ accepterait n'importe quel nombre de chiffres, pas forcément 4."
+        correction: "^\d{4}$ ancre le motif au début et à la fin de la chaîne (^ et $) et impose exactement 4 chiffres ({4}) — \d+ accepterait n'importe quel nombre de chiffres, pas forcément 4."
       }
     ]
   },
@@ -8598,7 +8893,8 @@ const GUIDES = [
         terminal: {
           prompt: "> ",
           steps: [
-            { expect: ["/init"], output: "Analyse du projet en cours…\nCLAUDE.md généré à la racine du projet." }
+            { expect: ["/init"], output: "Analyse du projet en cours…
+CLAUDE.md généré à la racine du projet." }
           ]
         },
         correction: "/init fait analyser le projet par Claude (structure, dépendances, scripts disponibles) et génère un premier CLAUDE.md — un bon point de départ à ajuster ensuite avec le contexte que seul toi connais (pièges, décisions passées, conventions maison)."
@@ -8744,7 +9040,9 @@ const GUIDES = [
         terminal: {
           prompt: "user@mint:~/mon-projet$",
           steps: [
-            { expect: ["claude mcp list"], output: "Serveurs MCP configurés :\n  github    connecté\n  filesystem connecté" }
+            { expect: ["claude mcp list"], output: "Serveurs MCP configurés :
+  github    connecté
+  filesystem connecté" }
           ]
         },
         correction: "claude mcp list affiche les serveurs MCP actuellement connectés depuis le terminal (hors session). Une fois dans une session, /mcp donne la même information sans avoir à en sortir."
@@ -10837,7 +11135,10 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.\nPour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.\n\nVoir aussi : [[Linux::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
+        text: "Pour un script : chmod +x nom-du-script.sh, puis relance.
+Pour un fichier/dossier système : ajoute sudo devant la commande SEULEMENT si tu comprends pourquoi c'est nécessaire.
+
+Voir aussi : [[Linux::sudo et les permissions, sans y laisser des plumes]] et [[Bases du terminal::Les permissions de fichiers en détail]]."
       }
     ],
     exercises: [
@@ -10871,7 +11172,11 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.\n2. `kill -9 PID` pour le libérer.\n3. Relance ta commande.\n\nVoir aussi : [[Linux::Réseau pour les nuls : IP, port, DNS]] et [[Linux::Processus, ports, RAM : pourquoi ça rame]]."
+        text: "1. sudo ss -tulpn | grep :8081 (remplace 8081 par ton port) → trouve le PID qui occupe le port.
+2. `kill -9 PID` pour le libérer.
+3. Relance ta commande.
+
+Voir aussi : [[Linux::Réseau pour les nuls : IP, port, DNS]] et [[Linux::Processus, ports, RAM : pourquoi ça rame]]."
       }
     ],
     exercises: [
@@ -10905,7 +11210,11 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "1. Vérifie l'orthographe exacte de la commande.\n2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).\n3. `which nom-de-la-commande` confirme si le shell le trouve ou non.\n\nVoir aussi : [[Bases du terminal::Variables d'environnement et PATH]]."
+        text: "1. Vérifie l'orthographe exacte de la commande.
+2. Demande-toi si le logiciel est vraiment installé (souvent via apt install nom-du-logiciel).
+3. `which nom-de-la-commande` confirme si le shell le trouve ou non.
+
+Voir aussi : [[Bases du terminal::Variables d'environnement et PATH]]."
       }
     ],
     exercises: [
@@ -10935,11 +11244,17 @@ const GUIDES = [
     content: [
       {
         heading: "Pourquoi ça arrive",
-        text: "\"device not found\" : le débogage USB n'est pas activé sur le téléphone, ou le câble/port USB ne transmet pas les données (certains câbles ne sont que pour charger).\n\n\"unauthorized\" : le téléphone a détecté la connexion mais attend que tu acceptes la popup d'autorisation affichée sur SON écran."
+        text: "\"device not found\" : le débogage USB n'est pas activé sur le téléphone, ou le câble/port USB ne transmet pas les données (certains câbles ne sont que pour charger).
+
+\"unauthorized\" : le téléphone a détecté la connexion mais attend que tu acceptes la popup d'autorisation affichée sur SON écran."
       },
       {
         heading: "Comment le résoudre",
-        text: "1. Active le débogage USB (Paramètres → Options développeur).\n2. Débranche/rebranche le câble.\n3. Regarde l'ÉCRAN DU TÉLÉPHONE pour une popup à accepter.\n4. `adb devices` pour vérifier que le statut passe à \"device\".\n5. En dernier recours : `adb kill-server && adb start-server`."
+        text: "1. Active le débogage USB (Paramètres → Options développeur).
+2. Débranche/rebranche le câble.
+3. Regarde l'ÉCRAN DU TÉLÉPHONE pour une popup à accepter.
+4. `adb devices` pour vérifier que le statut passe à \"device\".
+5. En dernier recours : `adb kill-server && adb start-server`."
       }
     ],
     exercises: [
@@ -10953,7 +11268,8 @@ const GUIDES = [
                               "expect": [
                                     "adb kill-server && adb start-server"
                               ],
-                              "output": "* daemon stopped successfully *\n* daemon started successfully *"
+                              "output": "* daemon stopped successfully *
+* daemon started successfully *"
                         }
                   ]
             },
@@ -10973,7 +11289,9 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "`npx expo start -c` relance le serveur en vidant complètement le cache. Si ça ne suffit pas : `npx expo-doctor` pour vérifier la cohérence générale du projet.\n\nVoir aussi : [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
+        text: "`npx expo start -c` relance le serveur en vidant complètement le cache. Si ça ne suffit pas : `npx expo-doctor` pour vérifier la cohérence générale du projet.
+
+Voir aussi : [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
       }
     ],
     exercises: [
@@ -10987,7 +11305,8 @@ const GUIDES = [
                               "expect": [
                                     "npx expo start -c"
                               ],
-                              "output": "Cache Metro vidé.\nDémarrage du serveur de développement…"
+                              "output": "Cache Metro vidé.
+Démarrage du serveur de développement…"
                         }
                   ]
             },
@@ -11007,7 +11326,9 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "`git pull` (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir [[Git::Les conflits de fusion (merge conflicts)]]). Une fois à jour, `git push` repasse normalement.\n\n⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
+        text: "`git pull` (ou git pull --rebase pour un historique plus propre) rapatrie d'abord les commits manquants, éventuellement avec un conflit à résoudre (voir [[Git::Les conflits de fusion (merge conflicts)]]). Une fois à jour, `git push` repasse normalement.
+
+⚠️ Ne JAMAIS utiliser git push --force sur une branche partagée sans être sûr de ce que ça écrase — ça peut effacer le travail de quelqu'un d'autre."
       }
     ],
     exercises: [
@@ -11021,7 +11342,8 @@ const GUIDES = [
                               "expect": [
                                     "git pull --rebase"
                               ],
-                              "output": "Rebasing (1/1)\nSuccessfully rebased and updated refs/heads/master."
+                              "output": "Rebasing (1/1)
+Successfully rebased and updated refs/heads/master."
                         }
                   ]
             },
@@ -11071,7 +11393,9 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Dans un projet Expo, `npx expo install --fix` aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.\n\nVoir aussi : [[Bases du terminal::npm & npx, et package.json en détail]]."
+        text: "Dans un projet Expo, `npx expo install --fix` aligne automatiquement les versions sur ce qu'attend le SDK — souvent suffisant. Sinon, vérifie manuellement dans le message d'erreur QUELLE version est attendue vs installée, et ajuste dans package.json.
+
+Voir aussi : [[Bases du terminal::npm & npx, et package.json en détail]]."
       }
     ],
     exercises: [
@@ -11085,7 +11409,9 @@ const GUIDES = [
                               "expect": [
                                     "npx expo install --fix"
                               ],
-                              "output": "Certaines dépendances ne correspondent pas au SDK installé :\n  react-native@0.72.0 - attendu : 0.73.6\nCorrection en cours…"
+                              "output": "Certaines dépendances ne correspondent pas au SDK installé :
+  react-native@0.72.0 - attendu : 0.73.6
+Correction en cours…"
                         }
                   ]
             },
@@ -11105,7 +11431,9 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.\n\nVoir aussi : [[Linux::systemd et les services]]."
+        text: "sudo systemctl status docker pour vérifier son état, puis sudo systemctl start docker pour le lancer. Pour qu'il démarre automatiquement à chaque redémarrage : sudo systemctl enable docker.
+
+Voir aussi : [[Linux::systemd et les services]]."
       }
     ],
     exercises: [
@@ -11139,7 +11467,11 @@ const GUIDES = [
       },
       {
         heading: "Comment le résoudre",
-        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :\n\nsdk.dir=/home/user/Android/Sdk\n\n(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
+        text: "Crée (ou complète) un fichier local.properties à la racine du dossier android/ du projet, avec une ligne :
+
+sdk.dir=/home/user/Android/Sdk
+
+(adapte le chemin à l'emplacement réel de ton SDK, visible dans Android Studio → Settings → Android SDK)."
       }
     ],
     exercises: [
@@ -11149,7 +11481,9 @@ const GUIDES = [
             "accept": [
                   "sdk.dir=/home/user/Android/Sdk"
             ],
-            "correction": "sdk.dir=/home/user/Android/Sdk\n\nCe fichier n'est pas versionné dans Git (le chemin est propre à chaque machine) — il faut le recréer soi-même sur une nouvelle machine ou après une réinstallation."
+            "correction": "sdk.dir=/home/user/Android/Sdk
+
+Ce fichier n'est pas versionné dans Git (le chemin est propre à chaque machine) — il faut le recréer soi-même sur une nouvelle machine ou après une réinstallation."
       }
 ]
   },
@@ -11312,7 +11646,7 @@ const GUIDES = [
       },
       {
         heading: "Repartir du terminal intégré, l'alternative",
-        text: "Fermer la session et en relancer une directement depuis le terminal intégré de l'éditeur (Ctrl+\\`) évite le problème dès le départ."
+        text: "Fermer la session et en relancer une directement depuis le terminal intégré de l'éditeur (Ctrl+\`) évite le problème dès le départ."
       }
     ],
     exercises: [
@@ -11409,7 +11743,9 @@ const GUIDES = [
       },
       {
         heading: "Les réglages qui comptent pour du streaming",
-        text: "--vfs-cache-mode full : télécharge en local à la lecture pour permettre l'avance rapide sans lag.\n--dir-cache-time : durée avant qu'un nouveau fichier ajouté sur le cloud apparaisse dans le montage — plus court = plus réactif mais plus de requêtes API.\n--rc --rc-addr 127.0.0.1:5572 --rc-no-auth : ouvre une petite API locale pour forcer un rafraîchissement à la demande sans attendre le cache ni redémarrer le service."
+        text: "--vfs-cache-mode full : télécharge en local à la lecture pour permettre l'avance rapide sans lag.
+--dir-cache-time : durée avant qu'un nouveau fichier ajouté sur le cloud apparaisse dans le montage — plus court = plus réactif mais plus de requêtes API.
+--rc --rc-addr 127.0.0.1:5572 --rc-no-auth : ouvre une petite API locale pour forcer un rafraîchissement à la demande sans attendre le cache ni redémarrer le service."
       },
       {
         heading: "Type=simple, pas Type=notify",
@@ -11447,7 +11783,9 @@ const GUIDES = [
       },
       {
         heading: "Trois façons de le résoudre, du plus propre au plus simple",
-        text: "1. Mode bridge/pont sur la box FAI (élimine carrément une des deux couches de NAT) — pas toujours proposé par tous les FAI/box grand public.\n2. Rediriger le port sur LES DEUX routeurs en chaîne (garder le double NAT, mais le \"percer\" aux deux étages).\n3. Le relais (Relay) : Plex fait transiter le flux par ses propres serveurs — zéro configuration réseau requise, mais débit plafonné (~2 Mbps), adapté à du SD/HD léger, pas à du 4K HDR remux non transcodé."
+        text: "1. Mode bridge/pont sur la box FAI (élimine carrément une des deux couches de NAT) — pas toujours proposé par tous les FAI/box grand public.
+2. Rediriger le port sur LES DEUX routeurs en chaîne (garder le double NAT, mais le \"percer\" aux deux étages).
+3. Le relais (Relay) : Plex fait transiter le flux par ses propres serveurs — zéro configuration réseau requise, mais débit plafonné (~2 Mbps), adapté à du SD/HD léger, pas à du 4K HDR remux non transcodé."
       },
       {
         heading: "Qui peut faire quoi",
@@ -11592,19 +11930,34 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Anatomy of a command",
-        "text": "A command usually looks like this:\n\ncommand --option value argument\n\n• The command itself (e.g. git, npm, ls) says which program to run.\n• Options (or \"flags\") start with - or -- and change the behavior. E.g. -r for \"recursive\", --force to force it.\n• An argument is a value given to the command, often a file or folder name.\n\nExample: rm -r my-folder\n→ rm = delete, -r = including everything inside, my-folder = what's being deleted."
+        "text": "A command usually looks like this:
+
+command --option value argument
+
+• The command itself (e.g. git, npm, ls) says which program to run.
+• Options (or \"flags\") start with - or -- and change the behavior. E.g. -r for \"recursive\", --force to force it.
+• An argument is a value given to the command, often a file or folder name.
+
+Example: rm -r my-folder
+→ rm = delete, -r = including everything inside, my-folder = what's being deleted."
       },
       {
         "heading": "The < > in this hub",
-        "text": "In this hub's commands, you'll sometimes see <package-name> or <PID>. The angle brackets are NEVER typed literally: they mean \"replace this with your own value\".\n\nE.g.: adb uninstall <package.name> becomes adb uninstall com.example.myapp"
+        "text": "In this hub's commands, you'll sometimes see <package-name> or <PID>. The angle brackets are NEVER typed literally: they mean \"replace this with your own value\".
+
+E.g.: adb uninstall <package.name> becomes adb uninstall com.example.myapp"
       },
       {
         "heading": "What is sudo?",
-        "text": "sudo means \"run this command as an administrator\". The system asks for your password and allows actions that are normally blocked (installing software, modifying a system file…).\n\nGolden rule: never type sudo in front of a command you don't understand, especially if it contains rm."
+        "text": "sudo means \"run this command as an administrator\". The system asks for your password and allows actions that are normally blocked (installing software, modifying a system file…).
+
+Golden rule: never type sudo in front of a command you don't understand, especially if it contains rm."
       },
       {
         "heading": "\"command not found\", what now?",
-        "text": "It means the shell couldn't find any program with that name (typo, software not installed, or not in the PATH — see [[Bases du terminal::Variables d'environnement et PATH]]).\n\nReflex: check the spelling, then ask yourself \"is this software actually installed?\" with which command-name, or look up how to install it (often via apt)."
+        "text": "It means the shell couldn't find any program with that name (typo, software not installed, or not in the PATH — see [[Bases du terminal::Variables d'environnement et PATH]]).
+
+Reflex: check the spelling, then ask yourself \"is this software actually installed?\" with which command-name, or look up how to install it (often via apt)."
       }
     ],
     "exercises": [
@@ -11631,11 +11984,15 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Moving around",
-        "text": "cd folder-name enters a folder.\ncd .. goes up one level.\ncd (alone) or cd ~ takes you back to your home folder.\n`cd -` takes you back to the previous folder — handy for going back and forth."
+        "text": "cd folder-name enters a folder.
+cd .. goes up one level.
+cd (alone) or cd ~ takes you back to your home folder.
+`cd -` takes you back to the previous folder — handy for going back and forth."
       },
       {
         "heading": "Seeing what's there",
-        "text": "ls lists the current folder's contents.\n`ls -la` shows it in detail (permissions, size, date) and also shows hidden files (the ones starting with a dot, like .bashrc)."
+        "text": "ls lists the current folder's contents.
+`ls -la` shows it in detail (permissions, size, date) and also shows hidden files (the ones starting with a dot, like .bashrc)."
       },
       {
         "heading": "Relative vs absolute path",
@@ -11643,7 +12000,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Autocomplete (Tab)",
-        "text": "Type the first letters of a file/folder name then press Tab: the terminal completes it automatically. If several files start the same way, press Tab twice to see the list of possibilities.\n\nA habit worth building right away: it avoids typos and saves a huge amount of time."
+        "text": "Type the first letters of a file/folder name then press Tab: the terminal completes it automatically. If several files start the same way, press Tab twice to see the list of possibilities.
+
+A habit worth building right away: it avoids typos and saves a huge amount of time."
       }
     ],
     "exercises": [
@@ -11671,7 +12030,9 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Three types of rights",
-        "text": "r (read) = can read the content.\nw (write) = can modify/delete.\nx (execute) = can run the file as a program — or, for a FOLDER, can \"enter\" it (cd)."
+        "text": "r (read) = can read the content.
+w (write) = can modify/delete.
+x (execute) = can run the file as a program — or, for a FOLDER, can \"enter\" it (cd)."
       },
       {
         "heading": "Three profiles involved",
@@ -11679,11 +12040,22 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Decoding a line from ls -la",
-        "text": "Example: -rwxr-xr-- 1 user user 220 ... script.sh\n\n• The very first character (-) says whether it's a file (-) or a folder (d).\n• rwx → the owner (user) can do everything.\n• r-x → the group can read and execute, not modify.\n• r-- → everyone else can only read."
+        "text": "Example: -rwxr-xr-- 1 user user 220 ... script.sh
+
+• The very first character (-) says whether it's a file (-) or a folder (d).
+• rwx → the owner (user) can do everything.
+• r-x → the group can read and execute, not modify.
+• r-- → everyone else can only read."
       },
       {
         "heading": "The numeric format (chmod 755)",
-        "text": "Each right has a value: r=4, w=2, x=1. You add them up per profile.\n\nrwx = 4+2+1 = 7\nr-x = 4+0+1 = 5\nr-- = 4+0+0 = 4\n\nchmod 755 file therefore gives: owner=7 (rwx), group=5 (r-x), others=5 (r-x). The typical combination for a script you want to be able to run."
+        "text": "Each right has a value: r=4, w=2, x=1. You add them up per profile.
+
+rwx = 4+2+1 = 7
+r-x = 4+0+1 = 5
+r-- = 4+0+0 = 4
+
+chmod 755 file therefore gives: owner=7 (rwx), group=5 (r-x), others=5 (r-x). The typical combination for a script you want to be able to run."
       },
       {
         "heading": "Common error",
@@ -11715,7 +12087,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "PATH, the list of places to look for a program",
-        "text": "When you type a command (e.g. git), the shell doesn't magically know its exact location: it looks, IN ORDER, through each folder listed in the PATH variable, until it finds a program with that name. If it finds none → \"command not found\".\n\nwhich command-name tells you exactly which file is used, if several versions of the same program are lying around on the system."
+        "text": "When you type a command (e.g. git), the shell doesn't magically know its exact location: it looks, IN ORDER, through each folder listed in the PATH variable, until it finds a program with that name. If it finds none → \"command not found\".
+
+which command-name tells you exactly which file is used, if several versions of the same program are lying around on the system."
       },
       {
         "heading": "Temporary vs permanent variable",
@@ -11727,11 +12101,15 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": ".env files: centralizing config without hardcoding it",
-        "text": "A .env file at the root of a project lists variables (e.g. API_URL=https://example.com) that some tools (Node, Expo, Docker…) load automatically on startup. This lets you change the config depending on the environment (dev/prod) without touching the code, and above all keeps secrets OUT of the source code.\n\nAbsolute rule: a .env file must ALWAYS be listed in .gitignore. Committing it by mistake means publishing your secrets in the Git history, potentially forever."
+        "text": "A .env file at the root of a project lists variables (e.g. API_URL=https://example.com) that some tools (Node, Expo, Docker…) load automatically on startup. This lets you change the config depending on the environment (dev/prod) without touching the code, and above all keeps secrets OUT of the source code.
+
+Absolute rule: a .env file must ALWAYS be listed in .gitignore. Committing it by mistake means publishing your secrets in the Git history, potentially forever."
       },
       {
         "heading": "Expo/React Native-specific trap: EXPO_PUBLIC_",
-        "text": "In an Expo project, only variables prefixed with EXPO_PUBLIC_ (e.g. EXPO_PUBLIC_API_URL) get baked into the JS bundle sent to the phone — the other .env variables stay invisible to the app, usable only during the build.\n\n\"Public\" here literally means BUNDLED INTO THE APP, so potentially readable by anyone who decompiles the installed file. NEVER put a real secret (password, private key, full access token) behind an EXPO_PUBLIC_ — only information that's safe to be public, like an API URL or a Firebase key already designed to be public."
+        "text": "In an Expo project, only variables prefixed with EXPO_PUBLIC_ (e.g. EXPO_PUBLIC_API_URL) get baked into the JS bundle sent to the phone — the other .env variables stay invisible to the app, usable only during the build.
+
+\"Public\" here literally means BUNDLED INTO THE APP, so potentially readable by anyone who decompiles the installed file. NEVER put a real secret (password, private key, full access token) behind an EXPO_PUBLIC_ — only information that's safe to be public, like an API URL or a Firebase key already designed to be public."
       }
     ],
     "exercises": [
@@ -11759,15 +12137,25 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "npm vs npx, the most frequent confusion",
-        "text": "npm (Node Package Manager) is used to INSTALL packages in your project (npm install).\n\nnpx is used to RUN a package — downloading it temporarily if it isn't already present, without adding it permanently to the project. That's why almost every Expo command in this hub starts with npx expo ... rather than a global install: it guarantees using the Expo CLI version expected by THIS specific project, without permanently installing anything on your machine."
+        "text": "npm (Node Package Manager) is used to INSTALL packages in your project (npm install).
+
+npx is used to RUN a package — downloading it temporarily if it isn't already present, without adding it permanently to the project. That's why almost every Expo command in this hub starts with npx expo ... rather than a global install: it guarantees using the Expo CLI version expected by THIS specific project, without permanently installing anything on your machine."
       },
       {
         "heading": "Anatomy of package.json",
-        "text": "dependencies: the libraries needed for the app to WORK once published (e.g. react, expo).\n\ndevDependencies: tools only useful DURING development (e.g. a linter, TypeScript types) — they aren't included in the final app shipped to users.\n\nscripts: custom command shortcuts, run with npm run script-name (a few special scripts like start run directly with npm start, without \"run\")."
+        "text": "dependencies: the libraries needed for the app to WORK once published (e.g. react, expo).
+
+devDependencies: tools only useful DURING development (e.g. a linter, TypeScript types) — they aren't included in the final app shipped to users.
+
+scripts: custom command shortcuts, run with npm run script-name (a few special scripts like start run directly with npm start, without \"run\")."
       },
       {
         "heading": "Reading a version number (semver)",
-        "text": "A version number follows the MAJOR.MINOR.PATCH format (e.g. 4.2.1 → breaking changes only on the first digit, in theory). In package.json, the symbols placed in front specify what an npm install is allowed to install automatically:\n\n^4.2.1 → accepts MINOR and PATCH updates (up to 4.x.x), but not 5.0.0.\n~4.2.1 → accepts only PATCH updates (4.2.x), more cautious.\nNo symbol (4.2.1 alone) → version pinned exactly, nothing else gets installed automatically."
+        "text": "A version number follows the MAJOR.MINOR.PATCH format (e.g. 4.2.1 → breaking changes only on the first digit, in theory). In package.json, the symbols placed in front specify what an npm install is allowed to install automatically:
+
+^4.2.1 → accepts MINOR and PATCH updates (up to 4.x.x), but not 5.0.0.
+~4.2.1 → accepts only PATCH updates (4.2.x), more cautious.
+No symbol (4.2.1 alone) → version pinned exactly, nothing else gets installed automatically."
       },
       {
         "heading": "Why npx expo install rather than npm install",
@@ -11799,7 +12187,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Where packages get installed",
-        "text": "apt install installs system-WIDE, in shared folders (/usr, /etc…) — a single copy for all your projects.\n\nnpm install installs into a node_modules/ folder specific to THIS project — each project has its own copy, isolated from the others. That's why you can delete node_modules/ without risk: npm install fully regenerates it.\n\nGradle downloads into a shared cache (~/.gradle) then links it to the project."
+        "text": "apt install installs system-WIDE, in shared folders (/usr, /etc…) — a single copy for all your projects.
+
+npm install installs into a node_modules/ folder specific to THIS project — each project has its own copy, isolated from the others. That's why you can delete node_modules/ without risk: npm install fully regenerates it.
+
+Gradle downloads into a shared cache (~/.gradle) then links it to the project."
       },
       {
         "heading": "package.json / build.gradle: the shopping list",
@@ -11827,15 +12219,24 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "The pipe |: plugging one command into another",
-        "text": "| sends the OUTPUT of the command on the left as the INPUT of the command on the right.\n\nExample: ps aux | grep node\n→ ps aux lists every process, grep node keeps only the lines containing \"node\". Result: a filtered list, without having to read through everything by eye."
+        "text": "| sends the OUTPUT of the command on the left as the INPUT of the command on the right.
+
+Example: ps aux | grep node
+→ ps aux lists every process, grep node keeps only the lines containing \"node\". Result: a filtered list, without having to read through everything by eye."
       },
       {
         "heading": "> and >>: redirecting to a file",
-        "text": "> sends the result into a file, OVERWRITING its existing content.\n>> does the same but APPENDS at the end, without erasing anything.\n\nExample: `ls -la` > list.txt saves ls's result into a file instead of displaying it on screen."
+        "text": "> sends the result into a file, OVERWRITING its existing content.
+>> does the same but APPENDS at the end, without erasing anything.
+
+Example: `ls -la` > list.txt saves ls's result into a file instead of displaying it on screen."
       },
       {
         "heading": "&&: run the next one only if it succeeded",
-        "text": "command1 && command2 runs the second one ONLY IF the first one succeeded (exit code 0).\n\nExample: cd my-project && npm install\n→ If the my-project folder doesn't exist, cd fails and npm install is never run in the wrong place. Safer than typing them separately."
+        "text": "command1 && command2 runs the second one ONLY IF the first one succeeded (exit code 0).
+
+Example: cd my-project && npm install
+→ If the my-project folder doesn't exist, cd fails and npm install is never run in the wrong place. Safer than typing them separately."
       },
       {
         "heading": "; : run one after the other, no condition",
@@ -11871,11 +12272,20 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "What it looks like",
-        "text": "{\n  \"name\": \"Alex\",\n  \"age\": 30,\n  \"projects\": [\"PhotoApp\", \"ShowcaseSite\"],\n  \"active\": true\n}\n\nKey/value pairs between curly braces { }, where a value can itself contain another object or a list — it's this nesting that lets you represent complex data."
+        "text": "{
+  \"name\": \"Alex\",
+  \"age\": 30,
+  \"projects\": [\"PhotoApp\", \"ShowcaseSite\"],
+  \"active\": true
+}
+
+Key/value pairs between curly braces { }, where a value can itself contain another object or a list — it's this nesting that lets you represent complex data."
       },
       {
         "heading": "The possible value types",
-        "text": "\"text\" in double quotes (never single quotes in strict JSON), a number (42, 3.14), a boolean (true/false), null (absence of a value), an object {...}, or an array [...].\n\nCommon trap: a comma after the VERY LAST element of an object or array is a syntax error in JSON (unlike JS) — it breaks the parsing."
+        "text": "\"text\" in double quotes (never single quotes in strict JSON), a number (42, 3.14), a boolean (true/false), null (absence of a value), an object {...}, or an array [...].
+
+Common trap: a comma after the VERY LAST element of an object or array is a syntax error in JSON (unlike JS) — it breaks the parsing."
       },
       {
         "heading": "Why it's everywhere",
@@ -11885,7 +12295,11 @@ const GUIDE_TRANSLATIONS_EN = {
     "exercises": [
       {
         "type": "quiz",
-        "instruction": "Where's the error in this JSON?\n{\n  \"name\": \"Alex\",\n  \"projects\": [\"PhotoApp\", \"ShowcaseSite\",]\n}",
+        "instruction": "Where's the error in this JSON?
+{
+  \"name\": \"Alex\",
+  \"projects\": [\"PhotoApp\", \"ShowcaseSite\",]
+}",
         "options": [
           "The quotes around \"name\"",
           "The opening brace {",
@@ -11907,11 +12321,22 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The main HTTP methods",
-        "text": "GET → read/fetch data, without modifying anything (e.g. get the list of your tracks).\nPOST → create new data (e.g. add a new workout session).\nPUT / PATCH → modify existing data (PUT replaces everything, PATCH modifies just some fields).\nDELETE → delete data."
+        "text": "GET → read/fetch data, without modifying anything (e.g. get the list of your tracks).
+POST → create new data (e.g. add a new workout session).
+PUT / PATCH → modify existing data (PUT replaces everything, PATCH modifies just some fields).
+DELETE → delete data."
       },
       {
         "heading": "The status codes worth knowing",
-        "text": "200 OK → everything went fine.\n201 Created → a resource was successfully created (typical after a POST).\n400 Bad Request → your request is malformed (often a client-side mistake).\n401 Unauthorized → you're not authenticated (missing/invalid credentials).\n403 Forbidden → you ARE authenticated, but you don't have permission to access this.\n404 Not Found → the requested URL doesn't exist.\n500 Internal Server Error → the server crashed on its side, not you.\n\nReflex: before hunting for a bug in your code, ALWAYS check the returned status code — it often tells you directly where to look."
+        "text": "200 OK → everything went fine.
+201 Created → a resource was successfully created (typical after a POST).
+400 Bad Request → your request is malformed (often a client-side mistake).
+401 Unauthorized → you're not authenticated (missing/invalid credentials).
+403 Forbidden → you ARE authenticated, but you don't have permission to access this.
+404 Not Found → the requested URL doesn't exist.
+500 Internal Server Error → the server crashed on its side, not you.
+
+Reflex: before hunting for a bug in your code, ALWAYS check the returned status code — it often tells you directly where to look."
       },
       {
         "heading": "REST, the general principle",
@@ -11951,11 +12376,23 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "async/await, the syntax that simplifies everything",
-        "text": "A function declared async can use the await keyword in front of a call that returns a Promise — the code \"pauses\" that specific function (and only that one) until the Promise resolves, then continues with the obtained value. This lets you write asynchronous code that READS like normal, sequential code, rather than a cascade of callbacks.\n\nasync function loadData() {\n  const response = await fetch(\"https://api.example.com/data\");\n  const data = await response.json();\n  return data;\n}"
+        "text": "A function declared async can use the await keyword in front of a call that returns a Promise — the code \"pauses\" that specific function (and only that one) until the Promise resolves, then continues with the obtained value. This lets you write asynchronous code that READS like normal, sequential code, rather than a cascade of callbacks.
+
+async function loadData() {
+  const response = await fetch(\"https://api.example.com/data\");
+  const data = await response.json();
+  return data;
+}"
       },
       {
         "heading": "Handling errors: try/catch",
-        "text": "An await that fails (rejected Promise, e.g. no network) throws an error that must be caught with try/catch, otherwise the app can crash or the error can slip by silently unnoticed:\n\ntry {\n  const data = await loadData();\n} catch (error) {\n  console.log(\"Loading failed:\", error);\n}"
+        "text": "An await that fails (rejected Promise, e.g. no network) throws an error that must be caught with try/catch, otherwise the app can crash or the error can slip by silently unnoticed:
+
+try {
+  const data = await loadData();
+} catch (error) {
+  console.log(\"Loading failed:\", error);
+}"
       },
       {
         "heading": "Common trap: forgetting await",
@@ -11965,7 +12402,12 @@ const GUIDE_TRANSLATIONS_EN = {
     "exercises": [
       {
         "type": "quiz",
-        "instruction": "What's the bug in this code?\nasync function loadData() {\n  const response = fetch(\"https://api.example.com/data\");\n  const data = await response.json();\n  return data;\n}",
+        "instruction": "What's the bug in this code?
+async function loadData() {
+  const response = fetch(\"https://api.example.com/data\");
+  const data = await response.json();
+  return data;
+}",
         "options": [
           "The function isn't declared async",
           "await is missing in front of fetch(...)",
@@ -12023,11 +12465,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The basic building blocks",
-        "text": ". (any character), * (zero or more times), + (one or more), ? (zero or one time), [abc] (one of the listed characters), \\d (a digit) — combined, they describe increasingly precise patterns."
+        "text": ". (any character), * (zero or more times), + (one or more), ? (zero or one time), [abc] (one of the listed characters), \d (a digit) — combined, they describe increasingly precise patterns."
       },
       {
         "heading": "A concrete example",
-        "text": "^\\d{2}/\\d{2}/\\d{4}$ describes a date in DD/MM/YYYY format: exactly 2 digits, a /, 2 digits, a /, 4 digits, from the start (^) to the end ($) of the string."
+        "text": "^\d{2}/\d{2}/\d{4}$ describes a date in DD/MM/YYYY format: exactly 2 digits, a /, 2 digits, a /, 4 digits, from the start (^) to the end ($) of the string."
       },
       {
         "heading": "Testing before using in production",
@@ -12039,13 +12481,13 @@ const GUIDE_TRANSLATIONS_EN = {
         "type": "quiz",
         "instruction": "You want to validate that a string contains exactly 4 digits, no more, no less. Which pattern do you use?",
         "options": [
-          "^\\d{4}$",
-          "\\d+",
+          "^\d{4}$",
+          "\d+",
           "[0-9]",
           "d4"
         ],
         "correctIndex": 0,
-        "correction": "^\\d{4}$ anchors the pattern to the start and end of the string (^ and $) and requires exactly 4 digits ({4}) — \\d+ would accept any number of digits, not necessarily 4."
+        "correction": "^\d{4}$ anchors the pattern to the start and end of the string (^ and $) and requires exactly 4 digits ({4}) — \d+ would accept any number of digits, not necessarily 4."
       }
     ]
   },
@@ -12095,11 +12537,15 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "A commit, precisely",
-        "text": "A commit is a 100% LOCAL, timestamped save, with a message explaining what changed. It only exists on your machine, in your project's hidden .git/ folder — no one else sees it until you've explicitly sent it somewhere.\n\nThis is an essential nuance: committing is NOT sharing. You can commit 50 times a day without it touching anything other than your own hard drive, even without an internet connection."
+        "text": "A commit is a 100% LOCAL, timestamped save, with a message explaining what changed. It only exists on your machine, in your project's hidden .git/ folder — no one else sees it until you've explicitly sent it somewhere.
+
+This is an essential nuance: committing is NOT sharing. You can commit 50 times a day without it touching anything other than your own hard drive, even without an internet connection."
       },
       {
         "heading": "The local repo vs the remote",
-        "text": "The local repository is the complete commit history stored only on your machine. The remote (e.g. GitHub) is a COPY of that history hosted on a server elsewhere.\n\n`git push` copies your local commits TO the remote. `git pull` brings the remote's commits back TO your local repository. Until you've pushed, a commit remains a strictly local save — even if a remote is configured on the project."
+        "text": "The local repository is the complete commit history stored only on your machine. The remote (e.g. GitHub) is a COPY of that history hosted on a server elsewhere.
+
+`git push` copies your local commits TO the remote. `git pull` brings the remote's commits back TO your local repository. Until you've pushed, a commit remains a strictly local save — even if a remote is configured on the project."
       },
       {
         "heading": "Why commit often, even without pushing",
@@ -12113,7 +12559,9 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "The 3 zones on YOUR machine",
-        "text": "1. Working Directory: your files as you see and edit them in your editor.\n2. Staging Area (the index): a waiting zone where you place what you want to include in the next commit (via git add).\n3. Local Repository: the complete history of already-recorded commits, stored in your project's .git/ folder."
+        "text": "1. Working Directory: your files as you see and edit them in your editor.
+2. Staging Area (the index): a waiting zone where you place what you want to include in the next commit (via git add).
+3. Local Repository: the complete history of already-recorded commits, stored in your project's .git/ folder."
       },
       {
         "heading": "And the remote, a 4th zone — but elsewhere",
@@ -12121,11 +12569,16 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Summary table",
-        "text": "git add          : Working Directory → Staging          (stays local)\ngit commit       : Staging → Local Repository              (stays local)\n`git push`         : Local Repository → Remote                (goes onto the internet)\n`git pull` / fetch : Remote → Local Repository (+ Working Dir) (comes from the internet)"
+        "text": "git add          : Working Directory → Staging          (stays local)
+git commit       : Staging → Local Repository              (stays local)
+`git push`         : Local Repository → Remote                (goes onto the internet)
+`git pull` / fetch : Remote → Local Repository (+ Working Dir) (comes from the internet)"
       },
       {
         "heading": "What this actually means",
-        "text": "• If your PC crashes before a push, you lose the unpushed commits — they never existed anywhere but on that disk.\n• If the internet is down, you can still commit (no step touches the network) but not push/pull.\n• That's why committing regularly + pushing at the end of a session is a good habit: committing protects you from mistakes, pushing protects you from losing the machine."
+        "text": "• If your PC crashes before a push, you lose the unpushed commits — they never existed anywhere but on that disk.
+• If the internet is down, you can still commit (no step touches the network) but not push/pull.
+• That's why committing regularly + pushing at the end of a session is a good habit: committing protects you from mistakes, pushing protects you from losing the machine."
       }
     ],
     "exercises": [
@@ -12140,13 +12593,16 @@ const GUIDE_TRANSLATIONS_EN = {
                 "git commit -m \"fix: fix the title\"",
                 "git commit -m 'fix: fix the title'"
               ],
-              "output": "[master a3f9c2e] fix: fix the title\n 1 file changed, 1 insertion(+)"
+              "output": "[master a3f9c2e] fix: fix the title
+ 1 file changed, 1 insertion(+)"
             },
             {
               "expect": [
                 "git push"
               ],
-              "output": "Enumerating objects: 4, done.\nTo github.com:you/project.git\n   9de4781..a3f9c2e  master -> master"
+              "output": "Enumerating objects: 4, done.
+To github.com:you/project.git
+   9de4781..a3f9c2e  master -> master"
             }
           ]
         },
@@ -12180,11 +12636,24 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Message convention (optional but very common)",
-        "text": "Many teams prefix their messages with a type:\n\nfix: fixes a bug\nfeat: adds a feature\nchore: technical task with no user impact (config, dependencies…)\ndocs: documentation only\n\nExample: feat: add sorting by date to the listening list"
+        "text": "Many teams prefix their messages with a type:
+
+fix: fixes a bug
+feat: adds a feature
+chore: technical task with no user impact (config, dependencies…)
+docs: documentation only
+
+Example: feat: add sorting by date to the listening list"
       },
       {
         "heading": "Concrete end-to-end example",
-        "text": "You've just fixed a display bug:\n\n`git status`   →  you see app/Login.kt modified\n`git diff`     →  you check these are indeed the right lines\n`git add .`\ngit commit -m \"fix: fix the login button alignment\"\n`git push`"
+        "text": "You've just fixed a display bug:
+
+`git status`   →  you see app/Login.kt modified
+`git diff`     →  you check these are indeed the right lines
+`git add .`
+git commit -m \"fix: fix the login button alignment\"
+`git push`"
       }
     ],
     "exercises": [
@@ -12198,7 +12667,9 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "git status"
               ],
-              "output": "On branch master\nChanges to be committed:\n  modified: app/List.kt"
+              "output": "On branch master
+Changes to be committed:
+  modified: app/List.kt"
             },
             {
               "expect": [
@@ -12211,7 +12682,8 @@ const GUIDE_TRANSLATIONS_EN = {
                 "git commit -m \"feat: add sorting by date\"",
                 "git commit -m 'feat: add sorting by date'"
               ],
-              "output": "[master 7c1e4aa] feat: add sorting by date\n 1 file changed, 12 insertions(+)"
+              "output": "[master 7c1e4aa] feat: add sorting by date
+ 1 file changed, 12 insertions(+)"
             }
           ]
         },
@@ -12237,7 +12709,10 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "A branch's life cycle",
-        "text": "1. git checkout -b my-feature → you create the branch and switch to it\n2. You commit normally on it (status/add/commit)\n3. Once done and tested, you merge it into main (git merge, or a Pull Request on GitHub)\n4. You can then delete it: git branch -d my-feature"
+        "text": "1. git checkout -b my-feature → you create the branch and switch to it
+2. You commit normally on it (status/add/commit)
+3. Once done and tested, you merge it into main (git merge, or a Pull Request on GitHub)
+4. You can then delete it: git branch -d my-feature"
       },
       {
         "heading": "When to create a branch",
@@ -12273,11 +12748,15 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "I committed but haven't pushed yet, I want to undo the last commit",
-        "text": "`git reset --soft HEAD~1` undoes the commit but keeps your changes ready to be re-committed (staged). This is the safe option.\n\n`git reset --hard HEAD~1` deletes EVERYTHING, changes included. Irreversible, only use it if you're sure."
+        "text": "`git reset --soft HEAD~1` undoes the commit but keeps your changes ready to be re-committed (staged). This is the safe option.
+
+`git reset --hard HEAD~1` deletes EVERYTHING, changes included. Irreversible, only use it if you're sure."
       },
       {
         "heading": "I've ALREADY pushed this commit — git revert, the safe option",
-        "text": "Once pushed, other people (or other machines) may have picked up this commit: rewriting it with reset becomes dangerous and a source of conflicts for everyone.\n\ngit revert instead creates a NEW commit that undoes an old commit's changes, WITHOUT erasing existing history. Simple rule: reset before push, revert after push on shared code."
+        "text": "Once pushed, other people (or other machines) may have picked up this commit: rewriting it with reset becomes dangerous and a source of conflicts for everyone.
+
+git revert instead creates a NEW commit that undoes an old commit's changes, WITHOUT erasing existing history. Simple rule: reset before push, revert after push on shared code."
       },
       {
         "heading": "I just want to set my work aside temporarily",
@@ -12309,11 +12788,22 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Why some files should NOT be committed",
-        "text": "• Auto-generated files (node_modules/, build/, dist/) — they regenerate from the source code, no point versioning them.\n• Secrets (API keys, passwords, .env files) — committing them makes them visible to anyone with access to the repo, including in the history even if you delete them later.\n• Config files specific to your editor/IDE.\n\nCommitting them by mistake needlessly bloats the history and can flat-out leak secrets."
+        "text": "• Auto-generated files (node_modules/, build/, dist/) — they regenerate from the source code, no point versioning them.
+• Secrets (API keys, passwords, .env files) — committing them makes them visible to anyone with access to the repo, including in the history even if you delete them later.
+• Config files specific to your editor/IDE.
+
+Committing them by mistake needlessly bloats the history and can flat-out leak secrets."
       },
       {
         "heading": "How it works",
-        "text": "A .gitignore file at the project root lists patterns to ignore, one per line:\n\nnode_modules/\nbuild/\n*.apk\n.env\n\nGit then automatically ignores these files — they don't even show up in `git status` anymore."
+        "text": "A .gitignore file at the project root lists patterns to ignore, one per line:
+
+node_modules/
+build/
+*.apk
+.env
+
+Git then automatically ignores these files — they don't even show up in `git status` anymore."
       },
       {
         "heading": "Common trap",
@@ -12345,11 +12835,21 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "What it looks like in the file",
-        "text": "Git inserts markers directly into the affected file:\n\n<<<<<<< HEAD\nyour version\n=======\nthe other version\n>>>>>>> branch-name"
+        "text": "Git inserts markers directly into the affected file:
+
+<<<<<<< HEAD
+your version
+=======
+the other version
+>>>>>>> branch-name"
       },
       {
         "heading": "How to resolve it, step by step",
-        "text": "1. Open the conflicting file in your editor.\n2. Decide which version to keep — or manually combine both.\n3. Completely remove the marker lines (<<<<<<<, =======, >>>>>>>).\n4. git add file-name to mark the conflict as resolved.\n5. git commit (often with a message already pre-filled by Git) to finalize the merge."
+        "text": "1. Open the conflicting file in your editor.
+2. Decide which version to keep — or manually combine both.
+3. Completely remove the marker lines (<<<<<<<, =======, >>>>>>>).
+4. git add file-name to mark the conflict as resolved.
+5. git commit (often with a message already pre-filled by Git) to finalize the merge."
       },
       {
         "heading": "How to get fewer of them",
@@ -12381,7 +12881,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "git log --oneline --graph --all, decrypted",
-        "text": "Each line = one commit (short SHA + message). The ASCII characters (|, /, \\, *) draw a graph showing the branches and where they diverge or merge — invaluable to visualize a project's history at a glance."
+        "text": "Each line = one commit (short SHA + message). The ASCII characters (|, /, \, *) draw a graph showing the branches and where they diverge or merge — invaluable to visualize a project's history at a glance."
       },
       {
         "heading": "HEAD, HEAD~1, HEAD~2…",
@@ -12399,7 +12899,9 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "git log --oneline"
               ],
-              "output": "a3f9c2e fix: fix the title\n7c1e4aa feat: add sorting by date\n9de4781 Initial commit"
+              "output": "a3f9c2e fix: fix the title
+7c1e4aa feat: add sorting by date
+9de4781 Initial commit"
             }
           ]
         },
@@ -12417,7 +12919,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The typical flow",
-        "text": "1. You create a branch and commit your work on it.\n2. You push it: `git push` -u origin my-branch\n3. On GitHub, you open a Pull Request from this branch into main.\n4. Someone (or yourself) reviews the diff, comments, possibly asks for changes.\n5. Once approved, it's merged — often with one \"Merge\" click on the GitHub interface."
+        "text": "1. You create a branch and commit your work on it.
+2. You push it: `git push` -u origin my-branch
+3. On GitHub, you open a Pull Request from this branch into main.
+4. Someone (or yourself) reviews the diff, comments, possibly asks for changes.
+5. Once approved, it's merged — often with one \"Merge\" click on the GitHub interface."
       },
       {
         "heading": "Why it's useful even when working alone",
@@ -12461,7 +12967,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "What lives where, concretely",
-        "text": "Dev: your code runs on YOUR computer; the phone just displays the result over the network — nothing works without your computer turned on.\n\nBuild: the JS code is packaged DIRECTLY into the .apk/.ipa file; the app never needs your computer to work again.\n\nUpdate (OTA): replaces the JS bundle already packaged in an already-installed app, without regenerating a new .apk/.ipa file."
+        "text": "Dev: your code runs on YOUR computer; the phone just displays the result over the network — nothing works without your computer turned on.
+
+Build: the JS code is packaged DIRECTLY into the .apk/.ipa file; the app never needs your computer to work again.
+
+Update (OTA): replaces the JS bundle already packaged in an already-installed app, without regenerating a new .apk/.ipa file."
       },
       {
         "heading": "Summary in one sentence",
@@ -12497,7 +13007,10 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The troubleshooting checklist",
-        "text": "1. Did you use npx expo install (not npm install)? It picks the version compatible with your SDK.\n2. Restart with the cache cleared: `npx expo start -c`\n3. If the library has native code and you're on a dev client / bare workflow: `npx expo prebuild --clean` then a new build.\n4. If in doubt about the overall config: `npx expo-doctor` tells you what's off."
+        "text": "1. Did you use npx expo install (not npm install)? It picks the version compatible with your SDK.
+2. Restart with the cache cleared: `npx expo start -c`
+3. If the library has native code and you're on a dev client / bare workflow: `npx expo prebuild --clean` then a new build.
+4. If in doubt about the overall config: `npx expo-doctor` tells you what's off."
       }
     ],
     "exercises": [
@@ -12511,7 +13024,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "npx expo start -c"
               ],
-              "output": "Cleared Metro cache.\nStarting the development server…"
+              "output": "Cleared Metro cache.
+Starting the development server…"
             }
           ]
         },
@@ -12529,7 +13043,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "eas.json: the build recipes",
-        "text": "Defines \"profiles\" (typically development, preview, production), each with its own settings: build type, environment variables, distribution channel.\n\neas build --profile preview concretely tells EAS \"use the recipe named preview\"."
+        "text": "Defines \"profiles\" (typically development, preview, production), each with its own settings: build type, environment variables, distribution channel.
+
+eas build --profile preview concretely tells EAS \"use the recipe named preview\"."
       },
       {
         "heading": "Why several profiles",
@@ -12579,7 +13095,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "npx expo start --tunnel"
               ],
-              "output": "Tunnel connected via ngrok.\nScan the QR code to connect from any network."
+              "output": "Tunnel connected via ngrok.
+Scan the QR code to connect from any network."
             }
           ]
         },
@@ -12629,7 +13146,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Debug vs Release",
-        "text": "A \"debug\" build (assembleDebug) is fast to generate, unoptimized, and easy to debug — the one you use daily during development.\n\nA \"release\" build (assembleRelease) is optimized, minified, and digitally signed — the one you send to users/the store."
+        "text": "A \"debug\" build (assembleDebug) is fast to generate, unoptimized, and easy to debug — the one you use daily during development.
+
+A \"release\" build (assembleRelease) is optimized, minified, and digitally signed — the one you send to users/the store."
       },
       {
         "heading": "assemble vs install",
@@ -12651,7 +13170,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "./gradlew assembleDebug"
               ],
-              "output": "BUILD SUCCESSFUL in 24s\n34 actionable tasks: 34 executed"
+              "output": "BUILD SUCCESSFUL in 24s
+34 actionable tasks: 34 executed"
             }
           ]
         },
@@ -12669,11 +13189,16 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The classic debug flow",
-        "text": "1. `adb devices` → checks that your device is properly detected\n2. You reproduce the bug in the app\n3. `adb logcat *:E` → you look at the errors that come up at the moment of the crash\n4. Once fixed, you reinstall with `./gradlew installDebug` and retest"
+        "text": "1. `adb devices` → checks that your device is properly detected
+2. You reproduce the bug in the app
+3. `adb logcat *:E` → you look at the errors that come up at the moment of the crash
+4. Once fixed, you reinstall with `./gradlew installDebug` and retest"
       },
       {
         "heading": "logcat, filtering smartly",
-        "text": "*:E = errors only, across all tags — useful for a first pass.\n\nMyTag:D *:S = shows only debug-level-and-above logs for the \"MyTag\" tag, and hides everything else (*:S = silent). Very useful to isolate ONLY the logs YOU added yourself in the code with Log.d(\"MyTag\", \"message\")."
+        "text": "*:E = errors only, across all tags — useful for a first pass.
+
+MyTag:D *:S = shows only debug-level-and-above logs for the \"MyTag\" tag, and hides everything else (*:S = silent). Very useful to isolate ONLY the logs YOU added yourself in the code with Log.d(\"MyTag\", \"message\")."
       },
       {
         "heading": "Why \"device not found\" or \"unauthorized\"",
@@ -12691,7 +13216,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "adb devices"
               ],
-              "output": "List of devices attached\nR58N30XXXXX\tdevice"
+              "output": "List of devices attached
+R58N30XXXXX	device"
             }
           ]
         },
@@ -12737,11 +13263,15 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "AAB (Android App Bundle): the format the Play Store expects",
-        "text": "Contains EVERYTHING (every language, every processor architecture), and Google Play then generates, for each device that downloads the app, an optimized, lightweight APK just for it. Result: the user downloads fewer MB.\n\nSince 2021, the Play Store requires the AAB (bundleRelease) for any new app."
+        "text": "Contains EVERYTHING (every language, every processor architecture), and Google Play then generates, for each device that downloads the app, an optimized, lightweight APK just for it. Result: the user downloads fewer MB.
+
+Since 2021, the Play Store requires the AAB (bundleRelease) for any new app."
       },
       {
         "heading": "The keystore, your app's ID card",
-        "text": "A release build must be signed with a keystore (a .jks/.keystore file containing a private key). This signature proves updates genuinely come from the same developer — Android refuses to install an update signed with a different key.\n\n⚠️ If you lose this file or its password, you will NEVER again be able to update your app on the Play Store under the same identity. Back it up carefully, and NEVER commit it to Git."
+        "text": "A release build must be signed with a keystore (a .jks/.keystore file containing a private key). This signature proves updates genuinely come from the same developer — Android refuses to install an update signed with a different key.
+
+⚠️ If you lose this file or its password, you will NEVER again be able to update your app on the Play Store under the same identity. Back it up carefully, and NEVER commit it to Git."
       }
     ],
     "exercises": [
@@ -12769,7 +13299,10 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The key methods, in order",
-        "text": "onCreate() → the screen is created (in theory only once, unless the system destroys and recreates it).\nonStart() / onResume() → the screen becomes visible then interactive.\nonPause() / onStop() → the user leaves the screen, but may potentially come back.\nonDestroy() → the screen is permanently closed."
+        "text": "onCreate() → the screen is created (in theory only once, unless the system destroys and recreates it).
+onStart() / onResume() → the screen becomes visible then interactive.
+onPause() / onStop() → the user leaves the screen, but may potentially come back.
+onDestroy() → the screen is permanently closed."
       },
       {
         "heading": "The classic trap",
@@ -12797,7 +13330,9 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "The problem: never block the main thread",
-        "text": "Android runs the interface (display, buttons, animations) on a single thread, the \"main thread\" (UI thread). A long operation (network call, disk/database access) launched directly on it BLOCKS it — result: the app freezes, and past a few seconds, Android straight up shows \"Application Not Responding\" (ANR).\n\nCoroutines let you run this long work ELSEWHERE, without freezing the interface, then easily come back to the main thread to display the result."
+        "text": "Android runs the interface (display, buttons, animations) on a single thread, the \"main thread\" (UI thread). A long operation (network call, disk/database access) launched directly on it BLOCKS it — result: the app freezes, and past a few seconds, Android straight up shows \"Application Not Responding\" (ANR).
+
+Coroutines let you run this long work ELSEWHERE, without freezing the interface, then easily come back to the main thread to display the result."
       },
       {
         "heading": "suspend fun, the function that can be \"paused\"",
@@ -12805,11 +13340,17 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "lifecycleScope / viewModelScope: where to launch a coroutine",
-        "text": "lifecycleScope.launch { ... } launches a coroutine automatically tied to the Activity/Fragment's lifecycle — if the screen is destroyed, the coroutine is automatically cancelled, avoiding memory leaks and crashes (\"attempt to update a view that no longer exists\").\n\nviewModelScope does the same but tied to the ViewModel's lifetime — handy to survive a screen rotation while still being cleaned up when the screen is truly closed."
+        "text": "lifecycleScope.launch { ... } launches a coroutine automatically tied to the Activity/Fragment's lifecycle — if the screen is destroyed, the coroutine is automatically cancelled, avoiding memory leaks and crashes (\"attempt to update a view that no longer exists\").
+
+viewModelScope does the same but tied to the ViewModel's lifetime — handy to survive a screen rotation while still being cleaned up when the screen is truly closed."
       },
       {
         "heading": "Dispatchers: choosing where it runs",
-        "text": "Dispatchers.Main → on the main thread (to touch the UI).\nDispatchers.IO → optimized for blocking operations (network, files, database).\nDispatchers.Default → optimized for CPU-intensive computation.\n\nwithContext(Dispatchers.IO) { ... } lets you temporarily switch a piece of code to the right thread before automatically returning to where you were."
+        "text": "Dispatchers.Main → on the main thread (to touch the UI).
+Dispatchers.IO → optimized for blocking operations (network, files, database).
+Dispatchers.Default → optimized for CPU-intensive computation.
+
+withContext(Dispatchers.IO) { ... } lets you temporarily switch a piece of code to the right thread before automatically returning to where you were."
       }
     ],
     "exercises": [
@@ -12837,7 +13378,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The rules of caution",
-        "text": "• Never type a sudo command found online without understanding what it does.\n• Be especially careful with sudo rm (deletion): there's no trash bin, it's final.\n• If a normal command (without sudo) fails with \"Permission denied\", it's probably intentional — ask yourself if you really need to touch it before adding sudo."
+        "text": "• Never type a sudo command found online without understanding what it does.
+• Be especially careful with sudo rm (deletion): there's no trash bin, it's final.
+• If a normal command (without sudo) fails with \"Permission denied\", it's probably intentional — ask yourself if you really need to touch it before adding sudo."
       },
       {
         "heading": "chmod and chown, briefly",
@@ -12855,7 +13398,9 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "sudo apt update"
               ],
-              "output": "[sudo] password for user:\nGet:1 http://archive.ubuntu.com/ubuntu…\nAll packages are up to date."
+              "output": "[sudo] password for user:
+Get:1 http://archive.ubuntu.com/ubuntu…
+All packages are up to date."
             }
           ]
         },
@@ -12873,7 +13418,10 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The basic cycle",
-        "text": "sudo apt update → refreshes the LIST of available packages (doesn't update anything, just the list)\nsudo apt upgrade → actually installs the available updates\nsudo apt install software-name → installs a piece of software\nsudo apt remove software-name → uninstalls it"
+        "text": "sudo apt update → refreshes the LIST of available packages (doesn't update anything, just the list)
+sudo apt upgrade → actually installs the available updates
+sudo apt install software-name → installs a piece of software
+sudo apt remove software-name → uninstalls it"
       },
       {
         "heading": "Why \"update\" before \"upgrade\"",
@@ -12895,7 +13443,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "apt search htop"
               ],
-              "output": "htop/stable 3.2.2-1 amd64\n  interactive processes viewer"
+              "output": "htop/stable 3.2.2-1 amd64
+  interactive processes viewer"
             }
           ]
         },
@@ -12945,7 +13494,7 @@ const GUIDE_TRANSLATIONS_EN = {
   },
   "Linux|L'arborescence du système de fichiers": {
     "title": "The filesystem hierarchy",
-    "summary": "Why Linux doesn't have a 'C:\\', and where to find what.",
+    "summary": "Why Linux doesn't have a 'C:\', and where to find what.",
     "content": [
       {
         "heading": "Why it's not like Windows",
@@ -12953,7 +13502,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The important folders to know",
-        "text": "/home/your-name → your personal files (equivalent of the Windows user folder).\n/etc → system configuration files.\n/usr → installed programs and libraries.\n/var → data that changes often, notably logs in /var/log.\n/tmp → temporary files, erased on reboot."
+        "text": "/home/your-name → your personal files (equivalent of the Windows user folder).
+/etc → system configuration files.
+/usr → installed programs and libraries.
+/var → data that changes often, notably logs in /var/log.
+/tmp → temporary files, erased on reboot."
       },
       {
         "heading": "Where is my software installed",
@@ -12985,7 +13538,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The port, the number's extension",
-        "text": "A machine can run several services at once (a web server, a database…). The port (a number from 0 to 65535) specifies WHICH of these services you're addressing.\n\nE.g.: localhost:8081 = the service listening on port 8081 of YOUR OWN machine (often Metro for an Expo project)."
+        "text": "A machine can run several services at once (a web server, a database…). The port (a number from 0 to 65535) specifies WHICH of these services you're addressing.
+
+E.g.: localhost:8081 = the service listening on port 8081 of YOUR OWN machine (often Metro for an Expo project)."
       },
       {
         "heading": "DNS, the directory that translates names",
@@ -13021,7 +13576,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "ssh-keygen, concretely",
-        "text": "Generates two files, by default in ~/.ssh/: id_ed25519 (the PRIVATE key) and id_ed25519.pub (the PUBLIC key).\n\nThe .pub file is the one you paste into GitHub's settings or a remote server's. The file WITHOUT .pub must NEVER be shared, nor committed to a Git repository."
+        "text": "Generates two files, by default in ~/.ssh/: id_ed25519 (the PRIVATE key) and id_ed25519.pub (the PUBLIC key).
+
+The .pub file is the one you paste into GitHub's settings or a remote server's. The file WITHOUT .pub must NEVER be shared, nor committed to a Git repository."
       }
     ],
     "exercises": [
@@ -13036,7 +13593,9 @@ const GUIDE_TRANSLATIONS_EN = {
                 "ssh-keygen -t ed25519 -C \"you@email.com\"",
                 "ssh-keygen -t ed25519 -C 'you@email.com'"
               ],
-              "output": "Generating public/private ed25519 key pair.\nYour identification has been saved in /home/user/.ssh/id_ed25519\nYour public key has been saved in /home/user/.ssh/id_ed25519.pub"
+              "output": "Generating public/private ed25519 key pair.
+Your identification has been saved in /home/user/.ssh/id_ed25519
+Your public key has been saved in /home/user/.ssh/id_ed25519.pub"
             }
           ]
         },
@@ -13054,7 +13613,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The basic commands",
-        "text": "systemctl status service-name → its current state (active, stopped, failed…) and its latest logs.\nsystemctl start / stop / restart service-name → act on it NOW, for the current session.\nsystemctl enable / disable service-name → decide whether it starts automatically on the machine's next reboot (enable does NOT launch it immediately, only on the next boot)."
+        "text": "systemctl status service-name → its current state (active, stopped, failed…) and its latest logs.
+systemctl start / stop / restart service-name → act on it NOW, for the current session.
+systemctl enable / disable service-name → decide whether it starts automatically on the machine's next reboot (enable does NOT launch it immediately, only on the next boot)."
       },
       {
         "heading": "Where to look for why a service won't start",
@@ -13072,7 +13633,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "sudo systemctl status docker"
               ],
-              "output": "● docker.service - Docker Application Container Engine\n     Active: active (running) since…"
+              "output": "● docker.service - Docker Application Container Engine
+     Active: active (running) since…"
             }
           ]
         },
@@ -13090,7 +13652,10 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The syntax (the 5 stars)",
-        "text": "minute hour day-of-month month day-of-week command\n\nExample: 0 3 * * * /home/user/backup.sh\n→ runs backup.sh every day at 3:00 AM (each * means \"any possible value\" for that position)."
+        "text": "minute hour day-of-month month day-of-week command
+
+Example: 0 3 * * * /home/user/backup.sh
+→ runs backup.sh every day at 3:00 AM (each * means \"any possible value\" for that position)."
       },
       {
         "heading": "Test before scheduling",
@@ -13104,7 +13669,9 @@ const GUIDE_TRANSLATIONS_EN = {
         "accept": [
           "0 3 * * * /home/user/backup.sh"
         ],
-        "correction": "0 3 * * * /home/user/backup.sh\n\nminute=0, hour=3, day-of-month=* (every), month=* (every), day-of-week=* (every) → every day at 3:00 AM sharp."
+        "correction": "0 3 * * * /home/user/backup.sh
+
+minute=0, hour=3, day-of-month=* (every), month=* (every), day-of-week=* (every) → every day at 3:00 AM sharp."
       }
     ]
   },
@@ -13136,7 +13703,8 @@ const GUIDE_TRANSLATIONS_EN = {
         "terminal": {
           "prompt": "user@mint:~$",
           "steps": [
-            { "expect": ["df -h"], "output": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        50G   32G   16G  67% /" }
+            { "expect": ["df -h"], "output": "Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        50G   32G   16G  67% /" }
           ]
         },
         "correction": "df -h shows each mounted partition's space in readable units (GB/MB) rather than raw blocks — the -h stands for \"human-readable\"."
@@ -13171,7 +13739,9 @@ const GUIDE_TRANSLATIONS_EN = {
         "terminal": {
           "prompt": "user@mint:~$",
           "steps": [
-            { "expect": ["tar tzf archive.tar.gz"], "output": "dossier/\ndossier/fichier1.txt\ndossier/fichier2.txt" }
+            { "expect": ["tar tzf archive.tar.gz"], "output": "dossier/
+dossier/fichier1.txt
+dossier/fichier2.txt" }
           ]
         },
         "correction": "tar tzf lists a .tar.gz archive's contents without extracting a single file — a safe way to check what it contains before opening it for real."
@@ -13260,7 +13830,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "docker ps"
               ],
-              "output": "CONTAINER ID   IMAGE      STATUS         PORTS\nf3a1b2c9d0e4   postgres   Up 2 hours     5432/tcp"
+              "output": "CONTAINER ID   IMAGE      STATUS         PORTS
+f3a1b2c9d0e4   postgres   Up 2 hours     5432/tcp"
             }
           ]
         },
@@ -13282,7 +13853,8 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "up -d vs down",
-        "text": "docker compose up -d starts the entire stack described in the file, in the background.\ndocker compose down stops it AND removes the containers — but keeps named volumes (so the data), unless you explicitly add the -v option."
+        "text": "docker compose up -d starts the entire stack described in the file, in the background.
+docker compose down stops it AND removes the containers — but keeps named volumes (so the data), unless you explicitly add the -v option."
       }
     ],
     "exercises": [
@@ -13296,7 +13868,10 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "docker compose up -d"
               ],
-              "output": "[+] Running 3/3\n ✔ Container app-db-1        Started\n ✔ Container app-backend-1   Started\n ✔ Container app-redis-1     Started"
+              "output": "[+] Running 3/3
+ ✔ Container app-db-1        Started
+ ✔ Container app-backend-1   Started
+ ✔ Container app-redis-1     Started"
             }
           ]
         },
@@ -13332,7 +13907,12 @@ const GUIDE_TRANSLATIONS_EN = {
         "terminal": {
           "prompt": "user@mint:~/my-project$",
           "steps": [
-            { "expect": ["docker build -t my-app ."], "output": "[+] Building 12.3s\n => [1/4] FROM node:20\n => [2/4] COPY . .\n => [3/4] RUN npm install\n => exporting to image\n => naming to docker.io/library/my-app" }
+            { "expect": ["docker build -t my-app ."], "output": "[+] Building 12.3s
+ => [1/4] FROM node:20
+ => [2/4] COPY . .
+ => [3/4] RUN npm install
+ => exporting to image
+ => naming to docker.io/library/my-app" }
           ]
         },
         "correction": "docker build -t my-app . builds an image named my-app from the current folder's Dockerfile (the trailing . is the build context)."
@@ -13403,7 +13983,10 @@ const GUIDE_TRANSLATIONS_EN = {
         "terminal": {
           "prompt": "user@mint:~$",
           "steps": [
-            { "expect": ["docker system df"], "output": "TYPE            TOTAL   ACTIVE   SIZE      RECLAIMABLE\nImages          12      3        4.2GB     3.1GB (73%)\nContainers      5       2        180MB     95MB (52%)\nVolumes         4       2        1.1GB     400MB (36%)" }
+            { "expect": ["docker system df"], "output": "TYPE            TOTAL   ACTIVE   SIZE      RECLAIMABLE
+Images          12      3        4.2GB     3.1GB (73%)
+Containers      5       2        180MB     95MB (52%)
+Volumes         4       2        1.1GB     400MB (36%)" }
           ]
         },
         "correction": "docker system df shows space used by category (images, containers, volumes) — a useful overview before running a blind cleanup."
@@ -13420,7 +14003,10 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "For a script: chmod +x script-name.sh, then rerun.\nFor a system file/folder: add sudo in front of the command ONLY if you understand why it's necessary.\n\nSee also: [[Linux::sudo et les permissions, sans y laisser des plumes]] and [[Bases du terminal::Les permissions de fichiers en détail]]."
+        "text": "For a script: chmod +x script-name.sh, then rerun.
+For a system file/folder: add sudo in front of the command ONLY if you understand why it's necessary.
+
+See also: [[Linux::sudo et les permissions, sans y laisser des plumes]] and [[Bases du terminal::Les permissions de fichiers en détail]]."
       }
     ],
     "exercises": [
@@ -13452,7 +14038,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "1. sudo ss -tulpn | grep :8081 (replace 8081 with your port) → finds the PID occupying the port.\n2. `kill -9 PID` to free it up.\n3. Rerun your command.\n\nSee also: [[Linux::Réseau pour les nuls : IP, port, DNS]] and [[Linux::Processus, ports, RAM : pourquoi ça rame]]."
+        "text": "1. sudo ss -tulpn | grep :8081 (replace 8081 with your port) → finds the PID occupying the port.
+2. `kill -9 PID` to free it up.
+3. Rerun your command.
+
+See also: [[Linux::Réseau pour les nuls : IP, port, DNS]] and [[Linux::Processus, ports, RAM : pourquoi ça rame]]."
       }
     ],
     "exercises": [
@@ -13484,7 +14074,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "1. Check the command's exact spelling.\n2. Ask yourself whether the software is actually installed (often via apt install software-name).\n3. which command-name confirms whether the shell finds it or not.\n\nSee also: [[Bases du terminal::Variables d'environnement et PATH]]."
+        "text": "1. Check the command's exact spelling.
+2. Ask yourself whether the software is actually installed (often via apt install software-name).
+3. which command-name confirms whether the shell finds it or not.
+
+See also: [[Bases du terminal::Variables d'environnement et PATH]]."
       }
     ],
     "exercises": [
@@ -13512,11 +14106,17 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Why it happens",
-        "text": "\"device not found\": USB debugging isn't enabled on the phone, or the cable/USB port isn't transmitting data (some cables are charge-only).\n\n\"unauthorized\": the phone detected the connection but is waiting for you to accept the authorization popup shown on ITS screen."
+        "text": "\"device not found\": USB debugging isn't enabled on the phone, or the cable/USB port isn't transmitting data (some cables are charge-only).
+
+\"unauthorized\": the phone detected the connection but is waiting for you to accept the authorization popup shown on ITS screen."
       },
       {
         "heading": "How to fix it",
-        "text": "1. Enable USB debugging (Settings → Developer Options).\n2. Unplug/replug the cable.\n3. Look at the PHONE'S SCREEN for a popup to accept.\n4. `adb devices` to check the status switches to \"device\".\n5. As a last resort: `adb kill-server && adb start-server`."
+        "text": "1. Enable USB debugging (Settings → Developer Options).
+2. Unplug/replug the cable.
+3. Look at the PHONE'S SCREEN for a popup to accept.
+4. `adb devices` to check the status switches to \"device\".
+5. As a last resort: `adb kill-server && adb start-server`."
       }
     ],
     "exercises": [
@@ -13530,7 +14130,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "adb kill-server && adb start-server"
               ],
-              "output": "* daemon stopped successfully *\n* daemon started successfully *"
+              "output": "* daemon stopped successfully *
+* daemon started successfully *"
             }
           ]
         },
@@ -13548,7 +14149,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "`npx expo start -c` restarts the server while fully clearing the cache. If that's not enough: `npx expo-doctor` to check the project's overall consistency.\n\nSee also: [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
+        "text": "`npx expo start -c` restarts the server while fully clearing the cache. If that's not enough: `npx expo-doctor` to check the project's overall consistency.
+
+See also: [[Expo / React Native::Metro, le serveur qui recharge ton app]]."
       }
     ],
     "exercises": [
@@ -13562,7 +14165,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "npx expo start -c"
               ],
-              "output": "Cleared Metro cache.\nStarting the development server…"
+              "output": "Cleared Metro cache.
+Starting the development server…"
             }
           ]
         },
@@ -13580,7 +14184,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "`git pull` (or git pull --rebase for a cleaner history) first brings in the missing commits, possibly with a conflict to resolve (see [[Git::Les conflits de fusion (merge conflicts)]]). Once up to date, `git push` goes through normally.\n\n⚠️ NEVER use git push --force on a shared branch unless you're sure what it's overwriting — it can erase someone else's work."
+        "text": "`git pull` (or git pull --rebase for a cleaner history) first brings in the missing commits, possibly with a conflict to resolve (see [[Git::Les conflits de fusion (merge conflicts)]]). Once up to date, `git push` goes through normally.
+
+⚠️ NEVER use git push --force on a shared branch unless you're sure what it's overwriting — it can erase someone else's work."
       }
     ],
     "exercises": [
@@ -13594,7 +14200,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "git pull --rebase"
               ],
-              "output": "Rebasing (1/1)\nSuccessfully rebased and updated refs/heads/master."
+              "output": "Rebasing (1/1)
+Successfully rebased and updated refs/heads/master."
             }
           ]
         },
@@ -13640,7 +14247,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "In an Expo project, `npx expo install --fix` automatically aligns versions with what the SDK expects — often enough. Otherwise, manually check the error message for WHICH version is expected vs installed, and adjust it in package.json.\n\nSee also: [[Bases du terminal::npm & npx, et package.json en détail]]."
+        "text": "In an Expo project, `npx expo install --fix` automatically aligns versions with what the SDK expects — often enough. Otherwise, manually check the error message for WHICH version is expected vs installed, and adjust it in package.json.
+
+See also: [[Bases du terminal::npm & npx, et package.json en détail]]."
       }
     ],
     "exercises": [
@@ -13654,7 +14263,9 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "npx expo install --fix"
               ],
-              "output": "Some dependencies don't match the installed SDK:\n  react-native@0.72.0 - expected: 0.73.6\nFixing…"
+              "output": "Some dependencies don't match the installed SDK:
+  react-native@0.72.0 - expected: 0.73.6
+Fixing…"
             }
           ]
         },
@@ -13672,7 +14283,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "sudo systemctl status docker to check its state, then sudo systemctl start docker to launch it. For it to start automatically on every reboot: sudo systemctl enable docker.\n\nSee also: [[Linux::systemd et les services]]."
+        "text": "sudo systemctl status docker to check its state, then sudo systemctl start docker to launch it. For it to start automatically on every reboot: sudo systemctl enable docker.
+
+See also: [[Linux::systemd et les services]]."
       }
     ],
     "exercises": [
@@ -13704,7 +14317,11 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "How to fix it",
-        "text": "Create (or complete) a local.properties file at the root of the project's android/ folder, with one line:\n\nsdk.dir=/home/user/Android/Sdk\n\n(adjust the path to your SDK's actual location, visible in Android Studio → Settings → Android SDK)."
+        "text": "Create (or complete) a local.properties file at the root of the project's android/ folder, with one line:
+
+sdk.dir=/home/user/Android/Sdk
+
+(adjust the path to your SDK's actual location, visible in Android Studio → Settings → Android SDK)."
       }
     ],
     "exercises": [
@@ -13714,7 +14331,9 @@ const GUIDE_TRANSLATIONS_EN = {
         "accept": [
           "sdk.dir=/home/user/Android/Sdk"
         ],
-        "correction": "sdk.dir=/home/user/Android/Sdk\n\nThis file isn't versioned in Git (the path is specific to each machine) — you need to recreate it yourself on a new machine or after a reinstall."
+        "correction": "sdk.dir=/home/user/Android/Sdk
+
+This file isn't versioned in Git (the path is specific to each machine) — you need to recreate it yourself on a new machine or after a reinstall."
       }
     ]
   },
@@ -13808,7 +14427,8 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "/init"
               ],
-              "output": "Analyzing the project…\nCLAUDE.md generated at the project root."
+              "output": "Analyzing the project…
+CLAUDE.md generated at the project root."
             }
           ]
         },
@@ -13956,7 +14576,9 @@ const GUIDE_TRANSLATIONS_EN = {
               "expect": [
                 "claude mcp list"
               ],
-              "output": "Configured MCP servers:\n  github    connected\n  filesystem connected"
+              "output": "Configured MCP servers:
+  github    connected
+  filesystem connected"
             }
           ]
         },
@@ -14670,19 +15292,19 @@ const GUIDE_TRANSLATIONS_EN = {
     "content": [
       {
         "heading": "Drive letters, not a single root",
-        "text": "Where Linux has one single tree starting at /, Windows assigns a letter to each disk/partition (C:\\, D:\\…) — see [[Linux::L'arborescence du système de fichiers]] for the same principle on the Linux side."
+        "text": "Where Linux has one single tree starting at /, Windows assigns a letter to each disk/partition (C:\, D:\…) — see [[Linux::L'arborescence du système de fichiers]] for the same principle on the Linux side."
       },
       {
-        "heading": "C:\\Users\\: the equivalent of /home",
+        "heading": "C:\Users\: the equivalent of /home",
         "text": "Each user's personal folder, with their documents, downloads, desktop — the direct equivalent of /home/user on Linux."
       },
       {
         "heading": "Program Files: where installed software lives",
-        "text": "Software installed for all users usually goes into C:\\Program Files (or Program Files (x86) for 32-bit software) — modifying this folder requires administrator rights."
+        "text": "Software installed for all users usually goes into C:\Program Files (or Program Files (x86) for 32-bit software) — modifying this folder requires administrator rights."
       },
       {
         "heading": "AppData: the hidden configuration",
-        "text": "Inside C:\\Users\\you\\AppData (hidden by default), each application stores its configuration and local data — the same role played by the hidden .config or .local folders on Linux."
+        "text": "Inside C:\Users\you\AppData (hidden by default), each application stores its configuration and local data — the same role played by the hidden .config or .local folders on Linux."
       }
     ],
     "exercises": [
@@ -14691,7 +15313,7 @@ const GUIDE_TRANSLATIONS_EN = {
         "instruction": "You're looking for where a piece of software stored its personal configuration on your Windows session. Where do you check first?",
         "options": [
           "In your user profile's AppData folder",
-          "Directly at the root of the C:\\ drive",
+          "Directly at the root of the C:\ drive",
           "In Program Files",
           "Windows never stores per-user configuration"
         ],
@@ -14794,7 +15416,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Accessing files from one side on the other",
-        "text": "Windows files stay accessible from WSL (under /mnt/c/...), and WSL's Linux files are accessible from Windows Explorer via \\\\wsl$\\ — both worlds coexist with no manual copying."
+        "text": "Windows files stay accessible from WSL (under /mnt/c/...), and WSL's Linux files are accessible from Windows Explorer via \\wsl$\ — both worlds coexist with no manual copying."
       }
     ],
     "exercises": [
@@ -16417,7 +17039,7 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Starting over from the integrated terminal, the alternative",
-        "text": "Closing the session and launching a new one directly from the editor's integrated terminal (Ctrl+\\`) avoids the problem from the start."
+        "text": "Closing the session and launching a new one directly from the editor's integrated terminal (Ctrl+\`) avoids the problem from the start."
       }
     ],
     "exercises": [
@@ -16507,7 +17129,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "The settings that matter for streaming",
-        "text": "--vfs-cache-mode full: downloads locally on read to allow fast-forward without lag.\n--dir-cache-time: how long before a file newly added to the cloud shows up in the mount — shorter means more responsive but more API requests.\n--rc --rc-addr 127.0.0.1:5572 --rc-no-auth: opens a small local API to force an on-demand refresh without waiting for the cache or restarting the service."
+        "text": "--vfs-cache-mode full: downloads locally on read to allow fast-forward without lag.
+--dir-cache-time: how long before a file newly added to the cloud shows up in the mount — shorter means more responsive but more API requests.
+--rc --rc-addr 127.0.0.1:5572 --rc-no-auth: opens a small local API to force an on-demand refresh without waiting for the cache or restarting the service."
       },
       {
         "heading": "Type=simple, not Type=notify",
@@ -16543,7 +17167,9 @@ const GUIDE_TRANSLATIONS_EN = {
       },
       {
         "heading": "Three ways to fix it, from cleanest to simplest",
-        "text": "1. Bridge mode on the ISP box (removes one of the two NAT layers entirely) — not always offered by every consumer ISP/box.\n2. Forward the port on BOTH routers in the chain (keep the double NAT, but \"pierce\" it at both stages).\n3. Relay: Plex routes the stream through its own servers — zero network configuration required, but capped bandwidth (~2 Mbps), fine for light SD/HD, not for untranscoded 4K HDR remuxes."
+        "text": "1. Bridge mode on the ISP box (removes one of the two NAT layers entirely) — not always offered by every consumer ISP/box.
+2. Forward the port on BOTH routers in the chain (keep the double NAT, but \"pierce\" it at both stages).
+3. Relay: Plex routes the stream through its own servers — zero network configuration required, but capped bandwidth (~2 Mbps), fine for light SD/HD, not for untranscoded 4K HDR remuxes."
       },
       {
         "heading": "Who can do what",

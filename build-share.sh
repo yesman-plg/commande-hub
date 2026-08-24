@@ -8,6 +8,8 @@
 cd "$(dirname "$0")" || exit 1
 
 python3 - <<'PYEOF'
+import re
+
 with open("index.html", encoding="utf-8") as f:
     html = f.read()
 with open("commands.js", encoding="utf-8") as f:
@@ -19,19 +21,29 @@ with open("guides.js", encoding="utf-8") as f:
 with open("guides.en.js", encoding="utf-8") as f:
     guides_en_js = f.read()
 
-html = html.replace(
-    '<script src="commands.js"></script>\n'
-    '<script src="commands.en.js"></script>\n'
-    '<script src="guides.js"></script>\n'
-    '<script src="guides.en.js"></script>',
+# Le src="fichier.js" peut porter un ?v=... (cache busting, ajouté par
+# save.sh) qui change à chaque commit — le pattern l'ignore volontairement
+# plutôt que de matcher une chaîne exacte, pour ne pas se dérégler à la
+# prochaine sauvegarde.
+pattern = re.compile(
+    r'<script src="commands\.js(?:\?v=\d+)?"></script>\s*'
+    r'<script src="commands\.en\.js(?:\?v=\d+)?"></script>\s*'
+    r'<script src="guides\.js(?:\?v=\d+)?"></script>\s*'
+    r'<script src="guides\.en\.js(?:\?v=\d+)?"></script>'
+)
+
+replacement = (
     f'<script>\n{commands_js}\n</script>\n'
     f'<script>\n{commands_en_js}\n</script>\n'
     f'<script>\n{guides_js}\n</script>\n'
     f'<script>\n{guides_en_js}\n</script>'
 )
 
+html, n = pattern.subn(replacement, html)
+assert n == 1, f"remplacement des <script src> a échoué (trouvé {n} fois, attendu 1)"
+
 for src in ["commands.js", "commands.en.js", "guides.js", "guides.en.js"]:
-    assert f'src="{src}"' not in html, f"remplacement {src} a échoué"
+    assert f'src="{src}' not in html, f"inlining de {src} a échoué"
 
 with open("share.html", "w", encoding="utf-8") as f:
     f.write(html)
