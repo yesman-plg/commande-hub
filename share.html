@@ -11815,7 +11815,13 @@ Ce fichier n'est pas versionné dans Git (le chemin est propre à chaque machine
     content: [
       {
         heading: "Vue d'ensemble : ce dont tu as besoin",
-        text: "Un serveur Plex, c'est trois briques indépendantes : (1) Plex Media Server lui-même, qui scanne tes fichiers et les diffuse ; (2) l'accès aux fichiers — un disque local, ou un espace cloud monté en local si tes films/séries n'y sont pas déjà (voir [[Serveur::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]) ; (3) éventuellement l'accès distant si tu veux regarder hors de chez toi. Cette fiche couvre les deux premières briques."
+        text: "Un serveur Plex, c'est trois briques indépendantes :
+
+1. Plex Media Server lui-même, qui scanne tes fichiers et les diffuse.
+2. L'accès aux fichiers — un disque local, ou un espace cloud monté en local si tes films/séries n'y sont pas déjà (voir [[Plex::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]).
+3. Éventuellement l'accès distant, si tu veux regarder hors de chez toi.
+
+Cette fiche couvre les deux premières briques."
       },
       {
         heading: "Installer Plex",
@@ -11823,7 +11829,7 @@ Ce fichier n'est pas versionné dans Git (le chemin est propre à chaque machine
       },
       {
         heading: "Pointer Plex vers tes fichiers",
-        text: "Si tes films/séries sont déjà sur un disque de cette machine, rien de spécial — tu donneras directement ce dossier à Plex. S'ils sont sur un espace cloud (kDrive, Nextcloud...), il faut d'abord le monter localement avec rclone (voir [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) puis le rendre permanent avec un service systemd (voir [[Serveur::Rendre le montage rclone permanent avec systemd]]) — sinon le montage disparaît à chaque redémarrage de la machine."
+        text: "Si tes films/séries sont déjà sur un disque de cette machine, rien de spécial — tu donneras directement ce dossier à Plex. S'ils sont sur un espace cloud (kDrive, Nextcloud...), il faut d'abord le monter localement avec rclone (voir [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) puis le rendre permanent avec un service systemd (voir [[Plex::Rendre le montage rclone permanent avec systemd]]) — sinon le montage disparaît à chaque redémarrage de la machine."
       },
       {
         heading: "Créer les bibliothèques dans l'interface web",
@@ -11831,7 +11837,7 @@ Ce fichier n'est pas versionné dans Git (le chemin est propre à chaque machine
       },
       {
         heading: "Et après ?",
-        text: "Une fois que ça tourne, voir [[Serveur::Gérer un serveur Plex au quotidien]] pour l'entretien courant, et [[Serveur::NAT, double NAT et accès distant à Plex]] si tu veux y accéder depuis l'extérieur de chez toi."
+        text: "Une fois que ça tourne, voir [[Plex::Gérer un serveur Plex au quotidien]] pour l'entretien courant, et [[Plex::NAT, double NAT et accès distant à Plex]] si tu veux y accéder depuis l'extérieur de chez toi."
       }
     ]
   },
@@ -11859,7 +11865,7 @@ Ce fichier n'est pas versionné dans Git (le chemin est propre à chaque machine
       },
       {
         heading: "Réflexe de dépannage",
-        text: "Bibliothèque vide/incomplète → vérifie le montage cloud avant Plex (voir [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]). Accessible en local mais pas à distance → voir [[Serveur::NAT, double NAT et accès distant à Plex]]. Service qui ne démarre pas → `journalctl -u plexmediaserver -n 50 --no-pager` en premier réflexe, toujours."
+        text: "Bibliothèque vide/incomplète → vérifie le montage cloud avant Plex (voir [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]). Accessible en local mais pas à distance → voir [[Plex::NAT, double NAT et accès distant à Plex]]. Service qui ne démarre pas → `journalctl -u plexmediaserver -n 50 --no-pager` en premier réflexe, toujours."
       }
     ],
     exercises: [
@@ -17197,7 +17203,13 @@ CLAUDE.md generated at the project root."
     "content": [
       {
         "heading": "Overview: what you need",
-        "text": "A Plex server is three independent building blocks: (1) Plex Media Server itself, which scans your files and streams them; (2) access to the files — a local disk, or cloud storage mounted locally if your movies/shows aren't already there (see [[Serveur::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]); (3) optionally, remote access if you want to watch away from home. This guide covers the first two blocks."
+        "text": "A Plex server is three independent building blocks:
+
+1. Plex Media Server itself, which scans your files and streams them.
+2. Access to the files — a local disk, or cloud storage mounted locally if your movies/shows aren't already there (see [[Plex::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]).
+3. Optionally, remote access, if you want to watch away from home.
+
+This guide covers the first two blocks."
       },
       {
         "heading": "Installing Plex",
@@ -17205,7 +17217,7 @@ CLAUDE.md generated at the project root."
       },
       {
         "heading": "Pointing Plex to your files",
-        "text": "If your movies/shows are already on a disk on this machine, nothing special — you'll give that folder directly to Plex. If they're on cloud storage (kDrive, Nextcloud...), you first need to mount it locally with rclone (see [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) then make it permanent with a systemd service (see [[Serveur::Rendre le montage rclone permanent avec systemd]]) — otherwise the mount disappears on every reboot."
+        "text": "If your movies/shows are already on a disk on this machine, nothing special — you'll give that folder directly to Plex. If they're on cloud storage (kDrive, Nextcloud...), you first need to mount it locally with rclone (see [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) then make it permanent with a systemd service (see [[Plex::Rendre le montage rclone permanent avec systemd]]) — otherwise the mount disappears on every reboot."
       },
       {
         "heading": "Creating libraries in the web interface",
@@ -17213,7 +17225,7 @@ CLAUDE.md generated at the project root."
       },
       {
         "heading": "What's next?",
-        "text": "Once it's running, see [[Serveur::Gérer un serveur Plex au quotidien]] for day-to-day maintenance, and [[Serveur::NAT, double NAT et accès distant à Plex]] if you want to access it from outside your home."
+        "text": "Once it's running, see [[Plex::Gérer un serveur Plex au quotidien]] for day-to-day maintenance, and [[Plex::NAT, double NAT et accès distant à Plex]] if you want to access it from outside your home."
       }
     ]
   },
@@ -17239,7 +17251,7 @@ CLAUDE.md generated at the project root."
       },
       {
         "heading": "Troubleshooting reflex",
-        "text": "Empty/incomplete library → check the cloud mount before Plex (see [[Serveur::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]). Accessible locally but not remotely → see [[Serveur::NAT, double NAT et accès distant à Plex]]. Service won't start → `journalctl -u plexmediaserver -n 50 --no-pager` is always the first reflex."
+        "text": "Empty/incomplete library → check the cloud mount before Plex (see [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]). Accessible locally but not remotely → see [[Plex::NAT, double NAT et accès distant à Plex]]. Service won't start → `journalctl -u plexmediaserver -n 50 --no-pager` is always the first reflex."
       }
     ],
     "exercises": [
