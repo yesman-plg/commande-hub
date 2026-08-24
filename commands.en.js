@@ -2447,5 +2447,30 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Open the Plex port in the firewall (ufw)",
     "desc": "Only needed if ufw is active and blocking the default port. For remote access (outside the local network), you also need to forward port 32400 to this machine in your router settings.",
     "tags": ["plex", "firewall", "ufw", "port", "remote access"]
+  },
+  "Plex||Installer Plex sur Windows (winget)": {
+    "title": "Install Plex on Windows (winget)",
+    "desc": "The simplest option on Windows 10/11 (winget is built in, nothing extra to install). Unlike Linux, Plex then runs as a normal application (system tray icon on sign-in) — it is NOT a Windows service by default.",
+    "tags": ["plex", "windows", "winget", "install"]
+  },
+  "Plex||Installer Plex sur Windows (téléchargement direct, PowerShell)": {
+    "title": "Install Plex on Windows (direct download, PowerShell)",
+    "desc": "Always fetches the latest 64-bit version via Plex's official API, then installs it silently (no window/click needed). Useful for scripting the install or repeating it across several machines.",
+    "tags": ["plex", "windows", "powershell", "install", "silent"]
+  },
+  "Plex||Vérifier que Plex tourne (Windows)": {
+    "title": "Check that Plex is running (Windows)",
+    "desc": "On Windows, Plex isn't a service like on Linux — it's a normal application process. No output means Plex isn't running; relaunch it from the Start menu if needed.",
+    "tags": ["plex", "windows", "powershell", "status", "diagnostic"]
+  },
+  "Plex||Ouvrir le dossier des logs Plex (Windows)": {
+    "title": "Open the Plex logs folder (Windows)",
+    "desc": "The Windows equivalent of journalctl on Linux — the main file is named \"Plex Media Server.log\". The full data/config folder (preferences, metadata) is right above it: %LOCALAPPDATA%\\Plex Media Server\\.",
+    "tags": ["plex", "windows", "logs", "diagnostic"]
+  },
+  "Plex||Trouver l'IP locale sur Windows": {
+    "title": "Find the local IP on Windows",
+    "desc": "Look for the \"IPv4 Address\" line of your active network adapter (Wi-Fi or Ethernet) — then open http://IP:32400/web in a browser, just like on Linux.",
+    "tags": ["plex", "windows", "ip", "network"]
   }
 };

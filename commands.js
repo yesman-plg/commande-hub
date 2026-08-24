@@ -2859,4 +2859,41 @@ const COMMANDS = [
     desc: "Nécessaire seulement si ufw est actif et bloque le port par défaut. Pour l'accès distant (hors réseau local), il faut en plus rediriger le port 32400 vers cette machine dans les réglages de ta box/routeur.",
     tags: ["plex", "firewall", "ufw", "port", "accès distant"]
   },
+  // --- Plex sur Windows ---------------------------------------
+{
+    category: "Plex",
+    title: "Installer Plex sur Windows (winget)",
+    cmd: "winget install --id Plex.PlexMediaServer",
+    desc: "Le plus simple sur Windows 10/11 (winget est intégré nativement, pas d'installation à part). Contrairement à Linux, Plex se lance ensuite comme une application classique (icône dans la barre des tâches au démarrage de session) — ce n'est PAS un service Windows par défaut.",
+    tags: ["plex", "windows", "winget", "install"]
+  },
+{
+    category: "Plex",
+    title: "Installer Plex sur Windows (téléchargement direct, PowerShell)",
+    cmd: "$url = ((Invoke-RestMethod https://plex.tv/api/downloads/5.json).computer.Windows.releases | Where-Object build -eq \"windows-x86_64\").url\nInvoke-WebRequest $url -OutFile \"$env:TEMP\\PlexInstaller.exe\"\nStart-Process \"$env:TEMP\\PlexInstaller.exe\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Wait",
+    desc: "Récupère toujours la dernière version 64 bits via l'API officielle de Plex, puis l'installe silencieusement (sans fenêtre/clic à faire). Utile pour scripter l'installation ou la répéter sur plusieurs machines.",
+    tags: ["plex", "windows", "powershell", "install", "silencieux"]
+  },
+{
+    category: "Plex",
+    title: "Vérifier que Plex tourne (Windows)",
+    cmd: "Get-Process \"Plex Media Server\" -ErrorAction SilentlyContinue",
+    desc: "Sur Windows, Plex n'est pas un service comme sous Linux — c'est un processus applicatif normal. Rien en sortie = Plex n'est pas lancé ; relance-le depuis le menu Démarrer si besoin.",
+    tags: ["plex", "windows", "powershell", "status", "diagnostic"],
+    related: "Plex::Gérer un serveur Plex au quotidien",
+  },
+{
+    category: "Plex",
+    title: "Ouvrir le dossier des logs Plex (Windows)",
+    cmd: "explorer \"$env:LOCALAPPDATA\\Plex Media Server\\Logs\"",
+    desc: "Équivalent Windows de journalctl côté Linux — le fichier principal s'appelle \"Plex Media Server.log\". Le dossier de données/config complet (préférences, métadonnées) est juste au-dessus : %LOCALAPPDATA%\\Plex Media Server\\.",
+    tags: ["plex", "windows", "logs", "diagnostic"]
+  },
+{
+    category: "Plex",
+    title: "Trouver l'IP locale sur Windows",
+    cmd: "ipconfig",
+    desc: "Cherche la ligne \"Adresse IPv4\" de ta carte réseau active (Wi-Fi ou Ethernet) — ouvre ensuite http://IP:32400/web dans un navigateur, comme sous Linux.",
+    tags: ["plex", "windows", "ip", "réseau"]
+  },
 ];

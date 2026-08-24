@@ -3752,6 +3752,45 @@ ls /mnt/kdrive",
     desc: "Nécessaire seulement si ufw est actif et bloque le port par défaut. Pour l'accès distant (hors réseau local), il faut en plus rediriger le port 32400 vers cette machine dans les réglages de ta box/routeur.",
     tags: ["plex", "firewall", "ufw", "port", "accès distant"]
   },
+  // --- Plex sur Windows ---------------------------------------
+{
+    category: "Plex",
+    title: "Installer Plex sur Windows (winget)",
+    cmd: "winget install --id Plex.PlexMediaServer",
+    desc: "Le plus simple sur Windows 10/11 (winget est intégré nativement, pas d'installation à part). Contrairement à Linux, Plex se lance ensuite comme une application classique (icône dans la barre des tâches au démarrage de session) — ce n'est PAS un service Windows par défaut.",
+    tags: ["plex", "windows", "winget", "install"]
+  },
+{
+    category: "Plex",
+    title: "Installer Plex sur Windows (téléchargement direct, PowerShell)",
+    cmd: "$url = ((Invoke-RestMethod https://plex.tv/api/downloads/5.json).computer.Windows.releases | Where-Object build -eq \"windows-x86_64\").url
+Invoke-WebRequest $url -OutFile \"$env:TEMP\PlexInstaller.exe\"
+Start-Process \"$env:TEMP\PlexInstaller.exe\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Wait",
+    desc: "Récupère toujours la dernière version 64 bits via l'API officielle de Plex, puis l'installe silencieusement (sans fenêtre/clic à faire). Utile pour scripter l'installation ou la répéter sur plusieurs machines.",
+    tags: ["plex", "windows", "powershell", "install", "silencieux"]
+  },
+{
+    category: "Plex",
+    title: "Vérifier que Plex tourne (Windows)",
+    cmd: "Get-Process \"Plex Media Server\" -ErrorAction SilentlyContinue",
+    desc: "Sur Windows, Plex n'est pas un service comme sous Linux — c'est un processus applicatif normal. Rien en sortie = Plex n'est pas lancé ; relance-le depuis le menu Démarrer si besoin.",
+    tags: ["plex", "windows", "powershell", "status", "diagnostic"],
+    related: "Plex::Gérer un serveur Plex au quotidien",
+  },
+{
+    category: "Plex",
+    title: "Ouvrir le dossier des logs Plex (Windows)",
+    cmd: "explorer \"$env:LOCALAPPDATA\Plex Media Server\Logs\"",
+    desc: "Équivalent Windows de journalctl côté Linux — le fichier principal s'appelle \"Plex Media Server.log\". Le dossier de données/config complet (préférences, métadonnées) est juste au-dessus : %LOCALAPPDATA%\Plex Media Server\.",
+    tags: ["plex", "windows", "logs", "diagnostic"]
+  },
+{
+    category: "Plex",
+    title: "Trouver l'IP locale sur Windows",
+    cmd: "ipconfig",
+    desc: "Cherche la ligne \"Adresse IPv4\" de ta carte réseau active (Wi-Fi ou Ethernet) — ouvre ensuite http://IP:32400/web dans un navigateur, comme sous Linux.",
+    tags: ["plex", "windows", "ip", "réseau"]
+  },
 ];
 
 </script>
@@ -6205,6 +6244,31 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Open the Plex port in the firewall (ufw)",
     "desc": "Only needed if ufw is active and blocking the default port. For remote access (outside the local network), you also need to forward port 32400 to this machine in your router settings.",
     "tags": ["plex", "firewall", "ufw", "port", "remote access"]
+  },
+  "Plex||Installer Plex sur Windows (winget)": {
+    "title": "Install Plex on Windows (winget)",
+    "desc": "The simplest option on Windows 10/11 (winget is built in, nothing extra to install). Unlike Linux, Plex then runs as a normal application (system tray icon on sign-in) — it is NOT a Windows service by default.",
+    "tags": ["plex", "windows", "winget", "install"]
+  },
+  "Plex||Installer Plex sur Windows (téléchargement direct, PowerShell)": {
+    "title": "Install Plex on Windows (direct download, PowerShell)",
+    "desc": "Always fetches the latest 64-bit version via Plex's official API, then installs it silently (no window/click needed). Useful for scripting the install or repeating it across several machines.",
+    "tags": ["plex", "windows", "powershell", "install", "silent"]
+  },
+  "Plex||Vérifier que Plex tourne (Windows)": {
+    "title": "Check that Plex is running (Windows)",
+    "desc": "On Windows, Plex isn't a service like on Linux — it's a normal application process. No output means Plex isn't running; relaunch it from the Start menu if needed.",
+    "tags": ["plex", "windows", "powershell", "status", "diagnostic"]
+  },
+  "Plex||Ouvrir le dossier des logs Plex (Windows)": {
+    "title": "Open the Plex logs folder (Windows)",
+    "desc": "The Windows equivalent of journalctl on Linux — the main file is named \"Plex Media Server.log\". The full data/config folder (preferences, metadata) is right above it: %LOCALAPPDATA%\Plex Media Server\.",
+    "tags": ["plex", "windows", "logs", "diagnostic"]
+  },
+  "Plex||Trouver l'IP locale sur Windows": {
+    "title": "Find the local IP on Windows",
+    "desc": "Look for the \"IPv4 Address\" line of your active network adapter (Wi-Fi or Ethernet) — then open http://IP:32400/web in a browser, just like on Linux.",
+    "tags": ["plex", "windows", "ip", "network"]
   }
 };
 
@@ -12133,6 +12197,36 @@ kDrive propose plusieurs façons de faire ça : glisser-déposer un fichier sur 
         correction: "C'est exactement le rôle de Sonarr (et Radarr pour les films) : surveiller les sorties, déclencher le téléchargement, renommer et ranger le fichier au bon endroit — Plex ne fait jamais la recherche/le téléchargement lui-même, il ne fait que scanner ce qui est déjà dans ses dossiers."
       }
     ]
+  },
+{
+    category: "Plex",
+    title: "Installer un serveur Plex de A à Z (Windows)",
+    level: "🟢 Débutant",
+    summary: "Le parcours complet sur Windows : installer Plex, lui donner accès à tes fichiers, créer tes bibliothèques — et ce qui diffère vraiment de Linux.",
+    content: [
+      {
+        heading: "Vue d'ensemble : les mêmes 3 briques, une plateforme différente",
+        text: "Comme sur Linux (voir [[Plex::Installer un serveur Plex de A à Z (Linux)]]), un serveur Plex a besoin de trois briques : Plex Media Server lui-même, l'accès à tes fichiers (disque local, NAS, ou cloud), et éventuellement l'accès distant. Ce qui change vraiment sur Windows, c'est la façon dont Plex tourne au quotidien — pas le principe général."
+      },
+      {
+        heading: "Installer Plex",
+        text: "Le plus simple : `winget install --id Plex.PlexMediaServer` (Windows 10/11 seulement — winget n'existe pas sur les versions plus anciennes). Sinon, télécharge l'installeur .exe directement depuis plex.tv et lance-le normalement, comme n'importe quel autre logiciel."
+      },
+      {
+        heading: "Différence clé : pas de service Windows par défaut",
+        text: "Sous Linux, Plex tourne comme un service systemd, indépendant de toute session utilisateur ouverte. Sous Windows, Plex se lance PAR DÉFAUT comme une application classique liée à ta session (icône dans la barre des tâches, démarrage automatique à la connexion) — si tu fermes ta session, Plex s'arrête avec.
+
+Pour un vrai usage \"serveur toujours allumé\", il faut soit laisser une session Windows ouverte en permanence sur la machine, soit passer par un outil tiers qui transforme Plex en vrai service Windows (ex: NSSM) — plus complexe, à réserver si le besoin s'en fait vraiment sentir."
+      },
+      {
+        heading: "Pointer Plex vers tes fichiers",
+        text: "Un disque local ou externe fonctionne directement. Pour un NAS, Windows peut monter un partage réseau (SMB) comme une lettre de lecteur classique. Pour un espace cloud non natif à Windows (comme kDrive), il existe des équivalents de rclone pour Windows — le principe reste le même que sur Linux (voir [[Plex::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]) : faire apparaître le cloud comme un dossier local avant de le donner à Plex."
+      },
+      {
+        heading: "Créer les bibliothèques",
+        text: "Ouvre http://localhost:32400/web (ou l'IP de la machine si tu accèdes depuis un autre appareil — trouvable avec `ipconfig`), crée ton compte Plex, puis Réglages → Bibliothèques → Ajouter une bibliothèque, en gardant Films et Séries TV bien séparées, comme sur n'importe quelle plateforme."
+      }
+    ]
   }
 ];
 
@@ -17754,6 +17848,34 @@ kDrive offers several ways to do this: drag-and-drop a file on the kdrive.infoma
         ],
         "correctIndex": 1,
         "correction": "That's exactly Sonarr's job (and Radarr for movies): watch for releases, trigger the download, rename and place the file in the right spot — Plex never does the searching/downloading itself, it only scans what's already in its folders."
+      }
+    ]
+  },
+  "Plex|Installer un serveur Plex de A à Z (Windows)": {
+    "title": "Installing a Plex server from scratch (Windows)",
+    "summary": "The whole path on Windows: install Plex, give it access to your files, create your libraries — and what actually differs from Linux.",
+    "content": [
+      {
+        "heading": "Overview: the same 3 building blocks, a different platform",
+        "text": "Just like on Linux (see [[Plex::Installer un serveur Plex de A à Z (Linux)]]), a Plex server needs three building blocks: Plex Media Server itself, access to your files (local disk, NAS, or cloud), and optionally remote access. What really changes on Windows is how Plex runs day-to-day — not the general principle."
+      },
+      {
+        "heading": "Installing Plex",
+        "text": "The simplest way: `winget install --id Plex.PlexMediaServer` (Windows 10/11 only — winget doesn't exist on older versions). Otherwise, download the .exe installer directly from plex.tv and run it normally, like any other piece of software."
+      },
+      {
+        "heading": "Key difference: no Windows service by default",
+        "text": "On Linux, Plex runs as a systemd service, independent of any logged-in user session. On Windows, Plex runs BY DEFAULT as a regular application tied to your session (system tray icon, auto-starts on sign-in) — if you sign out, Plex stops with it.
+
+For a true \"always-on server\" use case, you either need to keep a Windows session permanently signed in on the machine, or use a third-party tool that turns Plex into a real Windows service (e.g. NSSM) — more complex, worth it only if the need is real."
+      },
+      {
+        "heading": "Pointing Plex to your files",
+        "text": "A local or external disk works directly. For a NAS, Windows can mount a network share (SMB) as a regular drive letter. For cloud storage not natively supported by Windows (like kDrive), rclone equivalents exist for Windows — the principle stays the same as on Linux (see [[Plex::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]): make the cloud appear as a local folder before handing it to Plex."
+      },
+      {
+        "heading": "Creating libraries",
+        "text": "Open http://localhost:32400/web (or the machine's IP if accessing from another device — found with `ipconfig`), create your Plex account, then Settings → Libraries → Add Library, keeping Movies and TV Shows separate, just like on any platform."
       }
     ]
   }

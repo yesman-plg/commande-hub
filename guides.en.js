@@ -5315,5 +5315,31 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "That's exactly Sonarr's job (and Radarr for movies): watch for releases, trigger the download, rename and place the file in the right spot — Plex never does the searching/downloading itself, it only scans what's already in its folders."
       }
     ]
+  },
+  "Plex|Installer un serveur Plex de A à Z (Windows)": {
+    "title": "Installing a Plex server from scratch (Windows)",
+    "summary": "The whole path on Windows: install Plex, give it access to your files, create your libraries — and what actually differs from Linux.",
+    "content": [
+      {
+        "heading": "Overview: the same 3 building blocks, a different platform",
+        "text": "Just like on Linux (see [[Plex::Installer un serveur Plex de A à Z (Linux)]]), a Plex server needs three building blocks: Plex Media Server itself, access to your files (local disk, NAS, or cloud), and optionally remote access. What really changes on Windows is how Plex runs day-to-day — not the general principle."
+      },
+      {
+        "heading": "Installing Plex",
+        "text": "The simplest way: `winget install --id Plex.PlexMediaServer` (Windows 10/11 only — winget doesn't exist on older versions). Otherwise, download the .exe installer directly from plex.tv and run it normally, like any other piece of software."
+      },
+      {
+        "heading": "Key difference: no Windows service by default",
+        "text": "On Linux, Plex runs as a systemd service, independent of any logged-in user session. On Windows, Plex runs BY DEFAULT as a regular application tied to your session (system tray icon, auto-starts on sign-in) — if you sign out, Plex stops with it.\n\nFor a true \"always-on server\" use case, you either need to keep a Windows session permanently signed in on the machine, or use a third-party tool that turns Plex into a real Windows service (e.g. NSSM) — more complex, worth it only if the need is real."
+      },
+      {
+        "heading": "Pointing Plex to your files",
+        "text": "A local or external disk works directly. For a NAS, Windows can mount a network share (SMB) as a regular drive letter. For cloud storage not natively supported by Windows (like kDrive), rclone equivalents exist for Windows — the principle stays the same as on Linux (see [[Plex::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]): make the cloud appear as a local folder before handing it to Plex."
+      },
+      {
+        "heading": "Creating libraries",
+        "text": "Open http://localhost:32400/web (or the machine's IP if accessing from another device — found with `ipconfig`), create your Plex account, then Settings → Libraries → Add Library, keeping Movies and TV Shows separate, just like on any platform."
+      }
+    ]
   }
 };
