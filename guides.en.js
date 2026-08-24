@@ -5277,8 +5277,12 @@ const GUIDE_TRANSLATIONS_EN = {
     "summary": "The different ways to get a new movie/episode into the folder Plex watches, depending on where your library lives.",
     "content": [
       {
-        "heading": "Manual transfer: the universal method",
-        "text": "No matter where your library lives (local disk, NAS, cloud), you can always drop a file there \"by hand\": copy-paste to a local disk, drag-and-drop into a network share (NAS), or upload via your cloud service's web interface/desktop app (kDrive, Nextcloud...). This is the simplest method, no extra tooling needed — just slower if you're adding a lot of content regularly."
+        "heading": "Uploading directly via kDrive (or your cloud service) — the simplest method, no terminal involved",
+        "text": "If your library is on a cloud (kDrive, Nextcloud...), the most direct way to add a movie/episode has nothing to do with rclone or the terminal: you just add it through the service's normal tools, exactly like any other file.\n\nkDrive offers several ways to do this: drag-and-drop a file on the kdrive.infomaniak.com website, use the desktop sync app (a local folder that uploads automatically as soon as something is dropped into it), or the mobile app. Once the file has landed on kDrive, it then shows up in the rclone/Plex mount with no further action on your part — only the cache delay (see [[Plex::Gérer un serveur Plex au quotidien]]) applies before it becomes visible locally."
+      },
+      {
+        "heading": "Manual transfer to a local disk or NAS",
+        "text": "If your library is instead on a local disk or a NAS, the principle is the same but without going through a web interface: copy-paste directly onto the disk, or drag-and-drop into a network share mounted on your computer."
       },
       {
         "heading": "rclone copy/move: transferring to the cloud from the command line",

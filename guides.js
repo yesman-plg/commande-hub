@@ -5579,8 +5579,12 @@ const GUIDES = [
     summary: "Les différentes façons de faire arriver un nouveau film/épisode dans le dossier que Plex surveille, selon où vit ta bibliothèque.",
     content: [
       {
-        heading: "Transfert manuel : la méthode universelle",
-        text: "Peu importe où vit ta bibliothèque (disque local, NAS, cloud), tu peux toujours y déposer un fichier \"à la main\" : copier-coller sur un disque local, glisser-déposer dans un partage réseau (NAS), ou uploader via l'interface web/l'app desktop de ton service cloud (kDrive, Nextcloud...). C'est la méthode la plus simple, sans aucun outil supplémentaire — juste plus lente si tu ajoutes beaucoup de contenu régulièrement."
+        heading: "Uploader directement via kDrive (ou ton service cloud) — la méthode la plus simple, sans terminal",
+        text: "Si ta bibliothèque est sur un cloud (kDrive, Nextcloud...), la façon la plus directe d'ajouter un film/épisode n'a rien à voir avec rclone ou le terminal : tu l'ajoutes tout simplement via les outils normaux du service, exactement comme pour n'importe quel autre fichier.\n\nkDrive propose plusieurs façons de faire ça : glisser-déposer un fichier sur le site web kdrive.infomaniak.com, utiliser l'app de synchronisation desktop (un dossier local qui s'envoie automatiquement dès qu'on y dépose quelque chose), ou l'app mobile. Une fois le fichier bien arrivé sur kDrive, il apparaît ensuite dans le montage rclone/Plex sans action supplémentaire de ta part — seul le délai du cache (voir [[Plex::Gérer un serveur Plex au quotidien]]) s'applique avant qu'il devienne visible localement."
+      },
+      {
+        heading: "Transfert manuel sur disque local ou NAS",
+        text: "Si ta bibliothèque est plutôt sur un disque local ou un NAS, le principe est le même mais sans passer par une interface web : copier-coller directement sur le disque, ou glisser-déposer dans un partage réseau monté sur ton ordinateur."
       },
       {
         heading: "rclone copy/move : transférer en ligne de commande vers le cloud",
