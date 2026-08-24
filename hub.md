@@ -15,7 +15,7 @@ Site bilingue (FR/EN) de référence : commandes à copier-coller + fiches de fo
 | `guides.js` | Données des fiches Formation (FR, source canonique). `const GUIDES = [...]`. |
 | `guides.en.js` | Traductions EN des fiches. Objet clé `"Catégorie|Titre"` → `{title, summary, content, exercises}`. |
 | `share.html` | Version autonome (tout inliné) générée depuis `index.html` + les 4 fichiers de données, pour publier en artifact partageable. **Ne jamais éditer à la main** — régénérée par `build-share.sh`. |
-| `save.sh` | `git add -A && git commit && git push`. Message auto-horodaté si aucun argument. |
+| `save.sh` | `git add -A && git commit && git push`. Message auto-horodaté si aucun argument. Bump aussi automatiquement le `?v=timestamp` des 4 `<script src>` de `index.html` (cache busting — GitHub Pages sert les `.js` avec `cache-control: max-age=600`, sans ça un visiteur peut garder une vieille version jusqu'à 10 min après un push). |
 | `serve.sh` | Sert le dossier sur le réseau local (port 8090), pour tester depuis un téléphone. |
 | `build-share.sh` | Régénère `share.html`. À lancer après **toute** modif de `index.html`/`commands*.js`/`guides*.js`. |
 
