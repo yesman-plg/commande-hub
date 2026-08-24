@@ -16707,11 +16707,11 @@ const GUIDE_TRANSLATIONS_EN = {
     }
   };
 
-  // --- Regroupement des catégories en 3 grands groupes ------------------
+  // --- Regroupement des catégories en 4 grands groupes -------------------
   // Chaque catégorie (commands.js ET guides.js) appartient à un seul groupe.
   // Une catégorie absente de cette table retombe sur "Développement" (filet
   // de sécurité si une nouvelle catégorie est ajoutée sans être classée).
-  const CATEGORY_GROUPS_ORDER = ["Application", "Système", "Développement"];
+  const CATEGORY_GROUPS_ORDER = ["Application", "Système", "Développement", "Serveur"];
   const CATEGORY_TO_GROUP = {
     "Kotlin / Android": "Application",
     "Expo / React Native": "Application",
@@ -16727,10 +16727,11 @@ const GUIDE_TRANSLATIONS_EN = {
     "Git": "Développement",
     "Programmation": "Développement",
     "FAQ : erreurs fréquentes": "Développement",
-    "FAQ : questions fréquentes": "Développement"
+    "FAQ : questions fréquentes": "Développement",
+    "Serveur": "Serveur"
   };
   const GROUP_LABELS = {
-    en: { "Application": "Apps", "Système": "System", "Développement": "Development" }
+    en: { "Application": "Apps", "Système": "System", "Développement": "Development", "Serveur": "Server" }
   };
   function groupOf(cat) {
     return CATEGORY_TO_GROUP[cat] || "Développement";
