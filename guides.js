@@ -5373,5 +5373,203 @@ const GUIDES = [
         correction: "C'est la combinaison exacte qui règle ça immédiatement : le montage cloud a son propre cache (indépendant de Plex), et Plex a en plus besoin de son propre scan. Forcer les deux manuellement évite d'attendre les deux délais l'un après l'autre."
       }
     ]
+  },
+{
+    category: "Plex",
+    title: "Où stocker sa bibliothèque Plex : les options courantes",
+    level: "🟢 Débutant",
+    summary: "Panorama des façons de brancher du stockage à Plex — disque local, NAS, cloud monté — et pourquoi il n'y a pas UNE seule bonne méthode.",
+    content: [
+      {
+        heading: "Disque local ou externe : la méthode la plus simple",
+        text: "Si tes films/séries sont déjà sur un disque branché à la machine qui fait tourner Plex (interne, ou externe USB), c'est le cas le plus simple : donne directement ce dossier à Plex, aucune couche supplémentaire. Le seul vrai piège : un disque externe débranché ou mal remonté après un redémarrage fait planter le scan Plex (dossier introuvable, bibliothèque qui semble vidée)."
+      },
+      {
+        heading: "NAS (Synology, QNAP...) : le stockage réseau dédié",
+        text: "Un NAS est un appareil dédié au stockage, accessible sur le réseau local. Deux façons de l'utiliser avec Plex :\n\n1. Installer l'app Plex Server directement SUR le NAS (Synology/QNAP proposent un paquet officiel) — Plex tourne alors sur le NAS lui-même, pas besoin d'une autre machine.\n2. Monter un partage réseau du NAS (SMB/NFS) sur une machine séparée qui fait tourner Plex — plus de flexibilité, mais une couche réseau en plus, comme pour le cloud."
+      },
+      {
+        heading: "Cloud monté en local (rclone, WebDAV...)",
+        text: "L'approche utilisée dans ce Command Hub (avec kDrive) : quand les fichiers sont sur un espace cloud plutôt que sur un disque physique accessible, on le monte en local avec un outil comme rclone (voir [[Plex::Pourquoi Plex ne peut pas lire un cloud (kDrive) directement]]). C'est UNE option parmi d'autres, pas LA façon de faire — elle a du sens si ton cloud est déjà ta bibliothèque, mais elle ajoute de la latence réseau que n'a pas un disque local ou un NAS sur le même réseau."
+      },
+      {
+        heading: "Le vrai critère de choix",
+        text: "Vitesse et fiabilité, dans cet ordre : disque local > NAS local > cloud — chaque couche réseau ajoute de la latence et un point de panne potentiel. Le bon choix dépend surtout d'où sont DÉJÀ tes fichiers : inutile de tout re-télécharger sur un NAS si tout est déjà proprement organisé sur un cloud, et inutile de compliquer avec un montage cloud si tu as juste un disque dur qui traîne."
+      }
+    ]
+  },
+{
+    category: "Plex",
+    title: "Installer Plex avec Docker, l'alternative à l'installation native",
+    level: "🟡 Intermédiaire",
+    summary: "Pourquoi beaucoup de gens préfèrent Docker à un paquet .deb classique pour faire tourner Plex, et comment ça change la donne.",
+    content: [
+      {
+        heading: "Pourquoi Docker plutôt qu'un paquet natif",
+        text: "L'installation .deb installe Plex directement sur le système (services, dépendances mêlées à celles de l'OS). Avec Docker, Plex tourne dans un conteneur isolé — aucune dépendance système à gérer, une mise à jour ou une désinstallation ne touche jamais le reste de la machine, et changer de version revient à changer le tag de l'image. C'est devenu la méthode la plus recommandée dans beaucoup de tutoriels/communautés, via l'image officielle plexinc/pms-docker ou celle très populaire de LinuxServer.io (lscr.io/linuxserver/plex)."
+      },
+      {
+        heading: "La commande de base",
+        text: "docker run -d --name=plex --network=host -e TZ=Europe/Paris -v /chemin/vers/config:/config -v /chemin/vers/films:/movies -v /chemin/vers/series:/tv plexinc/pms-docker\n\n--network=host évite d'avoir à mapper manuellement chaque port utilisé par Plex (découverte réseau, DLNA...) — l'option la plus simple sur Linux pour Plex spécifiquement."
+      },
+      {
+        heading: "Les volumes : la partie qui compte vraiment",
+        text: "-v hôte:conteneur relie un dossier réel de la machine à un chemin À L'INTÉRIEUR du conteneur. Le dossier /config doit être persistant (c'est là que vivent la base de données Plex, les réglages, le token du compte) — le perdre, c'est reconfigurer tout le serveur de zéro. Les dossiers médias (/movies, /tv) peuvent très bien être eux-mêmes un montage rclone côté hôte (voir [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) — Docker et cloud monté ne s'excluent pas, ils se combinent."
+      },
+      {
+        heading: "Docker Compose pour ne pas retaper la commande à chaque fois",
+        text: "En pratique, la commande docker run à rallonge est vite remplacée par un fichier docker-compose.yml qui décrit le même conteneur de façon lisible et réutilisable — docker compose up -d le lance, docker compose down l'arrête. Voir la catégorie Docker du site pour les bases de Compose si ce n'est pas déjà familier."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu perds le dossier /config d'un conteneur Plex Docker (mal configuré, jamais relié à un vrai volume). Quelle est la conséquence ?",
+        options: [
+          "Rien, Plex retrouve tout automatiquement",
+          "Il faut reconfigurer le serveur de zéro (bibliothèques, compte, réglages)",
+          "Seuls les sous-titres sont perdus",
+          "Le conteneur refuse de redémarrer"
+        ],
+        correctIndex: 1,
+        correction: "/config contient la base de données Plex et tous les réglages — sans un vrai volume persistant pointant dessus, tout disparaît à la suppression/recréation du conteneur, exactement comme n'importe quelle donnée écrite à l'intérieur d'un conteneur Docker sans volume."
+      }
+    ]
+  },
+{
+    category: "Plex",
+    title: "Organiser et nommer ses fichiers pour que Plex les reconnaisse",
+    level: "🟢 Débutant",
+    summary: "La base indépendante de toute méthode d'installation : comment Plex devine quel film/épisode est quel fichier, et pourquoi un mauvais nommage donne des affiches et résumés faux.",
+    content: [
+      {
+        heading: "Comment Plex identifie un fichier",
+        text: "Plex ne \"regarde\" pas le contenu de la vidéo — il déduit titre/année/saison/épisode du NOM du fichier (et du dossier), puis cherche la correspondance sur des bases de métadonnées en ligne (TheMovieDB, TheTVDB...). Un nom ambigu ou mal formé donne une mauvaise correspondance, parfois carrément le mauvais film."
+      },
+      {
+        heading: "Convention pour les films",
+        text: "Titre (Année).ext — par exemple : Iron Man (2008).mkv. L'année entre parenthèses est ce qui permet à Plex de distinguer un remake d'un original portant le même titre. Les noms \"scene\" bruts des releases (Iron.Man.2008.MULTI.2160p.BluRay...) fonctionnent presque toujours aussi — Plex sait ignorer les tags de qualité/codec — mais Titre (Année) reste la forme la plus fiable en cas de doute."
+      },
+      {
+        heading: "Convention pour les séries",
+        text: "Structure attendue : Nom de la série/Season 01/Nom de la série - S01E01.ext (le numéro de saison peut aussi s'écrire \"Saison 01\"). Le S01E01 dans le nom du FICHIER est ce qui compte le plus — Plex retrouve généralement la bonne série même si le nom du dossier parent diffère légèrement, mais un fichier sans motif SxxExx clair échoue presque toujours à s'identifier correctement."
+      },
+      {
+        heading: "Ne jamais mélanger films et séries dans le même dossier scanné",
+        text: "Une bibliothèque Plex a un TYPE (Films, ou Séries TV) et applique l'agent de métadonnées correspondant à TOUT ce qu'elle trouve dans son ou ses dossiers. Une série glissée dans un dossier scanné comme bibliothèque \"Films\" sera mal identifiée — voir l'exemple concret dans [[Plex::Installer un serveur Plex de A à Z (Linux)]], où il a fallu déplacer un dossier série qui traînait au milieu de films."
+      }
+    ],
+    exercises: [
+      {
+        type: "fillin",
+        instruction: "Quel motif (lettre + 2 chiffres + lettre + 2 chiffres) doit apparaître dans le nom d'un fichier pour que Plex l'identifie comme saison 2 épisode 5 d'une série ?",
+        accept: ["S02E05", "s02e05"],
+        correction: "S02E05 — S pour saison suivi de son numéro sur 2 chiffres, E pour épisode suivi de son numéro sur 2 chiffres. C'est ce motif précis dans le nom du FICHIER que Plex cherche en priorité pour identifier saison et épisode."
+      }
+    ]
+  },
+{
+    category: "Plex",
+    title: "Transcodage : Direct Play, Direct Stream, Transcode",
+    level: "🔴 Avancé",
+    summary: "Pourquoi un même film peut se lire sans effort sur un appareil et faire ramer le serveur sur un autre — et ce que le GPU peut y changer.",
+    content: [
+      {
+        heading: "Direct Play : le cas idéal, zéro travail pour le serveur",
+        text: "Quand le fichier (codec vidéo, codec audio, conteneur, résolution) est déjà dans un format que l'appareil qui regarde sait lire nativement, Plex envoie le fichier TEL QUEL, sans y toucher. C'est le cas le moins gourmand — le serveur ne fait quasiment que de la lecture disque/réseau."
+      },
+      {
+        heading: "Direct Stream : remballer sans recompresser",
+        text: "Si seul le CONTENEUR pose problème (ex: un .mkv envoyé vers un appareil qui ne sait lire que du .mp4) mais que les codecs vidéo/audio à l'intérieur sont compatibles, Plex peut juste changer l'emballage à la volée sans recompresser l'image — bien moins coûteux qu'un vrai transcodage."
+      },
+      {
+        heading: "Transcode : le vrai coût CPU/GPU",
+        text: "Quand le codec lui-même n'est pas supporté par l'appareil (typique : un fichier 4K HDR HEVC envoyé vers un vieux téléphone, ou un débit réseau trop faible pour le fichier original), Plex doit RECOMPRESSER la vidéo en temps réel vers un format compatible. C'est de loin l'opération la plus lourde — un CPU classique peut peiner à transcoder un seul flux 4K HDR en temps réel."
+      },
+      {
+        heading: "L'accélération matérielle (hardware transcoding)",
+        text: "Plutôt que de faire porter tout le transcodage au CPU, le GPU peut faire le travail bien plus efficacement (Intel QuickSync, NVIDIA NVENC, AMD AMF). Ça se règle dans Réglages → Transcodeur → \"Utiliser l'accélération matérielle quand disponible\" — mais cette fonctionnalité nécessite un Plex Pass, et un GPU/iGPU qui la supporte réellement."
+      },
+      {
+        heading: "Où voir ce qui se passe en vrai",
+        text: "Le tableau de bord \"Activité\" de Plex affiche pour chaque lecture en cours si c'est du Direct Play, Direct Stream, ou Transcode (et avec quelle charge). C'est le premier réflexe pour comprendre pourquoi une lecture rame — voir aussi [[Plex::Gérer un serveur Plex au quotidien]]."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Un film 4K HDR se lit sans problème sur ta Apple TV mais rame énormément quand un ami y accède depuis son vieux téléphone Android. Quelle est l'explication la plus probable ?",
+        options: [
+          "Le fichier est corrompu",
+          "Le téléphone force un transcodage (codec/résolution non supportés), ce que l'Apple TV n'a pas besoin de faire (Direct Play)",
+          "Le Wi-Fi de l'ami est en panne",
+          "Plex a une limite de 2 lectures simultanées"
+        ],
+        correctIndex: 1,
+        correction: "Deux appareils différents ne demandent pas forcément le même traitement pour le même fichier : l'Apple TV peut lire le HEVC 4K HDR nativement (Direct Play, quasi gratuit), tandis qu'un téléphone plus ancien qui ne le supporte pas force un transcodage à la volée — bien plus coûteux, et souvent le vrai goulot d'étranglement CPU."
+      }
+    ]
+  },
+{
+    category: "Plex",
+    title: "Plex Pass : gratuit vs payant, ce que ça change vraiment",
+    level: "🟢 Débutant",
+    summary: "Ce qui fonctionne déjà avec la version gratuite, et ce que l'abonnement Plex Pass ajoute réellement.",
+    content: [
+      {
+        heading: "Ce qui est gratuit, sans limite artificielle",
+        text: "Héberger sa bibliothèque, la scanner, la regarder en streaming chez soi ET à distance (voir [[Plex::NAT, double NAT et accès distant à Plex]]), sur autant d'appareils/clients que tu veux — tout ça est gratuit et illimité. Beaucoup de gens font tourner un serveur Plex complet sans jamais payer un centime."
+      },
+      {
+        heading: "Ce que Plex Pass ajoute",
+        text: "L'accélération matérielle du transcodage (voir [[Plex::Transcodage : Direct Play, Direct Stream, Transcode]]), la synchronisation hors-ligne sur mobile/tablette, le Live TV & DVR (enregistrer la TV en direct), les bandes-annonces/extras automatiques, \"Ignorer l'intro\", et un contrôle parental plus fin."
+      },
+      {
+        heading: "Les tarifs (ordre de grandeur — vérifie sur plex.tv pour le prix exact)",
+        text: "Environ 5€/mois, ou un tarif annuel dégressif, ou un paiement unique \"à vie\" — l'option à vie est souvent la plus rentable si tu es certain de garder Plex sur le long terme."
+      },
+      {
+        heading: "Faut-il payer ?",
+        text: "Si ton usage, c'est \"regarder mes films chez moi et chez des amis en streaming direct\", la version gratuite suffit largement. Le vrai déclencheur pour payer, c'est le transcodage matériel — dès que ton CPU sature parce que des appareils incompatibles forcent un transcodage logiciel constant."
+      }
+    ]
+  },
+{
+    category: "Plex",
+    title: "Partager sa bibliothèque Plex avec d'autres (Plex Home et amis)",
+    level: "🟡 Intermédiaire",
+    summary: "Deux façons différentes de donner accès à ton serveur à quelqu'un d'autre, et ce qui change entre elles.",
+    content: [
+      {
+        heading: "Plex Home : pour les gens qui vivent avec toi",
+        text: "Pensé pour un foyer partageant la même adresse — chaque membre a son propre profil (historique, favoris, position de lecture séparés) mais SANS avoir besoin de son propre compte Plex.tv distinct. Se configure dans Réglages du compte → Plex Home."
+      },
+      {
+        heading: "Utilisateurs partagés (amis, famille éloignée)",
+        text: "Réglages → Utilisateurs et accès → Inviter un ami : la personne a besoin de son propre compte Plex.tv. Tu choisis PRÉCISÉMENT quelles bibliothèques elle voit (elle peut très bien voir tes Films mais pas tes Séries) — contrairement à Plex Home, chaque invité a son compte et ses propres identifiants, indépendants des tiens."
+      },
+      {
+        heading: "Contrôle parental et restrictions",
+        text: "Chaque profil (Home ou invité) peut avoir des restrictions de classification par âge, un accès limité à certaines bibliothèques seulement, et une limite du nombre de flux transcodés simultanés qu'il peut consommer — utile si plusieurs personnes regardent en même temps et que le CPU du serveur a des limites (voir [[Plex::Transcodage : Direct Play, Direct Stream, Transcode]])."
+      },
+      {
+        heading: "Ce qui compte niveau bande passante",
+        text: "Chaque personne qui regarde À DISTANCE (pas sur ton réseau local) consomme de la bande passante MONTANTE de ta connexion internet, pas seulement du CPU. Plusieurs amis qui regardent en même temps depuis l'extérieur peuvent saturer l'upload de ta box bien avant de saturer le CPU du serveur."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux qu'un ami qui vit à l'autre bout du pays regarde tes Films, mais surtout PAS tes Séries persos. Quelle est la bonne approche ?",
+        options: [
+          "Plex Home, en lui créant un profil",
+          "L'inviter comme utilisateur partagé, en cochant uniquement la bibliothèque Films",
+          "Lui donner ton propre compte Plex",
+          "Ce n'est pas possible avec Plex"
+        ],
+        correctIndex: 1,
+        correction: "L'invitation en tant qu'utilisateur partagé permet de choisir bibliothèque par bibliothèque ce qu'une personne voit — Plex Home, lui, est pensé pour les gens du même foyer et ne fait pas ce tri fin de la même façon (et suppose d'être au sein du même compte administrateur)."
+      }
+    ]
   }
 ];
