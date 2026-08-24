@@ -5271,5 +5271,45 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "Inviting as a shared user lets you pick, library by library, what a person sees — Plex Home, by contrast, is designed for people in the same household and doesn't do this fine-grained sorting the same way (and assumes being under the same admin account)."
       }
     ]
+  },
+  "Plex|Ajouter de nouveaux fichiers à ton serveur Plex : les méthodes courantes": {
+    "title": "Adding new files to your Plex server: the common methods",
+    "summary": "The different ways to get a new movie/episode into the folder Plex watches, depending on where your library lives.",
+    "content": [
+      {
+        "heading": "Manual transfer: the universal method",
+        "text": "No matter where your library lives (local disk, NAS, cloud), you can always drop a file there \"by hand\": copy-paste to a local disk, drag-and-drop into a network share (NAS), or upload via your cloud service's web interface/desktop app (kDrive, Nextcloud...). This is the simplest method, no extra tooling needed — just slower if you're adding a lot of content regularly."
+      },
+      {
+        "heading": "rclone copy/move: transferring to the cloud from the command line",
+        "text": "If your library lives on cloud storage mounted with rclone (see [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]), you can also copy a file there directly from the terminal: rclone copy /local/path/movie.mkv kdrive:target/folder/ (or rclone move to move instead of duplicate). Useful for scripting the addition, or transferring from another machine without going through a web interface."
+      },
+      {
+        "heading": "Copying directly into the local mount",
+        "text": "Another option if your cloud library is mounted locally (--vfs-cache-mode full): copy a file directly INTO the mount's folder (e.g. cp movie.mkv /mnt/kdrive/target/folder/), as if it were a normal disk — rclone handles sending it to the cloud in the background. Careful: the copy \"looks\" instant on screen, but the real upload to the cloud continues afterward; don't unplug/shut down the machine until the network transfer is done."
+      },
+      {
+        "heading": "Fully automating it: Sonarr/Radarr + a download client",
+        "text": "A lot of Plex users don't copy anything by hand: they run Radarr (movies) and/or Sonarr (TV shows), which automatically watch for new releases, fetch them via a download client (qBittorrent, etc.), rename them to the convention Plex expects (see [[Plex::Organiser et nommer ses fichiers pour que Plex les reconnaisse]]), and drop them straight into the right folder — no manual action at all. This is a whole separate ecosystem (often called the \"*arr stack\"), worth its own guide if you want to dig into it later."
+      },
+      {
+        "heading": "Either way: Plex still needs to notice it",
+        "text": "Whatever method got the file there, the next step is always the same: Plex needs to scan its library for it to show up. See [[Plex::Gérer un serveur Plex au quotidien]] to force that immediately instead of waiting for the periodic scan."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want new episodes of a show you follow to land in Plex automatically, without ever having to find/copy them yourself. What's the right approach?",
+        "options": [
+          "Copy each new episode by hand every week",
+          "Set up Sonarr + a download client, which handle everything automatically",
+          "Wait for Plex to find them on its own on the internet",
+          "Change the metadata agent"
+        ],
+        "correctIndex": 1,
+        "correction": "That's exactly Sonarr's job (and Radarr for movies): watch for releases, trigger the download, rename and place the file in the right spot — Plex never does the searching/downloading itself, it only scans what's already in its folders."
+      }
+    ]
   }
 };

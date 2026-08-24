@@ -5571,5 +5571,47 @@ const GUIDES = [
         correction: "L'invitation en tant qu'utilisateur partagé permet de choisir bibliothèque par bibliothèque ce qu'une personne voit — Plex Home, lui, est pensé pour les gens du même foyer et ne fait pas ce tri fin de la même façon (et suppose d'être au sein du même compte administrateur)."
       }
     ]
+  },
+{
+    category: "Plex",
+    title: "Ajouter de nouveaux fichiers à ton serveur Plex : les méthodes courantes",
+    level: "🟢 Débutant",
+    summary: "Les différentes façons de faire arriver un nouveau film/épisode dans le dossier que Plex surveille, selon où vit ta bibliothèque.",
+    content: [
+      {
+        heading: "Transfert manuel : la méthode universelle",
+        text: "Peu importe où vit ta bibliothèque (disque local, NAS, cloud), tu peux toujours y déposer un fichier \"à la main\" : copier-coller sur un disque local, glisser-déposer dans un partage réseau (NAS), ou uploader via l'interface web/l'app desktop de ton service cloud (kDrive, Nextcloud...). C'est la méthode la plus simple, sans aucun outil supplémentaire — juste plus lente si tu ajoutes beaucoup de contenu régulièrement."
+      },
+      {
+        heading: "rclone copy/move : transférer en ligne de commande vers le cloud",
+        text: "Si ta bibliothèque est sur un cloud monté avec rclone (voir [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]), tu peux aussi y copier un fichier directement depuis le terminal : rclone copy /chemin/local/film.mkv kdrive:dossier/cible/ (ou rclone move pour déplacer au lieu de dupliquer). Utile pour scripter l'ajout, ou transférer depuis une autre machine sans passer par une interface web."
+      },
+      {
+        heading: "Copier directement dans le montage local",
+        text: "Autre option si ta bibliothèque cloud est montée localement (--vfs-cache-mode full) : copier un fichier directement DANS le dossier du montage (ex: cp film.mkv /mnt/kdrive/dossier/cible/), comme s'il s'agissait d'un disque normal — rclone se charge d'envoyer vers le cloud en arrière-plan. Attention : la copie \"semble\" instantanée à l'écran, mais l'upload réel vers le cloud continue après ; ne débranche/n'éteins pas la machine tant que le transfert réseau n'est pas terminé."
+      },
+      {
+        heading: "Automatiser complètement : Sonarr/Radarr + un client de téléchargement",
+        text: "Beaucoup de gens qui utilisent Plex ne copient rien à la main : ils font tourner Radarr (films) et/ou Sonarr (séries), qui surveillent automatiquement la sortie de nouveaux contenus, les récupèrent via un client de téléchargement (qBittorrent, etc.), les renomment selon la convention attendue par Plex (voir [[Plex::Organiser et nommer ses fichiers pour que Plex les reconnaisse]]), et les déposent directement dans le bon dossier — sans aucune action manuelle. C'est tout un écosystème à part (souvent appelé la \"*arr stack\"), qui mérite sa propre fiche si tu veux creuser ce sujet plus tard."
+      },
+      {
+        heading: "Dans tous les cas : Plex doit ensuite le remarquer",
+        text: "Peu importe la méthode utilisée pour faire arriver le fichier, l'étape d'après est toujours la même : Plex doit scanner sa bibliothèque pour le voir apparaître. Voir [[Plex::Gérer un serveur Plex au quotidien]] pour forcer ça immédiatement plutôt que d'attendre le scan périodique."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux que les nouveaux épisodes d'une série que tu suis atterrissent automatiquement dans Plex, sans jamais devoir les chercher/copier toi-même. Quelle est la bonne approche ?",
+        options: [
+          "Copier chaque nouvel épisode à la main chaque semaine",
+          "Mettre en place Sonarr + un client de téléchargement, qui font tout automatiquement",
+          "Attendre que Plex les trouve tout seul sur internet",
+          "Changer d'agent de métadonnées"
+        ],
+        correctIndex: 1,
+        correction: "C'est exactement le rôle de Sonarr (et Radarr pour les films) : surveiller les sorties, déclencher le téléchargement, renommer et ranger le fichier au bon endroit — Plex ne fait jamais la recherche/le téléchargement lui-même, il ne fait que scanner ce qui est déjà dans ses dossiers."
+      }
+    ]
   }
 ];
