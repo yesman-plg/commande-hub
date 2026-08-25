@@ -5203,6 +5203,44 @@ const GUIDES = [
       }
     ]
   },
+{
+    category: "FAQ : erreurs fréquentes",
+    title: "Plex trouve 0 éléments après avoir changé le dossier d'une bibliothèque",
+    level: "🟡 Intermédiaire",
+    summary: "Le scan se termine en moins d'une milliseconde et ne remonte aucune erreur explicite — le coupable classique est un chemin enregistré en relatif au lieu d'absolu.",
+    content: [
+      {
+        heading: "Le symptôme",
+        text: "Tu modifies le dossier surveillé par une bibliothèque Plex (Films, Séries...) via Réglages → Gérer → Bibliothèques → Modifier, tu relances un scan, et la bibliothèque reste à 0 élément — sans message d'erreur visible dans l'interface."
+      },
+      {
+        heading: "Diagnostic : comparer le chemin enregistré",
+        text: "`curl -s 'http://IP_SERVEUR:32400/library/sections?X-Plex-Token=TON_TOKEN'` affiche le `path` réellement enregistré pour chaque bibliothèque. S'il ressemble à `Films et séries/MARVEL` (sans `/` au début) au lieu de `/mnt/kdrive/Films et séries/MARVEL`, c'est un chemin relatif — Plex ne sait pas à partir d'où le résoudre, et traite le dossier comme inexistant/vide plutôt que de remonter une erreur claire. Autre indice dans les logs (`journalctl -u plexmediaserver` ou le fichier `Plex Media Server.log`) : un scan qui se termine en moins d'une milliseconde (`Scanning ... 0% -> 99% -> 100%` quasi instantané) alors qu'un vrai scan de plusieurs fichiers prend au moins quelques dizaines de millisecondes."
+      },
+      {
+        heading: "Le fix : remettre un chemin absolu",
+        text: "Repasser par l'éditeur de bibliothèque et **naviguer** dans le sélecteur de dossier plutôt que de taper/coller un chemin à la main (souvent la cause du chemin relatif) — ou corriger directement via l'API :\n`curl -X PUT 'http://IP_SERVEUR:32400/library/sections/CLE?location=CHEMIN_ABSOLU_ENCODE&name=NOM&agent=AGENT&scanner=SCANNER&language=fr-FR&X-Plex-Token=TON_TOKEN'`\nRécupère `name`/`agent`/`scanner` depuis le `GET /library/sections` précédent — un `PUT` qui n'envoie QUE `location` échoue en `400 Bad Request` (voir [[FAQ : erreurs fréquentes::Une commande copiée-collée échoue bizarrement (invite bloquée sur \">\", \"400 Bad Request\"...)]] pour ce message d'erreur dans un autre contexte)."
+      },
+      {
+        heading: "Après la correction",
+        text: "Relancer un scan (`curl 'http://IP_SERVEUR:32400/library/sections/CLE/refresh?X-Plex-Token=TON_TOKEN'`) — les films apparaissent généralement en quelques secondes, les séries un peu plus (le matching des métadonnées épisode par épisode prend plus de temps que pour un film)."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu viens de changer le dossier d'une bibliothèque Plex dans l'interface. Le scan se termine instantanément et trouve 0 élément, sans erreur affichée. Quelle est la cause la plus probable ?",
+        options: [
+          "Le chemin a été enregistré en relatif au lieu d'absolu",
+          "Le disque dur est plein",
+          "Plex a besoin d'être redémarré",
+          "Le fichier n'existe plus du tout"
+        ],
+        correctIndex: 0,
+        correction: "Un scan qui se termine quasi instantanément (0 élément, aucune erreur) est le signe classique d'un chemin relatif enregistré par erreur — Plex ne sait pas le résoudre et traite silencieusement le dossier comme vide. Comparer le `path` retourné par l'API à un chemin absolu qui fonctionnait avant permet de confirmer le diagnostic."
+      }
+    ]
+  },
   // --- Serveur — Plex / rclone / accès distant ---------------------------------------
 {
     category: "Plex",

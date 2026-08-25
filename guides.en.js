@@ -4926,6 +4926,42 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "FAQ : erreurs fréquentes|Plex trouve 0 éléments après avoir changé le dossier d'une bibliothèque": {
+    "title": "Plex finds 0 items after changing a library's folder",
+    "summary": "The scan finishes in under a millisecond with no explicit error — the classic culprit is a path saved as relative instead of absolute.",
+    "content": [
+      {
+        "heading": "The symptom",
+        "text": "You change the folder watched by a Plex library (Movies, TV Shows...) via Settings → Manage → Libraries → Edit, trigger a rescan, and the library stays at 0 items — with no visible error in the interface."
+      },
+      {
+        "heading": "Diagnosis: compare the saved path",
+        "text": "`curl -s 'http://SERVER_IP:32400/library/sections?X-Plex-Token=YOUR_TOKEN'` shows the actual `path` saved for each library. If it looks like `Films et séries/MARVEL` (no leading `/`) instead of `/mnt/kdrive/Films et séries/MARVEL`, that's a relative path — Plex doesn't know what to resolve it against, and silently treats the folder as nonexistent/empty rather than raising a clear error. Another tell in the logs (`journalctl -u plexmediaserver` or the `Plex Media Server.log` file): a scan that finishes in under a millisecond (`Scanning ... 0% -> 99% -> 100%` almost instantly) when a real scan of several files should take at least a few dozen milliseconds."
+      },
+      {
+        "heading": "The fix: restore an absolute path",
+        "text": "Go back to the library editor and **browse** through the folder picker instead of typing/pasting a path by hand (usually the cause of the relative path) — or fix it directly via the API:\n`curl -X PUT 'http://SERVER_IP:32400/library/sections/KEY?location=ABSOLUTE_PATH_ENCODED&name=NAME&agent=AGENT&scanner=SCANNER&language=fr-FR&X-Plex-Token=YOUR_TOKEN'`\nGet `name`/`agent`/`scanner` from the earlier `GET /library/sections` — a `PUT` that only sends `location` fails with `400 Bad Request` (see [[FAQ : erreurs fréquentes::Une commande copiée-collée échoue bizarrement (invite bloquée sur \">\", \"400 Bad Request\"...)]] for that same error message in a different context)."
+      },
+      {
+        "heading": "After fixing it",
+        "text": "Trigger a rescan (`curl 'http://SERVER_IP:32400/library/sections/KEY/refresh?X-Plex-Token=YOUR_TOKEN'`) — movies usually show up within a few seconds, TV shows take a bit longer (episode-by-episode metadata matching is slower than for a single movie)."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You just changed a Plex library's folder in the interface. The scan finishes instantly and finds 0 items, with no error shown. What's the most likely cause?",
+        "options": [
+          "The path was saved as relative instead of absolute",
+          "The hard drive is full",
+          "Plex needs to be restarted",
+          "The file no longer exists at all"
+        ],
+        "correctIndex": 0,
+        "correction": "A scan that finishes almost instantly (0 items, no error) is the classic sign of a relative path saved by mistake — Plex can't resolve it and silently treats the folder as empty. Comparing the `path` returned by the API to an absolute path that used to work confirms the diagnosis."
+      }
+    ]
+  },
   "Plex|Pourquoi Plex ne peut pas lire un cloud (kDrive) directement": {
     "title": "Why Plex can't read cloud storage (kDrive) directly",
     "summary": "Plex only understands local files — how a WebDAV mount (rclone) makes cloud storage look like a normal folder.",
