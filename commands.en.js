@@ -2472,5 +2472,15 @@ const COMMAND_TRANSLATIONS_EN = {
     "title": "Find the local IP on Windows",
     "desc": "Look for the \"IPv4 Address\" line of your active network adapter (Wi-Fi or Ethernet) — then open http://IP:32400/web in a browser, just like on Linux.",
     "tags": ["plex", "windows", "ip", "network"]
+  },
+  "Plex||Synchroniser Plex avec le site (marvel-site) en une commande": {
+    "title": "Sync Plex with the site (marvel-site) in one command",
+    "desc": "From the site's folder (~/marvel-site): refreshes the rclone cache, re-triggers the Plex scan, links new titles to the site's entries, then commits + pushes. Requires ~/.plex_token — see [[Plex::Utiliser update_plex_and_push.sh pour synchroniser Plex avec le site]] for the full walkthrough.",
+    "tags": ["plex", "sync", "marvel-site", "automation", "rclone"]
+  },
+  "Plex||Relier les titres au site sans rescanner Plex": {
+    "title": "Link titles to the site without rescanning Plex",
+    "desc": "Skips the kDrive/Plex refresh steps (useful if you know Plex already picked up the files) — only does the title matching and rewrites js/plex.js. Without --apply: dry-run, nothing gets written.",
+    "tags": ["plex", "sync", "marvel-site", "python", "dry-run"]
   }
 };

@@ -5421,5 +5421,59 @@ const GUIDE_TRANSLATIONS_EN = {
         "correction": "The ratingKey is the stable, unique identifier of each item in a Plex library — it goes into the direct link's URL (along with the server's machineIdentifier), not the file name or displayed title."
       }
     ]
+  },
+  "Plex|Utiliser update_plex_and_push.sh pour synchroniser Plex avec le site": {
+    "title": "Using update_plex_and_push.sh to sync Plex with the site",
+    "summary": "Step-by-step walkthrough of the all-in-one script that automatically links a personal site (marvel-site) to the movies/shows actually present on Plex, after adding new content.",
+    "content": [
+      {
+        "heading": "What the script does, in 4 steps",
+        "text": "1. Refreshes the rclone cache, so the mount sees recently added kDrive files.\n2. Asks Plex to rescan its Movies and TV Shows libraries.\n3. Matches every Plex title found to a site entry (`js/data.js`), and regenerates `js/plex.js`.\n4. Auto commits + pushes to GitHub if anything changed.\n\nStep 3's details (how the title-by-title matching works) are explained in [[Plex::Relier un site perso à ta bibliothèque Plex (bouton \"Regarder\")]]."
+      },
+      {
+        "heading": "Prerequisite: the Plex token",
+        "text": "The script reads `~/.plex_token` (a local file, never committed to Git). If it doesn't exist: open Plex web → any movie → `⋯` → \"Get Info\" → \"View XML\" → copy the value after `X-Plex-Token=` in the URL that opens, then `echo 'YOUR_TOKEN' > ~/.plex_token && chmod 600 ~/.plex_token`."
+      },
+      {
+        "heading": "Tutorial: first run",
+        "text": "From the site's folder: `cd ~/marvel-site` then `./scripts/update_plex_and_push.sh`. The script prints its progress step by step (1/4, 2/4...) and pauses once at step 2, asking you to press Enter — that's to give Plex time to finish scanning before continuing. If you just added a lot of files at once, wait 10 to 30 seconds before pressing Enter. The final result looks like the exercise below."
+      },
+      {
+        "heading": "Reading the matching output",
+        "text": "Each `OK 'Plex Title' -> site-entry-id` line confirms a successful link. A `?? 'Plex Title' — no matching entry found` line means either that title doesn't have a site entry yet (fine if it's not part of the catalog), or the name is too different to match automatically — in that case, add the line by hand in `js/plex.js` (see the marvel-site repo's `scripts/README.md`)."
+      },
+      {
+        "heading": "Special case: multi-season shows",
+        "text": "Some shows (Loki, The Punisher, What If...?...) are represented by ONE entry per season on the site, while Plex groups everything under a single \"show\" entry. The script knows to fetch each season individually for these known cases (the `SEASON_SPLIT_SHOWS` list in `sync_plex_library.py`) — extend it by hand if a new multi-season show gets added to the site later."
+      },
+      {
+        "heading": "Quick version, without a full rescan",
+        "text": "If you know Plex already picked up the new files (no need to refresh the cache or trigger a scan), `python3 scripts/sync_plex_library.py --apply` does just step 3 alone. Without `--apply`, it's a dry-run that shows what would happen without writing anything — handy to check before actually applying."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "terminal",
+        "instruction": "You just added a new Marvel movie on kDrive. Sync Plex with the site in a single command.",
+        "terminal": {
+          "prompt": "evan@nul:~$",
+          "steps": [
+            {
+              "expect": [
+                "cd ~/marvel-site"
+              ],
+              "output": "(moved into the site's folder)"
+            },
+            {
+              "expect": [
+                "./scripts/update_plex_and_push.sh"
+              ],
+              "output": "==> 1/4  Refreshing rclone cache (kDrive)...\n    done.\n==> 2/4  Scanning Plex libraries (Movies + TV Shows)...\n    triggered (Plex scans in the background, can take 10-30s for large additions).\n    Press Enter once you think the scan is done...\n==> 3/4  Updating js/plex.js...\n  OK  'New Movie' (Plex #512) -> new-movie\n35 site entries linked...\n==> 4/4  Commit + push if needed...\n    pushed to GitHub.\n\nDone."
+            }
+          ]
+        },
+        "correction": "A single command is enough: `./scripts/update_plex_and_push.sh` from the site's folder. The script chains rclone refresh, Plex scan, title matching and a Git push — the only interaction needed is pressing Enter once the Plex scan is done."
+      }
+    ]
   }
 };

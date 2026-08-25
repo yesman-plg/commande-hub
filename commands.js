@@ -2896,4 +2896,20 @@ const COMMANDS = [
     desc: "Cherche la ligne \"Adresse IPv4\" de ta carte réseau active (Wi-Fi ou Ethernet) — ouvre ensuite http://IP:32400/web dans un navigateur, comme sous Linux.",
     tags: ["plex", "windows", "ip", "réseau"]
   },
+{
+    category: "Plex",
+    title: "Synchroniser Plex avec le site (marvel-site) en une commande",
+    cmd: "./scripts/update_plex_and_push.sh",
+    desc: "Depuis le dossier du site (~/marvel-site) : rafraîchit le cache rclone, relance le scan Plex, relie les nouveaux titres aux fiches du site, puis commit + push. Nécessite ~/.plex_token — voir [[Plex::Utiliser update_plex_and_push.sh pour synchroniser Plex avec le site]] pour le tuto complet.",
+    tags: ["plex", "sync", "marvel-site", "automatisation", "rclone"],
+    related: "Plex::Utiliser update_plex_and_push.sh pour synchroniser Plex avec le site"
+  },
+{
+    category: "Plex",
+    title: "Relier les titres au site sans rescanner Plex",
+    cmd: "python3 scripts/sync_plex_library.py --apply",
+    desc: "Saute les étapes de rafraîchissement kDrive/Plex (utile si tu sais que Plex a déjà bien vu les fichiers) — ne fait que le matching titre-par-titre et réécrit js/plex.js. Sans --apply : simulation sans rien écrire (dry-run).",
+    tags: ["plex", "sync", "marvel-site", "python", "dry-run"],
+    related: "Plex::Utiliser update_plex_and_push.sh pour synchroniser Plex avec le site"
+  },
 ];

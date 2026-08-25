@@ -5729,5 +5729,61 @@ const GUIDES = [
         correction: "Le ratingKey est l'identifiant stable et unique de chaque élément dans une bibliothèque Plex — c'est lui qui va dans l'URL du lien direct (avec le machineIdentifier du serveur), pas le nom de fichier ni le titre affiché."
       }
     ]
+  },
+{
+    category: "Plex",
+    title: "Utiliser update_plex_and_push.sh pour synchroniser Plex avec le site",
+    level: "🟢 Débutant",
+    summary: "Le tuto pas-à-pas du script tout-en-un qui relie automatiquement un site perso (marvel-site) aux films/séries réellement présents sur Plex, après chaque ajout de contenu.",
+    content: [
+      {
+        heading: "Ce que fait le script, en 4 étapes",
+        text: "1. Rafraîchit le cache rclone, pour que le montage voie les fichiers kDrive ajoutés récemment.\n2. Demande à Plex de rescanner ses bibliothèques Films et Séries.\n3. Fait correspondre chaque titre Plex trouvé à une fiche du site (`js/data.js`), et régénère `js/plex.js`.\n4. Commit + push automatique sur GitHub si quelque chose a changé.\n\nLe détail de l'étape 3 (comment le matching titre-par-titre fonctionne) est expliqué dans [[Plex::Relier un site perso à ta bibliothèque Plex (bouton \"Regarder\")]]."
+      },
+      {
+        heading: "Prérequis : le token Plex",
+        text: "Le script lit `~/.plex_token` (un fichier local, jamais commité sur Git). S'il n'existe pas : ouvre le web Plex → un film → `⋯` → \"Obtenir des infos\" → \"Afficher XML\" → copie la valeur après `X-Plex-Token=` dans l'URL qui s'ouvre, puis `echo 'TON_TOKEN' > ~/.plex_token && chmod 600 ~/.plex_token`."
+      },
+      {
+        heading: "Tuto : premier lancement",
+        text: "Depuis le dossier du site : `cd ~/marvel-site` puis `./scripts/update_plex_and_push.sh`. Le script affiche sa progression étape par étape (1/4, 2/4...) et s'arrête une fois à l'étape 2, en te demandant d'appuyer sur Entrée — c'est pour laisser à Plex le temps de finir de scanner avant de continuer. Si tu viens d'ajouter beaucoup de fichiers d'un coup, patiente 10 à 30 secondes avant d'appuyer sur Entrée. Le résultat final ressemble à l'exercice ci-dessous."
+      },
+      {
+        heading: "Lire la sortie du matching",
+        text: "Chaque ligne `OK 'Titre Plex' -> id-de-la-fiche` confirme un lien réussi. Une ligne `?? 'Titre Plex' — aucune fiche correspondante trouvée` signifie soit que ce titre n'existe pas encore comme fiche sur le site (pas grave si ce n'est pas un contenu du catalogue), soit que le nom est trop différent pour matcher automatiquement — dans ce cas, ajouter la ligne à la main dans `js/plex.js` (voir `scripts/README.md` du dépôt marvel-site)."
+      },
+      {
+        heading: "Cas particulier : les séries à plusieurs saisons",
+        text: "Certaines séries (Loki, The Punisher, What If...?...) sont représentées par UNE fiche par saison sur le site, alors que Plex regroupe tout sous une seule fiche \"show\". Le script sait aller chercher chaque saison individuellement pour ces cas connus (liste `SEASON_SPLIT_SHOWS` dans `sync_plex_library.py`) — à compléter à la main si une nouvelle série à saisons multiples est ajoutée au site plus tard."
+      },
+      {
+        heading: "Version rapide, sans tout rescanner",
+        text: "Si tu sais que Plex a déjà bien vu les nouveaux fichiers (pas besoin de rafraîchir le cache ni de relancer un scan), `python3 scripts/sync_plex_library.py --apply` fait juste l'étape 3 seule. Sans `--apply`, c'est un dry-run qui affiche ce qui serait fait sans rien écrire — pratique pour vérifier avant d'appliquer pour de vrai."
+      }
+    ],
+    exercises: [
+      {
+        type: "terminal",
+        instruction: "Tu viens d'ajouter un nouveau film Marvel sur kDrive. Synchronise Plex avec le site en une seule commande.",
+        terminal: {
+          prompt: "evan@nul:~$",
+          steps: [
+            {
+              expect: [
+                "cd ~/marvel-site"
+              ],
+              output: "(déplacement dans le dossier du site)"
+            },
+            {
+              expect: [
+                "./scripts/update_plex_and_push.sh"
+              ],
+              output: "==> 1/4  Rafraîchissement du cache rclone (kDrive)...\n    fait.\n==> 2/4  Scan des bibliothèques Plex (Films + Séries)...\n    lancé (Plex scanne en tâche de fond, ça peut prendre 10-30s pour de gros ajouts).\n    Appuie sur Entrée quand tu penses que le scan est fini...\n==> 3/4  Mise à jour de js/plex.js...\n  OK  'Nouveau Film' (Plex #512) -> nouveau-film\n35 fiches du site reliées...\n==> 4/4  Commit + push si besoin...\n    poussé sur GitHub.\n\nTerminé."
+            }
+          ]
+        },
+        correction: "Une seule commande suffit : `./scripts/update_plex_and_push.sh` depuis le dossier du site. Le script enchaîne rafraîchissement rclone, scan Plex, matching des titres et push Git — la seule interaction nécessaire est d'appuyer sur Entrée une fois le scan Plex terminé."
+      }
+    ]
   }
 ];
