@@ -5165,6 +5165,44 @@ const GUIDES = [
       }
     ]
   },
+{
+    category: "FAQ : erreurs fréquentes",
+    title: "Une commande copiée-collée échoue bizarrement (invite bloquée sur \">\", \"400 Bad Request\"...)",
+    level: "🟢 Débutant",
+    summary: "Le copier-coller transforme parfois silencieusement les guillemets ou casse les commandes multi-lignes — la commande a l'air correcte à l'œil mais le terminal ne la comprend pas.",
+    content: [
+      {
+        heading: "Pourquoi ça arrive",
+        text: "Certaines sources de copier-coller (navigateur, éditeur de texte, certains gestionnaires de presse-papiers) remplacent automatiquement les guillemets droits \" par des guillemets courbes \"...\" — visuellement presque identiques, mais que le shell ne reconnaît pas comme un vrai délimiteur. Autre cas fréquent : coller plusieurs lignes d'un coup dans certains terminaux (le terminal intégré de VS Code notamment) peut fusionner deux lignes en une seule ou tronquer le collage."
+      },
+      {
+        heading: "Symptôme : l'invite reste bloquée sur \">\"",
+        text: "Ça veut dire que le shell attend un guillemet fermant qui n'arrivera jamais — la commande n'a pas été exécutée. `Ctrl+C` annule et rend une invite propre, puis retape ou recolle la commande."
+      },
+      {
+        heading: "Symptôme : une erreur bizarre malgré une commande qui a l'air bonne",
+        text: "Genre \"400 Bad Request\" sur une requête curl, ou un résultat inattendu sur une commande normalement valide — souvent un guillemet ou un tiret invisible corrompu glissé dans le collage. Réflexe : privilégier les guillemets simples '...' (moins souvent substitués que les doubles \"...\"), ou retaper la commande à la main plutôt que la coller si le problème persiste."
+      },
+      {
+        heading: "Pour les blocs de plusieurs commandes",
+        text: "Si un terminal fusionne ou corrompt les collages multi-lignes, colle/exécute une commande à la fois plutôt qu'un bloc entier, en vérifiant visuellement chaque ligne avant d'appuyer sur Entrée."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu colles une commande contenant des guillemets, et le terminal affiche juste \">\" en attendant sans rien exécuter. Que fais-tu ?",
+        options: [
+          "Ctrl+C pour annuler, puis retaper ou recoller la commande",
+          "Attendre, ça va finir par s'exécuter",
+          "Fermer le terminal et en ouvrir un nouveau",
+          "Appuyer sur Entrée plusieurs fois"
+        ],
+        correctIndex: 0,
+        correction: "L'invite \">\" signifie qu'un guillemet n'a pas été fermé (souvent à cause d'un guillemet courbe introduit par le copier-coller) — Ctrl+C annule proprement la commande en attente, sans avoir besoin de fermer le terminal."
+      }
+    ]
+  },
   // --- Serveur — Plex / rclone / accès distant ---------------------------------------
 {
     category: "Plex",

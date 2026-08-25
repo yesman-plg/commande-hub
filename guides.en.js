@@ -4890,6 +4890,42 @@ const GUIDE_TRANSLATIONS_EN = {
       }
     ]
   },
+  "FAQ : erreurs fréquentes|Une commande copiée-collée échoue bizarrement (invite bloquée sur \">\", \"400 Bad Request\"...)": {
+    "title": "A copy-pasted command fails weirdly (prompt stuck on \">\", \"400 Bad Request\"...)",
+    "summary": "Copy-paste sometimes silently swaps quote characters or breaks multi-line commands — the command looks correct but the terminal can't parse it.",
+    "content": [
+      {
+        "heading": "Why it happens",
+        "text": "Some copy-paste sources (browsers, text editors, some clipboard managers) automatically replace straight quotes \" with curly/smart quotes \"...\" — visually almost identical, but the shell doesn't recognize them as a real delimiter. Another common case: pasting several lines at once into some terminals (VS Code's integrated terminal in particular) can merge two lines into one or truncate the paste."
+      },
+      {
+        "heading": "Symptom: the prompt stays stuck on \">\"",
+        "text": "That means the shell is waiting for a closing quote that will never come — the command was never executed. `Ctrl+C` cancels it and gives you a clean prompt back, then retype or re-paste the command."
+      },
+      {
+        "heading": "Symptom: a weird error despite a command that looks fine",
+        "text": "Things like \"400 Bad Request\" on a curl request, or an unexpected result from an otherwise valid command — usually a corrupted invisible quote or dash slipped into the paste. Rule of thumb: prefer single quotes '...' (swapped less often than double quotes \"...\"), or retype the command by hand instead of pasting if the problem persists."
+      },
+      {
+        "heading": "For multi-command blocks",
+        "text": "If a terminal merges or corrupts multi-line pastes, paste/run one command at a time instead of a whole block, visually checking each line before pressing Enter."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You paste a command containing quotes, and the terminal just shows \">\" waiting, without running anything. What do you do?",
+        "options": [
+          "Ctrl+C to cancel, then retype or re-paste the command",
+          "Wait, it'll eventually run",
+          "Close the terminal and open a new one",
+          "Press Enter several times"
+        ],
+        "correctIndex": 0,
+        "correction": "A \">\" prompt means a quote was never closed (often because copy-paste introduced a curly quote) — Ctrl+C cleanly cancels the pending command, no need to close the terminal."
+      }
+    ]
+  },
   "Plex|Pourquoi Plex ne peut pas lire un cloud (kDrive) directement": {
     "title": "Why Plex can't read cloud storage (kDrive) directly",
     "summary": "Plex only understands local files — how a WebDAV mount (rclone) makes cloud storage look like a normal folder.",
