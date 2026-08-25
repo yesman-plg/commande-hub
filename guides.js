@@ -5683,5 +5683,51 @@ const GUIDES = [
         text: "Ouvre http://localhost:32400/web (ou l'IP de la machine si tu accèdes depuis un autre appareil — trouvable avec `ipconfig`), crée ton compte Plex, puis Réglages → Bibliothèques → Ajouter une bibliothèque, en gardant Films et Séries TV bien séparées, comme sur n'importe quelle plateforme."
       }
     ]
+  },
+{
+    category: "Plex",
+    title: "Relier un site perso à ta bibliothèque Plex (bouton \"Regarder\")",
+    level: "🟡 Intermédiaire",
+    summary: "Utiliser l'API Plex pour savoir automatiquement quels titres d'un catalogue perso sont réellement disponibles sur ton serveur, et générer un lien direct vers chacun.",
+    content: [
+      {
+        heading: "Le principe",
+        text: "Plex expose une API HTTP (authentifiée par un token) qui permet de lister le contenu de chaque bibliothèque, avec un identifiant stable par titre (le `ratingKey`). En croisant cette liste avec le catalogue de ton propre site, tu peux savoir automatiquement quels titres afficher avec un bouton \"Regarder\" plutôt que de tenir cette liste à jour à la main."
+      },
+      {
+        heading: "Lister une bibliothèque",
+        text: "`curl -s 'http://IP_SERVEUR:32400/library/sections?X-Plex-Token=TON_TOKEN'` liste tes bibliothèques (Films, Séries...) avec leur `key` (un numéro). Puis `curl -s 'http://IP_SERVEUR:32400/library/sections/CLE/all?X-Plex-Token=TON_TOKEN'` liste tout le contenu de cette bibliothèque : chaque élément a un `title`, une `year`, et surtout un `ratingKey` unique — c'est ce `ratingKey` qui sert à construire un lien direct vers la fiche."
+      },
+      {
+        heading: "Forcer un rafraîchissement avant de lister",
+        text: "Si le contenu vient d'un montage cloud (rclone), Plex peut ne pas encore voir les derniers fichiers ajoutés. Deux rafraîchissements à enchaîner : `curl -X POST http://localhost:5572/vfs/refresh` (cache rclone, voir [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) puis `curl 'http://IP_SERVEUR:32400/library/sections/CLE/refresh?X-Plex-Token=TON_TOKEN'` (Plex rescanne ses fichiers). Les deux sont asynchrones — laisser quelques secondes avant de relister."
+      },
+      {
+        heading: "Construire le lien direct vers un titre",
+        text: "Format : `http://IP_SERVEUR:32400/web/index.html#!/server/MACHINE_ID/details?key=%2Flibrary%2Fmetadata%2FRATING_KEY`. Le `MACHINE_ID` (identifiant unique du serveur, pas secret) se récupère sans authentification via `curl 'http://IP_SERVEUR:32400/identity'`. Ce lien n'est utilisable que par quelqu'un qui a accès au serveur (réseau local, ou accès distant si configuré) — pas la peine de le protéger davantage."
+      },
+      {
+        heading: "Faire correspondre les titres automatiquement",
+        text: "Les titres Plex (souvent traduits, parfois avec une ponctuation différente) ne collent pas toujours mot pour mot à ceux de ton catalogue. Une correspondance en deux passes marche bien : d'abord une égalité stricte après normalisation (minuscules, sans accents ni ponctuation), sinon un score de similarité (`difflib.SequenceMatcher` en Python) au-dessus d'un seuil (~0.8), en filtrant par année pour éviter les faux positifs entre deux films au titre proche."
+      },
+      {
+        heading: "Ne jamais committer le token",
+        text: "Le `X-Plex-Token` donne un accès complet à ton serveur — jamais dans un fichier versionné avec Git, encore moins publié (site GitHub Pages, dépôt public). Le garder dans un fichier local hors du dépôt (ex: `~/.plex_token`, `chmod 600`), lu par le script au moment de l'exécution. Le `MACHINE_ID` de la section précédente, lui, n'a pas ce problème — c'est juste un identifiant, pas une clé d'accès."
+      }
+    ],
+    exercises: [
+      {
+        type: "quiz",
+        instruction: "Tu veux afficher un bouton \"Regarder sur Plex\" sur ton site perso, uniquement pour les titres réellement présents dans ta bibliothèque. Quelle donnée Plex sert à construire le lien direct vers un titre précis ?",
+        options: [
+          "Le ratingKey de l'élément",
+          "Le nom du fichier vidéo",
+          "Le titre affiché",
+          "La date d'ajout à la bibliothèque"
+        ],
+        correctIndex: 0,
+        correction: "Le ratingKey est l'identifiant stable et unique de chaque élément dans une bibliothèque Plex — c'est lui qui va dans l'URL du lien direct (avec le machineIdentifier du serveur), pas le nom de fichier ni le titre affiché."
+      }
+    ]
   }
 ];

@@ -5377,5 +5377,49 @@ const GUIDE_TRANSLATIONS_EN = {
         "text": "Open http://localhost:32400/web (or the machine's IP if accessing from another device — found with `ipconfig`), create your Plex account, then Settings → Libraries → Add Library, keeping Movies and TV Shows separate, just like on any platform."
       }
     ]
+  },
+  "Plex|Relier un site perso à ta bibliothèque Plex (bouton \"Regarder\")": {
+    "title": "Linking a personal site to your Plex library (a \"Watch\" button)",
+    "summary": "Use the Plex API to automatically know which titles in a personal catalog are actually available on your server, and generate a direct link to each one.",
+    "content": [
+      {
+        "heading": "The principle",
+        "text": "Plex exposes an HTTP API (authenticated with a token) that lets you list the content of each library, with a stable identifier per title (the `ratingKey`). By cross-referencing this list with your own site's catalog, you can automatically know which titles to show with a \"Watch\" button instead of maintaining that list by hand."
+      },
+      {
+        "heading": "Listing a library",
+        "text": "`curl -s 'http://SERVER_IP:32400/library/sections?X-Plex-Token=YOUR_TOKEN'` lists your libraries (Movies, TV Shows...) with their `key` (a number). Then `curl -s 'http://SERVER_IP:32400/library/sections/KEY/all?X-Plex-Token=YOUR_TOKEN'` lists all the content of that library: each item has a `title`, a `year`, and crucially a unique `ratingKey` — that `ratingKey` is what's used to build a direct link to the item."
+      },
+      {
+        "heading": "Forcing a refresh before listing",
+        "text": "If the content comes from a cloud mount (rclone), Plex might not see the latest added files yet. Two refreshes to chain: `curl -X POST http://localhost:5572/vfs/refresh` (rclone cache, see [[Plex::Monter un espace WebDAV (kDrive, Nextcloud...) en local avec rclone]]) then `curl 'http://SERVER_IP:32400/library/sections/KEY/refresh?X-Plex-Token=YOUR_TOKEN'` (Plex rescans its files). Both are asynchronous — wait a few seconds before re-listing."
+      },
+      {
+        "heading": "Building the direct link to a title",
+        "text": "Format: `http://SERVER_IP:32400/web/index.html#!/server/MACHINE_ID/details?key=%2Flibrary%2Fmetadata%2FRATING_KEY`. The `MACHINE_ID` (the server's unique identifier, not secret) can be fetched without authentication via `curl 'http://SERVER_IP:32400/identity'`. This link only works for someone who has access to the server (local network, or remote access if configured) — no need to protect it further."
+      },
+      {
+        "heading": "Matching titles automatically",
+        "text": "Plex titles (often translated, sometimes with different punctuation) don't always match your catalog word for word. A two-pass matching approach works well: first a strict equality after normalization (lowercase, no accents or punctuation), then a similarity score (`difflib.SequenceMatcher` in Python) above a threshold (~0.8), filtering by year to avoid false positives between two similarly-titled movies."
+      },
+      {
+        "heading": "Never commit the token",
+        "text": "The `X-Plex-Token` grants full access to your server — never in a file tracked by Git, let alone published (GitHub Pages site, public repo). Keep it in a local file outside the repo (e.g. `~/.plex_token`, `chmod 600`), read by the script at runtime. The `MACHINE_ID` from the previous section doesn't have that problem — it's just an identifier, not an access key."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "quiz",
+        "instruction": "You want to show a \"Watch on Plex\" button on your personal site, only for titles actually present in your library. Which piece of Plex data is used to build the direct link to a specific title?",
+        "options": [
+          "The item's ratingKey",
+          "The video file name",
+          "The displayed title",
+          "The date it was added to the library"
+        ],
+        "correctIndex": 0,
+        "correction": "The ratingKey is the stable, unique identifier of each item in a Plex library — it goes into the direct link's URL (along with the server's machineIdentifier), not the file name or displayed title."
+      }
+    ]
   }
 };
