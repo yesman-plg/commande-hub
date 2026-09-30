@@ -268,7 +268,7 @@
     color: var(--chip-active-text);
     font-weight: 600;
   }
-  .chip-chevron {
+  .group-chip-chevron {
     width: 6px;
     height: 6px;
     margin-left: 7px;
@@ -277,7 +277,7 @@
     transform: rotate(45deg) translateY(-2px);
     transition: transform .15s ease;
   }
-  .chip.active .chip-chevron { transform: rotate(225deg) translateY(-2px); }
+  .group-chip.expanded .group-chip-chevron { transform: rotate(225deg) translateY(-2px); }
   .subchips .chip.active {
     border-color: var(--accent);
   }
@@ -805,6 +805,147 @@
   .level-title.lvl-green { border-left-color: #3aa76d; }
   .level-title.lvl-yellow { border-left-color: #d6a326; }
   .level-title.lvl-red { border-left-color: var(--danger); }
+
+  /* Direction « explorateur documentaire » : navigation persistante à gauche. */
+  body { background: var(--bg-elevated); }
+  .app-shell { display: grid; grid-template-columns: 308px minmax(0, 1fr); min-height: 100vh; }
+  .sidebar {
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    padding: 22px 24px 36px 26px; border-right: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 58%, var(--bg-elevated));
+  }
+  .sidebar-brand h1 { margin: 0; font-size: 27px; letter-spacing: -.045em; line-height: 1.15; }
+  .sidebar-brand h1 span { color: var(--accent); }
+  .sidebar-brand p { margin: 6px 0 26px; max-width: 220px; color: var(--text-dim); font-size: 14px; line-height: 1.45; }
+  .sidebar .search-bar { position: static; padding: 0; background: transparent; }
+  .sidebar #search { padding: 11px 13px 11px 39px; border-radius: 9px; box-shadow: none; font-size: 14px; }
+  .sidebar .search-row { display: block; position: relative; }
+  .search-icon { position: absolute; top: 50%; left: 12px; width: 18px; height: 18px; transform: translateY(-50%); background: var(--text-dim); mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M229.66%2C218.34l-50.07-50.06a88.11%2C88.11%2C0%2C1%2C0-11.31%2C11.31l50.06%2C50.07a8%2C8%2C0%2C0%2C0%2C11.32-11.32ZM40%2C112a72%2C72%2C0%2C1%2C1%2C72%2C72A72.08%2C72.08%2C0%2C0%2C1%2C40%2C112Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; pointer-events: none; }
+  .sidebar .fav-toggle {
+    width: 100%; margin: 18px 0 8px; padding: 10px 12px; justify-content: flex-start;
+    border: 0; border-radius: 9px; background: transparent; box-shadow: none;
+    color: var(--text-dim); font-size: 14px;
+  }
+  .sidebar .fav-toggle:hover { background: var(--chip-bg); color: var(--accent); }
+  .sidebar .fav-toggle.active { background: var(--code-bg); color: var(--accent); }
+  .sidebar-nav { display: flex; flex-direction: column; gap: 17px; margin-top: 31px; }
+  .sidebar-all, .sidebar-group-button, .sidebar-category {
+    display: flex; align-items: center; width: 100%; border: 0; background: transparent;
+    color: var(--text); font: inherit; text-align: left; cursor: pointer;
+  }
+  .sidebar-all { padding: 9px 12px; border-radius: 9px; color: var(--text-dim); font-size: 14px; }
+  .sidebar-all.active, .sidebar-all:hover { background: var(--code-bg); color: var(--accent); }
+  .sidebar-group-button { gap: 15px; padding: 7px 7px; font-size: 16px; font-weight: 700; border-radius: 9px; }
+  .nav-icon { display: inline-block; flex: 0 0 20px; width: 20px; height: 20px; background: currentColor; }
+  .nav-icon-Application { mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M176%2C16H80A24%2C24%2C0%2C0%2C0%2C56%2C40V216a24%2C24%2C0%2C0%2C0%2C24%2C24h96a24%2C24%2C0%2C0%2C0%2C24-24V40A24%2C24%2C0%2C0%2C0%2C176%2C16ZM72%2C64H184V192H72Zm8-32h96a8%2C8%2C0%2C0%2C1%2C8%2C8v8H72V40A8%2C8%2C0%2C0%2C1%2C80%2C32Zm96%2C192H80a8%2C8%2C0%2C0%2C1-8-8v-8H184v8A8%2C8%2C0%2C0%2C1%2C176%2C224Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .nav-icon-Système { mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M208%2C40H48A24%2C24%2C0%2C0%2C0%2C24%2C64V176a24%2C24%2C0%2C0%2C0%2C24%2C24h72v16H96a8%2C8%2C0%2C0%2C0%2C0%2C16h64a8%2C8%2C0%2C0%2C0%2C0-16H136V200h72a24%2C24%2C0%2C0%2C0%2C24-24V64A24%2C24%2C0%2C0%2C0%2C208%2C40ZM48%2C56H208a8%2C8%2C0%2C0%2C1%2C8%2C8v80H40V64A8%2C8%2C0%2C0%2C1%2C48%2C56ZM208%2C184H48a8%2C8%2C0%2C0%2C1-8-8V160H216v16A8%2C8%2C0%2C0%2C1%2C208%2C184Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .nav-icon-Développement { mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M69.12%2C94.15%2C28.5%2C128l40.62%2C33.85a8%2C8%2C0%2C1%2C1-10.24%2C12.29l-48-40a8%2C8%2C0%2C0%2C1%2C0-12.29l48-40a8%2C8%2C0%2C0%2C1%2C10.24%2C12.3Zm176%2C27.7-48-40a8%2C8%2C0%2C1%2C0-10.24%2C12.3L227.5%2C128l-40.62%2C33.85a8%2C8%2C0%2C1%2C0%2C10.24%2C12.29l48-40a8%2C8%2C0%2C0%2C0%2C0-12.29ZM162.73%2C32.48a8%2C8%2C0%2C0%2C0-10.25%2C4.79l-64%2C176a8%2C8%2C0%2C0%2C0%2C4.79%2C10.26A8.14%2C8.14%2C0%2C0%2C0%2C96%2C224a8%2C8%2C0%2C0%2C0%2C7.52-5.27l64-176A8%2C8%2C0%2C0%2C0%2C162.73%2C32.48Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .nav-icon-Serveur { mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M208%2C136H48a16%2C16%2C0%2C0%2C0-16%2C16v48a16%2C16%2C0%2C0%2C0%2C16%2C16H208a16%2C16%2C0%2C0%2C0%2C16-16V152A16%2C16%2C0%2C0%2C0%2C208%2C136Zm0%2C64H48V152H208v48Zm0-160H48A16%2C16%2C0%2C0%2C0%2C32%2C56v48a16%2C16%2C0%2C0%2C0%2C16%2C16H208a16%2C16%2C0%2C0%2C0%2C16-16V56A16%2C16%2C0%2C0%2C0%2C208%2C40Zm0%2C64H48V56H208v48ZM192%2C80a12%2C12%2C0%2C1%2C1-12-12A12%2C12%2C0%2C0%2C1%2C192%2C80Zm0%2C96a12%2C12%2C0%2C1%2C1-12-12A12%2C12%2C0%2C0%2C1%2C192%2C176Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .sidebar-group-button:hover { background: var(--chip-bg); }
+  .sidebar-group-button.active { color: var(--accent); }
+  .sidebar-group-button .nav-count { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-dim); }
+  .sidebar-categories { margin: 3px 0 0; padding-left: 8px; }
+  .sidebar-category { position: relative; padding: 8px 12px 8px 35px; border-radius: 8px; font-size: 14px; color: var(--text-dim); }
+  .sidebar-category:hover { background: var(--chip-bg); color: var(--text); }
+  .sidebar-category.active { background: var(--code-bg); color: var(--accent); font-weight: 650; }
+  .sidebar-category.active::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px; background: var(--accent); }
+  .sidebar .search-hint { line-height: 1.4; }
+  .sidebar .subchips { margin-top: 23px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .main-panel { min-width: 0; padding: 0 40px 70px; }
+  .utility-row { display: flex; justify-content: flex-end; align-items: center; height: 65px; }
+  .utility-row .top-row-actions { gap: 10px; }
+  .utility-row button { box-shadow: none; border-radius: 9px; }
+  .utility-row .fav-toggle { height: 33px; padding: 0 10px; border: 0; background: transparent; }
+  .utility-row .lang-toggle { display: inline-flex; align-items: center; gap: 2px; padding: 3px; font-size: 12px; }
+  .utility-row .lang-toggle span { min-width: 31px; padding: 6px; border-radius: 6px; }
+  .utility-row .lang-toggle .lang-current { background: var(--accent); color: var(--accent-text); }
+  .page-header { max-width: 940px; margin: 7px 0 20px; }
+  .breadcrumb { min-height: 22px; color: var(--text-dim); font-size: 14px; }
+  .breadcrumb .current { color: var(--accent); }
+  .breadcrumb .divider { margin: 0 10px; opacity: .6; }
+  .page-header h2 { margin: 12px 0 11px; font-size: clamp(35px, 3.7vw, 52px); letter-spacing: -.055em; line-height: 1.08; }
+  .page-header > p:not(.stats-line) { max-width: 760px; margin: 0; color: var(--text-dim); font-size: 17px; line-height: 1.5; }
+  .page-header .stats-line { display: none; }
+  .main-panel .top-row { display: block; margin: 21px 0 0; border-bottom: 1px solid var(--border); }
+  .main-panel .mode-tabs { gap: 24px; margin: 0; padding: 0; width: auto; background: transparent; border-radius: 0; }
+  .main-panel .mode-tab { display: inline-flex; align-items: center; gap: 9px; padding: 12px 10px 15px; border-bottom: 2px solid transparent; border-radius: 0; font-size: 17px; box-shadow: none; }
+  .tab-icon { display: inline-block; width: 20px; height: 20px; background: currentColor; }
+  .tab-icon-book { mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M232%2C48H160a40%2C40%2C0%2C0%2C0-32%2C16A40%2C40%2C0%2C0%2C0%2C96%2C48H24a8%2C8%2C0%2C0%2C0-8%2C8V200a8%2C8%2C0%2C0%2C0%2C8%2C8H96a24%2C24%2C0%2C0%2C1%2C24%2C24%2C8%2C8%2C0%2C0%2C0%2C16%2C0%2C24%2C24%2C0%2C0%2C1%2C24-24h72a8%2C8%2C0%2C0%2C0%2C8-8V56A8%2C8%2C0%2C0%2C0%2C232%2C48ZM96%2C192H32V64H96a24%2C24%2C0%2C0%2C1%2C24%2C24V200A39.81%2C39.81%2C0%2C0%2C0%2C96%2C192Zm128%2C0H160a39.81%2C39.81%2C0%2C0%2C0-24%2C8V88a24%2C24%2C0%2C0%2C1%2C24-24h64Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .tab-icon-terminal { mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M117.31%2C134l-72%2C64a8%2C8%2C0%2C1%2C1-10.63-12L100%2C128%2C34.69%2C70A8%2C8%2C0%2C1%2C1%2C45.32%2C58l72%2C64a8%2C8%2C0%2C0%2C1%2C0%2C12ZM216%2C184H120a8%2C8%2C0%2C0%2C0%2C0%2C16h96a8%2C8%2C0%2C0%2C0%2C0-16Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .main-panel .mode-tab.active { color: var(--accent); background: transparent; border-bottom-color: var(--accent); box-shadow: none; }
+  .main-panel .subchips { margin: 13px 0 5px; padding: 0; border: 0; }
+  .main-panel .subchips .chip { border-radius: 7px; }
+  #results { max-width: 1180px; }
+  #results .level-title, #results .group-title { margin: 28px 0 6px; padding: 0; border: 0; text-transform: none; letter-spacing: -.02em; font-size: 23px; color: var(--text); }
+  #results .subgroup-title { margin: 4px 0 14px; font-size: 14px; font-weight: 400; color: var(--text-dim); }
+  #results .subgroup-title::before { display: none; }
+  #results .section-description { margin: -3px 0 15px; color: var(--text-dim); font-size: 14px; line-height: 1.4; }
+  .guide-card-row { position: relative; margin: 0; padding: 13px 16px 13px 94px; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; background: transparent; }
+  .guide-file-icon { position: absolute; top: 50%; left: 20px; transform: translateY(-50%); display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--chip-bg); }
+  .guide-file-icon::before { content: ""; width: 21px; height: 21px; background: var(--text-dim); mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M213.66%2C82.34l-56-56A8%2C8%2C0%2C0%2C0%2C152%2C24H56A16%2C16%2C0%2C0%2C0%2C40%2C40V216a16%2C16%2C0%2C0%2C0%2C16%2C16H200a16%2C16%2C0%2C0%2C0%2C16-16V88A8%2C8%2C0%2C0%2C0%2C213.66%2C82.34ZM160%2C51.31%2C188.69%2C80H160ZM200%2C216H56V40h88V88a8%2C8%2C0%2C0%2C0%2C8%2C8h48V216Zm-32-80a8%2C8%2C0%2C0%2C1-8%2C8H96a8%2C8%2C0%2C0%2C1%2C0-16h64A8%2C8%2C0%2C0%2C1%2C168%2C136Zm0%2C32a8%2C8%2C0%2C0%2C1-8%2C8H96a8%2C8%2C0%2C0%2C1%2C0-16h64A8%2C8%2C0%2C0%2C1%2C168%2C168Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .guide-card-row.featured .guide-file-icon { background: color-mix(in srgb, var(--accent) 16%, var(--bg-elevated)); }
+  .guide-card-row.featured .guide-file-icon::before { background: var(--accent); }
+  .guide-card-row:first-of-type { border-radius: 8px; }
+  .guide-card-row:hover, .guide-card-row:focus-visible { border-color: var(--border); background: var(--code-bg); outline: none; }
+  .guide-card-row.featured { background: var(--code-bg); border-radius: 8px; border-bottom-color: transparent; }
+  .guide-card-row .guide-row-top { gap: 10px; padding-right: 35px; }
+  .guide-card-row.featured .guide-row-top { padding-right: 185px; }
+  .guide-card-row .guide-row-top::after { display: none; }
+  .guide-card-row .guide-title { margin-right: 0; font-size: 16px; }
+  .guide-level { flex: 0 0 auto; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 650; line-height: 1.25; }
+  .guide-level.lvl-green { background: #e2f7eb; color: #238254; }
+  .guide-level.lvl-yellow { background: #fff1cf; color: #8e6910; }
+  .guide-level.lvl-red { background: #ffe7e7; color: #ad3d3d; }
+  .guide-card-row .guide-row-summary { margin: 3px 36px 0 0; font-size: 14px; line-height: 1.45; }
+  .guide-card-row.featured .guide-row-summary { margin-right: 185px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .guide-card-row .guide-dot { display: none; }
+  .guide-card-row .exercise-flag { display: none; }
+  .guide-card-row .fav-btn { position: absolute; top: 50%; right: 14px; transform: translateY(-50%); margin: 0; font-size: 21px; }
+  .guide-card-row .open-guide { position: absolute; top: 50%; right: 57px; transform: translateY(-50%); padding: 9px 14px; border: 0; border-radius: 7px; background: var(--accent); color: var(--accent-text); font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; white-space: nowrap; }
+  .guide-card-row .open-guide:hover { opacity: .9; }
+  .guide-card-row .fav-btn { width: 28px; height: 28px; font-size: 0; }
+  .guide-card-row .fav-btn::before { content: ""; display: block; width: 19px; height: 19px; background: currentColor; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20d%3D%22M239.18%2C97.26A16.38%2C16.38%2C0%2C0%2C0%2C224.92%2C86l-59-4.76L143.14%2C26.15a16.36%2C16.36%2C0%2C0%2C0-30.27%2C0L90.11%2C81.23%2C31.08%2C86a16.46%2C16.46%2C0%2C0%2C0-9.37%2C28.86l45%2C38.83L53%2C211.75a16.38%2C16.38%2C0%2C0%2C0%2C24.5%2C17.82L128%2C198.49l50.53%2C31.08A16.4%2C16.4%2C0%2C0%2C0%2C203%2C211.75l-13.76-58.07%2C45-38.83A16.43%2C16.43%2C0%2C0%2C0%2C239.18%2C97.26Zm-15.34%2C5.47-48.7%2C42a8%2C8%2C0%2C0%2C0-2.56%2C7.91l14.88%2C62.8a.37.37%2C0%2C0%2C1-.17.48c-.18.14-.23.11-.38%2C0l-54.72-33.65a8%2C8%2C0%2C0%2C0-8.38%2C0L69.09%2C215.94c-.15.09-.19.12-.38%2C0a.37.37%2C0%2C0%2C1-.17-.48l14.88-62.8a8%2C8%2C0%2C0%2C0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8%2C8%2C0%2C0%2C0%2C103%2C91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153%2C91.86a8%2C8%2C0%2C0%2C0%2C6.75%2C4.92l63.92%2C5.16c.15%2C0%2C.24%2C0%2C.33.29S224%2C102.63%2C223.84%2C102.73Z%22%2F%3E%3C%2Fsvg%3E%0A") center / contain no-repeat; }
+  .guide-card-row .fav-btn.active { color: var(--accent); }
+  .main-panel .card { box-shadow: none; border-radius: 10px; }
+  .main-panel .guide-detail { max-width: 860px; border: 0; padding: 25px 0; box-shadow: none; }
+  .main-panel .detail-title { font-size: 30px; }
+  .main-panel .detail-summary { font-size: 15px; }
+  .main-panel .guide-section h4 { font-size: 17px; }
+  .main-panel .guide-section p { font-size: 15px; line-height: 1.65; }
+  button:focus-visible, .guide-card-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 850px) {
+    .app-shell { display: block; }
+    .sidebar { position: static; width: 100%; height: auto; max-height: none; padding: 19px 20px; border-right: 0; border-bottom: 1px solid var(--border); }
+    .sidebar-brand p { max-width: none; margin-bottom: 15px; }
+    .sidebar .fav-toggle { width: auto; margin: 7px 0; }
+    .sidebar-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .sidebar-categories { display: none; }
+    .sidebar-group.active .sidebar-categories { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 4px; }
+    .sidebar-category { padding-left: 12px; }
+    .sidebar-categories { margin-bottom: 8px; }
+    .main-panel { padding: 0 20px 55px; }
+    .utility-row { height: 56px; }
+    .page-header h2 { font-size: 36px; }
+  }
+  @media (max-width: 530px) {
+    .sidebar-nav { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 13px; }
+    .sidebar-group { flex: 0 0 auto; order: 0; }
+    .sidebar-group.active { flex: 0 0 100%; order: 1; }
+    .sidebar-group-button { gap: 5px; padding: 7px 8px; font-size: 13px; }
+    .nav-icon { flex-basis: 16px; width: 16px; height: 16px; }
+    .sidebar-group.active .sidebar-categories { display: flex; gap: 5px; margin: 4px 0; padding: 0 0 4px; overflow-x: auto; white-space: nowrap; }
+    .sidebar-category { flex: 0 0 auto; width: auto; padding: 7px 10px; border-radius: 8px; background: var(--chip-bg); font-size: 12px; }
+    .sidebar-category.active::before { display: none; }
+    .sidebar-all { order: 2; width: auto; padding: 7px 8px; font-size: 12px; }
+    .sidebar .subchips { margin-top: 9px; padding-top: 9px; }
+    .main-panel .mode-tab { font-size: 15px; }
+    .guide-card-row { padding: 12px 10px 12px 65px; }
+    .guide-file-icon { left: 10px; width: 38px; height: 38px; }
+    .guide-card-row .guide-row-top { flex-wrap: wrap; }
+    .guide-card-row.featured .guide-row-top { padding-right: 35px; }
+    .guide-card-row .open-guide { position: static; transform: none; order: 3; margin-top: 8px; }
+    .guide-card-row.featured .guide-row-summary { margin-right: 0; white-space: normal; }
+  }
 </style>
 
 <div class="lang-gate" id="langGate" style="display:none;">
@@ -819,38 +960,45 @@
   </div>
 </div>
 
-<div class="wrap">
-  <header>
-    <h1>🧰 Command Hub</h1>
-    <p id="headerTagline"></p>
-    <p class="stats-line" id="statsLine"></p>
-  </header>
-
-  <div class="top-row" id="topRow">
-    <div class="mode-tabs" id="modeTabs">
-      <button class="mode-tab active" data-mode="formation">📘 <span id="modeTabFormationLabel"></span></button>
-      <button class="mode-tab" data-mode="commands">🧰 <span id="modeTabCommandsLabel"></span></button>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Navigation par thème">
+    <div class="sidebar-brand">
+      <h1>Command <span>Hub</span></h1>
+      <p id="headerTagline"></p>
     </div>
-    <div class="top-row-actions">
-      <button class="lang-toggle" id="langToggle" title="Switch language / Changer de langue"></button>
-      <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
-    </div>
-  </div>
-
-  <div class="search-bar" id="searchBar">
-    <div class="search-row">
-      <input id="search" type="text" autocomplete="off">
-      <button class="fav-toggle" id="favToggle"><span id="favToggleStar">⭐</span> <span id="favToggleLabel"></span></button>
-    </div>
-    <div class="chips-wrap" id="chipsWrap">
-      <div class="chips groupchips" id="groupChips"></div>
-      <div class="chips" id="chips"></div>
+    <div class="search-bar" id="searchBar">
+      <div class="search-row"><span class="search-icon" aria-hidden="true"></span><input id="search" type="search" autocomplete="off" aria-label="Rechercher"></div>
+      <div class="search-hint" id="searchHint" style="display:none;"></div>
+      <nav class="chips-wrap" id="chipsWrap" aria-label="Catégories">
+        <div id="groupChips" class="sidebar-nav"></div>
+        <div id="chips" hidden></div>
+      </nav>
       <div class="subchips" id="subchips" style="display:none;"></div>
     </div>
-    <div class="search-hint" id="searchHint" style="display:none;"></div>
-  </div>
+  </aside>
 
-  <div id="results"></div>
+  <main class="main-panel">
+    <div class="utility-row">
+      <div class="top-row-actions">
+        <button class="fav-toggle" id="favToggle"><span id="favToggleStar">☆</span> <span id="favToggleLabel"></span></button>
+        <button class="lang-toggle" id="langToggle" title="Switch language / Changer de langue"></button>
+        <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
+      </div>
+    </div>
+    <header class="page-header" id="pageHeader">
+      <div class="breadcrumb" id="breadcrumb"></div>
+      <h2 id="pageTitle"></h2>
+      <p id="pageDescription"></p>
+      <p class="stats-line" id="statsLine"></p>
+    </header>
+    <div class="top-row" id="topRow">
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="formation"><span class="tab-icon tab-icon-book" aria-hidden="true"></span><span id="modeTabFormationLabel"></span></button>
+        <button class="mode-tab" data-mode="commands"><span class="tab-icon tab-icon-terminal" aria-hidden="true"></span><span id="modeTabCommandsLabel"></span></button>
+      </div>
+    </div>
+    <div id="results"></div>
+  </main>
 </div>
 
 <script>
@@ -18320,6 +18468,10 @@ Done."
   const langGateEl = document.getElementById("langGate");
   const langToggleEl = document.getElementById("langToggle");
   const headerTaglineEl = document.getElementById("headerTagline");
+  const pageHeaderEl = document.getElementById("pageHeader");
+  const breadcrumbEl = document.getElementById("breadcrumb");
+  const pageTitleEl = document.getElementById("pageTitle");
+  const pageDescriptionEl = document.getElementById("pageDescription");
   const modeTabCommandsLabelEl = document.getElementById("modeTabCommandsLabel");
   const modeTabFormationLabelEl = document.getElementById("modeTabFormationLabel");
 
@@ -18345,6 +18497,7 @@ Done."
     query = "";
     searchInput.value = "";
     activeGroup = groupOf(category);
+    expandedGroup = activeGroup;
     activeCategory = category;
     activeSubcategory = "Toutes";
     saveState();
@@ -18602,7 +18755,7 @@ Done."
 
   // --- Thème (auto / clair / sombre) ------------------------------------
   const THEME_CYCLE = ["auto", "light", "dark"];
-  const THEME_LABEL = { auto: "🖥️ Auto", light: "☀️ Clair", dark: "🌙 Sombre" };
+  const THEME_LABEL = { auto: "Auto", light: "Clair", dark: "Sombre" };
   let theme = "auto";
   try {
     const savedTheme = localStorage.getItem(THEME_KEY);
@@ -18629,14 +18782,19 @@ Done."
   // --- Applique la langue courante à tout le texte statique de l'interface ---
   function applyLang() {
     document.documentElement.lang = lang;
-    headerTaglineEl.textContent = t("tagline");
+    headerTaglineEl.textContent = lang === "fr"
+      ? "Guides et commandes pour apprendre et construire"
+      : "Guides and commands to learn and build";
     statsLineEl.textContent = t("statsLine", COMMANDS.length, GUIDES.length);
     modeTabCommandsLabelEl.textContent = t("modeCommands");
     modeTabFormationLabelEl.textContent = t("modeFormation");
     favToggleEl.title = t("favToggleTitle");
     themeToggleEl.title = t("themeToggleTitle");
-    langToggleEl.textContent = t("langToggleLabel");
-    searchInput.placeholder = mode === "formation" ? t("searchPlaceholderFormation") : t("searchPlaceholderCommands");
+    langToggleEl.innerHTML = lang === "fr"
+      ? '<span class="lang-current">FR</span><span>EN</span>'
+      : '<span>FR</span><span class="lang-current">EN</span>';
+    langToggleEl.setAttribute("aria-label", lang === "fr" ? "Switch to English" : "Passer en français");
+    searchInput.placeholder = lang === "fr" ? "Rechercher un sujet…" : "Search a topic…";
     searchHintEl.textContent = t("searchHint");
   }
 
@@ -18667,6 +18825,7 @@ Done."
 
   let mode = "formation"; // "commands" | "formation"
   let activeGroup = "Toutes";
+  let expandedGroup = null;
   let activeCategory = "Toutes";
   let activeSubcategory = "Toutes";
   let activeLevel = "Toutes";
@@ -18757,6 +18916,7 @@ Done."
     }
     if (typeof saved.query === "string") query = saved.query;
     if (typeof saved.showFavoritesOnly === "boolean") showFavoritesOnly = saved.showFavoritesOnly;
+    if (activeGroup !== "Toutes") expandedGroup = activeGroup;
   }
 
   function levelClass(level) {
@@ -18796,7 +18956,46 @@ Done."
     modeTabsEl.querySelectorAll(".mode-tab").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.mode === mode);
     });
-    searchInput.placeholder = mode === "formation" ? t("searchPlaceholderFormation") : t("searchPlaceholderCommands");
+    searchInput.placeholder = lang === "fr" ? "Rechercher un sujet…" : "Search a topic…";
+  }
+
+  function updateContextHeader() {
+    pageHeaderEl.style.display = openGuide ? "none" : "";
+    if (openGuide) return;
+    if (query.trim()) {
+      breadcrumbEl.textContent = lang === "fr" ? "Recherche" : "Search";
+      pageTitleEl.textContent = lang === "fr" ? "Résultats de recherche" : "Search results";
+      pageDescriptionEl.textContent = lang === "fr" ? `Pour « ${query.trim()} » dans les fiches et les commandes.` : `For “${query.trim()}” across guides and commands.`;
+      return;
+    }
+    const category = activeCategory !== "Toutes" ? catLabel(activeCategory) : "";
+    const group = activeGroup !== "Toutes" ? groupLabel(activeGroup) : "";
+    const isFrench = lang === "fr";
+    if (category) {
+      pageTitleEl.textContent = mode === "formation"
+        ? (isFrench ? `Apprendre ${category}` : `Learn ${category}`)
+        : (isFrench ? `Commandes ${category}` : `${category} commands`);
+      pageDescriptionEl.textContent = mode === "formation"
+        ? (category === "Git"
+          ? (isFrench ? "Des guides clairs et pratiques pour comprendre les bases de Git, gérer tes projets et collaborer efficacement, même si tu débutes." : "Clear, practical guides to learn the basics of Git, manage your projects, and collaborate with confidence.")
+          : (isFrench ? `Des fiches claires et pratiques pour comprendre ${category} et progresser à ton rythme.` : `Clear, practical guides to understand ${category} and learn at your own pace.`))
+        : (isFrench ? `Les commandes ${category} à retrouver et copier rapidement.` : `${category} commands to find and copy quickly.`);
+    } else if (group) {
+      pageTitleEl.textContent = mode === "formation"
+        ? (isFrench ? `Apprendre : ${group}` : `Learn: ${group}`)
+        : (isFrench ? `Commandes : ${group}` : `Commands: ${group}`);
+      pageDescriptionEl.textContent = isFrench ? "Choisis un thème dans le menu ou parcoure les résultats ci-dessous." : "Choose a topic in the menu or browse the results below.";
+    } else {
+      pageTitleEl.textContent = mode === "formation"
+        ? (isFrench ? "Toutes les fiches" : "All learning guides")
+        : (isFrench ? "Toutes les commandes" : "All commands");
+      pageDescriptionEl.textContent = isFrench
+        ? "Trouve une notion à comprendre, puis passe à la pratique."
+        : "Find a topic to understand, then put it into practice.";
+    }
+    breadcrumbEl.innerHTML = group
+      ? `${escapeHtml(group)}${category ? `<span class="divider">›</span><span class="current">${escapeHtml(category)}</span>` : ""}`
+      : (isFrench ? "Bibliothèque" : "Library");
   }
 
   function renderFavToggle() {
@@ -18805,58 +19004,43 @@ Done."
   }
 
   function renderGroupChips() {
-    const groups = groupsFor(dataset());
-    if (groups.length <= 2) {
-      // un seul groupe présent dans ce mode : pas la peine d'afficher un filtre
-      groupChipsEl.style.display = "none";
-      groupChipsEl.innerHTML = "";
-      return;
-    }
-    groupChipsEl.style.display = "flex";
-    groupChipsEl.innerHTML = groups.map(g => {
-      const n = g === "Toutes" ? dataset().length : dataset().filter(c => groupOf(c.category) === g).length;
-      const active = g === activeGroup ? "active" : "";
-      const label = g === "Toutes" ? t("allChip") : groupLabel(g);
-      return `<span class="chip group-chip ${active}" data-group="${escapeAttr(g)}">${escapeHtml(label)}<span class="count-badge">${n}</span></span>`;
-    }).join("");
-    groupChipsEl.querySelectorAll(".chip").forEach(el => {
-      el.addEventListener("click", () => {
-        if (el.dataset.group === activeGroup) return;
-        activeGroup = el.dataset.group;
-        activeCategory = "Toutes";
-        activeSubcategory = "Toutes";
-        activeLevel = "Toutes";
-        saveState();
-        renderGroupChips();
-        renderChips();
-        renderSubchips();
-        renderResults();
-      });
-    });
+    const groups = CATEGORY_GROUPS_ORDER.filter(g => dataset().some(item => groupOf(item.category) === g));
+    groupChipsEl.innerHTML = groups.map(group => {
+        const categories = Array.from(new Set(dataset().filter(item => groupOf(item.category) === group).map(item => item.category)));
+        return `<div class="sidebar-group ${activeGroup === group ? "active" : ""}">
+          <button class="sidebar-group-button ${activeGroup === group ? "active" : ""}" data-group="${escapeAttr(group)}"><span class="nav-icon nav-icon-${escapeAttr(group)}" aria-hidden="true"></span>${escapeHtml(groupLabel(group))}</button>
+          <div class="sidebar-categories">${categories.map(cat => `<button class="sidebar-category ${activeCategory === cat ? "active" : ""}" data-cat="${escapeAttr(cat)}" data-parent-group="${escapeAttr(group)}">${escapeHtml(catLabel(cat))}</button>`).join("")}</div>
+        </div>`;
+      }).join("") + `<button class="sidebar-all ${activeGroup === "Toutes" ? "active" : ""}" data-group="Toutes">${escapeHtml(lang === "fr" ? "Tout explorer" : "Explore all")}</button>`;
   }
 
+  groupChipsEl.addEventListener("click", (event) => {
+    const catButton = event.target.closest("[data-cat]");
+    const groupButton = event.target.closest("[data-group]");
+    if (!catButton && !groupButton) return;
+    openGuide = null;
+    if (catButton) {
+      activeGroup = catButton.dataset.parentGroup;
+      activeCategory = catButton.dataset.cat;
+    } else {
+      activeGroup = groupButton.dataset.group;
+      activeCategory = "Toutes";
+    }
+    expandedGroup = activeGroup;
+    activeSubcategory = "Toutes";
+    activeLevel = "Toutes";
+    query = "";
+    searchInput.value = "";
+    saveState();
+    renderGroupChips();
+    renderSubchips();
+    renderResults();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
   function renderChips() {
-    // Un clic sur une catégorie ayant des sous-catégories les déplie juste
-    // sous cette ligne. Un second clic replie la même catégorie.
-    const categories = categoriesFor(dataset()).filter(cat => cat !== "Toutes");
-    chipsEl.innerHTML = categories.map(cat => {
-      const n = dataset().filter(c => c.category === cat).length;
-      const active = cat === activeCategory ? "active" : "";
-      const hasSubcategories = subcategoriesFor(cat).length >= 2;
-      const chevron = hasSubcategories ? '<span class="chip-chevron" aria-hidden="true"></span>' : '';
-      return `<span class="chip ${active}" data-cat="${escapeAttr(cat)}">${escapeHtml(catLabel(cat))}${chevron}<span class="count-badge">${n}</span></span>`;
-    }).join("");
-    chipsEl.querySelectorAll(".chip").forEach(el => {
-      el.addEventListener("click", () => {
-        activeCategory = (el.dataset.cat === activeCategory) ? "Toutes" : el.dataset.cat;
-        activeSubcategory = "Toutes";
-        activeLevel = "Toutes";
-        saveState();
-        renderChips();
-        renderSubchips();
-        renderResults();
-      });
-    });
+    // La navigation des catégories se trouve désormais dans la barre latérale.
+    chipsEl.innerHTML = "";
   }
 
   function renderSubchips() {
@@ -18968,18 +19152,18 @@ Done."
   }
 
   function renderResults() {
+    updateContextHeader();
+    renderFavToggle();
     if (openGuide) {
       topRowEl.style.display = "none";
-      searchBarEl.style.display = "none";
+      subchipsEl.style.display = "none";
       renderGuideDetail();
       return;
     }
     topRowEl.style.display = "";
-    searchBarEl.style.display = "";
 
-    renderFavToggle();
     const searching = query.trim() !== "";
-    chipsWrapEl.style.display = searching ? "none" : "";
+    chipsWrapEl.style.display = "";
     searchHintEl.style.display = searching ? "block" : "none";
 
     if (searching) {
@@ -19001,6 +19185,7 @@ Done."
 
   function closeGuideDetail() {
     openGuide = null;
+    renderSubchips();
     renderResults();
   }
 
@@ -19278,16 +19463,18 @@ Done."
 
   // Ligne cliquable dans la liste — ouvre la page dédiée de la fiche
   // (théorie puis, le cas échéant, exercices), plutôt qu'un accordéon.
-  function guideCardHtml(item) {
+  function guideCardHtml(item, featured = false) {
     const fav = isFavoriteFor("formation", item);
     const hasExercises = item.exercises && item.exercises.length > 0;
     const loc = localizedGuide(item);
     return `
-      <div class="guide-card guide-card-row" data-cat="${escapeAttr(item.category)}" data-title="${escapeAttr(item.title)}">
+      <div class="guide-card guide-card-row ${featured ? "featured" : ""}" data-cat="${escapeAttr(item.category)}" data-title="${escapeAttr(item.title)}" role="button" tabindex="0">
+        <span class="guide-file-icon" aria-hidden="true"></span>
         <div class="guide-row-top">
-          ${item.level ? `<span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level)}"></span>` : ""}
           <span class="guide-title">${escapeHtml(loc.title)}</span>
+          ${item.level ? `<span class="guide-level ${levelClass(item.level)}">${escapeHtml(translateLevelText(levelText(item.level)))}</span>` : ""}
           ${hasExercises ? `<span class="exercise-flag" title="${escapeAttr(t("hasExercisesTitle"))}">🧪</span>` : ""}
+          ${featured ? `<button class="open-guide">${lang === "fr" ? "Ouvrir la fiche" : "Open guide"}</button>` : ""}
           <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
         </div>
         <p class="guide-row-summary">${escapeHtml(loc.summary)}</p>
@@ -19352,6 +19539,24 @@ Done."
       resultsEl.innerHTML = showFavoritesOnly
         ? `<div class="empty">${t("emptyFormationFav")}</div>`
         : `<div class="empty">${t("emptyFormation")}</div>`;
+      return;
+    }
+
+    if (activeCategory === "Git" && !query.trim()) {
+      const sections = [
+        { name: lang === "fr" ? "Les bases" : "The basics", description: lang === "fr" ? "Comprendre ce qu’est Git et réaliser tes premières actions en toute confiance." : "Understand Git and take your first steps with confidence.", titles: ["Git, à quoi ça sert vraiment ?", "Local vs distant : ce qui se passe vraiment à chaque étape", "Le workflow du quotidien"] },
+        { name: lang === "fr" ? "Travailler au quotidien" : "Everyday workflow", description: lang === "fr" ? "Apprendre les commandes essentielles pour gérer ton travail efficacement." : "Learn the essential commands for everyday work.", titles: ["Annuler une erreur sans paniquer", ".gitignore : ne pas tout versionner", "Lire l'historique : git log, HEAD, SHA"] },
+        { name: lang === "fr" ? "Collaborer" : "Collaborate", description: lang === "fr" ? "Découvrir comment partager ton code et travailler avec d’autres développeurs." : "Share your code and work with other developers.", titles: ["Les branches : travailler sans tout casser", "Les conflits de fusion (merge conflicts)", "Pull Request : la collaboration sur GitHub"] }
+      ];
+      let html = "";
+      sections.forEach(section => {
+        const items = section.titles.map(title => filtered.find(item => item.title === title)).filter(Boolean);
+        if (!items.length) return;
+        html += `<div class="level-title">${escapeHtml(section.name)}</div>`;
+        html += `<p class="section-description">${escapeHtml(section.description)}</p>`;
+        html += items.map((item, index) => guideCardHtml(item, section === sections[0] && index === 0)).join("");
+      });
+      resultsEl.innerHTML = html;
       return;
     }
 
@@ -19584,7 +19789,20 @@ Done."
     }
   });
 
+  resultsEl.addEventListener("keydown", (e) => {
+    if ((e.key !== "Enter" && e.key !== " ") || e.target.closest("button, a")) return;
+    const guideRow = e.target.closest(".guide-card-row");
+    if (!guideRow) return;
+    e.preventDefault();
+    const target = GUIDES.find(g => g.category === guideRow.dataset.cat && g.title === guideRow.dataset.title);
+    if (target) openGuideDetail(target);
+  });
+
   searchInput.addEventListener("input", (e) => {
+    if (openGuide) {
+      openGuide = null;
+      renderSubchips();
+    }
     query = e.target.value;
     saveState();
     renderResults();
@@ -19618,6 +19836,8 @@ Done."
     btn.addEventListener("click", () => {
       if (btn.dataset.mode === mode) return;
       mode = btn.dataset.mode;
+      activeGroup = "Toutes";
+      expandedGroup = null;
       activeCategory = "Toutes";
       activeSubcategory = "Toutes";
       activeLevel = "Toutes";

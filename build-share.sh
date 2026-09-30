@@ -9,6 +9,8 @@ cd "$(dirname "$0")" || exit 1
 
 python3 - <<'PYEOF'
 import re
+from pathlib import Path
+from urllib.parse import quote
 
 with open("index.html", encoding="utf-8") as f:
     html = f.read()
@@ -41,6 +43,16 @@ replacement = (
 
 html, n = pattern.subn(replacement, html)
 assert n == 1, f"remplacement des <script src> a échoué (trouvé {n} fois, attendu 1)"
+
+# Les icônes du site restent des fichiers SVG dans index.html, mais la version
+# partageable doit les intégrer elle aussi pour fonctionner hors du dossier.
+def inline_icon(match):
+    name = match.group(1)
+    svg = (Path("assets/icons") / name).read_text(encoding="utf-8")
+    return f'url("data:image/svg+xml,{quote(svg, safe="")}")'
+
+html = re.sub(r'url\("assets/icons/([^"/]+\.svg)"\)', inline_icon, html)
+assert 'assets/icons/' not in html, "une icône externe subsiste dans share.html"
 
 for src in ["commands.js", "commands.en.js", "guides.js", "guides.en.js"]:
     assert f'src="{src}' not in html, f"inlining de {src} a échoué"
