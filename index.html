@@ -1,6 +1,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Command Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,500,0..1,0&display=block" rel="stylesheet">
 <style>
   :root {
     --bg: #f5f5f7;
@@ -60,6 +63,22 @@
     color: var(--text);
     font-family: -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, sans-serif;
     -webkit-font-smoothing: antialiased;
+  }
+  .material-symbols-outlined {
+    display: inline-block;
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: "liga";
+    font-feature-settings: "liga";
+    font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
   }
   .wrap {
     max-width: 880px;
@@ -364,7 +383,7 @@
     border-radius: 6px;
   }
   .fav-btn:hover { color: #d6a326; }
-  .fav-btn.active { color: #d6a326; }
+  .fav-btn.active { color: #d6a326; font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
   .copy-btn {
     flex-shrink: 0;
     border: 1px solid var(--border);
@@ -808,19 +827,34 @@
 
   /* Direction « explorateur documentaire » : navigation persistante à gauche. */
   body { background: var(--bg-elevated); }
-  .app-shell { display: grid; grid-template-columns: 308px minmax(0, 1fr); min-height: 100vh; }
+  .app-shell { display: grid; grid-template-columns: 308px minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns .2s ease; }
   .sidebar {
     position: sticky; top: 0; height: 100vh; overflow-y: auto;
     padding: 22px 24px 36px 26px; border-right: 1px solid var(--border);
     background: color-mix(in srgb, var(--bg) 58%, var(--bg-elevated));
+    transition: padding .2s ease;
   }
+  .sidebar-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .sidebar-panel-toggle {
+    display: grid; place-items: center; flex: none;
+    width: 36px; height: 36px; padding: 0; border: 0;
+    border-radius: 7px; background: transparent; color: var(--text-dim); cursor: pointer;
+  }
+  .sidebar-panel-toggle:hover { background: var(--chip-bg); color: var(--text); }
+  .sidebar-panel-icon { font-size: 20px; }
+  .sidebar-close-btn { margin-top: -3px; }
+  .app-shell.sidebar-collapsed { grid-template-columns: 0 minmax(0, 1fr); }
+  .app-shell.sidebar-collapsed .sidebar { padding-left: 0; padding-right: 0; border-right-width: 0; opacity: 0; visibility: hidden; pointer-events: none; }
+  .app-shell.sidebar-collapsed .sidebar-brand h1,
+  .app-shell.sidebar-collapsed .sidebar-brand p,
+  .app-shell.sidebar-collapsed .search-bar { display: none; }
   .sidebar-brand h1 { margin: 0; font-size: 27px; letter-spacing: -.045em; line-height: 1.15; }
   .sidebar-brand h1 span { color: var(--accent); }
   .sidebar-brand p { margin: 6px 0 26px; max-width: 220px; color: var(--text-dim); font-size: 14px; line-height: 1.45; }
   .sidebar .search-bar { position: static; padding: 0; background: transparent; }
   .sidebar #search { padding: 11px 13px 11px 39px; border-radius: 9px; box-shadow: none; font-size: 14px; }
   .sidebar .search-row { display: block; position: relative; }
-  .search-icon { position: absolute; top: 50%; left: 12px; width: 18px; height: 18px; transform: translateY(-50%); background: var(--text-dim); mask: url("assets/icons/magnifyingglass.svg") center / contain no-repeat; pointer-events: none; }
+  .search-icon { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); color: var(--text-dim); font-size: 18px; pointer-events: none; }
   .sidebar .fav-toggle {
     width: 100%; margin: 18px 0 8px; padding: 10px 12px; justify-content: flex-start;
     border: 0; border-radius: 9px; background: transparent; box-shadow: none;
@@ -836,11 +870,7 @@
   .sidebar-all { padding: 9px 12px; border-radius: 9px; color: var(--text-dim); font-size: 14px; }
   .sidebar-all.active, .sidebar-all:hover { background: var(--code-bg); color: var(--accent); }
   .sidebar-group-button { gap: 15px; padding: 7px 7px; font-size: 16px; font-weight: 700; border-radius: 9px; }
-  .nav-icon { display: inline-block; flex: 0 0 20px; width: 20px; height: 20px; background: currentColor; }
-  .nav-icon-Application { mask: url("assets/icons/devicemobile.svg") center / contain no-repeat; }
-  .nav-icon-Système { mask: url("assets/icons/desktop.svg") center / contain no-repeat; }
-  .nav-icon-Développement { mask: url("assets/icons/code.svg") center / contain no-repeat; }
-  .nav-icon-Serveur { mask: url("assets/icons/harddrives.svg") center / contain no-repeat; }
+  .nav-icon { flex: 0 0 20px; font-size: 20px; }
   .sidebar-group-button:hover { background: var(--chip-bg); }
   .sidebar-group-button.active { color: var(--accent); }
   .sidebar-group-button .nav-count { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-dim); }
@@ -853,13 +883,19 @@
   .sidebar .subchips { margin-top: 23px; padding-top: 14px; border-top: 1px solid var(--border); }
   .main-panel { min-width: 0; padding: 0 40px 70px; }
   .utility-row { display: flex; justify-content: flex-end; align-items: center; height: 65px; }
+  .sidebar-open-btn { display: none; }
+  .app-shell.sidebar-collapsed .sidebar-open-btn { display: grid; }
   .utility-row .top-row-actions { gap: 10px; }
   .utility-row button { box-shadow: none; border-radius: 9px; }
   .utility-row .fav-toggle { height: 33px; padding: 0 10px; border: 0; background: transparent; }
+  .utility-row .fav-toggle-icon { margin-right: 4px; font-size: 17px; vertical-align: -3px; }
+  .utility-row .fav-toggle.active .fav-toggle-icon { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
   .utility-row .lang-toggle { display: inline-flex; align-items: center; gap: 2px; padding: 3px; font-size: 12px; }
   .utility-row .lang-toggle span { min-width: 31px; padding: 6px; border-radius: 6px; }
   .utility-row .lang-toggle .lang-current { background: var(--accent); color: var(--accent-text); }
   .page-header { max-width: 940px; margin: 7px 0 20px; }
+  .page-header-topline { display: flex; align-items: center; gap: 8px; min-height: 36px; }
+  .page-header-topline .sidebar-open-btn { margin-left: -4px; }
   .breadcrumb { min-height: 22px; color: var(--text-dim); font-size: 14px; }
   .breadcrumb .current { color: var(--accent); }
   .breadcrumb .divider { margin: 0 10px; opacity: .6; }
@@ -869,9 +905,7 @@
   .main-panel .top-row { display: block; margin: 21px 0 0; border-bottom: 1px solid var(--border); }
   .main-panel .mode-tabs { gap: 24px; margin: 0; padding: 0; width: auto; background: transparent; border-radius: 0; }
   .main-panel .mode-tab { display: inline-flex; align-items: center; gap: 9px; padding: 12px 10px 15px; border-bottom: 2px solid transparent; border-radius: 0; font-size: 17px; box-shadow: none; }
-  .tab-icon { display: inline-block; width: 20px; height: 20px; background: currentColor; }
-  .tab-icon-book { mask: url("assets/icons/bookopen.svg") center / contain no-repeat; }
-  .tab-icon-terminal { mask: url("assets/icons/terminal.svg") center / contain no-repeat; }
+  .tab-icon { font-size: 20px; }
   .main-panel .mode-tab.active { color: var(--accent); background: transparent; border-bottom-color: var(--accent); box-shadow: none; }
   .main-panel .subchips { margin: 13px 0 5px; padding: 0; border: 0; }
   .main-panel .subchips .chip { border-radius: 7px; }
@@ -882,9 +916,9 @@
   #results .section-description { margin: -3px 0 15px; color: var(--text-dim); font-size: 14px; line-height: 1.4; }
   .guide-card-row { position: relative; margin: 0; padding: 13px 16px 13px 94px; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; background: transparent; }
   .guide-file-icon { position: absolute; top: 50%; left: 20px; transform: translateY(-50%); display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--chip-bg); }
-  .guide-file-icon::before { content: ""; width: 21px; height: 21px; background: var(--text-dim); mask: url("assets/icons/filetext.svg") center / contain no-repeat; }
+  .guide-file-icon .material-symbols-outlined { color: var(--text-dim); font-size: 21px; }
   .guide-card-row.featured .guide-file-icon { background: color-mix(in srgb, var(--accent) 16%, var(--bg-elevated)); }
-  .guide-card-row.featured .guide-file-icon::before { background: var(--accent); }
+  .guide-card-row.featured .guide-file-icon .material-symbols-outlined { color: var(--accent); }
   .guide-card-row:first-of-type { border-radius: 8px; }
   .guide-card-row:hover, .guide-card-row:focus-visible { border-color: var(--border); background: var(--code-bg); outline: none; }
   .guide-card-row.featured { background: var(--code-bg); border-radius: 8px; border-bottom-color: transparent; }
@@ -903,8 +937,7 @@
   .guide-card-row .fav-btn { position: absolute; top: 50%; right: 14px; transform: translateY(-50%); margin: 0; font-size: 21px; }
   .guide-card-row .open-guide { position: absolute; top: 50%; right: 57px; transform: translateY(-50%); padding: 9px 14px; border: 0; border-radius: 7px; background: var(--accent); color: var(--accent-text); font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; white-space: nowrap; }
   .guide-card-row .open-guide:hover { opacity: .9; }
-  .guide-card-row .fav-btn { width: 28px; height: 28px; font-size: 0; }
-  .guide-card-row .fav-btn::before { content: ""; display: block; width: 19px; height: 19px; background: currentColor; mask: url("assets/icons/star.svg") center / contain no-repeat; }
+  .guide-card-row .fav-btn { width: 28px; height: 28px; font-size: 20px; }
   .guide-card-row .fav-btn.active { color: var(--accent); }
   .main-panel .card { box-shadow: none; border-radius: 10px; }
   .main-panel .guide-detail { max-width: 860px; border: 0; padding: 25px 0; box-shadow: none; }
@@ -916,6 +949,11 @@
   @media (max-width: 850px) {
     .app-shell { display: block; }
     .sidebar { position: static; width: 100%; height: auto; max-height: none; padding: 19px 20px; border-right: 0; border-bottom: 1px solid var(--border); }
+    .sidebar-panel-toggle { display: none; }
+    .app-shell.sidebar-collapsed .sidebar { padding: 19px 20px; overflow: visible; border-right-width: 0; opacity: 1; visibility: visible; pointer-events: auto; }
+    .app-shell.sidebar-collapsed .sidebar-brand h1,
+    .app-shell.sidebar-collapsed .sidebar-brand p,
+    .app-shell.sidebar-collapsed .search-bar { display: block; }
     .sidebar-brand p { max-width: none; margin-bottom: 15px; }
     .sidebar .fav-toggle { width: auto; margin: 7px 0; }
     .sidebar-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
@@ -932,7 +970,7 @@
     .sidebar-group { flex: 0 0 auto; order: 0; }
     .sidebar-group.active { flex: 0 0 100%; order: 1; }
     .sidebar-group-button { gap: 5px; padding: 7px 8px; font-size: 13px; }
-    .nav-icon { flex-basis: 16px; width: 16px; height: 16px; }
+    .nav-icon { flex-basis: 16px; font-size: 16px; }
     .sidebar-group.active .sidebar-categories { display: flex; gap: 5px; margin: 4px 0; padding: 0 0 4px; overflow-x: auto; white-space: nowrap; }
     .sidebar-category { flex: 0 0 auto; width: auto; padding: 7px 10px; border-radius: 8px; background: var(--chip-bg); font-size: 12px; }
     .sidebar-category.active::before { display: none; }
@@ -961,13 +999,18 @@
 </div>
 
 <div class="app-shell">
-  <aside class="sidebar" aria-label="Navigation par thème">
-    <div class="sidebar-brand">
-      <h1>Command <span>Hub</span></h1>
-      <p id="headerTagline"></p>
+  <aside class="sidebar" id="sidebar" aria-label="Navigation par thème">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <h1>Command <span>Hub</span></h1>
+        <p id="headerTagline"></p>
+      </div>
+      <button class="sidebar-panel-toggle sidebar-close-btn" id="sidebarCloseBtn" aria-controls="sidebar" aria-expanded="true" title="Masquer le panneau latéral">
+        <span class="material-symbols-outlined sidebar-panel-icon" aria-hidden="true">left_panel_close</span>
+      </button>
     </div>
     <div class="search-bar" id="searchBar">
-      <div class="search-row"><span class="search-icon" aria-hidden="true"></span><input id="search" type="search" autocomplete="off" aria-label="Rechercher"></div>
+      <div class="search-row"><span class="material-symbols-outlined search-icon" aria-hidden="true">search</span><input id="search" type="search" autocomplete="off" aria-label="Rechercher"></div>
       <div class="search-hint" id="searchHint" style="display:none;"></div>
       <nav class="chips-wrap" id="chipsWrap" aria-label="Catégories">
         <div id="groupChips" class="sidebar-nav"></div>
@@ -980,21 +1023,26 @@
   <main class="main-panel">
     <div class="utility-row">
       <div class="top-row-actions">
-        <button class="fav-toggle" id="favToggle"><span id="favToggleStar">☆</span> <span id="favToggleLabel"></span></button>
+        <button class="fav-toggle" id="favToggle"><span class="material-symbols-outlined fav-toggle-icon" id="favToggleStar" aria-hidden="true">star</span><span id="favToggleLabel"></span></button>
         <button class="lang-toggle" id="langToggle" title="Switch language / Changer de langue"></button>
         <button class="theme-toggle" id="themeToggle" title="Changer le thème"></button>
       </div>
     </div>
     <header class="page-header" id="pageHeader">
-      <div class="breadcrumb" id="breadcrumb"></div>
+      <div class="page-header-topline">
+        <button class="sidebar-panel-toggle sidebar-open-btn" id="sidebarOpenBtn" aria-controls="sidebar" aria-expanded="false" title="Afficher le panneau latéral">
+          <span class="material-symbols-outlined sidebar-panel-icon" aria-hidden="true">left_panel_open</span>
+        </button>
+        <div class="breadcrumb" id="breadcrumb"></div>
+      </div>
       <h2 id="pageTitle"></h2>
       <p id="pageDescription"></p>
       <p class="stats-line" id="statsLine"></p>
     </header>
     <div class="top-row" id="topRow">
       <div class="mode-tabs" id="modeTabs">
-        <button class="mode-tab active" data-mode="formation"><span class="tab-icon tab-icon-book" aria-hidden="true"></span><span id="modeTabFormationLabel"></span></button>
-        <button class="mode-tab" data-mode="commands"><span class="tab-icon tab-icon-terminal" aria-hidden="true"></span><span id="modeTabCommandsLabel"></span></button>
+        <button class="mode-tab active" data-mode="formation"><span class="material-symbols-outlined tab-icon" aria-hidden="true">menu_book</span><span id="modeTabFormationLabel"></span></button>
+        <button class="mode-tab" data-mode="commands"><span class="material-symbols-outlined tab-icon" aria-hidden="true">terminal</span><span id="modeTabCommandsLabel"></span></button>
       </div>
     </div>
     <div id="results"></div>
@@ -1023,6 +1071,9 @@
   const langGateEl = document.getElementById("langGate");
   const langToggleEl = document.getElementById("langToggle");
   const headerTaglineEl = document.getElementById("headerTagline");
+  const appShellEl = document.querySelector(".app-shell");
+  const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
+  const sidebarOpenBtn = document.getElementById("sidebarOpenBtn");
   const pageHeaderEl = document.getElementById("pageHeader");
   const breadcrumbEl = document.getElementById("breadcrumb");
   const pageTitleEl = document.getElementById("pageTitle");
@@ -1078,6 +1129,7 @@
   const FAV_KEY = "cmdhub_favorites_v1";
   const THEME_KEY = "cmdhub_theme_v1";
   const LANG_KEY = "cmdhub_lang_v1";
+  const SIDEBAR_KEY = "cmdhub_sidebar_collapsed_v1";
 
   // --- Langue (FR / EN) ---------------------------------------------------
   const UI_STRINGS = {
@@ -1094,9 +1146,9 @@
       langToggleLabel: "🌐 EN",
       searchHint: "🔍 Recherche simultanée dans Commandes et Formation — les filtres reprennent une fois la recherche effacée",
       emptyCommands: "Aucune commande ne correspond 🤷",
-      emptyCommandsFav: "Aucun favori ici — clique sur ☆ à côté d'une commande pour l'ajouter ⭐",
+      emptyCommandsFav: "Aucun favori ici — clique sur l’étoile à côté d'une commande pour l'ajouter ⭐",
       emptyFormation: "Aucune fiche ne correspond 🤷",
-      emptyFormationFav: "Aucun favori ici — clique sur ☆ à côté d'une fiche pour l'ajouter ⭐",
+      emptyFormationFav: "Aucun favori ici — clique sur l’étoile à côté d'une fiche pour l'ajouter ⭐",
       emptyBoth: "Rien ne correspond, ni dans les commandes ni dans la formation 🤷",
       copy: "Copier",
       copied: "Copié ✓",
@@ -1135,9 +1187,9 @@
       langToggleLabel: "🌐 FR",
       searchHint: "🔍 Searching Commands and Learn at the same time — filters come back once the search is cleared",
       emptyCommands: "No command matches 🤷",
-      emptyCommandsFav: "No favorites here yet — click ☆ next to a command to add it ⭐",
+      emptyCommandsFav: "No favorites here yet — click the star next to a command to add it ⭐",
       emptyFormation: "No guide matches 🤷",
-      emptyFormationFav: "No favorites here yet — click ☆ next to a guide to add it ⭐",
+      emptyFormationFav: "No favorites here yet — click the star next to a guide to add it ⭐",
       emptyBoth: "Nothing matches, neither in commands nor in the learning guides 🤷",
       copy: "Copy",
       copied: "Copied ✓",
@@ -1229,6 +1281,12 @@
   };
   const GROUP_LABELS = {
     en: { "Application": "Apps", "Système": "System", "Développement": "Development", "Serveur": "Server" }
+  };
+  const GROUP_ICONS = {
+    "Application": "phone_iphone",
+    "Système": "desktop_windows",
+    "Développement": "code",
+    "Serveur": "dns"
   };
   function groupOf(cat) {
     return CATEGORY_TO_GROUP[cat] || "Développement";
@@ -1334,6 +1392,29 @@
 
   applyTheme();
 
+  // --- Panneau latéral repliable (préférence locale) -------------------
+  let sidebarCollapsed = false;
+  try { sidebarCollapsed = localStorage.getItem(SIDEBAR_KEY) === "true"; } catch (e) {}
+
+  function setSidebarCollapsed(collapsed, persist = true) {
+    sidebarCollapsed = !!collapsed;
+    appShellEl.classList.toggle("sidebar-collapsed", sidebarCollapsed);
+    const closeLabel = lang === "fr" ? "Replier la barre latérale" : "Close sidebar";
+    const openLabel = lang === "fr" ? "Ouvrir la barre latérale" : "Open sidebar";
+    sidebarCloseBtn.setAttribute("aria-expanded", String(!sidebarCollapsed));
+    sidebarOpenBtn.setAttribute("aria-expanded", String(!sidebarCollapsed));
+    sidebarCloseBtn.setAttribute("aria-label", closeLabel);
+    sidebarCloseBtn.title = closeLabel;
+    sidebarOpenBtn.setAttribute("aria-label", openLabel);
+    sidebarOpenBtn.title = openLabel;
+    if (persist) {
+      try { localStorage.setItem(SIDEBAR_KEY, sidebarCollapsed ? "true" : "false"); } catch (e) {}
+    }
+  }
+
+  sidebarCloseBtn.addEventListener("click", () => setSidebarCollapsed(true));
+  sidebarOpenBtn.addEventListener("click", () => setSidebarCollapsed(false));
+
   // --- Applique la langue courante à tout le texte statique de l'interface ---
   function applyLang() {
     document.documentElement.lang = lang;
@@ -1351,6 +1432,7 @@
     langToggleEl.setAttribute("aria-label", lang === "fr" ? "Switch to English" : "Passer en français");
     searchInput.placeholder = lang === "fr" ? "Rechercher un sujet…" : "Search a topic…";
     searchHintEl.textContent = t("searchHint");
+    setSidebarCollapsed(sidebarCollapsed, false);
   }
 
   function setLang(newLang) {
@@ -1563,7 +1645,7 @@
     groupChipsEl.innerHTML = groups.map(group => {
         const categories = Array.from(new Set(dataset().filter(item => groupOf(item.category) === group).map(item => item.category)));
         return `<div class="sidebar-group ${activeGroup === group ? "active" : ""}">
-          <button class="sidebar-group-button ${activeGroup === group ? "active" : ""}" data-group="${escapeAttr(group)}"><span class="nav-icon nav-icon-${escapeAttr(group)}" aria-hidden="true"></span>${escapeHtml(groupLabel(group))}</button>
+          <button class="sidebar-group-button ${activeGroup === group ? "active" : ""}" data-group="${escapeAttr(group)}"><span class="material-symbols-outlined nav-icon" aria-hidden="true">${GROUP_ICONS[group]}</span>${escapeHtml(groupLabel(group))}</button>
           <div class="sidebar-categories">${categories.map(cat => `<button class="sidebar-category ${activeCategory === cat ? "active" : ""}" data-cat="${escapeAttr(cat)}" data-parent-group="${escapeAttr(group)}">${escapeHtml(catLabel(cat))}</button>`).join("")}</div>
         </div>`;
       }).join("") + `<button class="sidebar-all ${activeGroup === "Toutes" ? "active" : ""}" data-group="Toutes">${escapeHtml(lang === "fr" ? "Tout explorer" : "Explore all")}</button>`;
@@ -1758,7 +1840,7 @@
       <div class="detail-head">
         ${item.level ? `<span class="guide-dot ${levelClass(item.level)}" title="${escapeAttr(item.level)}"></span>` : ""}
         <h2 class="detail-title">${escapeHtml(loc.title)}</h2>
-        <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
+        <button class="fav-btn material-symbols-outlined ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">star</button>
       </div>
       <p class="detail-summary">${escapeHtml(loc.summary)}</p>`;
 
@@ -1812,7 +1894,7 @@
       <div class="card" data-command-category="${escapeAttr(item.category)}" data-command-title="${escapeAttr(item.title)}">
         <div class="card-top">
           <div class="card-title-row">
-            <button class="fav-btn ${fav ? "active" : ""}" data-favtype="commands" data-favkey="${escapeAttr(favKeyFor("commands", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
+            <button class="fav-btn material-symbols-outlined ${fav ? "active" : ""}" data-favtype="commands" data-favkey="${escapeAttr(favKeyFor("commands", item))}" title="${fav ? t("removeFav") : t("addFav")}">star</button>
             <div class="card-title">${escapeHtml(loc.title)}</div>
           </div>
           <button class="copy-btn" data-id="${escapeAttr(id)}">${t("copy")}</button>
@@ -2024,13 +2106,13 @@
     const loc = localizedGuide(item);
     return `
       <div class="guide-card guide-card-row ${featured ? "featured" : ""}" data-cat="${escapeAttr(item.category)}" data-title="${escapeAttr(item.title)}" role="button" tabindex="0">
-        <span class="guide-file-icon" aria-hidden="true"></span>
+        <span class="guide-file-icon" aria-hidden="true"><span class="material-symbols-outlined">description</span></span>
         <div class="guide-row-top">
           <span class="guide-title">${escapeHtml(loc.title)}</span>
           ${item.level ? `<span class="guide-level ${levelClass(item.level)}">${escapeHtml(translateLevelText(levelText(item.level)))}</span>` : ""}
           ${hasExercises ? `<span class="exercise-flag" title="${escapeAttr(t("hasExercisesTitle"))}">🧪</span>` : ""}
           ${featured ? `<button class="open-guide">${lang === "fr" ? "Ouvrir la fiche" : "Open guide"}</button>` : ""}
-          <button class="fav-btn ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">${fav ? "★" : "☆"}</button>
+          <button class="fav-btn material-symbols-outlined ${fav ? "active" : ""}" data-favtype="formation" data-favkey="${escapeAttr(favKeyFor("formation", item))}" title="${fav ? t("removeFav") : t("addFav")}">star</button>
         </div>
         <p class="guide-row-summary">${escapeHtml(loc.summary)}</p>
       </div>`;
