@@ -228,8 +228,38 @@
     gap: 8px;
     margin-top: 12px;
   }
-  .groupchips {
+  .group-filter {
     margin-top: 12px;
+  }
+  .group-filter summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    box-shadow: var(--shadow);
+  }
+  .group-filter summary::-webkit-details-marker { display: none; }
+  .group-filter summary:hover,
+  .group-filter summary:focus-visible { border-color: var(--accent); color: var(--accent); }
+  .group-filter-chevron {
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .15s ease;
+  }
+  .group-filter[open] .group-filter-chevron { transform: rotate(225deg); }
+  .groupchips {
+    margin-top: 8px;
     margin-bottom: -2px;
   }
   .group-chip {
@@ -833,7 +863,10 @@
       <button class="fav-toggle" id="favToggle"><span id="favToggleStar">⭐</span> <span id="favToggleLabel"></span></button>
     </div>
     <div class="chips-wrap" id="chipsWrap">
-      <div class="chips groupchips" id="groupChips"></div>
+      <details class="group-filter" id="groupFilter">
+        <summary><span id="groupFilterLabel"></span><span class="group-filter-chevron" aria-hidden="true"></span></summary>
+        <div class="chips groupchips" id="groupChips"></div>
+      </details>
       <div class="chips" id="chips"></div>
       <div class="subchips" id="subchips" style="display:none;"></div>
     </div>
@@ -18294,6 +18327,8 @@ Done."
 </script>
 <script>
   const searchInput = document.getElementById("search");
+  const groupFilterEl = document.getElementById("groupFilter");
+  const groupFilterLabelEl = document.getElementById("groupFilterLabel");
   const groupChipsEl = document.getElementById("groupChips");
   const chipsEl = document.getElementById("chips");
   const subchipsEl = document.getElementById("subchips");
@@ -18402,6 +18437,7 @@ Done."
       formationNotice: "🚧 La Formation n'est pas encore traduite en anglais — le contenu ci-dessous reste en français.",
       langGateTitle: "Choisis ta langue / Choose your language",
       allChip: "Toutes",
+      groupFilter: "Groupes",
       hasExercisesTitle: "Contient des exercices pratiques"
     },
     en: {
@@ -18443,6 +18479,7 @@ Done."
       formationNotice: "🚧 The Learn section isn't translated to English yet — the content below is still in French.",
       langGateTitle: "Choose your language / Choisis ta langue",
       allChip: "All",
+      groupFilter: "Groups",
       hasExercisesTitle: "Has practice exercises"
     }
   };
@@ -18798,11 +18835,12 @@ Done."
     const groups = groupsFor(dataset());
     if (groups.length <= 2) {
       // un seul groupe présent dans ce mode : pas la peine d'afficher un filtre
-      groupChipsEl.style.display = "none";
+      groupFilterEl.style.display = "none";
       groupChipsEl.innerHTML = "";
       return;
     }
-    groupChipsEl.style.display = "flex";
+    groupFilterEl.style.display = "";
+    groupFilterLabelEl.textContent = `${t("groupFilter")} · ${activeGroup === "Toutes" ? t("allChip") : groupLabel(activeGroup)}`;
     groupChipsEl.innerHTML = groups.map(g => {
       const n = g === "Toutes" ? dataset().length : dataset().filter(c => groupOf(c.category) === g).length;
       const active = g === activeGroup ? "active" : "";
